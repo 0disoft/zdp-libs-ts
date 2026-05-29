@@ -1,0 +1,31 @@
+packages:
+  - name: "@zdp/schema"
+    status: planned
+    owns:
+      - schema metadata helpers
+    must_not_own:
+      - product domain models
+  - name: "@zdp/env-contract"
+    status: planned
+    owns:
+      - environment variable contract metadata
+    must_not_own:
+      - secret values
+  - name: "@zdp/event-contracts"
+    status: planned
+    owns:
+      - event envelope metadata
+    must_not_own:
+      - queue provider implementation
+  - name: "@zdp/error"
+    status: planned
+    owns:
+      - standard error code metadata
+    must_not_own:
+      - provider raw errors
+  - name: "@zdp/i18n-contract"
+    status: planned
+    owns:
+      - message key and argument contracts
+    must_not_own:
+      - translation runtime

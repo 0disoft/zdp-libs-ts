@@ -1,0 +1,11 @@
+error_contract:
+  required_fields:
+    - code
+    - category
+    - retryable
+    - public_message_key
+  forbidden_fields:
+    - stack_trace
+    - raw_provider_error
+    - secret_value
+    - customer_payload

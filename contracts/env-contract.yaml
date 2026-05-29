@@ -1,0 +1,13 @@
+env_contract:
+  required_metadata:
+    - name
+    - owner
+    - environment
+    - secret
+    - required
+    - description
+  forbidden_values:
+    - actual secret values
+    - account ids
+    - server ips
+    - provider tokens
