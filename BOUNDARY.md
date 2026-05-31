@@ -13,11 +13,13 @@
 - standard error contract
 - i18n message key contract
 - package contract checker
+- public export skeleton
 
 소유하지 않는다:
 
 - 제품별 domain model
 - API contract source of truth
+- runtime validation engine
 - framework adapter
 - provider SDK wrapper
 - auth, payment, ledger, privacy business rules

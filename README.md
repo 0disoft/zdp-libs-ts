@@ -11,6 +11,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - 표준 error helper 경계
 - i18n message key와 argument contract 기준
 - 계약 파일을 읽는 one-shot checker
+- 최소 public export skeleton
 
 ## 현재 제외
 
@@ -19,10 +20,23 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - 인증, 권한, 결제, 원장 정책 구현
 - 실제 package publish
 - runtime framework adapter
+- 런타임 validator 구현
 
 ## 계약
 
 루트 `service.yaml`이 이 저장소의 서비스 계약이다. `contracts/` 아래 파일은 실제 TypeScript package export가 생기기 전에 패키지 경계를 고정하는 skeleton이다.
+
+## 패키지 표면
+
+현재 public export는 계약 metadata를 받는 얇은 함수와 타입만 제공한다.
+
+- `zdp-libs-ts/schema`
+- `zdp-libs-ts/env-contract`
+- `zdp-libs-ts/event-contracts`
+- `zdp-libs-ts/error`
+- `zdp-libs-ts/i18n-contract`
+
+이 export skeleton은 제품 모델을 검증하거나 변환하지 않는다. 대신 import 입구를 먼저 고정해서 나중에 제품 repo가 각자 다른 공통 타입 이름을 만들고, 그 타입이 API/SDK와 어긋나는 일을 줄인다.
 
 ## 검증
 

@@ -1,9 +1,18 @@
 {
   "name": "zdp-libs-ts",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "description": "ZDP TypeScript contract libraries skeleton.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts",
+    "./env-contract": "./src/env-contract/index.ts",
+    "./event-contracts": "./src/event-contracts/index.ts",
+    "./error": "./src/error/index.ts",
+    "./i18n-contract": "./src/i18n-contract/index.ts"
+  },
+  "types": "./src/index.ts",
   "scripts": {
     "check": "tsc --noEmit && bun test && bun run contracts:check",
     "test": "bun test",

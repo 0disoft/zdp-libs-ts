@@ -9,6 +9,7 @@ This repository owns shared TypeScript contract helpers. It must not absorb prod
 - Validate this repository with `zdp-architecture-linter`.
 - Keep package boundary changes synchronized with `contracts/package-boundaries.yaml`.
 - Keep API handoff changes synchronized with `contracts/api-contract-source.yaml`.
+- Keep public export skeleton changes synchronized with `package.json`, `src/index.ts`, subpath modules, and `tests/public-exports.test.ts`.
 - Review public package API changes with `CHANGELOG.md`.
 
 ## Failure Response
@@ -18,6 +19,8 @@ If validation or package boundary review fails, freeze publish and keep the last
 If the local checker fails, fix the contract source first. Do not loosen the checker to allow product domain models, secret values, raw provider errors, or translation runtime ownership into common packages.
 
 If API source handoff validation fails, freeze package API changes. This contract exists so shared TypeScript packages consume `zdp-api-contracts` metadata without becoming the source of API truth or a place where authorization headers, raw customer payloads, or screen payloads become reusable types.
+
+If public export skeleton validation fails, freeze package API changes. The export skeleton fixes import entry names early so product repositories do not invent parallel common types that later drift from API and SDK contracts.
 
 ## Manual Review Required
 
