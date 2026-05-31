@@ -11,6 +11,7 @@
 - event contract
 - standard error contract
 - i18n message key contract
+- package contract checker
 
 소유하지 않는다:
 
@@ -18,9 +19,12 @@
 - framework adapter
 - provider SDK wrapper
 - auth, payment, ledger, privacy business rules
+- actual secret values, account ids, server IPs, provider tokens
+- raw provider errors or customer payload examples
 
 ## 분리 트리거
 
 - 특정 package가 독립 versioning과 release cadence를 요구한다.
 - SDK 생성과 runtime helper가 서로 다른 compatibility policy를 요구한다.
 - package가 특정 framework나 provider에 묶이기 시작한다.
+- checker가 특정 제품 domain model을 허용해야만 통과한다.

@@ -242,6 +242,7 @@ exit:
   success_criteria:
     - initial package boundaries are reviewable without product code
     - common TypeScript packages do not own product rules
+    - package boundary, schema, env, event, error, and i18n contracts are machine-validated
   kill_criteria:
     - product-specific models leak into common packages
     - provider SDK wrappers become common contract packages
@@ -254,3 +255,4 @@ exit:
 
 notes:
   - This MVP owns package boundaries only; it does not publish packages.
+  - The local checker reads committed contract YAML only; it does not publish or build package artifacts.

@@ -1,0 +1,20 @@
+schema_contract:
+  status: skeleton
+  required_metadata:
+    - schema_id
+    - version
+    - owner
+    - json_schema_ref
+    - openapi_ref
+    - sdk_generation_targets
+  generation_targets:
+    - json_schema
+    - openapi
+    - typescript
+    - rust
+    - dart
+  forbidden_ownership:
+    - product_domain_model
+    - runtime_validator_competitor
+    - provider_payload_raw
+    - database_row_shape

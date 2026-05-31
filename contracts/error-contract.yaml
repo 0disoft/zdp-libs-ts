@@ -4,6 +4,8 @@ error_contract:
     - category
     - retryable
     - public_message_key
+    - request_id
+    - trace_id
   forbidden_fields:
     - stack_trace
     - raw_provider_error

@@ -1,0 +1,13 @@
+i18n_contract:
+  status: skeleton
+  message_key_pattern: domain.message_name
+  required_metadata:
+    - key
+    - default_locale
+    - arguments
+    - owner
+    - fallback_policy
+  forbidden_ownership:
+    - translation_runtime
+    - provider_i18n_sdk
+    - product_copy_final_approval

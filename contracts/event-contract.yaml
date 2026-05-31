@@ -1,0 +1,18 @@
+event_contract:
+  status: skeleton
+  required_metadata:
+    - event_id
+    - schema_ref
+    - source
+    - privacy_class
+    - replay_safe
+  required_trace_fields:
+    - request_id
+    - trace_id
+  forbidden_values:
+    - raw_customer_payload
+    - provider_secret
+    - authorization_header
+    - cookie
+    - payment_payload
+    - ai_prompt_body
