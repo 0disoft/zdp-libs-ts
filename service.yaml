@@ -232,6 +232,7 @@ policy_gates:
   required_linter_rules:
     - ZDP-REPO-BASELINE-001
     - ZDP-REPO-MARKDOWN-002
+    - ZDP-LIBS-001
 
 human_review_required:
   - package publish
