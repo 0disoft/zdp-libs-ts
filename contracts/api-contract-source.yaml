@@ -1,0 +1,34 @@
+api_contract_source:
+  status: skeleton
+  source_repo: zdp-api-contracts
+  source_contracts:
+    - contracts/route-contract.yaml
+    - contracts/error-envelope.yaml
+    - contracts/webhook-contract.yaml
+    - contracts/sdk-generation-input.yaml
+  consumed_by_packages:
+    - "@zdp/schema"
+    - "@zdp/event-contracts"
+    - "@zdp/error"
+  required_handoff_metadata:
+    - schema_id
+    - operation_id
+    - error_code
+    - event_type
+    - request_id
+    - trace_id
+    - idempotency
+    - sdk_generation_targets
+  must_not_own:
+    - API contract source
+    - generated SDK source truth
+    - product domain models
+    - runtime validator competitor
+    - final authorization decisions
+  forbidden_values:
+    - raw_customer_payload
+    - raw_provider_error
+    - provider_secret
+    - authorization_header
+    - cookie_header
+    - screen_component_payload

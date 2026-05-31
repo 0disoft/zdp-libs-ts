@@ -1,5 +1,6 @@
 import { parse } from 'yaml';
 import type {
+  ApiContractSourceContract,
   EnvContract,
   ErrorContract,
   EventContract,
@@ -18,6 +19,50 @@ export function parsePackageBoundariesContract(
   return {
     packages: packages.map((value, index) =>
       parsePackageBoundary(value, `packages[${index}]`)
+    )
+  };
+}
+
+export function parseApiContractSourceContract(
+  source: string
+): ApiContractSourceContract {
+  const root = parseNamedContract(
+    source,
+    'api_contract_source',
+    'contracts/api-contract-source.yaml'
+  );
+
+  return {
+    status: readString(root, 'status', 'api_contract_source.status'),
+    sourceRepo: readString(
+      root,
+      'source_repo',
+      'api_contract_source.source_repo'
+    ),
+    sourceContracts: readStringArray(
+      root,
+      'source_contracts',
+      'api_contract_source.source_contracts'
+    ),
+    consumedByPackages: readStringArray(
+      root,
+      'consumed_by_packages',
+      'api_contract_source.consumed_by_packages'
+    ),
+    requiredHandoffMetadata: readStringArray(
+      root,
+      'required_handoff_metadata',
+      'api_contract_source.required_handoff_metadata'
+    ),
+    mustNotOwn: readStringArray(
+      root,
+      'must_not_own',
+      'api_contract_source.must_not_own'
+    ),
+    forbiddenValues: readStringArray(
+      root,
+      'forbidden_values',
+      'api_contract_source.forbidden_values'
     )
   };
 }

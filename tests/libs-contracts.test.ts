@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'bun:test';
 import {
+  parseApiContractSourceContract,
   parseEnvContract,
   parseErrorContract,
   parseEventContract,
@@ -34,6 +35,41 @@ describe('libs contract checker', () => {
     expect(result.ok).toBe(false);
     expect(result.diagnostics.map((item) => item.code)).toContain(
       'LIBS_PACKAGE_MISSING'
+    );
+  });
+
+  it('fails when API contract source handoff drifts', () => {
+    const contracts = loadCommittedContracts();
+    const result = validateLibsContracts({
+      ...contracts,
+      apiContractSource: {
+        ...contracts.apiContractSource,
+        sourceRepo: 'zdp-libs-ts',
+        sourceContracts: contracts.apiContractSource.sourceContracts.filter(
+          (item) => item !== 'contracts/sdk-generation-input.yaml'
+        ),
+        requiredHandoffMetadata:
+          contracts.apiContractSource.requiredHandoffMetadata.filter(
+            (item) => item !== 'idempotency'
+          ),
+        forbiddenValues: contracts.apiContractSource.forbiddenValues.filter(
+          (item) => item !== 'authorization_header'
+        )
+      }
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_API_SOURCE_REPO_INVALID'
+    );
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_API_SOURCE_CONTRACT_MISSING'
+    );
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_API_SOURCE_METADATA_MISSING'
+    );
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_API_SOURCE_FORBIDDEN_VALUE_MISSING'
     );
   });
 
@@ -131,6 +167,9 @@ describe('libs contract checker', () => {
 function loadCommittedContracts(): LibsContracts {
   return {
     packageBoundaries: parsePackageBoundariesContract(readContract('package-boundaries.yaml')),
+    apiContractSource: parseApiContractSourceContract(
+      readContract('api-contract-source.yaml')
+    ),
     env: parseEnvContract(readContract('env-contract.yaml')),
     error: parseErrorContract(readContract('error-contract.yaml')),
     schema: parseSchemaContract(readContract('schema-contract.yaml')),

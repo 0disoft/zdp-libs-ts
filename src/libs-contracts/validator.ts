@@ -20,6 +20,49 @@ const REQUIRED_PACKAGE_FORBIDDEN_OWNERSHIP = [
   'translation runtime'
 ] as const;
 
+const REQUIRED_API_CONTRACT_SOURCE_REPO = 'zdp-api-contracts';
+
+const REQUIRED_API_SOURCE_CONTRACTS = [
+  'contracts/route-contract.yaml',
+  'contracts/error-envelope.yaml',
+  'contracts/webhook-contract.yaml',
+  'contracts/sdk-generation-input.yaml'
+] as const;
+
+const REQUIRED_API_SOURCE_PACKAGES = [
+  '@zdp/schema',
+  '@zdp/event-contracts',
+  '@zdp/error'
+] as const;
+
+const REQUIRED_API_SOURCE_HANDOFF_METADATA = [
+  'schema_id',
+  'operation_id',
+  'error_code',
+  'event_type',
+  'request_id',
+  'trace_id',
+  'idempotency',
+  'sdk_generation_targets'
+] as const;
+
+const REQUIRED_API_SOURCE_FORBIDDEN_OWNERSHIP = [
+  'API contract source',
+  'generated SDK source truth',
+  'product domain models',
+  'runtime validator competitor',
+  'final authorization decisions'
+] as const;
+
+const REQUIRED_API_SOURCE_FORBIDDEN_VALUES = [
+  'raw_customer_payload',
+  'raw_provider_error',
+  'provider_secret',
+  'authorization_header',
+  'cookie_header',
+  'screen_component_payload'
+] as const;
+
 const REQUIRED_SCHEMA_METADATA = [
   'schema_id',
   'version',
@@ -115,6 +158,7 @@ export function validateLibsContracts(
   const diagnostics: LibsContractDiagnostic[] = [];
 
   validatePackageBoundaries(contracts, diagnostics);
+  validateApiContractSource(contracts, diagnostics);
   validateSchemaContract(contracts, diagnostics);
   validateEnvContract(contracts, diagnostics);
   validateEventContract(contracts, diagnostics);
@@ -154,6 +198,71 @@ function validatePackageBoundaries(
       });
     }
   }
+}
+
+function validateApiContractSource(
+  contracts: LibsContracts,
+  diagnostics: LibsContractDiagnostic[]
+): void {
+  if (contracts.apiContractSource.status !== 'skeleton') {
+    diagnostics.push({
+      code: 'LIBS_API_SOURCE_STATUS_INVALID',
+      file: 'contracts/api-contract-source.yaml',
+      path: 'api_contract_source.status',
+      message:
+        'API contract source handoff must stay skeleton until real package exports exist.'
+    });
+  }
+
+  if (contracts.apiContractSource.sourceRepo !== REQUIRED_API_CONTRACT_SOURCE_REPO) {
+    diagnostics.push({
+      code: 'LIBS_API_SOURCE_REPO_INVALID',
+      file: 'contracts/api-contract-source.yaml',
+      path: 'api_contract_source.source_repo',
+      message: 'API contract source handoff must consume `zdp-api-contracts`.'
+    });
+  }
+
+  requireAll(
+    contracts.apiContractSource.sourceContracts,
+    REQUIRED_API_SOURCE_CONTRACTS,
+    diagnostics,
+    'LIBS_API_SOURCE_CONTRACT_MISSING',
+    'contracts/api-contract-source.yaml',
+    'api_contract_source.source_contracts'
+  );
+  requireAll(
+    contracts.apiContractSource.consumedByPackages,
+    REQUIRED_API_SOURCE_PACKAGES,
+    diagnostics,
+    'LIBS_API_SOURCE_PACKAGE_MISSING',
+    'contracts/api-contract-source.yaml',
+    'api_contract_source.consumed_by_packages'
+  );
+  requireAll(
+    contracts.apiContractSource.requiredHandoffMetadata,
+    REQUIRED_API_SOURCE_HANDOFF_METADATA,
+    diagnostics,
+    'LIBS_API_SOURCE_METADATA_MISSING',
+    'contracts/api-contract-source.yaml',
+    'api_contract_source.required_handoff_metadata'
+  );
+  requireAll(
+    contracts.apiContractSource.mustNotOwn,
+    REQUIRED_API_SOURCE_FORBIDDEN_OWNERSHIP,
+    diagnostics,
+    'LIBS_API_SOURCE_FORBIDDEN_OWNERSHIP_MISSING',
+    'contracts/api-contract-source.yaml',
+    'api_contract_source.must_not_own'
+  );
+  requireAll(
+    contracts.apiContractSource.forbiddenValues,
+    REQUIRED_API_SOURCE_FORBIDDEN_VALUES,
+    diagnostics,
+    'LIBS_API_SOURCE_FORBIDDEN_VALUE_MISSING',
+    'contracts/api-contract-source.yaml',
+    'api_contract_source.forbidden_values'
+  );
 }
 
 function validateSchemaContract(

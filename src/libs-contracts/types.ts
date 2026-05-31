@@ -21,6 +21,16 @@ export interface PackageBoundariesContract {
   readonly packages: readonly PackageBoundary[];
 }
 
+export interface ApiContractSourceContract {
+  readonly status: string;
+  readonly sourceRepo: string;
+  readonly sourceContracts: readonly string[];
+  readonly consumedByPackages: readonly string[];
+  readonly requiredHandoffMetadata: readonly string[];
+  readonly mustNotOwn: readonly string[];
+  readonly forbiddenValues: readonly string[];
+}
+
 export interface EnvContract {
   readonly requiredMetadata: readonly string[];
   readonly forbiddenValues: readonly string[];
@@ -54,6 +64,7 @@ export interface I18nContract {
 
 export interface LibsContracts {
   readonly packageBoundaries: PackageBoundariesContract;
+  readonly apiContractSource: ApiContractSourceContract;
   readonly env: EnvContract;
   readonly error: ErrorContract;
   readonly schema: SchemaContract;

@@ -7,6 +7,7 @@
 소유한다:
 
 - schema metadata
+- API contract source handoff
 - env contract
 - event contract
 - standard error contract
@@ -16,6 +17,7 @@
 소유하지 않는다:
 
 - 제품별 domain model
+- API contract source of truth
 - framework adapter
 - provider SDK wrapper
 - auth, payment, ledger, privacy business rules
@@ -28,3 +30,4 @@
 - SDK 생성과 runtime helper가 서로 다른 compatibility policy를 요구한다.
 - package가 특정 framework나 provider에 묶이기 시작한다.
 - checker가 특정 제품 domain model을 허용해야만 통과한다.
+- 공통 패키지가 `zdp-api-contracts`의 route/error/webhook/SDK input 원천을 대체해야 한다.

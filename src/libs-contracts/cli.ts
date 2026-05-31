@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import {
+  parseApiContractSourceContract,
   parseEnvContract,
   parseErrorContract,
   parseEventContract,
@@ -46,6 +47,9 @@ async function loadContracts(root: string): Promise<LibsContracts> {
     packageBoundaries: parsePackageBoundariesContract(
       await readContract(root, 'package-boundaries.yaml')
     ),
+    apiContractSource: parseApiContractSourceContract(
+      await readContract(root, 'api-contract-source.yaml')
+    ),
     env: parseEnvContract(await readContract(root, 'env-contract.yaml')),
     error: parseErrorContract(await readContract(root, 'error-contract.yaml')),
     schema: parseSchemaContract(await readContract(root, 'schema-contract.yaml')),
@@ -62,5 +66,5 @@ function printHelp(): void {
   console.log(`Usage:
   bun scripts/check-libs-contracts.ts
 
-Checks package boundary, schema, env, event, error, and i18n contract YAML.`);
+Checks package boundary, API source handoff, schema, env, event, error, and i18n contract YAML.`);
 }

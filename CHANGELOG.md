@@ -8,3 +8,4 @@
 - package boundary, env contract, error contract skeleton을 추가했다.
 - schema, event, i18n contract skeleton을 추가했다.
 - package boundary, schema, env, event, error, i18n 계약을 읽는 repo-local checker skeleton을 추가했다.
+- API contract source handoff 계약과 checker 검증을 추가했다.
