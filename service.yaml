@@ -56,6 +56,7 @@ cost:
     - package-builds
     - contract-validation-runs
     - api-source-handoff-checks
+    - api-source-input-drift-checks
     - package-export-surface-checks
   per_action_budget: []
   provider_cost_dimensions: []
@@ -114,6 +115,7 @@ audit:
   events:
     - package_contract.changed
     - api_source_handoff.changed
+    - api_source_input.checked
     - package_export_surface.changed
     - package_api.changed
     - package_publish.reviewed
@@ -250,6 +252,7 @@ exit:
     - initial package boundaries are reviewable without product code
     - package export subpaths are fixed before package publish
     - shared TypeScript packages consume zdp-api-contracts source contracts without owning API truth
+    - shared TypeScript packages validate route/error/webhook/SDK input drift against zdp-api-contracts
     - common TypeScript packages do not own product rules
     - package boundary, API source handoff, schema, env, event, error, and i18n contracts are machine-validated
   kill_criteria:
@@ -266,4 +269,5 @@ notes:
   - This MVP owns package boundaries only; it does not publish packages.
   - The local checker reads committed contract YAML only; it does not publish or build package artifacts.
   - API contract source handoff keeps shared TypeScript packages tied to zdp-api-contracts before package exports exist.
+  - API source input drift checks prevent request_id, trace_id, idempotency, webhook metadata, and SDK generation targets from splitting between libs and API contracts.
   - Public export skeleton fixes import entry names before runtime validators exist.

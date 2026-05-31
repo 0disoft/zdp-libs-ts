@@ -8,6 +8,7 @@
 
 - schema metadata
 - API contract source handoff
+- API source input drift check
 - env contract
 - event contract
 - standard error contract
@@ -25,6 +26,7 @@
 - auth, payment, ledger, privacy business rules
 - actual secret values, account ids, server IPs, provider tokens
 - raw provider errors or customer payload examples
+- copied API route, error, webhook, or SDK generation truth
 
 ## 분리 트리거
 
@@ -33,3 +35,4 @@
 - package가 특정 framework나 provider에 묶이기 시작한다.
 - checker가 특정 제품 domain model을 허용해야만 통과한다.
 - 공통 패키지가 `zdp-api-contracts`의 route/error/webhook/SDK input 원천을 대체해야 한다.
+- API source input drift check 없이 `request_id`, `trace_id`, `idempotency`, `event_type`, SDK target을 공통 패키지 쪽에서 새로 정의해야 한다.

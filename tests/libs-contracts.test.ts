@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'bun:test';
+import { loadApiContractsInput } from '../src/libs-contracts/api-source';
 import {
   parseApiContractSourceContract,
   parseEnvContract,
@@ -15,7 +16,9 @@ import type { LibsContracts } from '../src/libs-contracts/types';
 
 describe('libs contract checker', () => {
   it('validates the committed libs contracts', () => {
-    const result = validateLibsContracts(loadCommittedContracts());
+    const result = validateLibsContracts(loadCommittedContracts(), {
+      apiContractsInput: loadCommittedApiContractsInput()
+    });
 
     expect(result.ok).toBe(true);
     expect(result.diagnostics).toEqual([]);
@@ -70,6 +73,34 @@ describe('libs contract checker', () => {
     );
     expect(result.diagnostics.map((item) => item.code)).toContain(
       'LIBS_API_SOURCE_FORBIDDEN_VALUE_MISSING'
+    );
+  });
+
+  it('fails when API source input no longer carries handoff metadata', () => {
+    const contracts = loadCommittedContracts();
+    const apiContractsInput = loadCommittedApiContractsInput();
+    const result = validateLibsContracts(contracts, {
+      apiContractsInput: {
+        ...apiContractsInput,
+        sdkGenerationInput: {
+          ...apiContractsInput.sdkGenerationInput,
+          requiredErrorMetadata:
+            apiContractsInput.sdkGenerationInput.requiredErrorMetadata.filter(
+              (item) => item !== 'trace_id'
+            ),
+          forbiddenValues: apiContractsInput.sdkGenerationInput.forbiddenValues.filter(
+            (item) => item !== 'authorization_header'
+          )
+        }
+      }
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_API_INPUT_SDK_ERROR_METADATA_MISSING'
+    );
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_API_INPUT_FORBIDDEN_VALUE_MISSING'
     );
   });
 
@@ -176,6 +207,10 @@ function loadCommittedContracts(): LibsContracts {
     event: parseEventContract(readContract('event-contract.yaml')),
     i18n: parseI18nContract(readContract('i18n-contract.yaml'))
   };
+}
+
+function loadCommittedApiContractsInput() {
+  return loadApiContractsInput(join(process.cwd(), '..', 'zdp-api-contracts'));
 }
 
 function readContract(fileName: string): string {

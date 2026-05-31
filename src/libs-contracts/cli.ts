@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { loadApiContractsInput } from './api-source';
 import {
   parseApiContractSourceContract,
   parseEnvContract,
@@ -21,8 +22,11 @@ export async function runLibsContractCheckCli(
   }
 
   try {
-    const contracts = await loadContracts(process.cwd());
-    const result = validateLibsContracts(contracts);
+    const options = readOptions(argv);
+    const contracts = await loadContracts(options.root);
+    const result = validateLibsContracts(contracts, {
+      apiContractsInput: loadApiContractsInput(options.apiContractsRoot)
+    });
 
     if (result.ok) {
       console.log('Libs contract check passed.');
@@ -40,6 +44,36 @@ export async function runLibsContractCheckCli(
     console.error(error instanceof Error ? error.message : String(error));
     return 1;
   }
+}
+
+function readOptions(argv: readonly string[]): {
+  readonly root: string;
+  readonly apiContractsRoot: string;
+} {
+  const root = readStringOption(argv, '--root') ?? process.cwd();
+
+  return {
+    root,
+    apiContractsRoot:
+      readStringOption(argv, '--api-contracts-root') ??
+      join(root, '..', 'zdp-api-contracts')
+  };
+}
+
+function readStringOption(
+  argv: readonly string[],
+  optionName: string
+): string | null {
+  for (let index = 0; index < argv.length; index += 1) {
+    if (argv[index] !== optionName) {
+      continue;
+    }
+
+    const value = argv[index + 1];
+    return value === undefined || value.startsWith('--') ? null : value;
+  }
+
+  return null;
 }
 
 async function loadContracts(root: string): Promise<LibsContracts> {
@@ -64,7 +98,8 @@ async function readContract(root: string, fileName: string): Promise<string> {
 
 function printHelp(): void {
   console.log(`Usage:
-  bun scripts/check-libs-contracts.ts
+  bun scripts/check-libs-contracts.ts [--root <path>] [--api-contracts-root <path>]
 
-Checks package boundary, API source handoff, schema, env, event, error, and i18n contract YAML.`);
+Checks package boundary, API source handoff, schema, env, event, error, and i18n contract YAML.
+Also reads zdp-api-contracts route, error, webhook, and SDK generation input contracts to catch handoff drift.`);
 }

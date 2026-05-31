@@ -1,4 +1,5 @@
 import type {
+  ApiContractsInput,
   LibsContractDiagnostic,
   LibsContracts,
   LibsContractValidationResult
@@ -153,12 +154,22 @@ const FORBIDDEN_I18N_OWNERSHIP = [
 ] as const;
 
 export function validateLibsContracts(
-  contracts: LibsContracts
+  contracts: LibsContracts,
+  options: {
+    readonly apiContractsInput?: ApiContractsInput;
+  } = {}
 ): LibsContractValidationResult {
   const diagnostics: LibsContractDiagnostic[] = [];
 
   validatePackageBoundaries(contracts, diagnostics);
   validateApiContractSource(contracts, diagnostics);
+  if (options.apiContractsInput !== undefined) {
+    validateApiContractInputHandoff(
+      contracts,
+      options.apiContractsInput,
+      diagnostics
+    );
+  }
   validateSchemaContract(contracts, diagnostics);
   validateEnvContract(contracts, diagnostics);
   validateEventContract(contracts, diagnostics);
@@ -262,6 +273,190 @@ function validateApiContractSource(
     'LIBS_API_SOURCE_FORBIDDEN_VALUE_MISSING',
     'contracts/api-contract-source.yaml',
     'api_contract_source.forbidden_values'
+  );
+}
+
+function validateApiContractInputHandoff(
+  contracts: LibsContracts,
+  apiContractsInput: ApiContractsInput,
+  diagnostics: LibsContractDiagnostic[]
+): void {
+  const source = contracts.apiContractSource;
+  const route = apiContractsInput.route;
+  const errorEnvelope = apiContractsInput.errorEnvelope;
+  const webhook = apiContractsInput.webhook;
+  const sdkInput = apiContractsInput.sdkGenerationInput;
+
+  requireAll(
+    source.sourceContracts,
+    [
+      'contracts/route-contract.yaml',
+      'contracts/error-envelope.yaml',
+      'contracts/webhook-contract.yaml',
+      'contracts/sdk-generation-input.yaml'
+    ],
+    diagnostics,
+    'LIBS_API_INPUT_SOURCE_CONTRACT_MISSING',
+    '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+    'api_contract_source.source_contracts'
+  );
+  requireAll(
+    sdkInput.sourceContracts,
+    [
+      'contracts/route-contract.yaml',
+      'contracts/error-envelope.yaml',
+      'contracts/webhook-contract.yaml'
+    ],
+    diagnostics,
+    'LIBS_API_INPUT_SDK_SOURCE_CONTRACT_MISSING',
+    '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+    'sdk_generation_input.source_contracts'
+  );
+
+  validateExactString({
+    actual: route.status,
+    expected: 'skeleton',
+    diagnostics,
+    code: 'LIBS_API_INPUT_ROUTE_STATUS_DRIFT',
+    file: '../zdp-api-contracts/contracts/route-contract.yaml',
+    path: 'route_contract.status',
+    label: 'API route contract status'
+  });
+  validateExactString({
+    actual: webhook.status,
+    expected: 'skeleton',
+    diagnostics,
+    code: 'LIBS_API_INPUT_WEBHOOK_STATUS_DRIFT',
+    file: '../zdp-api-contracts/contracts/webhook-contract.yaml',
+    path: 'webhook_contract.status',
+    label: 'API webhook contract status'
+  });
+  validateExactString({
+    actual: sdkInput.status,
+    expected: 'skeleton',
+    diagnostics,
+    code: 'LIBS_API_INPUT_SDK_STATUS_DRIFT',
+    file: '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+    path: 'sdk_generation_input.status',
+    label: 'API SDK generation input status'
+  });
+  validateExactNumber({
+    actual: errorEnvelope.schemaVersion,
+    expected: 1,
+    diagnostics,
+    code: 'LIBS_API_INPUT_ERROR_SCHEMA_VERSION_DRIFT',
+    file: '../zdp-api-contracts/contracts/error-envelope.yaml',
+    path: 'error_envelope.schema_version',
+    label: 'API error envelope schema version'
+  });
+
+  requireAll(
+    route.requiredPerRoute,
+    [
+      'resource',
+      'action',
+      'method',
+      'path',
+      'permission_check',
+      'audit_event',
+      'idempotency',
+      'error_codes'
+    ],
+    diagnostics,
+    'LIBS_API_INPUT_ROUTE_METADATA_MISSING',
+    '../zdp-api-contracts/contracts/route-contract.yaml',
+    'route_contract.required_per_route'
+  );
+  requireAll(
+    sdkInput.requiredRouteMetadata,
+    [
+      'operation_id',
+      'request_schema_ref',
+      'response_schema_ref',
+      'idempotency',
+      'error_codes'
+    ],
+    diagnostics,
+    'LIBS_API_INPUT_SDK_ROUTE_METADATA_MISSING',
+    '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+    'sdk_generation_input.required_route_metadata'
+  );
+  requireAll(
+    errorEnvelope.requiredFields,
+    ['code', 'message', 'request_id', 'trace_id'],
+    diagnostics,
+    'LIBS_API_INPUT_ERROR_FIELD_MISSING',
+    '../zdp-api-contracts/contracts/error-envelope.yaml',
+    'error_envelope.required_fields'
+  );
+  requireAll(
+    sdkInput.requiredErrorMetadata,
+    ['code', 'message', 'request_id', 'trace_id'],
+    diagnostics,
+    'LIBS_API_INPUT_SDK_ERROR_METADATA_MISSING',
+    '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+    'sdk_generation_input.required_error_metadata'
+  );
+  requireAll(
+    webhook.requiredControls,
+    [
+      'event_id',
+      'event_type',
+      'schema_version',
+      'signature_verification',
+      'idempotency_key',
+      'replay_policy',
+      'dead_letter_policy'
+    ],
+    diagnostics,
+    'LIBS_API_INPUT_WEBHOOK_CONTROL_MISSING',
+    '../zdp-api-contracts/contracts/webhook-contract.yaml',
+    'webhook_contract.required_controls'
+  );
+  requireAll(
+    sdkInput.requiredWebhookMetadata,
+    [
+      'event_id',
+      'event_type',
+      'schema_version',
+      'signature_verification',
+      'idempotency_key',
+      'replay_policy',
+      'dead_letter_policy'
+    ],
+    diagnostics,
+    'LIBS_API_INPUT_SDK_WEBHOOK_METADATA_MISSING',
+    '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+    'sdk_generation_input.required_webhook_metadata'
+  );
+  requireAll(
+    sdkInput.generationTargets,
+    ['typescript', 'dart', 'rust'],
+    diagnostics,
+    'LIBS_API_INPUT_SDK_TARGET_MISSING',
+    '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+    'sdk_generation_input.generation_targets'
+  );
+
+  requireAll(
+    combineValues([
+      route.forbiddenShapes,
+      errorEnvelope.forbiddenFields,
+      webhook.forbiddenControls,
+      sdkInput.forbiddenValues
+    ]),
+    [
+      'screen_component_payload',
+      'raw_provider_error',
+      'provider_secret',
+      'authorization_header',
+      'cookie_header',
+      'raw_customer_payload'
+    ],
+    diagnostics,
+    'LIBS_API_INPUT_FORBIDDEN_VALUE_MISSING',
+    '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+    'api_contracts.forbidden_values'
   );
 }
 
@@ -445,4 +640,50 @@ function requireAll(
       });
     }
   }
+}
+
+function validateExactString(input: {
+  readonly actual: string | null;
+  readonly expected: string;
+  readonly diagnostics: LibsContractDiagnostic[];
+  readonly code: string;
+  readonly file: string;
+  readonly path: string;
+  readonly label: string;
+}): void {
+  if (input.actual === input.expected) {
+    return;
+  }
+
+  input.diagnostics.push({
+    code: input.code,
+    file: input.file,
+    path: input.path,
+    message: `${input.label} must be \`${input.expected}\`.`
+  });
+}
+
+function validateExactNumber(input: {
+  readonly actual: number | null;
+  readonly expected: number;
+  readonly diagnostics: LibsContractDiagnostic[];
+  readonly code: string;
+  readonly file: string;
+  readonly path: string;
+  readonly label: string;
+}): void {
+  if (input.actual === input.expected) {
+    return;
+  }
+
+  input.diagnostics.push({
+    code: input.code,
+    file: input.file,
+    path: input.path,
+    message: `${input.label} must be \`${input.expected}\`.`
+  });
+}
+
+function combineValues(valueGroups: readonly (readonly string[])[]): readonly string[] {
+  return Array.from(new Set(valueGroups.flat()));
 }
