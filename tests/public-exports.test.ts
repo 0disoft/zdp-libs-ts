@@ -7,6 +7,7 @@ import {
   defineSchemaMetadata,
   defineZdpErrorContract
 } from '../src/index';
+import type { I18nMessageKey } from '../src/index';
 import { defineSchemaMetadata as defineSchemaMetadataFromSubpath } from '../src/schema/index';
 
 describe('public contract package exports', () => {
@@ -26,6 +27,9 @@ describe('public contract package exports', () => {
   });
 
   it('exposes env, event, error, and i18n contract markers', () => {
+    const messageKey: I18nMessageKey = 'example.conflict';
+    // @ts-expect-error i18n message keys must include a domain prefix.
+    const invalidMessageKey: I18nMessageKey = 'conflict';
     const env = defineEnvContractMetadata({
       name: 'ZDP_EXAMPLE_URL',
       owner: 'platform',
@@ -54,7 +58,7 @@ describe('public contract package exports', () => {
       traceId: 'trace_123'
     });
     const message = defineI18nMessageContract({
-      key: 'example.conflict',
+      key: messageKey,
       defaultLocale: 'ko-KR',
       arguments: [
         {
@@ -71,5 +75,6 @@ describe('public contract package exports', () => {
     expect(event.trace.traceId).toBe('trace_123');
     expect(error.publicMessageKey).toBe(message.key);
     expect(message.arguments[0]?.name).toBe('resource');
+    expect(String(invalidMessageKey)).toBe('conflict');
   });
 });

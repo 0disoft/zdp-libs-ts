@@ -1,14 +1,105 @@
-import { parse } from 'yaml';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import type {
   ApiContractSourceContract,
   EnvContract,
   ErrorContract,
   EventContract,
   I18nContract,
+  LibsContracts,
   PackageBoundariesContract,
   PackageBoundary,
   SchemaContract
 } from './types';
+
+interface ContractLoadFailure {
+  readonly name: string;
+  readonly file: string;
+  readonly message: string;
+}
+
+type ContractLoadResult<T> =
+  | {
+      readonly ok: true;
+      readonly name: string;
+      readonly file: string;
+      readonly value: T;
+    }
+  | {
+      readonly ok: false;
+      readonly name: string;
+      readonly file: string;
+      readonly message: string;
+    };
+
+type ContractLoadFailureResult = Extract<
+  ContractLoadResult<unknown>,
+  { readonly ok: false }
+>;
+
+export class LibsContractLoadError extends Error {
+  readonly failures: readonly ContractLoadFailure[];
+
+  constructor(failures: readonly ContractLoadFailure[]) {
+    super(
+      [
+        'Libs contract load failed.',
+        ...failures.map(
+          (failure) => `- ${failure.file}: ${failure.message}`
+        )
+      ].join('\n')
+    );
+    this.name = 'LibsContractLoadError';
+    this.failures = failures;
+  }
+}
+
+export async function loadLibsContracts(root = process.cwd()): Promise<LibsContracts> {
+  const [packageBoundaries, apiContractSource, env, error, schema, event, i18n] =
+    await Promise.all([
+      loadContract(
+        root,
+        'package-boundaries',
+        'package-boundaries.yaml',
+        parsePackageBoundariesContract
+      ),
+      loadContract(
+        root,
+        'api-contract-source',
+        'api-contract-source.yaml',
+        parseApiContractSourceContract
+      ),
+      loadContract(root, 'env', 'env-contract.yaml', parseEnvContract),
+      loadContract(root, 'error', 'error-contract.yaml', parseErrorContract),
+      loadContract(root, 'schema', 'schema-contract.yaml', parseSchemaContract),
+      loadContract(root, 'event', 'event-contract.yaml', parseEventContract),
+      loadContract(root, 'i18n', 'i18n-contract.yaml', parseI18nContract)
+    ]);
+
+  const results = [
+    packageBoundaries,
+    apiContractSource,
+    env,
+    error,
+    schema,
+    event,
+    i18n
+  ] as const;
+  const failures = results.filter(isContractLoadFailure);
+  if (failures.length > 0) {
+    throw new LibsContractLoadError(failures);
+  }
+
+  return {
+    packageBoundaries: requireLoadedContract(packageBoundaries).value,
+    apiContractSource: requireLoadedContract(apiContractSource).value,
+    env: requireLoadedContract(env).value,
+    error: requireLoadedContract(error).value,
+    schema: requireLoadedContract(schema).value,
+    event: requireLoadedContract(event).value,
+    i18n: requireLoadedContract(i18n).value
+  };
+}
 
 export function parsePackageBoundariesContract(
   source: string
@@ -201,9 +292,49 @@ function parseNamedContract(
 }
 
 function parseYamlRecord(source: string, file: string): Record<string, unknown> {
-  const value: unknown = parse(source);
+  const value = Bun.YAML.parse(source) as unknown;
 
   return asRecord(value, file);
+}
+
+async function loadContract<T>(
+  root: string,
+  name: string,
+  fileName: string,
+  parseContract: (source: string) => T
+): Promise<ContractLoadResult<T>> {
+  const file = `contracts/${fileName}`;
+
+  try {
+    return {
+      ok: true,
+      name,
+      file,
+      value: parseContract(await readFile(join(root, file), 'utf8'))
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      name,
+      file,
+      message: error instanceof Error ? error.message : String(error)
+    };
+  }
+}
+
+function isContractLoadFailure(
+  result: ContractLoadResult<unknown>
+): result is ContractLoadFailureResult {
+  return !result.ok;
+}
+
+function requireLoadedContract<T>(
+  result: ContractLoadResult<T>
+): Extract<ContractLoadResult<T>, { readonly ok: true }> {
+  if (!result.ok) {
+    throw new LibsContractLoadError([result]);
+  }
+  return result;
 }
 
 function asRecord(value: unknown, path: string): Record<string, unknown> {

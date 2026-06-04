@@ -11,7 +11,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - 표준 error helper 경계
 - i18n message key와 argument contract 기준
 - 계약 파일을 읽는 one-shot checker
-- `zdp-api-contracts` 실제 route/error/webhook/SDK input 계약 드리프트 검사
+- `zdp-api-contracts` 실제 route/error/webhook/SDK input/API catalog 계약 드리프트 검사
 - 최소 public export skeleton
 
 ## 현재 제외
@@ -27,6 +27,8 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 
 루트 `service.yaml`이 이 저장소의 서비스 계약이다. `contracts/` 아래 파일은 실제 TypeScript package export가 생기기 전에 패키지 경계를 고정하는 skeleton이다.
 
+계약 `status`는 현재 대부분 `skeleton`이지만 checker는 `skeleton`, `draft`, `reviewed`, `active` 생명주기 값을 허용한다. 패키지 표면이 성숙해져도 status 문자열 하나 때문에 검증기가 깨지지 않게 하기 위해서다.
+
 ## 패키지 표면
 
 현재 public export는 계약 metadata를 받는 얇은 함수와 타입만 제공한다.
@@ -41,17 +43,17 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 
 ## 검증
 
-`contracts:check`는 package boundary, API contract source, schema, env, event, error, i18n 계약을 읽고 공통 패키지가 다음 경계를 잃지 않았는지 확인한다. 또한 sibling `zdp-api-contracts`의 route, error envelope, webhook, SDK generation input 계약을 읽어 공통 TypeScript 패키지가 실제 API 원천과 다른 메타데이터를 믿지 않는지 확인한다.
+`contracts:check`는 package boundary, API contract source, schema, env, event, error, i18n 계약을 읽고 공통 패키지가 다음 경계를 잃지 않았는지 확인한다. 또한 sibling `zdp-api-contracts`의 route, error envelope, webhook, SDK generation input, API catalog 계약을 읽어 공통 TypeScript 패키지가 실제 API 원천과 다른 메타데이터를 믿지 않는지 확인한다.
 
 - `@zdp/schema`: 제품 domain model이나 DB row shape을 소유하지 않는다.
-- API contract source handoff는 `zdp-api-contracts`의 route/error/webhook/`contracts/sdk-generation-input.yaml` 계약을 소비하지만, 원천을 다시 만들지 않는다.
-- `idempotency` metadata는 재시도와 중복 요청이 같은 의미를 유지하게 해주고, `request_id`/`trace_id`는 SDK와 API 실패를 같은 추적선으로 묶어준다.
+- API contract source handoff는 `zdp-api-contracts`의 route/error/webhook/`contracts/sdk-generation-input.yaml`/`contracts/apis/catalog.yaml` 계약을 소비하지만, 원천을 다시 만들지 않는다.
+- `idempotency` metadata는 재시도와 중복 요청이 같은 의미를 유지하게 해주고, `success_statuses`는 생성 SDK와 문서가 같은 성공 응답 기준을 쓰게 하며, `request_id`/`trace_id`는 SDK와 API 실패를 같은 추적선으로 묶어준다.
 - `@zdp/env-contract`: 실제 secret, account id, server IP, provider token 값을 담지 않는다.
 - `@zdp/event-contracts`: `request_id`/`trace_id` 전파 기준과 민감 payload 금지 기준을 유지한다.
 - `@zdp/error`: stack trace, raw provider error, secret value, customer payload를 공개 오류 표면에 넣지 않는다.
 - `@zdp/i18n-contract`: 번역 런타임이 아니라 message key와 argument contract만 소유한다.
 
-API source input drift 검사는 `idempotency`, `request_id`, `trace_id`, `event_type`, SDK generation target 같은 값이 API repo와 libs repo에서 서로 다르게 선언되는 일을 막는다. `idempotency`가 맞아야 재시도와 중복 요청이 한 번 처리된 것처럼 유지되고, `request_id`/`trace_id`가 맞아야 SDK 오류를 서버 로그와 같은 추적선에서 찾을 수 있다.
+API source input drift 검사는 `idempotency`, `success_statuses`, `request_id`, `trace_id`, `event_type`, SDK generation target, API catalog route metadata 같은 값이 API repo와 libs repo에서 서로 다르게 선언되는 일을 막는다. `idempotency`가 맞아야 재시도와 중복 요청이 한 번 처리된 것처럼 유지되고, `success_statuses`가 맞아야 클라이언트가 성공 응답을 제멋대로 해석하지 않으며, `request_id`/`trace_id`가 맞아야 SDK 오류를 서버 로그와 같은 추적선에서 찾을 수 있다.
 
 이렇게 해두면 공통 라이브러리가 편의 함수 창고로 변질되거나, 제품별 모델·비밀값·provider 원문 응답이 모든 저장소로 퍼지는 일을 checker 단계에서 먼저 막을 수 있다. 또한 `authorization_header`, `raw_customer_payload`, `screen_component_payload` 같은 값이 공통 타입 재료로 굳어지는 것을 막아 SDK와 API 계약이 민감한 운영 데이터를 끌고 다니지 않게 한다.
 

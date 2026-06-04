@@ -34,6 +34,8 @@ export interface ApiContractSourceContract {
 export interface ApiRouteContract {
   readonly status: string | null;
   readonly requiredPerRoute: readonly string[];
+  readonly allowedMethods: readonly string[];
+  readonly allowedSuccessStatuses: readonly number[];
   readonly forbiddenShapes: readonly string[];
 }
 
@@ -54,10 +56,17 @@ export interface ApiSdkGenerationInputContract {
   readonly status: string | null;
   readonly sourceContracts: readonly string[];
   readonly generationTargets: readonly string[];
+  readonly allowedGenerationTargets: readonly string[];
   readonly requiredRouteMetadata: readonly string[];
   readonly requiredErrorMetadata: readonly string[];
   readonly requiredWebhookMetadata: readonly string[];
   readonly forbiddenOwnership: readonly string[];
+  readonly forbiddenValues: readonly string[];
+}
+
+export interface ApiCatalogInputContract {
+  readonly status: string | null;
+  readonly routeDefinitionRequiredFields: readonly string[];
   readonly forbiddenValues: readonly string[];
 }
 
@@ -66,6 +75,7 @@ export interface ApiContractsInput {
   readonly errorEnvelope: ApiErrorEnvelopeContract;
   readonly webhook: ApiWebhookContract;
   readonly sdkGenerationInput: ApiSdkGenerationInputContract;
+  readonly apiCatalog: ApiCatalogInputContract;
 }
 
 export interface EnvContract {

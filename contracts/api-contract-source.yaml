@@ -6,6 +6,7 @@ api_contract_source:
     - contracts/error-envelope.yaml
     - contracts/webhook-contract.yaml
     - contracts/sdk-generation-input.yaml
+    - contracts/apis/catalog.yaml
   consumed_by_packages:
     - "@zdp/schema"
     - "@zdp/event-contracts"
@@ -18,6 +19,7 @@ api_contract_source:
     - request_id
     - trace_id
     - idempotency
+    - success_statuses
     - sdk_generation_targets
   must_not_own:
     - API contract source

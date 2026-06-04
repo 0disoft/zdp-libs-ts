@@ -1,8 +1,11 @@
-import { readFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'bun:test';
 import { loadApiContractsInput } from '../src/libs-contracts/api-source';
 import {
+  LibsContractLoadError,
+  loadLibsContracts,
   parseApiContractSourceContract,
   parseEnvContract,
   parseErrorContract,
@@ -15,9 +18,9 @@ import { validateLibsContracts } from '../src/libs-contracts/validator';
 import type { LibsContracts } from '../src/libs-contracts/types';
 
 describe('libs contract checker', () => {
-  it('validates the committed libs contracts', () => {
+  it('validates the committed libs contracts', async () => {
     const result = validateLibsContracts(loadCommittedContracts(), {
-      apiContractsInput: loadCommittedApiContractsInput()
+      apiContractsInput: await loadCommittedApiContractsInput()
     });
 
     expect(result.ok).toBe(true);
@@ -76,9 +79,9 @@ describe('libs contract checker', () => {
     );
   });
 
-  it('fails when API source input no longer carries handoff metadata', () => {
+  it('fails when API source input no longer carries handoff metadata', async () => {
     const contracts = loadCommittedContracts();
-    const apiContractsInput = loadCommittedApiContractsInput();
+    const apiContractsInput = await loadCommittedApiContractsInput();
     const result = validateLibsContracts(contracts, {
       apiContractsInput: {
         ...apiContractsInput,
@@ -102,6 +105,80 @@ describe('libs contract checker', () => {
     expect(result.diagnostics.map((item) => item.code)).toContain(
       'LIBS_API_INPUT_FORBIDDEN_VALUE_MISSING'
     );
+  });
+
+  it('fails when API catalog input no longer mirrors route metadata', async () => {
+    const contracts = loadCommittedContracts();
+    const apiContractsInput = await loadCommittedApiContractsInput();
+    const result = validateLibsContracts(contracts, {
+      apiContractsInput: {
+        ...apiContractsInput,
+        apiCatalog: {
+          ...apiContractsInput.apiCatalog,
+          routeDefinitionRequiredFields:
+            apiContractsInput.apiCatalog.routeDefinitionRequiredFields.filter(
+              (item) => item !== 'success_statuses'
+            )
+        }
+      }
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_API_INPUT_CATALOG_ROUTE_FIELD_MISSING'
+    );
+  });
+
+  it('allows contracts to move through the reviewed lifecycle', () => {
+    const contracts = loadCommittedContracts();
+    const result = validateLibsContracts({
+      ...contracts,
+      apiContractSource: {
+        ...contracts.apiContractSource,
+        status: 'draft'
+      },
+      schema: {
+        ...contracts.schema,
+        status: 'reviewed'
+      },
+      event: {
+        ...contracts.event,
+        status: 'active'
+      },
+      i18n: {
+        ...contracts.i18n,
+        status: 'draft'
+      }
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.diagnostics).toEqual([]);
+  });
+
+  it('accumulates local contract load errors', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'zdp-libs-ts-'));
+    const contractsRoot = join(root, 'contracts');
+
+    mkdirSync(contractsRoot, { recursive: true });
+    writeFileSync(join(contractsRoot, 'package-boundaries.yaml'), 'packages:\n');
+    writeFileSync(
+      join(contractsRoot, 'api-contract-source.yaml'),
+      'api_contract_source:\n'
+    );
+    writeFileSync(join(contractsRoot, 'env-contract.yaml'), 'env_contract:\n');
+    writeFileSync(join(contractsRoot, 'error-contract.yaml'), 'error_contract:\n');
+    writeFileSync(join(contractsRoot, 'schema-contract.yaml'), 'schema_contract:\n');
+    writeFileSync(join(contractsRoot, 'event-contract.yaml'), 'event_contract:\n');
+    writeFileSync(join(contractsRoot, 'i18n-contract.yaml'), 'i18n_contract:\n');
+
+    await expect(loadLibsContracts(root)).rejects.toThrow(LibsContractLoadError);
+
+    try {
+      await loadLibsContracts(root);
+    } catch (error) {
+      expect(error).toBeInstanceOf(LibsContractLoadError);
+      expect((error as LibsContractLoadError).failures.length).toBeGreaterThan(1);
+    }
   });
 
   it('fails when schema contracts stop targeting Rust generation', () => {
@@ -209,7 +286,7 @@ function loadCommittedContracts(): LibsContracts {
   };
 }
 
-function loadCommittedApiContractsInput() {
+async function loadCommittedApiContractsInput() {
   return loadApiContractsInput(join(process.cwd(), '..', 'zdp-api-contracts'));
 }
 

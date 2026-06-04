@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+### Changed
+
+- `check:tsgo` fast typecheck 스크립트와 pinned `@typescript/native-preview` 의존성을 추가했다.
+- contract loader 실패 타입 가드와 i18n key 타입 테스트를 native TypeScript checker와 호환되게 정리했다.
+
+## 0.6.0
+
+### Added
+
+- API source handoff에 `contracts/apis/catalog.yaml`과 `success_statuses` drift 검증을 추가했다.
+- i18n message key를 `domain.message_name` 형태의 TypeScript template literal type으로 좁혔다.
+- local contract loader가 여러 YAML 포맷 오류를 한 번에 모아 보고하도록 개선했다.
+
+### Changed
+
+- contract status 검증을 `skeleton` 고정값에서 `skeleton`/`draft`/`reviewed`/`active` 생명주기 allowlist로 완화했다.
+- sibling `zdp-api-contracts` 로딩을 비동기 I/O로 통일했다.
+- YAML 파싱을 Bun 내장 `Bun.YAML.parse`로 통일하고 외부 `yaml` 의존성을 제거했다.
+
 ### Added
 
 - TypeScript 공통 계약 패키지 저장소 골격을 추가했다.

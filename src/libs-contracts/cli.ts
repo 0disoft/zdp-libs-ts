@@ -1,17 +1,7 @@
-import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { loadApiContractsInput } from './api-source';
-import {
-  parseApiContractSourceContract,
-  parseEnvContract,
-  parseErrorContract,
-  parseEventContract,
-  parseI18nContract,
-  parsePackageBoundariesContract,
-  parseSchemaContract
-} from './parser';
+import { loadLibsContracts } from './parser';
 import { validateLibsContracts } from './validator';
-import type { LibsContracts } from './types';
 
 export async function runLibsContractCheckCli(
   argv: readonly string[]
@@ -23,9 +13,9 @@ export async function runLibsContractCheckCli(
 
   try {
     const options = readOptions(argv);
-    const contracts = await loadContracts(options.root);
+    const contracts = await loadLibsContracts(options.root);
     const result = validateLibsContracts(contracts, {
-      apiContractsInput: loadApiContractsInput(options.apiContractsRoot)
+      apiContractsInput: await loadApiContractsInput(options.apiContractsRoot)
     });
 
     if (result.ok) {
@@ -76,30 +66,10 @@ function readStringOption(
   return null;
 }
 
-async function loadContracts(root: string): Promise<LibsContracts> {
-  return {
-    packageBoundaries: parsePackageBoundariesContract(
-      await readContract(root, 'package-boundaries.yaml')
-    ),
-    apiContractSource: parseApiContractSourceContract(
-      await readContract(root, 'api-contract-source.yaml')
-    ),
-    env: parseEnvContract(await readContract(root, 'env-contract.yaml')),
-    error: parseErrorContract(await readContract(root, 'error-contract.yaml')),
-    schema: parseSchemaContract(await readContract(root, 'schema-contract.yaml')),
-    event: parseEventContract(await readContract(root, 'event-contract.yaml')),
-    i18n: parseI18nContract(await readContract(root, 'i18n-contract.yaml'))
-  };
-}
-
-async function readContract(root: string, fileName: string): Promise<string> {
-  return await readFile(join(root, 'contracts', fileName), 'utf8');
-}
-
 function printHelp(): void {
   console.log(`Usage:
   bun scripts/check-libs-contracts.ts [--root <path>] [--api-contracts-root <path>]
 
 Checks package boundary, API source handoff, schema, env, event, error, and i18n contract YAML.
-Also reads zdp-api-contracts route, error, webhook, and SDK generation input contracts to catch handoff drift.`);
+Also reads zdp-api-contracts route, error, webhook, SDK generation input, and API catalog contracts to catch handoff drift.`);
 }

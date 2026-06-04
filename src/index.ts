@@ -24,6 +24,7 @@ export { defineZdpErrorContract } from './error/index';
 
 export type {
   I18nMessageArgument,
-  I18nMessageContract
+  I18nMessageContract,
+  I18nMessageKey
 } from './i18n-contract/index';
 export { defineI18nMessageContract } from './i18n-contract/index';

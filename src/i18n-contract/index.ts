@@ -4,8 +4,10 @@ export interface I18nMessageArgument {
   readonly required: boolean;
 }
 
+export type I18nMessageKey = `${string}.${string}`;
+
 export interface I18nMessageContract {
-  readonly key: string;
+  readonly key: I18nMessageKey;
   readonly defaultLocale: string;
   readonly arguments: readonly I18nMessageArgument[];
   readonly owner: string;

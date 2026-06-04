@@ -1,7 +1,7 @@
-import { readFileSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { parse } from 'yaml';
 import type {
+  ApiCatalogInputContract,
   ApiContractsInput,
   ApiErrorEnvelopeContract,
   ApiRouteContract,
@@ -13,32 +13,51 @@ const ROUTE_CONTRACT_FILE = 'contracts/route-contract.yaml';
 const ERROR_ENVELOPE_FILE = 'contracts/error-envelope.yaml';
 const WEBHOOK_CONTRACT_FILE = 'contracts/webhook-contract.yaml';
 const SDK_GENERATION_INPUT_FILE = 'contracts/sdk-generation-input.yaml';
+const API_CATALOG_FILE = 'contracts/apis/catalog.yaml';
 
-export function loadApiContractsInput(
+export async function loadApiContractsInput(
   apiContractsRoot: string
-): ApiContractsInput {
+): Promise<ApiContractsInput> {
+  const [route, errorEnvelope, webhook, sdkGenerationInput, apiCatalog] =
+    await Promise.all([
+      loadRouteContract(apiContractsRoot),
+      loadErrorEnvelopeContract(apiContractsRoot),
+      loadWebhookContract(apiContractsRoot),
+      loadSdkGenerationInputContract(apiContractsRoot),
+      loadApiCatalogInputContract(apiContractsRoot)
+    ]);
+
   return {
-    route: loadRouteContract(apiContractsRoot),
-    errorEnvelope: loadErrorEnvelopeContract(apiContractsRoot),
-    webhook: loadWebhookContract(apiContractsRoot),
-    sdkGenerationInput: loadSdkGenerationInputContract(apiContractsRoot)
+    route,
+    errorEnvelope,
+    webhook,
+    sdkGenerationInput,
+    apiCatalog
   };
 }
 
-function loadRouteContract(apiContractsRoot: string): ApiRouteContract {
-  const root = readNamedContract(apiContractsRoot, ROUTE_CONTRACT_FILE, 'route_contract');
+async function loadRouteContract(
+  apiContractsRoot: string
+): Promise<ApiRouteContract> {
+  const root = await readNamedContract(
+    apiContractsRoot,
+    ROUTE_CONTRACT_FILE,
+    'route_contract'
+  );
 
   return {
     status: readString(root, 'status'),
     requiredPerRoute: readStringArray(root, 'required_per_route'),
+    allowedMethods: readStringArray(root, 'allowed_methods'),
+    allowedSuccessStatuses: readNumberArray(root, 'allowed_success_statuses'),
     forbiddenShapes: readStringArray(root, 'forbidden_shapes')
   };
 }
 
-function loadErrorEnvelopeContract(
+async function loadErrorEnvelopeContract(
   apiContractsRoot: string
-): ApiErrorEnvelopeContract {
-  const root = readNamedContract(
+): Promise<ApiErrorEnvelopeContract> {
+  const root = await readNamedContract(
     apiContractsRoot,
     ERROR_ENVELOPE_FILE,
     'error_envelope'
@@ -52,8 +71,10 @@ function loadErrorEnvelopeContract(
   };
 }
 
-function loadWebhookContract(apiContractsRoot: string): ApiWebhookContract {
-  const root = readNamedContract(
+async function loadWebhookContract(
+  apiContractsRoot: string
+): Promise<ApiWebhookContract> {
+  const root = await readNamedContract(
     apiContractsRoot,
     WEBHOOK_CONTRACT_FILE,
     'webhook_contract'
@@ -66,10 +87,10 @@ function loadWebhookContract(apiContractsRoot: string): ApiWebhookContract {
   };
 }
 
-function loadSdkGenerationInputContract(
+async function loadSdkGenerationInputContract(
   apiContractsRoot: string
-): ApiSdkGenerationInputContract {
-  const root = readNamedContract(
+): Promise<ApiSdkGenerationInputContract> {
+  const root = await readNamedContract(
     apiContractsRoot,
     SDK_GENERATION_INPUT_FILE,
     'sdk_generation_input'
@@ -79,6 +100,7 @@ function loadSdkGenerationInputContract(
     status: readString(root, 'status'),
     sourceContracts: readStringArray(root, 'source_contracts'),
     generationTargets: readStringArray(root, 'generation_targets'),
+    allowedGenerationTargets: readStringArray(root, 'allowed_generation_targets'),
     requiredRouteMetadata: readStringArray(root, 'required_route_metadata'),
     requiredErrorMetadata: readStringArray(root, 'required_error_metadata'),
     requiredWebhookMetadata: readStringArray(root, 'required_webhook_metadata'),
@@ -87,12 +109,31 @@ function loadSdkGenerationInputContract(
   };
 }
 
-function readNamedContract(
+async function loadApiCatalogInputContract(
+  apiContractsRoot: string
+): Promise<ApiCatalogInputContract> {
+  const root = await readNamedContract(
+    apiContractsRoot,
+    API_CATALOG_FILE,
+    'api_catalog'
+  );
+
+  return {
+    status: readString(root, 'status'),
+    routeDefinitionRequiredFields: readStringArray(
+      root,
+      'route_definition_required_fields'
+    ),
+    forbiddenValues: readStringArray(root, 'forbidden_values')
+  };
+}
+
+async function readNamedContract(
   root: string,
   file: string,
   contractName: string
-): Record<string, unknown> {
-  const source = readFileSync(join(root, file), 'utf8');
+): Promise<Record<string, unknown>> {
+  const source = await readFile(join(root, file), 'utf8');
   const document = parseYamlRecord(source);
   const contract = document[contractName];
 
@@ -100,7 +141,7 @@ function readNamedContract(
 }
 
 function parseYamlRecord(source: string): Record<string, unknown> {
-  const value = parse(source) as unknown;
+  const value = Bun.YAML.parse(source) as unknown;
 
   return isRecord(value) ? value : {};
 }
@@ -123,6 +164,21 @@ function readNumber(
   const value = record[field];
 
   return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+function readNumberArray(
+  record: Record<string, unknown>,
+  field: string
+): readonly number[] {
+  const value = record[field];
+
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.flatMap((entry) =>
+    typeof entry === 'number' && Number.isInteger(entry) ? [entry] : []
+  );
 }
 
 function readStringArray(

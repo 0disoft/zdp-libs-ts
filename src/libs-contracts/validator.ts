@@ -27,7 +27,8 @@ const REQUIRED_API_SOURCE_CONTRACTS = [
   'contracts/route-contract.yaml',
   'contracts/error-envelope.yaml',
   'contracts/webhook-contract.yaml',
-  'contracts/sdk-generation-input.yaml'
+  'contracts/sdk-generation-input.yaml',
+  'contracts/apis/catalog.yaml'
 ] as const;
 
 const REQUIRED_API_SOURCE_PACKAGES = [
@@ -44,6 +45,7 @@ const REQUIRED_API_SOURCE_HANDOFF_METADATA = [
   'request_id',
   'trace_id',
   'idempotency',
+  'success_statuses',
   'sdk_generation_targets'
 ] as const;
 
@@ -153,6 +155,30 @@ const FORBIDDEN_I18N_OWNERSHIP = [
   'product_copy_final_approval'
 ] as const;
 
+const ALLOWED_CONTRACT_STATUSES = [
+  'skeleton',
+  'draft',
+  'reviewed',
+  'active'
+] as const;
+
+const REQUIRED_API_CATALOG_ROUTE_FIELDS = [
+  'operation_id',
+  'service_id',
+  'resource',
+  'action',
+  'method',
+  'path',
+  'success_statuses',
+  'request_schema_ref',
+  'response_schema_ref',
+  'auth_required',
+  'permission_check',
+  'audit_event',
+  'idempotency',
+  'error_codes'
+] as const;
+
 export function validateLibsContracts(
   contracts: LibsContracts,
   options: {
@@ -215,15 +241,14 @@ function validateApiContractSource(
   contracts: LibsContracts,
   diagnostics: LibsContractDiagnostic[]
 ): void {
-  if (contracts.apiContractSource.status !== 'skeleton') {
-    diagnostics.push({
-      code: 'LIBS_API_SOURCE_STATUS_INVALID',
-      file: 'contracts/api-contract-source.yaml',
-      path: 'api_contract_source.status',
-      message:
-        'API contract source handoff must stay skeleton until real package exports exist.'
-    });
-  }
+  validateAllowedStatus({
+    actual: contracts.apiContractSource.status,
+    diagnostics,
+    code: 'LIBS_API_SOURCE_STATUS_INVALID',
+    file: 'contracts/api-contract-source.yaml',
+    path: 'api_contract_source.status',
+    label: 'API contract source handoff status'
+  });
 
   if (contracts.apiContractSource.sourceRepo !== REQUIRED_API_CONTRACT_SOURCE_REPO) {
     diagnostics.push({
@@ -286,59 +311,57 @@ function validateApiContractInputHandoff(
   const errorEnvelope = apiContractsInput.errorEnvelope;
   const webhook = apiContractsInput.webhook;
   const sdkInput = apiContractsInput.sdkGenerationInput;
+  const apiCatalog = apiContractsInput.apiCatalog;
 
   requireAll(
     source.sourceContracts,
-    [
-      'contracts/route-contract.yaml',
-      'contracts/error-envelope.yaml',
-      'contracts/webhook-contract.yaml',
-      'contracts/sdk-generation-input.yaml'
-    ],
+    REQUIRED_API_SOURCE_CONTRACTS,
     diagnostics,
     'LIBS_API_INPUT_SOURCE_CONTRACT_MISSING',
-    '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+    'contracts/api-contract-source.yaml',
     'api_contract_source.source_contracts'
   );
   requireAll(
     sdkInput.sourceContracts,
-    [
-      'contracts/route-contract.yaml',
-      'contracts/error-envelope.yaml',
-      'contracts/webhook-contract.yaml'
-    ],
+    REQUIRED_API_SOURCE_CONTRACTS,
     diagnostics,
     'LIBS_API_INPUT_SDK_SOURCE_CONTRACT_MISSING',
     '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
     'sdk_generation_input.source_contracts'
   );
 
-  validateExactString({
+  validateAllowedStatus({
     actual: route.status,
-    expected: 'skeleton',
     diagnostics,
     code: 'LIBS_API_INPUT_ROUTE_STATUS_DRIFT',
     file: '../zdp-api-contracts/contracts/route-contract.yaml',
     path: 'route_contract.status',
     label: 'API route contract status'
   });
-  validateExactString({
+  validateAllowedStatus({
     actual: webhook.status,
-    expected: 'skeleton',
     diagnostics,
     code: 'LIBS_API_INPUT_WEBHOOK_STATUS_DRIFT',
     file: '../zdp-api-contracts/contracts/webhook-contract.yaml',
     path: 'webhook_contract.status',
     label: 'API webhook contract status'
   });
-  validateExactString({
+  validateAllowedStatus({
     actual: sdkInput.status,
-    expected: 'skeleton',
     diagnostics,
     code: 'LIBS_API_INPUT_SDK_STATUS_DRIFT',
     file: '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
     path: 'sdk_generation_input.status',
     label: 'API SDK generation input status'
+  });
+  validateExactString({
+    actual: apiCatalog.status,
+    expected: 'empty-until-service-routes-exist',
+    diagnostics,
+    code: 'LIBS_API_INPUT_CATALOG_STATUS_DRIFT',
+    file: '../zdp-api-contracts/contracts/apis/catalog.yaml',
+    path: 'api_catalog.status',
+    label: 'API catalog status'
   });
   validateExactNumber({
     actual: errorEnvelope.schemaVersion,
@@ -357,9 +380,11 @@ function validateApiContractInputHandoff(
       'action',
       'method',
       'path',
+      'auth_required',
       'permission_check',
       'audit_event',
       'idempotency',
+      'success_statuses',
       'error_codes'
     ],
     diagnostics,
@@ -371,9 +396,15 @@ function validateApiContractInputHandoff(
     sdkInput.requiredRouteMetadata,
     [
       'operation_id',
+      'method',
+      'path',
       'request_schema_ref',
       'response_schema_ref',
+      'auth_required',
+      'permission_check',
+      'audit_event',
       'idempotency',
+      'success_statuses',
       'error_codes'
     ],
     diagnostics,
@@ -429,13 +460,40 @@ function validateApiContractInputHandoff(
     '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
     'sdk_generation_input.required_webhook_metadata'
   );
+  for (const target of sdkInput.generationTargets) {
+    if (!sdkInput.allowedGenerationTargets.includes(target)) {
+      diagnostics.push({
+        code: 'LIBS_API_INPUT_SDK_TARGET_NOT_ALLOWED',
+        file: '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+        path: 'sdk_generation_input.generation_targets',
+        message: `SDK generation target \`${target}\` must be declared in allowed_generation_targets.`
+      });
+    }
+  }
+
   requireAll(
-    sdkInput.generationTargets,
-    ['typescript', 'dart', 'rust'],
+    apiCatalog.routeDefinitionRequiredFields,
+    REQUIRED_API_CATALOG_ROUTE_FIELDS,
     diagnostics,
-    'LIBS_API_INPUT_SDK_TARGET_MISSING',
-    '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
-    'sdk_generation_input.generation_targets'
+    'LIBS_API_INPUT_CATALOG_ROUTE_FIELD_MISSING',
+    '../zdp-api-contracts/contracts/apis/catalog.yaml',
+    'api_catalog.route_definition_required_fields'
+  );
+  requireAll(
+    apiCatalog.routeDefinitionRequiredFields,
+    sdkInput.requiredRouteMetadata,
+    diagnostics,
+    'LIBS_API_INPUT_CATALOG_SDK_METADATA_MISSING',
+    '../zdp-api-contracts/contracts/apis/catalog.yaml',
+    'api_catalog.route_definition_required_fields'
+  );
+  requireAll(
+    apiCatalog.forbiddenValues,
+    sdkInput.forbiddenValues,
+    diagnostics,
+    'LIBS_API_INPUT_CATALOG_FORBIDDEN_VALUE_MISSING',
+    '../zdp-api-contracts/contracts/apis/catalog.yaml',
+    'api_catalog.forbidden_values'
   );
 
   requireAll(
@@ -464,14 +522,14 @@ function validateSchemaContract(
   contracts: LibsContracts,
   diagnostics: LibsContractDiagnostic[]
 ): void {
-  if (contracts.schema.status !== 'skeleton') {
-    diagnostics.push({
-      code: 'LIBS_SCHEMA_STATUS_INVALID',
-      file: 'contracts/schema-contract.yaml',
-      path: 'schema_contract.status',
-      message: 'Schema contract must stay skeleton until real package exports exist.'
-    });
-  }
+  validateAllowedStatus({
+    actual: contracts.schema.status,
+    diagnostics,
+    code: 'LIBS_SCHEMA_STATUS_INVALID',
+    file: 'contracts/schema-contract.yaml',
+    path: 'schema_contract.status',
+    label: 'Schema contract status'
+  });
 
   requireAll(
     contracts.schema.requiredMetadata,
@@ -525,14 +583,14 @@ function validateEventContract(
   contracts: LibsContracts,
   diagnostics: LibsContractDiagnostic[]
 ): void {
-  if (contracts.event.status !== 'skeleton') {
-    diagnostics.push({
-      code: 'LIBS_EVENT_STATUS_INVALID',
-      file: 'contracts/event-contract.yaml',
-      path: 'event_contract.status',
-      message: 'Event contract must stay skeleton until event package exports exist.'
-    });
-  }
+  validateAllowedStatus({
+    actual: contracts.event.status,
+    diagnostics,
+    code: 'LIBS_EVENT_STATUS_INVALID',
+    file: 'contracts/event-contract.yaml',
+    path: 'event_contract.status',
+    label: 'Event contract status'
+  });
 
   requireAll(
     contracts.event.requiredMetadata,
@@ -586,14 +644,14 @@ function validateI18nContract(
   contracts: LibsContracts,
   diagnostics: LibsContractDiagnostic[]
 ): void {
-  if (contracts.i18n.status !== 'skeleton') {
-    diagnostics.push({
-      code: 'LIBS_I18N_STATUS_INVALID',
-      file: 'contracts/i18n-contract.yaml',
-      path: 'i18n_contract.status',
-      message: 'I18n contract must stay skeleton until message package exports exist.'
-    });
-  }
+  validateAllowedStatus({
+    actual: contracts.i18n.status,
+    diagnostics,
+    code: 'LIBS_I18N_STATUS_INVALID',
+    file: 'contracts/i18n-contract.yaml',
+    path: 'i18n_contract.status',
+    label: 'I18n contract status'
+  });
 
   if (contracts.i18n.messageKeyPattern !== 'domain.message_name') {
     diagnostics.push({
@@ -663,6 +721,26 @@ function validateExactString(input: {
   });
 }
 
+function validateAllowedStatus(input: {
+  readonly actual: string | null;
+  readonly diagnostics: LibsContractDiagnostic[];
+  readonly code: string;
+  readonly file: string;
+  readonly path: string;
+  readonly label: string;
+}): void {
+  if (isAllowedContractStatus(input.actual)) {
+    return;
+  }
+
+  input.diagnostics.push({
+    code: input.code,
+    file: input.file,
+    path: input.path,
+    message: `${input.label} must be one of ${formatAllowedStatuses()}.`
+  });
+}
+
 function validateExactNumber(input: {
   readonly actual: number | null;
   readonly expected: number;
@@ -684,6 +762,20 @@ function validateExactNumber(input: {
   });
 }
 
-function combineValues(valueGroups: readonly (readonly string[])[]): readonly string[] {
+function combineValues(
+  valueGroups: readonly (readonly string[])[]
+): readonly string[] {
   return Array.from(new Set(valueGroups.flat()));
+}
+
+function formatAllowedStatuses(): string {
+  return ALLOWED_CONTRACT_STATUSES.map((status) => `\`${status}\``).join(', ');
+}
+
+function isAllowedContractStatus(
+  status: string | null
+): status is (typeof ALLOWED_CONTRACT_STATUSES)[number] {
+  return ALLOWED_CONTRACT_STATUSES.includes(
+    status as (typeof ALLOWED_CONTRACT_STATUSES)[number]
+  );
 }
