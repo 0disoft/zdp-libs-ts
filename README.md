@@ -11,6 +11,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - 표준 error helper 경계
 - i18n message key와 argument contract 기준
 - glossary term, manifest, 공개 범위, click sheet interaction contract 기준
+- 플랫폼 공통 public glossary term source
 - 계약 파일을 읽는 one-shot checker
 - `zdp-api-contracts` 실제 route/error/webhook/SDK input/API catalog 계약 드리프트 검사
 - 최소 public export skeleton
@@ -55,6 +56,8 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - `@zdp/error`: stack trace, raw provider error, secret value, customer payload를 공개 오류 표면에 넣지 않는다.
 - `@zdp/i18n-contract`: 번역 런타임이 아니라 message key와 argument contract만 소유한다.
 - `@zdp/glossary-contract`: 용어 backend, 광고 runtime, 제품별 문구 최종 승인 시스템이 아니라 term metadata, manifest type, click/right-sheet/bottom-sheet interaction 경계만 소유한다.
+
+`glossary/terms/public.yaml`은 여러 공개 사이트에서 반복되는 플랫폼 공통 용어 본문을 소유한다. 이 파일은 `term_id`, locale 문구, alias, match phrase, sheet interaction, 광고 금지 정책까지만 담고, 사이트별 route나 관련 화면 경로는 소비 앱이 manifest 생성 단계에서 붙인다. 공통 파일에 `products`, `sites`, `canonical_path`를 넣지 않는 이유는 새 public site가 같은 용어를 다시 쓰면서도 자기 화면 구조를 따로 결정하게 하기 위해서다.
 
 API source input drift 검사는 `idempotency`, `success_statuses`, `request_id`, `trace_id`, `event_type`, SDK generation target, API catalog route metadata 같은 값이 API repo와 libs repo에서 서로 다르게 선언되는 일을 막는다. `idempotency`가 맞아야 재시도와 중복 요청이 한 번 처리된 것처럼 유지되고, `success_statuses`가 맞아야 클라이언트가 성공 응답을 제멋대로 해석하지 않으며, `request_id`/`trace_id`가 맞아야 SDK 오류를 서버 로그와 같은 추적선에서 찾을 수 있다.
 
