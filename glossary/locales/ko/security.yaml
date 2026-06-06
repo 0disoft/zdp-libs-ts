@@ -1,0 +1,78 @@
+locale: ko
+terms:
+  - id: security.vault
+    label: Vault
+    slug: vault
+    short: API 키나 토큰 같은 비밀값을 일반 데이터와 분리해 보관하는 저장소입니다.
+    long: |-
+      Vault는 API 키나 토큰 같은 비밀값을 일반 데이터와 분리해 보관하는 저장소입니다. 제품 DB에 비밀값을 섞으면 권한 실수 하나로 피해가 커질 수 있습니다. 그래서 비밀값은 별도 저장소와 별도 접근 경로로 다룹니다.
+
+      비밀값 저장과 일반 콘텐츠 저장은 같은 경계로 보면 안 됩니다. 앱은 필요한 순간에 제한된 방식으로 값을 요청하고, 접근 기록과 회전 절차를 함께 남겨야 합니다. 이렇게 해야 기능이 늘어나도 비밀값 운영 기준을 재사용하기 쉽습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - vault
+      - 비밀값 저장
+    match_phrases:
+      - phrase: 비밀값 저장
+        auto_match: true
+        priority: 80
+      - phrase: vault
+        auto_match: true
+        priority: 70
+  - id: security.audit-log
+    label: 감사 로그
+    slug: audit-log
+    short: 누가 언제 중요한 작업을 했는지 지울 수 없게 남기는 기록입니다.
+    long: |-
+      감사 로그는 누가 언제 중요한 작업을 했는지 나중에 설명할 수 있게 남기는 기록입니다. 권한 변경, 결제 상태 변경, 개인정보 접근처럼 책임 소재가 필요한 사건을 다룹니다. 화면 상태가 바뀐 이유를 추적할 때 기준점이 됩니다.
+
+      append-only는 기존 기록을 고치지 않고 새 기록만 더한다는 뜻입니다. 실수를 숨기기 위해 과거 기록을 덮어쓰면 감사 로그의 의미가 사라집니다. 그래서 수정이나 취소도 기존 줄을 바꾸는 대신 새 사건으로 남겨야 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - 감사 로그
+      - append-only
+    match_phrases:
+      - phrase: append-only
+        auto_match: true
+        priority: 85
+      - phrase: 감사 로그
+        auto_match: true
+        priority: 80
+  - id: security.privacy-access-broker
+    label: Privacy Access Broker
+    slug: privacy-access-broker
+    short: 자동 처리 시스템이나 내부 도구가 사용자 데이터를 읽기 전에 목적과 범위를 확인하는 중간 경계입니다.
+    long: |-
+      Privacy Access Broker는 자동 처리 시스템이나 내부 도구가 사용자 데이터를 읽기 전에 목적과 범위를 확인하는 중간 경계입니다. 시스템이 데이터베이스를 직접 뒤지는 구조를 피하게 합니다. 필요한 데이터만 제한된 형태로 넘기는 문 역할을 합니다.
+
+      이 경계는 모든 접근을 막는 장치가 아닙니다. 대신 동의, 목적, 권한, 감사 기록을 확인한 뒤 최소한의 조각만 전달하게 만듭니다. 사용자 데이터 접근을 기능 구현 편의가 아니라 명시적인 정책 흐름으로 다루게 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Privacy Access Broker
+      - 자동 처리 시스템 데이터 접근
+    match_phrases:
+      - phrase: Privacy Access Broker
+        auto_match: true
+        priority: 100
+      - phrase: 자동 처리 시스템 데이터 접근
+        auto_match: true
+        priority: 80
+  - id: security.owasp-asvs
+    label: OWASP ASVS
+    slug: owasp-asvs
+    short: 웹 애플리케이션 보안을 점검할 때 쓰는 공개 검증 기준입니다.
+    long: |-
+      OWASP ASVS는 웹 애플리케이션 보안을 점검할 때 쓰는 공개 검증 기준입니다. 인증, 권한, 입력 검증, 로그 같은 항목을 빠뜨리지 않게 도와줍니다. 팀마다 다른 감으로 보안을 판단하는 일을 줄여줍니다.
+
+      ASVS는 팀마다 제멋대로 보안 체크를 만들지 않게 해주는 기준점이 됩니다. ASVS 자체가 제품 보안을 대신 구현해주지는 않습니다. 다만 무엇을 확인해야 하는지 공통 언어를 제공해서 리뷰와 자동화 기준을 세우기 쉽게 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - OWASP ASVS
+    match_phrases:
+      - phrase: OWASP ASVS
+        auto_match: true
+        priority: 100

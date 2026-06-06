@@ -1,0 +1,22 @@
+locale: ko
+terms:
+  - id: operations.rate-limit
+    label: Rate Limit
+    slug: rate-limit
+    short: 너무 많은 요청이 한 번에 몰리지 않게 속도를 제한하는 장치입니다.
+    long: |-
+      Rate Limit은 로그인 시도, 검색, API 호출 같은 곳에 두는 속도 제한 장치입니다. 너무 많은 요청이 한 번에 몰리면 정상 사용자까지 느려지거나 실패할 수 있습니다. 그래서 요청을 일정한 속도로 나누어 서비스가 숨을 고르게 합니다.
+
+      이 기능은 사용자를 괴롭히려고 넣는 차단막이 아닙니다. 공격이나 실수로 생긴 폭주를 줄이고, 정상 흐름이 계속 움직이게 만드는 안전장치입니다. 좋은 제한은 이유를 분명히 알려주고, 잠시 뒤 다시 시도할 수 있는 경로를 남깁니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - rate limit
+      - Rate limit
+    match_phrases:
+      - phrase: Rate Limit
+        auto_match: true
+        priority: 90
+      - phrase: rate limit
+        auto_match: true
+        priority: 80

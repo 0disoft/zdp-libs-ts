@@ -1,0 +1,37 @@
+terms:
+  - id: design.oklch
+    status: active
+    visibility: public
+    owner: platform-design
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - design.semantic-token
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: design.semantic-token
+    status: active
+    visibility: public
+    owner: platform-design
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - design.oklch
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only

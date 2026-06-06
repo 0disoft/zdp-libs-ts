@@ -57,7 +57,11 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - `@zdp/i18n-contract`: 번역 런타임이 아니라 message key와 argument contract만 소유한다.
 - `@zdp/glossary-contract`: 용어 backend, 광고 runtime, 제품별 문구 최종 승인 시스템이 아니라 term metadata, manifest type, click/right-sheet/bottom-sheet interaction 경계만 소유한다.
 
-`glossary/terms/public.yaml`은 여러 공개 사이트에서 반복되는 플랫폼 공통 용어 본문을 소유한다. 이 파일은 `term_id`, locale 문구, alias, match phrase, sheet interaction, 광고 금지 정책까지만 담고, 사이트별 route나 관련 화면 경로는 소비 앱이 manifest 생성 단계에서 붙인다. 공통 파일에 `products`, `sites`, `canonical_path`를 넣지 않는 이유는 새 public site가 같은 용어를 다시 쓰면서도 자기 화면 구조를 따로 결정하게 하기 위해서다.
+`glossary/terms/*.yaml`은 여러 공개 사이트에서 반복되는 플랫폼 공통 용어 계약을 namespace별로 소유한다. `glossary/locales/<locale>/*.yaml`은 같은 namespace의 locale 문구, alias, match phrase, 번역 검수 상태를 소유한다. 공통 term 파일에는 사이트별 route나 관련 화면 경로를 넣지 않고, 소비 앱이 manifest 생성 단계에서 붙인다. 공통 파일에 `products`, `sites`, `canonical_path`를 넣지 않는 이유는 새 public site가 같은 용어를 다시 쓰면서도 자기 화면 구조를 따로 결정하게 하기 위해서다.
+
+공통 glossary 문구는 특정 제품, 회사, 내부 시스템의 채택 기준을 설명하지 않는다. 대중적으로 널리 통용될 수 있는 개념 설명만 두고, 제품별 적용 방식이나 관련 화면 설명은 소비 앱의 local glossary나 페이지 콘텐츠가 소유한다.
+
+Glossary locale 문구에서 `short`는 정확히 1문단, 1-2문장으로 쓴다. `long`은 상세 sheet 본문이므로 2-3문단으로 쓰고, 각 문단은 3-5문장으로 유지한다. 설명은 일반적인 중학교 교육을 받은 사람이 충분히 이해할 수 있는 말로 쓴다. `detail_enabled: true`이고 `translation_status: reviewed`인 용어는 `long`을 비워둘 수 없다.
 
 API source input drift 검사는 `idempotency`, `success_statuses`, `request_id`, `trace_id`, `event_type`, SDK generation target, API catalog route metadata 같은 값이 API repo와 libs repo에서 서로 다르게 선언되는 일을 막는다. `idempotency`가 맞아야 재시도와 중복 요청이 한 번 처리된 것처럼 유지되고, `success_statuses`가 맞아야 클라이언트가 성공 응답을 제멋대로 해석하지 않으며, `request_id`/`trace_id`가 맞아야 SDK 오류를 서버 로그와 같은 추적선에서 찾을 수 있다.
 

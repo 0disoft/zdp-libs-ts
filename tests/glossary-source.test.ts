@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { describe, expect, it } from 'bun:test';
 
 interface PublicGlossarySource {
@@ -11,6 +11,36 @@ interface PublicGlossaryTerm {
   readonly sites?: readonly string[];
   readonly canonical_path?: string | null;
 }
+
+interface PublicGlossaryLocaleSource {
+  readonly locale?: string;
+  readonly terms?: readonly PublicGlossaryLocaleTerm[];
+}
+
+interface PublicGlossaryLocaleTerm {
+  readonly id?: string;
+  readonly short?: string;
+  readonly long?: string | null;
+  readonly translation_status?: string;
+  readonly status?: string;
+  readonly visibility?: string;
+  readonly owner?: string;
+  readonly interaction?: unknown;
+  readonly ad_policy?: unknown;
+}
+
+const SHORT_COPY_MIN_SENTENCES = 1;
+const SHORT_COPY_MAX_SENTENCES = 2;
+const LONG_COPY_MIN_PARAGRAPHS = 2;
+const LONG_COPY_MAX_PARAGRAPHS = 3;
+const LONG_COPY_MIN_SENTENCES_PER_PARAGRAPH = 3;
+const LONG_COPY_MAX_SENTENCES_PER_PARAGRAPH = 5;
+const COMMON_GLOSSARY_PRODUCT_COPY_PATTERNS: readonly RegExp[] = [
+  /\bZDP\b/u,
+  /8ailors/u,
+  /우리\s*(시스템|서비스|제품|앱|플랫폼)/u,
+  /이\s*(저장소|사이트|서비스|시스템|제품|앱|플랫폼)/u
+];
 
 describe('public glossary source data', () => {
   it('owns reusable platform terms without site routing or product filters', async () => {
@@ -30,10 +60,101 @@ describe('public glossary source data', () => {
       expect(term.canonical_path ?? null).toBeNull();
     }
   });
+
+  it('keeps locale copy separate from canonical term metadata', async () => {
+    const source = await readPublicGlossaryLocaleSource('ko');
+    const terms = source.terms ?? [];
+    const termIds = terms.map((term) => term.id);
+
+    expect(source.locale).toBe('ko');
+    expect(termIds).toContain('design.oklch');
+    expect(termIds).toContain('security.vault');
+    expect(termIds).toContain('security.privacy-access-broker');
+    expect(termIds).toContain('operations.rate-limit');
+    expect(new Set(termIds).size).toBe(termIds.length);
+
+    for (const term of terms) {
+      expect(term.status).toBeUndefined();
+      expect(term.visibility).toBeUndefined();
+      expect(term.owner).toBeUndefined();
+      expect(term.interaction).toBeUndefined();
+      expect(term.ad_policy).toBeUndefined();
+      expect(term.short).toBeString();
+      expectGeneralPublicCopy(term.id ?? '<missing-id>', 'short', term.short ?? '');
+      expect(readParagraphs(term.short ?? '')).toHaveLength(1);
+      expect(countSentences(term.short ?? '')).toBeGreaterThanOrEqual(SHORT_COPY_MIN_SENTENCES);
+      expect(countSentences(term.short ?? '')).toBeLessThanOrEqual(SHORT_COPY_MAX_SENTENCES);
+
+      if (term.translation_status === 'reviewed') {
+        expect(term.long).toBeString();
+      }
+
+      if (typeof term.long === 'string') {
+        expectGeneralPublicCopy(term.id ?? '<missing-id>', 'long', term.long);
+        const paragraphs = readParagraphs(term.long);
+        expect(paragraphs.length).toBeGreaterThanOrEqual(LONG_COPY_MIN_PARAGRAPHS);
+        expect(paragraphs.length).toBeLessThanOrEqual(LONG_COPY_MAX_PARAGRAPHS);
+
+        for (const paragraph of paragraphs) {
+          const sentenceCount = countSentences(paragraph);
+          expect(sentenceCount).toBeGreaterThanOrEqual(LONG_COPY_MIN_SENTENCES_PER_PARAGRAPH);
+          expect(sentenceCount).toBeLessThanOrEqual(LONG_COPY_MAX_SENTENCES_PER_PARAGRAPH);
+        }
+      }
+    }
+  });
 });
 
 async function readPublicGlossarySource(): Promise<PublicGlossarySource> {
-  const sourceUrl = new URL('../glossary/terms/public.yaml', import.meta.url);
-  const source = await readFile(sourceUrl, 'utf8');
-  return Bun.YAML.parse(source) as PublicGlossarySource;
+  const termsRoot = new URL('../glossary/terms/', import.meta.url);
+  const files = (await readdir(termsRoot))
+    .filter((file) => /\.ya?ml$/i.test(file))
+    .sort((left, right) => left.localeCompare(right));
+  const terms: PublicGlossaryTerm[] = [];
+
+  for (const file of files) {
+    const source = await readFile(new URL(file, termsRoot), 'utf8');
+    const parsed = Bun.YAML.parse(source) as PublicGlossarySource;
+    terms.push(...(parsed.terms ?? []));
+  }
+
+  return { terms };
+}
+
+async function readPublicGlossaryLocaleSource(locale: string): Promise<PublicGlossaryLocaleSource> {
+  const localeRoot = new URL(`../glossary/locales/${locale}/`, import.meta.url);
+  const files = (await readdir(localeRoot))
+    .filter((file) => /\.ya?ml$/i.test(file))
+    .sort((left, right) => left.localeCompare(right));
+  const terms: PublicGlossaryLocaleTerm[] = [];
+
+  for (const file of files) {
+    const source = await readFile(new URL(file, localeRoot), 'utf8');
+    const parsed = Bun.YAML.parse(source) as PublicGlossaryLocaleSource;
+    expect(parsed.locale).toBe(locale);
+    terms.push(...(parsed.terms ?? []));
+  }
+
+  return { locale, terms };
+}
+
+function readParagraphs(value: string): readonly string[] {
+  return value
+    .trim()
+    .split(/\n\s*\n/g)
+    .map((paragraph) => paragraph.replace(/\s+/g, ' ').trim())
+    .filter((paragraph) => paragraph.length > 0);
+}
+
+function countSentences(value: string): number {
+  return value
+    .split(/[.!?。！？]+/g)
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => sentence.length > 0).length;
+}
+
+function expectGeneralPublicCopy(termId: string, field: 'short' | 'long', value: string): void {
+  for (const pattern of COMMON_GLOSSARY_PRODUCT_COPY_PATTERNS) {
+    expect(`${termId}.${field}: ${value}`).not.toMatch(pattern);
+  }
 }

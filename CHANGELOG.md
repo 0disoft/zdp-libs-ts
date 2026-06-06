@@ -7,7 +7,10 @@
 - `check:tsgo` fast typecheck 스크립트와 pinned `@typescript/native-preview` 의존성을 추가했다.
 - contract loader 실패 타입 가드와 i18n key 타입 테스트를 native TypeScript checker와 호환되게 정리했다.
 - `@zdp/glossary-contract` skeleton export, click/right-sheet/bottom-sheet interaction, package boundary 계약을 추가했다.
-- 여러 public site가 공유할 수 있는 `glossary/terms/public.yaml` 공통 용어 source를 추가했다.
+- 여러 public site가 공유할 수 있는 `glossary/terms/*.yaml` 공통 용어 계약과 `glossary/locales/<locale>/*.yaml` locale 문구 source를 추가했다.
+- glossary locale `short`는 1문단 1-2문장, `long`은 2-3문단과 문단별 3-5문장으로 유지하도록 source test를 강화했다.
+- glossary 설명문을 일반적인 중학교 교육을 받은 사람이 이해할 수 있는 말로 쓴다는 작성 기준을 추가했다.
+- 공통 glossary 설명문이 특정 제품, 회사, 내부 시스템의 채택 기준을 담지 않도록 source test와 문서 기준을 강화했다.
 
 ## 0.6.0
 
