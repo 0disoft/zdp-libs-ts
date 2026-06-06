@@ -10,6 +10,7 @@ import {
   parseEnvContract,
   parseErrorContract,
   parseEventContract,
+  parseGlossaryContract,
   parseI18nContract,
   parsePackageBoundariesContract,
   parseSchemaContract
@@ -148,6 +149,10 @@ describe('libs contract checker', () => {
       i18n: {
         ...contracts.i18n,
         status: 'draft'
+      },
+      glossary: {
+        ...contracts.glossary,
+        status: 'reviewed'
       }
     });
 
@@ -170,6 +175,7 @@ describe('libs contract checker', () => {
     writeFileSync(join(contractsRoot, 'schema-contract.yaml'), 'schema_contract:\n');
     writeFileSync(join(contractsRoot, 'event-contract.yaml'), 'event_contract:\n');
     writeFileSync(join(contractsRoot, 'i18n-contract.yaml'), 'i18n_contract:\n');
+    writeFileSync(join(contractsRoot, 'glossary-contract.yaml'), 'glossary_contract:\n');
 
     await expect(loadLibsContracts(root)).rejects.toThrow(LibsContractLoadError);
 
@@ -270,6 +276,37 @@ describe('libs contract checker', () => {
       'LIBS_I18N_FORBIDDEN_OWNERSHIP_MISSING'
     );
   });
+
+  it('fails when glossary contracts lose public manifest safety metadata', () => {
+    const contracts = loadCommittedContracts();
+    const result = validateLibsContracts({
+      ...contracts,
+      glossary: {
+        ...contracts.glossary,
+        requiredMetadata: contracts.glossary.requiredMetadata.filter(
+          (item) => item !== 'visibility'
+        ),
+        requiredLocaleMetadata:
+          contracts.glossary.requiredLocaleMetadata.filter(
+            (item) => item !== 'translation_status'
+          ),
+        forbiddenValues: contracts.glossary.forbiddenValues.filter(
+          (item) => item !== 'private_internal_terms_in_public_manifest'
+        )
+      }
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_GLOSSARY_METADATA_MISSING'
+    );
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_GLOSSARY_LOCALE_METADATA_MISSING'
+    );
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_GLOSSARY_FORBIDDEN_VALUE_MISSING'
+    );
+  });
 });
 
 function loadCommittedContracts(): LibsContracts {
@@ -282,7 +319,8 @@ function loadCommittedContracts(): LibsContracts {
     error: parseErrorContract(readContract('error-contract.yaml')),
     schema: parseSchemaContract(readContract('schema-contract.yaml')),
     event: parseEventContract(readContract('event-contract.yaml')),
-    i18n: parseI18nContract(readContract('i18n-contract.yaml'))
+    i18n: parseI18nContract(readContract('i18n-contract.yaml')),
+    glossary: parseGlossaryContract(readContract('glossary-contract.yaml'))
   };
 }
 

@@ -28,3 +28,18 @@ export type {
   I18nMessageKey
 } from './i18n-contract/index';
 export { defineI18nMessageContract } from './i18n-contract/index';
+
+export type {
+  GlossaryAdPolicy,
+  GlossaryAdSurfacePolicy,
+  GlossaryLocaleContract,
+  GlossaryManifest,
+  GlossaryManifestEntry,
+  GlossaryMatchPhrase,
+  GlossaryTermContract,
+  GlossaryTermId,
+  GlossaryTermStatus,
+  GlossaryTranslationStatus,
+  GlossaryVisibility
+} from './glossary-contract/index';
+export { defineGlossaryTermContract } from './glossary-contract/index';

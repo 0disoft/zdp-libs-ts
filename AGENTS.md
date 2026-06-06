@@ -2,7 +2,7 @@
 
 ## 역할
 
-이 저장소는 ZDP TypeScript 공통 계약 패키지를 소유한다. 초기 범위는 schema, env-contract, event-contracts, error, i18n-contract의 얇은 경계다.
+이 저장소는 ZDP TypeScript 공통 계약 패키지를 소유한다. 초기 범위는 schema, env-contract, event-contracts, error, i18n-contract, glossary-contract의 얇은 경계다.
 
 ## 작업 원칙
 

@@ -10,7 +10,8 @@
     "./env-contract": "./src/env-contract/index.ts",
     "./event-contracts": "./src/event-contracts/index.ts",
     "./error": "./src/error/index.ts",
-    "./i18n-contract": "./src/i18n-contract/index.ts"
+    "./i18n-contract": "./src/i18n-contract/index.ts",
+    "./glossary-contract": "./src/glossary-contract/index.ts"
   },
   "types": "./src/index.ts",
   "scripts": {

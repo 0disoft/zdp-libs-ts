@@ -1,6 +1,6 @@
 # zdp-libs-ts
 
-ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, env-contract, event-contracts, error, i18n-contract의 경계와 금지선을 먼저 고정하는 것이다.
+ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, env-contract, event-contracts, error, i18n-contract, glossary-contract의 경계와 금지선을 먼저 고정하는 것이다.
 
 ## 현재 범위
 
@@ -10,6 +10,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - 이벤트 계약 기준
 - 표준 error helper 경계
 - i18n message key와 argument contract 기준
+- glossary term, manifest, 공개 범위, click sheet interaction contract 기준
 - 계약 파일을 읽는 one-shot checker
 - `zdp-api-contracts` 실제 route/error/webhook/SDK input/API catalog 계약 드리프트 검사
 - 최소 public export skeleton
@@ -38,6 +39,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - `zdp-libs-ts/event-contracts`
 - `zdp-libs-ts/error`
 - `zdp-libs-ts/i18n-contract`
+- `zdp-libs-ts/glossary-contract`
 
 이 export skeleton은 제품 모델을 검증하거나 변환하지 않는다. 대신 import 입구를 먼저 고정해서 나중에 제품 repo가 각자 다른 공통 타입 이름을 만들고, 그 타입이 API/SDK와 어긋나는 일을 줄인다.
 
@@ -52,6 +54,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - `@zdp/event-contracts`: `request_id`/`trace_id` 전파 기준과 민감 payload 금지 기준을 유지한다.
 - `@zdp/error`: stack trace, raw provider error, secret value, customer payload를 공개 오류 표면에 넣지 않는다.
 - `@zdp/i18n-contract`: 번역 런타임이 아니라 message key와 argument contract만 소유한다.
+- `@zdp/glossary-contract`: 용어 backend, 광고 runtime, 제품별 문구 최종 승인 시스템이 아니라 term metadata, manifest type, click/right-sheet/bottom-sheet interaction 경계만 소유한다.
 
 API source input drift 검사는 `idempotency`, `success_statuses`, `request_id`, `trace_id`, `event_type`, SDK generation target, API catalog route metadata 같은 값이 API repo와 libs repo에서 서로 다르게 선언되는 일을 막는다. `idempotency`가 맞아야 재시도와 중복 요청이 한 번 처리된 것처럼 유지되고, `success_statuses`가 맞아야 클라이언트가 성공 응답을 제멋대로 해석하지 않으며, `request_id`/`trace_id`가 맞아야 SDK 오류를 서버 로그와 같은 추적선에서 찾을 수 있다.
 

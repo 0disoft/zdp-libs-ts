@@ -58,6 +58,8 @@ cost:
     - api-source-handoff-checks
     - api-source-input-drift-checks
     - package-export-surface-checks
+    - glossary-contract-validation-runs
+    - glossary-click-sheet-contract-checks
   per_action_budget: []
   provider_cost_dimensions: []
   gross_margin_floor_percent: null
@@ -147,6 +149,7 @@ audit:
     - package_contract.changed
     - api_source_handoff.changed
     - api_source_input.checked
+    - glossary_contract.changed
     - package_export_surface.changed
     - package_api.changed
     - package_publish.reviewed
@@ -285,10 +288,11 @@ exit:
     - shared TypeScript packages consume zdp-api-contracts source contracts without owning API truth
     - shared TypeScript packages validate route/error/webhook/SDK input drift against zdp-api-contracts
     - common TypeScript packages do not own product rules
-    - package boundary, API source handoff, schema, env, event, error, and i18n contracts are machine-validated
+    - package boundary, API source handoff, schema, env, event, error, i18n, and glossary click sheet contracts are machine-validated
   kill_criteria:
     - product-specific models leak into common packages
     - provider SDK wrappers become common contract packages
+    - glossary backend, advertising runtime, or private glossary data leak into common packages
   sunset_plan: null
   owner: 0disoft
   review_at: null
@@ -302,3 +306,4 @@ notes:
   - API contract source handoff keeps shared TypeScript packages tied to zdp-api-contracts before package exports exist.
   - API source input drift checks prevent request_id, trace_id, idempotency, webhook metadata, and SDK generation targets from splitting between libs and API contracts.
   - Public export skeleton fixes import entry names before runtime validators exist.
+  - Glossary contract owns term metadata, manifest type, and click/right-sheet/bottom-sheet interaction boundaries only; ZDP product glossary data remains in product repos or private data packages.

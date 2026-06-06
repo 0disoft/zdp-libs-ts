@@ -109,6 +109,15 @@ export interface I18nContract {
   readonly forbiddenOwnership: readonly string[];
 }
 
+export interface GlossaryContract {
+  readonly status: string;
+  readonly termIdPattern: string;
+  readonly requiredMetadata: readonly string[];
+  readonly requiredLocaleMetadata: readonly string[];
+  readonly forbiddenOwnership: readonly string[];
+  readonly forbiddenValues: readonly string[];
+}
+
 export interface LibsContracts {
   readonly packageBoundaries: PackageBoundariesContract;
   readonly apiContractSource: ApiContractSourceContract;
@@ -117,4 +126,5 @@ export interface LibsContracts {
   readonly schema: SchemaContract;
   readonly event: EventContract;
   readonly i18n: I18nContract;
+  readonly glossary: GlossaryContract;
 }

@@ -29,3 +29,12 @@ packages:
       - message key and argument contracts
     must_not_own:
       - translation runtime
+  - name: "@zdp/glossary-contract"
+    status: planned
+    owns:
+      - glossary term metadata contract
+      - glossary manifest type contract
+    must_not_own:
+      - glossary backend CMS
+      - advertising runtime
+      - product domain copy final approval

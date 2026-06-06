@@ -1,0 +1,30 @@
+glossary_contract:
+  status: skeleton
+  term_id_pattern: namespace.concept
+  required_metadata:
+    - id
+    - status
+    - visibility
+    - aliases
+    - match_phrases
+    - locales
+    - owner
+    - interaction
+  required_locale_metadata:
+    - label
+    - slug
+    - short
+    - translation_status
+  forbidden_ownership:
+    - glossary_backend_cms
+    - advertising_runtime
+    - product_domain_copy_final_approval
+    - morphology_engine
+    - provider_ad_sdk
+  forbidden_values:
+    - private_internal_terms_in_public_manifest
+    - secret_values
+    - internal_urls
+    - raw_customer_payload
+    - hover_trigger_for_public_terms
+    - hover_card_ads

@@ -5,6 +5,7 @@ import type {
   EnvContract,
   ErrorContract,
   EventContract,
+  GlossaryContract,
   I18nContract,
   LibsContracts,
   PackageBoundariesContract,
@@ -55,7 +56,16 @@ export class LibsContractLoadError extends Error {
 }
 
 export async function loadLibsContracts(root = process.cwd()): Promise<LibsContracts> {
-  const [packageBoundaries, apiContractSource, env, error, schema, event, i18n] =
+  const [
+    packageBoundaries,
+    apiContractSource,
+    env,
+    error,
+    schema,
+    event,
+    i18n,
+    glossary
+  ] =
     await Promise.all([
       loadContract(
         root,
@@ -73,7 +83,13 @@ export async function loadLibsContracts(root = process.cwd()): Promise<LibsContr
       loadContract(root, 'error', 'error-contract.yaml', parseErrorContract),
       loadContract(root, 'schema', 'schema-contract.yaml', parseSchemaContract),
       loadContract(root, 'event', 'event-contract.yaml', parseEventContract),
-      loadContract(root, 'i18n', 'i18n-contract.yaml', parseI18nContract)
+      loadContract(root, 'i18n', 'i18n-contract.yaml', parseI18nContract),
+      loadContract(
+        root,
+        'glossary',
+        'glossary-contract.yaml',
+        parseGlossaryContract
+      )
     ]);
 
   const results = [
@@ -83,7 +99,8 @@ export async function loadLibsContracts(root = process.cwd()): Promise<LibsContr
     error,
     schema,
     event,
-    i18n
+    i18n,
+    glossary
   ] as const;
   const failures = results.filter(isContractLoadFailure);
   if (failures.length > 0) {
@@ -97,7 +114,8 @@ export async function loadLibsContracts(root = process.cwd()): Promise<LibsContr
     error: requireLoadedContract(error).value,
     schema: requireLoadedContract(schema).value,
     event: requireLoadedContract(event).value,
-    i18n: requireLoadedContract(i18n).value
+    i18n: requireLoadedContract(i18n).value,
+    glossary: requireLoadedContract(glossary).value
   };
 }
 
@@ -261,6 +279,43 @@ export function parseI18nContract(source: string): I18nContract {
       root,
       'forbidden_ownership',
       'i18n_contract.forbidden_ownership'
+    )
+  };
+}
+
+export function parseGlossaryContract(source: string): GlossaryContract {
+  const root = parseNamedContract(
+    source,
+    'glossary_contract',
+    'contracts/glossary-contract.yaml'
+  );
+
+  return {
+    status: readString(root, 'status', 'glossary_contract.status'),
+    termIdPattern: readString(
+      root,
+      'term_id_pattern',
+      'glossary_contract.term_id_pattern'
+    ),
+    requiredMetadata: readStringArray(
+      root,
+      'required_metadata',
+      'glossary_contract.required_metadata'
+    ),
+    requiredLocaleMetadata: readStringArray(
+      root,
+      'required_locale_metadata',
+      'glossary_contract.required_locale_metadata'
+    ),
+    forbiddenOwnership: readStringArray(
+      root,
+      'forbidden_ownership',
+      'glossary_contract.forbidden_ownership'
+    ),
+    forbiddenValues: readStringArray(
+      root,
+      'forbidden_values',
+      'glossary_contract.forbidden_values'
     )
   };
 }

@@ -10,7 +10,8 @@ const REQUIRED_PACKAGE_NAMES = [
   '@zdp/env-contract',
   '@zdp/event-contracts',
   '@zdp/error',
-  '@zdp/i18n-contract'
+  '@zdp/i18n-contract',
+  '@zdp/glossary-contract'
 ] as const;
 
 const REQUIRED_PACKAGE_FORBIDDEN_OWNERSHIP = [
@@ -18,7 +19,9 @@ const REQUIRED_PACKAGE_FORBIDDEN_OWNERSHIP = [
   'secret values',
   'queue provider implementation',
   'provider raw errors',
-  'translation runtime'
+  'translation runtime',
+  'glossary backend CMS',
+  'advertising runtime'
 ] as const;
 
 const REQUIRED_API_CONTRACT_SOURCE_REPO = 'zdp-api-contracts';
@@ -155,6 +158,41 @@ const FORBIDDEN_I18N_OWNERSHIP = [
   'product_copy_final_approval'
 ] as const;
 
+const REQUIRED_GLOSSARY_METADATA = [
+  'id',
+  'status',
+  'visibility',
+  'aliases',
+  'match_phrases',
+  'locales',
+  'owner',
+  'interaction'
+] as const;
+
+const REQUIRED_GLOSSARY_LOCALE_METADATA = [
+  'label',
+  'slug',
+  'short',
+  'translation_status'
+] as const;
+
+const FORBIDDEN_GLOSSARY_OWNERSHIP = [
+  'glossary_backend_cms',
+  'advertising_runtime',
+  'product_domain_copy_final_approval',
+  'morphology_engine',
+  'provider_ad_sdk'
+] as const;
+
+const FORBIDDEN_GLOSSARY_VALUES = [
+  'private_internal_terms_in_public_manifest',
+  'secret_values',
+  'internal_urls',
+  'raw_customer_payload',
+  'hover_trigger_for_public_terms',
+  'hover_card_ads'
+] as const;
+
 const ALLOWED_CONTRACT_STATUSES = [
   'skeleton',
   'draft',
@@ -201,6 +239,7 @@ export function validateLibsContracts(
   validateEventContract(contracts, diagnostics);
   validateErrorContract(contracts, diagnostics);
   validateI18nContract(contracts, diagnostics);
+  validateGlossaryContract(contracts, diagnostics);
 
   return {
     ok: diagnostics.length === 0,
@@ -677,6 +716,62 @@ function validateI18nContract(
     'LIBS_I18N_FORBIDDEN_OWNERSHIP_MISSING',
     'contracts/i18n-contract.yaml',
     'i18n_contract.forbidden_ownership'
+  );
+}
+
+function validateGlossaryContract(
+  contracts: LibsContracts,
+  diagnostics: LibsContractDiagnostic[]
+): void {
+  validateAllowedStatus({
+    actual: contracts.glossary.status,
+    diagnostics,
+    code: 'LIBS_GLOSSARY_STATUS_INVALID',
+    file: 'contracts/glossary-contract.yaml',
+    path: 'glossary_contract.status',
+    label: 'Glossary contract status'
+  });
+
+  if (contracts.glossary.termIdPattern !== 'namespace.concept') {
+    diagnostics.push({
+      code: 'LIBS_GLOSSARY_TERM_ID_PATTERN_INVALID',
+      file: 'contracts/glossary-contract.yaml',
+      path: 'glossary_contract.term_id_pattern',
+      message: 'Glossary term ids must use the namespace.concept pattern.'
+    });
+  }
+
+  requireAll(
+    contracts.glossary.requiredMetadata,
+    REQUIRED_GLOSSARY_METADATA,
+    diagnostics,
+    'LIBS_GLOSSARY_METADATA_MISSING',
+    'contracts/glossary-contract.yaml',
+    'glossary_contract.required_metadata'
+  );
+  requireAll(
+    contracts.glossary.requiredLocaleMetadata,
+    REQUIRED_GLOSSARY_LOCALE_METADATA,
+    diagnostics,
+    'LIBS_GLOSSARY_LOCALE_METADATA_MISSING',
+    'contracts/glossary-contract.yaml',
+    'glossary_contract.required_locale_metadata'
+  );
+  requireAll(
+    contracts.glossary.forbiddenOwnership,
+    FORBIDDEN_GLOSSARY_OWNERSHIP,
+    diagnostics,
+    'LIBS_GLOSSARY_FORBIDDEN_OWNERSHIP_MISSING',
+    'contracts/glossary-contract.yaml',
+    'glossary_contract.forbidden_ownership'
+  );
+  requireAll(
+    contracts.glossary.forbiddenValues,
+    FORBIDDEN_GLOSSARY_VALUES,
+    diagnostics,
+    'LIBS_GLOSSARY_FORBIDDEN_VALUE_MISSING',
+    'contracts/glossary-contract.yaml',
+    'glossary_contract.forbidden_values'
   );
 }
 
