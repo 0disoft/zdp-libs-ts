@@ -1,5 +1,6 @@
 terms:
   - id: platform.astro
+    canonical_label: Astro
     status: active
     visibility: public
     owner: platform-frontend
@@ -8,6 +9,7 @@ terms:
     monetizable: false
     related_terms:
       - platform.svelte
+      - platform.island-architecture
     interaction:
       trigger: click
       surface: term-sheet
@@ -18,6 +20,7 @@ terms:
       term_sheet: forbidden
       detail_page: future-experiment-only
   - id: platform.svelte
+    canonical_label: Svelte
     status: active
     visibility: public
     owner: platform-frontend
@@ -25,6 +28,27 @@ terms:
     indexable: false
     monetizable: false
     related_terms:
+      - platform.astro
+      - platform.sveltekit
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.sveltekit
+    canonical_label: SvelteKit
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.svelte
       - platform.astro
     interaction:
       trigger: click
@@ -35,7 +59,689 @@ terms:
       hover_card: forbidden
       term_sheet: forbidden
       detail_page: future-experiment-only
+  - id: platform.island-architecture
+    canonical_label: Island Architecture
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.astro
+      - platform.svelte
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.static-site
+    canonical_label: Static Site
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.static-site-generation
+      - platform.server-side-rendering
+      - platform.client-side-rendering
+      - platform.astro
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.static-site-generation
+    canonical_label: Static Site Generation
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.static-site
+      - platform.server-side-rendering
+      - platform.island-architecture
+      - platform.astro
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.server-side-rendering
+    canonical_label: Server Side Rendering
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.static-site-generation
+      - platform.client-side-rendering
+      - platform.sveltekit
+      - platform.astro
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.client-side-rendering
+    canonical_label: Client Side Rendering
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.server-side-rendering
+      - platform.static-site-generation
+      - platform.svelte
+      - platform.sveltekit
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.hydration
+    canonical_label: Hydration
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.server-side-rendering
+      - platform.client-side-rendering
+      - platform.island-architecture
+      - platform.sveltekit
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.runtime
+    canonical_label: Runtime
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.build-time
+      - platform.client-side-rendering
+      - platform.server-side-rendering
+      - platform.webview
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.build-time
+    canonical_label: Build Time
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.runtime
+      - platform.bundle
+      - platform.static-site-generation
+      - platform.astro
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.bundle
+    canonical_label: Bundle
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.build-time
+      - platform.client-side-rendering
+      - platform.hydration
+      - platform.static-site-generation
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.adapter
+    canonical_label: Adapter
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.sveltekit
+      - platform.server-side-rendering
+      - platform.static-site-generation
+      - platform.runtime
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.virtual-dom
+    canonical_label: Virtual DOM
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.client-side-rendering
+      - platform.svelte
+      - platform.runtime
+      - platform.bundle
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.runes
+    canonical_label: Runes
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.svelte
+      - platform.sveltekit
+      - platform.runtime
+      - platform.hydration
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.single-page-app
+    canonical_label: Single Page App
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.client-side-rendering
+      - platform.server-side-rendering
+      - platform.static-site-generation
+      - platform.bundle
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.seo
+    canonical_label: SEO
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.sitemap
+      - platform.robots-txt
+      - platform.llms-txt
+      - platform.search-index
+      - platform.static-site-generation
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.sitemap
+    canonical_label: Sitemap
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.seo
+      - platform.robots-txt
+      - platform.static-site
+      - platform.static-site-generation
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.robots-txt
+    canonical_label: robots.txt
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.seo
+      - platform.sitemap
+      - platform.static-site
+      - security.access-control
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.llms-txt
+    canonical_label: llms.txt
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.seo
+      - platform.sitemap
+      - platform.robots-txt
+      - platform.static-site
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.rss
+    canonical_label: RSS
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.atom
+      - platform.json-feed
+      - platform.sitemap
+      - platform.static-site
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.atom
+    canonical_label: Atom
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.rss
+      - platform.json-feed
+      - platform.sitemap
+      - platform.static-site
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.json-feed
+    canonical_label: JSON Feed
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.rss
+      - platform.atom
+      - platform.static-site
+      - platform.llms-txt
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.search-index
+    canonical_label: Search Index
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.seo
+      - platform.sitemap
+      - operations.cache
+      - platform.static-site
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.web-app-manifest
+    canonical_label: Web App Manifest
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.client-side-rendering
+      - platform.static-site
+      - platform.runtime
+      - platform.bundle
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.locale
+    canonical_label: Locale
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.i18n
+      - platform.localization
+      - platform.message-catalog
+      - platform.runtime
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.i18n
+    canonical_label: i18n
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.locale
+      - platform.localization
+      - platform.message-catalog
+      - platform.runtime
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.localization
+    canonical_label: Localization
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.i18n
+      - platform.locale
+      - platform.message-catalog
+      - design.accessibility
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.message-catalog
+    canonical_label: Message Catalog
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.i18n
+      - platform.localization
+      - platform.locale
+      - platform.build-time
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.fallback-locale
+    canonical_label: Fallback Locale
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.locale
+      - platform.i18n
+      - platform.localization
+      - platform.message-catalog
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.translation-status
+    canonical_label: Translation Status
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.message-catalog
+      - platform.localization
+      - platform.i18n
+      - platform.locale
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.font-stack
+    canonical_label: Font Stack
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.web-font
+      - design.semantic-token
+      - design.accessibility
+      - platform.locale
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.web-font
+    canonical_label: Web Font
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.font-stack
+      - platform.fontsource
+      - platform.bundle
+      - design.semantic-token
+      - design.accessibility
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.fontsource
+    canonical_label: Fontsource
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.web-font
+      - platform.font-stack
+      - platform.bundle
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
   - id: platform.tauri
+    canonical_label: Tauri
     status: active
     visibility: public
     owner: platform-frontend
@@ -44,6 +750,47 @@ terms:
     monetizable: false
     related_terms:
       - platform.flutter-token
+      - platform.webview
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.webview
+    canonical_label: WebView
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.tauri
+      - platform.flutter
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: platform.flutter
+    canonical_label: Flutter
+    status: active
+    visibility: public
+    owner: platform-frontend
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.flutter-token
+      - platform.webview
     interaction:
       trigger: click
       surface: term-sheet
@@ -54,6 +801,7 @@ terms:
       term_sheet: forbidden
       detail_page: future-experiment-only
   - id: platform.flutter-token
+    canonical_label: Flutter Tokens
     status: active
     visibility: public
     owner: platform-frontend
@@ -62,6 +810,8 @@ terms:
     monetizable: false
     related_terms:
       - design.semantic-token
+      - design.primitive-token
+      - platform.flutter
       - platform.tauri
     interaction:
       trigger: click

@@ -3,11 +3,11 @@ terms:
   - id: security.vault
     label: Vault
     slug: vault
-    short: API 키나 토큰 같은 비밀값을 일반 데이터와 분리해 보관하는 저장소입니다.
+    short: Vault은 HashiCorp에서 만든 비밀 정보 관리 도구로, API 키, 데이터베이스 비밀번호, 인증서, 토큰 등의 민감한 정보를 안전하게 저장하고 접근 제어합니다.
     long: |-
-      Vault는 API 키나 토큰 같은 비밀값을 일반 데이터와 분리해 보관하는 저장소입니다. 제품 DB에 비밀값을 섞으면 권한 실수 하나로 피해가 커질 수 있습니다. 그래서 비밀값은 별도 저장소와 별도 접근 경로로 다룹니다.
+      Vault은 단순한 비밀번호 관리자를 넘어선 엔터프라이즈 급 시크릿(secret) 관리 시스템입니다. 모든 비밀 정보는 암호화되어 저장되며, 접근 기록, IP 제한, 시간 기반 토큰 만료, 감사 로그(audit log) 같은 세밀한 보안 정책을 적용할 수 있습니다. 또한 데이터베이스, 클라우드 서비스(AWS/Azure/GCP), PKI 인증서, SSH 키 등 다양한 백엔드에 대한 "동적 시크릿(dynamic secret)" 생성 기능을 제공합니다. 예를 들어, 애플리케이션이 Vault에 요청할 때마다 60초만 유효한 PostgreSQL 비밀번호를 새로 발급받을 수 있습니다.
 
-      비밀값 저장과 일반 콘텐츠 저장은 같은 경계로 보면 안 됩니다. 앱은 필요한 순간에 제한된 방식으로 값을 요청하고, 접근 기록과 회전 절차를 함께 남겨야 합니다. 이렇게 해야 기능이 늘어나도 비밀값 운영 기준을 재사용하기 쉽습니다.
+      디자인 시스템 또는 프론트엔드 인프라 관점에서 Vault는 직접적으로 사용되지는 않지만, 백엔드 API, 디자인 토큰 저장소, CI/CD 파이프라인, 피그마 플러그인의 API 키 등을 보호하는 데 필수적입니다. 예를 들어, 디자인 토큰을 저장하는 사설 npm 레지스트리나 GitHub Packages에 접근하기 위한 인증 토큰을 Vault에서 관리할 수 있습니다. 또한 SvelteKit, Astro, Next.js 등의 서버 사이드 렌더링 환경에서는 Vault Agent를 통해 서버 측에서만 안전하게 API 키를 주입받아, 클라이언트로 절대 유출되지 않도록 할 수 있습니다. Vault 자체는 Go 언어로 작성되었으며, Kubernetes와의 통합이 매우 뛰어나 현대 마이크로서비스 환경에서 사실상의 표준으로 자리잡고 있습니다.
     example:
     translation_status: reviewed
     aliases:
@@ -20,34 +20,392 @@ terms:
       - phrase: vault
         auto_match: true
         priority: 70
-  - id: security.audit-log
-    label: 감사 로그
-    slug: audit-log
-    short: 누가 언제 중요한 작업을 했는지 지울 수 없게 남기는 기록입니다.
+  - id: security.secret
+    label: Secret
+    slug: secret
+    short: Secret(시크릿)은 비밀번호, API 키, 개인 키, 토큰 등 외부에 노출되어서는 안 되는 민감한 데이터를 가리키는 일반적인 용어입니다. 코드 저장소에 평문으로 하드코딩하는 것은 절대 금기시됩니다.
     long: |-
-      감사 로그는 누가 언제 중요한 작업을 했는지 나중에 설명할 수 있게 남기는 기록입니다. 권한 변경, 결제 상태 변경, 개인정보 접근처럼 책임 소재가 필요한 사건을 다룹니다. 화면 상태가 바뀐 이유를 추적할 때 기준점이 됩니다.
+      Secret은 소프트웨어 개발에서 가장 신중하게 다뤄야 하는 정보 유형 중 하나입니다. 만약 Secret이 GitHub 같은 공개 저장소에 커밋되면, 악의적인 봇이 몇 분 내로 이를 스캔하여 데이터베이스나 클라우드 계정을 탈취할 수 있습니다. 따라서 Secret은 환경 변수(Environment Variables), 시크릿 매니저(AWS Secrets Manager, HashiCorp Vault, Google Secret Manager), 또는 컨테이너 오케스트레이션의 시크릿 기능(Kubernetes Secrets, Docker Secrets)을 통해 관리됩니다. 개발 환경에서는 `.env` 파일을 사용하되, 이 파일은 반드시 `.gitignore`에 등록해야 합니다.
 
-      append-only는 기존 기록을 고치지 않고 새 기록만 더한다는 뜻입니다. 실수를 숨기기 위해 과거 기록을 덮어쓰면 감사 로그의 의미가 사라집니다. 그래서 수정이나 취소도 기존 줄을 바꾸는 대신 새 사건으로 남겨야 합니다.
+      Secret의 수명 주기 관리도 중요합니다. 정기적인 순환(rotation)이 권장되며, 유출 시 즉시 폐기(revoke)하고 새로 발급받아야 합니다. 또한 최소 권한 원칙(principle of least privilege)을 적용하여, 특정 Secret이 꼭 필요한 서비스나 함수에만 접근 권한을 부여합니다. 예를 들어, 데이터베이스 비밀번호는 백엔드 서버만 알아야 하고, 프론트엔드 코드에는 절대 포함될 수 없습니다. 현대 개발에서는 Secret 감지 도구(gitleaks, truffleHog, GitGuardian)를 CI 파이프라인에 통합하여, 실수로 Secret을 커밋하는 순간 빌드를 실패시키거나 경고를 보내도록 설정하는 것이 모범 사례입니다.
     example:
     translation_status: reviewed
     aliases:
-      - 감사 로그
-      - append-only
+      - Secret
+      - secret
+      - secrets
+      - 시크릿
+      - 비밀값
     match_phrases:
-      - phrase: append-only
+      - phrase: Secret
+        auto_match: true
+        priority: 100
+      - phrase: 시크릿
+        auto_match: true
+        priority: 90
+      - phrase: 비밀값
         auto_match: true
         priority: 85
-      - phrase: 감사 로그
+  - id: security.credential
+    label: Credential
+    slug: credential
+    short: Credential(자격 증명)은 사용자, 애플리케이션, 또는 시스템의 신원을 확인하고 접근 권한을 부여하기 위해 사용되는 정보 조합입니다. 가장 흔한 예는 사용자명과 비밀번호이며, 인증(Authentication) 과정에서 사용됩니다.
+    long: |-
+      Credential은 Secret보다 더 넓은 개념으로, 신원 확인에 필요한 모든 종류의 증거물을 포함합니다. 패스워드, API 키, OAuth 토큰, JWT(JSON Web Token), 인증서(X.509), 생체 정보(지문, 얼굴 인식), 하드웨어 키(YubiKey), 일회성 패스코드(OTP) 등 모두 Credential에 속합니다. 일반적으로 Credential은 식별자(Identifier)와 인증 요소(Authentication Factor)의 조합으로 구성됩니다. 인증 요소는 지식(아는 것, 비밀번호), 소유(가진 것, 보안 토큰), 존재(있는 것, 지문) 세 가지 요소 중 하나 이상이 될 수 있습니다.
+
+      Credential 관리에서 가장 중요한 개념은 저장 방식입니다. 비밀번호 같은 Credential은 절대 평문으로 저장하면 안 되며, 반드시 솔트(salt)를 곁들여 해싱(예: bcrypt, argon2)한 후 저장해야 합니다. 반면 API 키나 OAuth 토큰은 해싱할 수 없으므로, 암호화된 상태로 저장하거나 전용 시크릿 스토어에 보관합니다. 또한 Credential의 전송은 항상 HTTPS/TLS를 통해 암호화되어야 합니다. 멀티 팩터 인증(MFA)은 하나의 Credential만으로는 부족할 때 추가 요소를 요구하는 보안 계층으로, 현대 웹 애플리케이션에서 필수에 가까운 관행이 되었습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Credential
+      - credential
+      - credentials
+      - 자격 증명
+      - 인증 정보
+    match_phrases:
+      - phrase: Credential
+        auto_match: true
+        priority: 100
+      - phrase: 자격 증명
+        auto_match: true
+        priority: 90
+      - phrase: 인증 정보
+        auto_match: true
+        priority: 85
+  - id: security.api-key
+    label: API Key
+    slug: api-key
+    short: >-
+      API Key는 클라이언트(애플리케이션, 서비스, 사용자)를 식별하고 API 요청을 인증하기 위해 사용되는 고유한 문자열입니다. HTTP 헤더(주로 `X-API-Key` 또는 `Authorization: Bearer`)에 담아 서버로 전송됩니다.
+    long: |-
+      API Key는 Secret의 한 종류로, 단순한 인증 메커니즘을 제공합니다. 사용자명과 비밀번호와 달리, 사람이 기억할 필요 없이 기계 간 통신에서 사용됩니다. API Key가 있으면 누가 또는 어떤 애플리케이션이 요청을 보내는지 식별할 수 있습니다. 이를 기반으로 속도 제한(rate limiting), 사용량 추적, 접근 권한 범위(scoping)를 적용할 수 있습니다. 예를 들어, Google Maps API는 각 API Key에 특정 도메인이나 IP 주소만 허용하도록 제한할 수 있습니다.
+
+      API Key의 가장 큰 취약점은 전송 중 또는 저장 중에 노출될 위험입니다. 프론트엔드(브라우저) 코드에 API Key를 포함하는 것은 안전하지 않습니다. 누구나 개발자 도구로 네트워크 탭을 열어 API Key를 확인할 수 있기 때문입니다. 따라서 API Key는 백엔드 서버에서만 사용하고, 프론트엔드가 직접 제3자 API를 호출해야 한다면 백엔드를 프록시로 두거나 OAuth처럼 더 안전한 토큰 기반 인증으로 대체하는 것이 좋습니다. API Key는 정기적으로 순환하고, 유출 즉시 폐기해야 하며, 각 서비스나 환경(개발, 스테이징, 프로덕션)마다 다른 Key를 사용하는 것이 좋습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - API Key
+      - API key
+      - api key
+      - API 키
+      - X-API-Key
+    match_phrases:
+      - phrase: API Key
+        auto_match: true
+        priority: 100
+      - phrase: API 키
+        auto_match: true
+        priority: 95
+      - phrase: X-API-Key
+        auto_match: true
+        priority: 85
+  - id: security.oauth-token
+    label: OAuth Token
+    slug: oauth-token
+    short: OAuth 토큰은 사용자의 비밀번호 없이 제3자 애플리케이션이 사용자 데이터에 제한적으로 접근할 수 있도록 발급되는 임시 자격 증명입니다.
+    long: |-
+      OAuth 토큰은 일반적으로 액세스 토큰(Access Token)과 리프레시 토큰(Refresh Token)으로 구성됩니다. 액세스 토큰은 단기(보통 1시간 이내)로 유효하며, API 요청 시 Authorization 헤더에 `Bearer <token>` 형태로 포함되어 사용자 대신 리소스에 접근합니다. 리프레시 토큰은 장기(수주~수개월) 유효하며, 액세스 토큰이 만료되었을 때 새 토큰을 발급받는 데 사용됩니다. 토큰 자체가 비밀번호보다 제한된 권한(예: 읽기만, 특정 스코프)을 가지므로, 유출되더라도 피해 범위를 줄일 수 있습니다.
+
+      보안 관점에서 OAuth 토큰은 반드시 HTTPS를 통해 전송되어야 하며, 클라이언트 사이드(브라우저, 모바일 앱)에서는 localStorage보다는 메모리나 httpOnly 쿠키에 저장하는 것이 권장됩니다. 또한 토큰은 자체적으로 서명(JWT, JSON Web Token 형태인 경우)되거나 서버 측에서 상태를 저장하는 방식일 수 있습니다. OAuth 2.0은 가장 널리 사용되는 프로토콜로, "Google로 로그인", "GitHub로 로그인" 등의 기능이 전형적인 예시입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - OAuth Token
+      - OAuth token
+      - oauth token
+      - OAuth 토큰
+      - Access Token
+      - Refresh Token
+    match_phrases:
+      - phrase: OAuth Token
+        auto_match: true
+        priority: 100
+      - phrase: OAuth 토큰
+        auto_match: true
+        priority: 95
+      - phrase: Access Token
+        auto_match: true
+        priority: 85
+      - phrase: Refresh Token
         auto_match: true
         priority: 80
+  - id: security.webhook-secret
+    label: Webhook Secret
+    slug: webhook-secret
+    short: 웹훅 시크릿(Webhook Secret)은 웹훅 요청이 신뢰할 수 있는 발신자로부터 온 것임을 검증하기 위해 사용하는 공유 비밀 키입니다.
+    long: |-
+      웹훅은 특정 이벤트(예: 결제 완료, GitHub 푸시)가 발생하면 서버가 미리 지정된 URL로 HTTP 요청을 보내는 방식입니다. 이때 악의적인 제3자가 가짜 요청을 보내는 것을 방지하기 위해, 발신자(예: Stripe, GitHub)와 수신자(내 서버)가 사전에 공유한 시크릿 문자열을 사용합니다. 발신자는 요청 헤더(예: `X-Hub-Signature-256`)에 시크릿으로 계산한 HMAC 해시(보통 SHA-256)를 함께 보내고, 수신자는 동일한 시크릿으로 요청 본문의 해시를 다시 계산하여 두 값이 일치하는지 확인합니다.
+
+      웹훅 시크릿을 안전하게 관리하려면 환경 변수나 비밀 관리 도구(예: AWS Secrets Manager, Vault, GitHub Secrets)에 저장해야 하며, 코드 저장소에 하드코딩해서는 안 됩니다. 또한 시크릿은 충분히 길고 무작위적인 문자열(예: `openssl rand -hex 32`로 생성)을 사용해야 합니다. 일부 서비스는 웹훅 요청의 IP 주소 범위를 함께 검증하거나, 수신 서버에서 시크릿을 주기적으로 교체하는 로테이션 정책을 권장하기도 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Webhook Secret
+      - webhook secret
+      - 웹훅 시크릿
+      - HMAC
+      - X-Hub-Signature-256
+    match_phrases:
+      - phrase: Webhook Secret
+        auto_match: true
+        priority: 100
+      - phrase: 웹훅 시크릿
+        auto_match: true
+        priority: 95
+      - phrase: X-Hub-Signature-256
+        auto_match: true
+        priority: 85
+  - id: security.plaintext
+    label: Plaintext
+    slug: plaintext
+    short: 평문(Plaintext)은 암호화, 압축, 또는 어떠한 변환도 적용되지 않은 원본 그대로의 읽기 가능한 데이터를 의미합니다.
+    long: |-
+      암호학에서 평문은 암호화 알고리즘에 입력되기 전의 원본 메시지이며, 대칭키 암호화에서는 암호문(Ciphertext)과 반대되는 개념입니다. 예를 들어 `"Hello, this is my password"`는 평문이고, 이를 AES 알고리즘으로 암호화하면 `"8d7f9a2e..."` 같은 알아볼 수 없는 바이트열(암호문)이 됩니다. 보안 관점에서 중요한 비밀(비밀번호, API 키, 개인 식별 정보)은 저장이나 전송 시 반드시 암호화 또는 해싱되어야 하며, 평문으로 남겨두면 데이터베이스 유출이나 네트워크 스니핑 시 그대로 노출됩니다.
+
+      평문이 반드시 나쁜 것만은 아닙니다. 공개된 블로그 글, 웹사이트 HTML, 이메일 본문 등은 의도적으로 평문으로 전송되어 수신자가 별도의 해독 과정 없이 바로 읽을 수 있어야 합니다. 문제는 민감 정보를 실수로 평문으로 저장하거나 로그에 기록하는 경우입니다. 예를 들어, 디버깅 목적으로 `console.log(user.password)`를 작성하는 실수는 심각한 보안 위협이 될 수 있습니다. 일반적인 원칙은 "평문으로 저장할 필요가 없는 민감 데이터는 절대 평문으로 두지 말라"입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Plaintext
+      - plaintext
+      - plain text
+      - 평문
+      - 원문
+    match_phrases:
+      - phrase: Plaintext
+        auto_match: true
+        priority: 100
+      - phrase: plaintext
+        auto_match: true
+        priority: 95
+      - phrase: 평문
+        auto_match: true
+        priority: 90
+  - id: security.encryption
+    label: Encryption
+    slug: encryption
+    short: 암호화(Encryption)는 평문을 키(key)를 사용하여 읽을 수 없는 암호문(Ciphertext)으로 변환하는 과정이며, 올바른 키가 있어야만 원래 평문으로 복호화할 수 있습니다.
+    long: |-
+      암호화는 크게 대칭키 암호화(Symmetric)와 비대칭키 암호화(Asymmetric)로 나뉩니다. 대칭키(AES, ChaCha20)는 암호화와 복호화에 같은 키를 사용하므로 속도가 빠르지만, 키를 안전하게 공유해야 하는 문제가 있습니다. 비대칭키(RSA, ECC)는 공개키(Public Key)와 개인키(Private Key) 쌍을 사용하여, 공개키로 암호화하면 개인키로만 복호화할 수 있어 키 공유 문제를 해결하지만 속도가 느립니다. 실제로 HTTPS(TLS)에서는 둘을 결합하여, 비대칭키로 대칭키를 안전하게 교환한 뒤 대칭키로 실제 데이터를 암호화하는 하이브리드 방식을 사용합니다.
+
+      암호화는 전송 중 암호화(encryption in transit)와 저장 중 암호화(encryption at rest)로 구분됩니다. 전송 중 암호화는 HTTPS, SSH, VPN 등이 담당하며, 중간자 공격을 방지합니다. 저장 중 암호화는 데이터베이스 암호화, 디스크 암호화(예: BitLocker, LUKS), AWS S3 서버 측 암호화 등이 있습니다. 중요한 점은 암호화 알고리즘과 키 길이를 올바르게 선택하는 것입니다. 현재는 AES-256-GCM(대칭), RSA-2048 이상 또는 ECC(비대칭)이 안전한 선택이며, 직접 암호화 알고리즘을 구현하지 말고 검증된 라이브러리(libsodium, OpenSSL, Web Crypto API)를 사용해야 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Encryption
+      - encryption
+      - 암호화
+      - Ciphertext
+      - 암호문
+    match_phrases:
+      - phrase: Encryption
+        auto_match: true
+        priority: 100
+      - phrase: 암호화
+        auto_match: true
+        priority: 95
+      - phrase: Ciphertext
+        auto_match: true
+        priority: 80
+  - id: security.audit-log
+    label: Security Audit Log
+    slug: security-audit-log
+    short: Security Audit Log(보안 감사 로그)는 시스템 내 모든 중요한 보안 이벤트(로그인 시도, 권한 변경, 데이터 접근, 설정 변경 등)를 순차적으로 기록하는 변경 불가능한 로그입니다.
+    long: |-
+      보안 감사 로그는 일반 애플리케이션 로그와 달리 "누가, 언제, 어디서, 무엇을, 어떻게" 했는지를 법적·규제적 증거로 사용할 수 있도록 설계됩니다. 기록 대상 이벤트의 예로는 관리자 권한 상승, 민감 데이터 열람, 실패한 로그인 시도, 정책 변경, 사용자 계정 잠금/해제, MFA 설정 변경 등이 있습니다. 각 로그 엔트리는 반드시 신뢰할 수 있는 타임스탬프(예: NTP 동기화된 시간), 사용자 또는 서비스 계정 식별자, 소스 IP 주소, 요청 ID, 작업 대상 리소스, 작업 결과(성공/실패)를 포함해야 합니다.
+
+      보안 감사 로그의 핵심 요구사항은 **변조 불가능성(tamper-evident)** 과 **무결성(integrity)** 입니다. 일반 데이터베이스 테이블에 저장하면 관리자가 직접 로그를 수정하거나 삭제할 수 있기 때문에, 대신 전용 로깅 시스템(예: AWS CloudTrail, Azure Monitor, Google Cloud Audit Logs)이나 WORM(Write Once Read Many) 스토리지, 또는 블록체인이 아닌 해시 체인 기법(매 로그가 이전 로그의 해시를 포함)을 사용합니다. 규제 준수 측면에서 SOC2, ISO 27001, PCI-DSS, HIPAA 등은 대부분 최소 1년에서 7년 이상의 감사 로그 보관을 요구하며, 로그의 무결성을 정기적으로 검증하는 절차도 필수입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Security Audit Log
+      - security audit log
+      - 보안 감사 로그
+      - append-only
+    match_phrases:
+      - phrase: Security Audit Log
+        auto_match: true
+        priority: 100
+      - phrase: 보안 감사 로그
+        auto_match: true
+        priority: 90
+      - phrase: append-only
+        auto_match: true
+        priority: 75
+      - phrase: 감사 로그
+        auto_match: true
+        priority: 70
+  - id: security.audit-trail
+    label: Audit Trail
+    slug: audit-trail
+    short: 감사 추적(Audit Trail)은 시스템 내 모든 중요한 이벤트(생성, 수정, 삭제, 접근)를 시간순으로 기록한 불변 로그로, 보안 감사와 규정 준수를 위해 사용됩니다.
+    long: |-
+      감사 추적은 일반적으로 이벤트 유형, 타임스탬프, 사용자 ID, 소스 IP, 대상 리소스, 그리고 변경 전후의 값을 포함합니다. 데이터베이스 트리거, 애플리케이션 미들웨어, 또는 전용 로깅 서비스(예: AWS CloudTrail)를 통해 구현되며, 한번 기록된 로그는 수정이나 삭제가 불가능하도록 설계되어야 합니다. 금융 서비스(Sarbanes-Oxley Act), 의료 정보(HIPAA), 결제 처리(PCI-DSS) 등 법적 규제가 엄격한 산업에서 특히 필수적입니다.
+
+      효과적인 감사 추적을 위해서는 로그의 무결성과 검색 가능성이 핵심입니다. 일반적으로 로그는 write-once 스토리지나 WORM(Write Once Read Many) 파일 시스템에 저장되며, 중앙 집중식 로그 관리 시스템(예: ELK Stack, Splunk)과 연동하여 실시간 모니터링과 이상 탐지를 수행합니다. 또한 GDPR이나 CCPA 같은 개인정보 보호법에서는 사용자 데이터 접근 기록을 요구하므로, 감사 추적 없이는 법적 처벌을 받을 수 있습니다. 성능 부담을 줄이기 위해 중요한 테이블과 민감한 작업에만 선택적으로 적용하며, 로그는 압축 및 아카이빙하여 장기간(보통 7년) 보관합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Audit Trail
+      - audit trail
+      - 감사 추적
+      - 감사 기록
+      - WORM
+    match_phrases:
+      - phrase: Audit Trail
+        auto_match: true
+        priority: 100
+      - phrase: 감사 추적
+        auto_match: true
+        priority: 95
+      - phrase: 감사 기록
+        auto_match: true
+        priority: 85
+      - phrase: WORM
+        auto_match: true
+        priority: 75
+  - id: security.append-only
+    label: Append-Only
+    slug: append-only
+    short: Append-Only는 기존 데이터를 수정하거나 삭제할 수 없고, 오직 새로운 데이터만 끝에 추가할 수 있는 데이터 저장 패턴입니다.
+    long: |-
+      Append-Only 패턴은 데이터 무결성과 감사 가능성(auditability)이 중요한 시스템에서 널리 사용됩니다. 일반적인 관계형 데이터베이스의 UPDATE나 DELETE 연산을 허용하지 않고, 대신 변경이 필요할 때는 "이전 상태를 무효화(invalidate)한다"는 의미의 새로운 레코드를 추가합니다. 예를 들어, 사용자의 이메일 주소가 변경되면 기존 레코드를 수정하는 대신, `user_email_changed` 이벤트를 새로 추가하고 현재 활성 이메일을 별도의 뷰나 최신 스냅샷으로 계산합니다. 이벤트 소싱(Event Sourcing), 블록체인, 감사 로그, 버전 관리 시스템(Git), 데이터 웨어하우스의 팩트 테이블 등이 대표적인 Append-Only 사례입니다.
+
+      보안 및 디자인 시스템 관점에서 Append-Only는 감사 로그의 구현 방식과 직접 연결됩니다. 악의적인 내부자나 침해된 관리자 계정이 과거 로그를 지우는 것을 물리적으로 방지하기 위해, 많은 조직은 로그를 Append-Only 스토리지(예: AWS S3 Object Lock, Azure Blob Storage Immutable Blobs, Google Cloud Bucket Lock)에 저장합니다. 또한 데이터베이스 레벨에서도, PostgreSQL의 `INSERT`만 허용하고 `UPDATE/DELETE` 권한을 아예 부여하지 않는 전용 감사 데이터베이스 사용자나, MySQL의 `sql_log_bin` 설정과 결합된 감사 테이블 트리거 방식을 활용할 수 있습니다. 단점은 디스크 사용량이 지속적으로 증가하고, "현재 상태"를 조회하려면 매번 최신 레코드를 재계산하거나 구체화된 뷰(Materialized View)를 유지해야 하는 오버헤드가 있다는 점입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Append-Only
+      - append-only
+      - 추가 전용
+    match_phrases:
+      - phrase: Append-Only
+        auto_match: true
+        priority: 100
+      - phrase: append-only
+        auto_match: true
+        priority: 95
+      - phrase: 추가 전용
+        auto_match: true
+        priority: 80
+  - id: security.masking
+    label: Masking
+    slug: masking
+    short: Masking(마스킹)은 민감한 데이터의 일부를 가려서 원본을 숨기는 기술로, `1234-5678-9012-3456` → `****-****-****-3456` 같은 방식입니다. 테스트, 로깅, 고객 지원 등에서 실제 데이터 노출 없이 형식은 유지할 때 사용합니다.
+    long: |-
+      Masking은 데이터 보안과 프라이버시 사이의 실용적 절충안입니다. 정적 마스킹(Static Data Masking, SDM)은 데이터베이스에 저장된 원본 값을 영구적으로 대체 문자(예: `*` 또는 `X`)로 바꾸는 방식입니다. 주로 비프로덕션 환경(개발, 테스트, QA)에서 사용되며, 신용카드 번호, 주민등록번호, 전화번호 등에 적용됩니다. 동적 마스킹(Dynamic Data Masking, DDM)은 쿼리 실행 시점에 사용자의 권한에 따라 마스킹을 적용합니다. 예를 들어, 고객 지원 직원에게는 전화번호 뒷자리만 보여주고, 관리자에게는 전체를 보여줄 수 있습니다.
+
+      마스킹의 중요한 설계 원칙은 복원 불가능성(irreversibility)과 형식 보존(format preservation)입니다. 단순한 문자 치환은 되돌릴 수 없어야 하며(해싱이나 토큰화와는 다름), 원본 데이터의 길이와 문자 유형(숫자, 영문 등)은 유지되어야 애플리케이션의 유효성 검증 로직을 깨뜨리지 않습니다. 하지만 완전히 복원 불가능한 마스킹은 일단 적용되면 원본 복구가 불가능하므로, 법적 감사나 문제 추적이 필요하면 마스킹 대신 토큰화(tokenization)나 접근 제어를 고려해야 합니다. GDPR이나 PCI DSS 같은 규정에서는 마스킹을 익명화(anonymization)의 한 형태로 인정하지만, 매우 강력한 마스킹만 인정받을 수 있습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Masking
+      - masking
+      - 마스킹
+      - Static Data Masking
+      - Dynamic Data Masking
+    match_phrases:
+      - phrase: Masking
+        auto_match: true
+        priority: 100
+      - phrase: 마스킹
+        auto_match: true
+        priority: 95
+      - phrase: Static Data Masking
+        auto_match: true
+        priority: 80
+      - phrase: Dynamic Data Masking
+        auto_match: true
+        priority: 80
+  - id: security.least-privilege
+    label: Least Privilege
+    slug: least-privilege
+    short: Least Privilege(최소 권한 원칙)는 사용자, 프로세스, 또는 시스템 구성 요소가 작업을 수행하는 데 꼭 필요한 최소한의 권한만 부여해야 한다는 보안 기본 원칙입니다. 핵심은 "필요한 것 이상으로 주지 마라"입니다.
+    long: |-
+      Least Privilege는 모든 권한 남용의 잠재적 피해를 최소화하기 위해 설계되었습니다. 예를 들어, 데이터베이스 백업만 수행하는 서비스 계정에는 `SELECT` 권한만 주고 `DROP TABLE` 같은 파괴적 권한은 주지 않습니다. 마찬가지로, 일반 직원의 계정은 자신의 부서 데이터만 읽을 수 있고, 인사 데이터나 결제 정보는 접근할 수 없어야 합니다. 이 원칙을 따르면 공격자가 계정을 탈취하더라도 이동할 수 있는 범위(lateral movement)가 크게 줄어듭니다.
+
+      실제 적용은 역할 기반 접근 제어(RBAC, Role-Based Access Control)를 통해 이루어집니다. "마케팅 분석가"라는 역할에는 캠페인 데이터 읽기 권한만 주고, "마케팅 관리자"에게만 쓰기 권한을 추가로 부여하는 식입니다. 현대 클라우드 환경(AWS IAM, Azure RBAC)에서는 개별 권한 단위로 매우 세밀한 정책을 작성할 수 있습니다. 또한 정기적인 권한 감사(audit)를 통해 실제 사용되지 않는 권한은 철회하는 권한 크리프(permission creep) 방지 작업이 중요합니다. 컨테이너나 마이크로서비스 환경에서는 각 서비스가 실행될 때 읽기 전용 파일 시스템, 특정 포트만 바인딩, 특정 Linux Capability만 부여하는 방식으로 Least Privilege를 구현합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Least Privilege
+      - least privilege
+      - 최소 권한 원칙
+      - 최소 권한
+      - permission creep
+    match_phrases:
+      - phrase: Least Privilege
+        auto_match: true
+        priority: 100
+      - phrase: 최소 권한 원칙
+        auto_match: true
+        priority: 95
+      - phrase: 최소 권한
+        auto_match: true
+        priority: 90
+      - phrase: permission creep
+        auto_match: true
+        priority: 75
+  - id: security.consent
+    label: Consent
+    slug: consent
+    short: Consent(동의)는 데이터 주체(사용자)가 자신의 개인정보 수집, 처리, 공유에 대해 자발적이고 구체적으로 동의하는 행위입니다. GDPR, CCPA 등 개인정보 보호법에서 합법적 처리의 핵심 근거 중 하나로 요구됩니다.
+    long: |-
+      Consent가 유효하려면 네 가지 조건을 모두 충족해야 합니다. 첫째, 자발성(freely given)은 동의를 거부했을 때 서비스 이용 자체가 부당하게 거부되어서는 안 된다는 뜻입니다. 둘째, 구체성(specific)은 "데이터 모두 수집합니다" 같은 막연한 동의가 아니라, 이메일 마케팅, 맞춤 광고, 제품 분석처럼 목적별로 분리된 동의가 필요하다는 뜻입니다. 셋째, 고지됨(informed)은 어떤 데이터를, 왜, 누구와 공유할지, 얼마나 보관할지를 명확한 언어로 알려줘야 한다는 뜻입니다. 넷째, 철회 가능(withdrawable)은 동의한 만큼 쉽게 철회할 수 있어야 하며, 철회가 불이익으로 이어져서는 안 된다는 뜻입니다.
+
+      Consent의 관리는 특히 쿠키 동의 팝업(Cookie Consent Banner)에서 가장 현실적인 어려움을 보여줍니다. 사용자가 "모두 허용"을 누르면 분석/마케팅 쿠키가 로드되고, "필수만"을 누르면 그렇지 않아야 합니다. 기술적으로는 `window.localStorage`나 `document.cookie`에 동의 상태를 저장해두고, 동의가 없는 스크립트는 조건부로 로딩을 차단해야 합니다. 사용자가 동의를 철회했을 때는 이미 저장된 데이터를 삭제하는 절차도 구현해야 합니다. 16세 미만 아동의 데이터 처리에는 부모 동의가 필요하고, 고용 관계에서는 근본적인 권력 불균형 때문에 동의가 아닌 다른 법적 근거(계약 이행, 정당한 이익)를 사용해야 하는 등 예외도 많습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Consent
+      - consent
+      - 동의
+      - Cookie Consent
+      - Cookie Consent Banner
+    match_phrases:
+      - phrase: Consent
+        auto_match: true
+        priority: 100
+      - phrase: 동의
+        auto_match: true
+        priority: 90
+      - phrase: Cookie Consent
+        auto_match: true
+        priority: 85
+  - id: security.data-minimization
+    label: Data Minimization
+    slug: data-minimization
+    short: Data Minimization(데이터 최소화)은 특정 목적을 달성하는 데 꼭 필요한 최소한의 개인정보만 수집하고, 나머지는 애초에 수집하지 않는 원칙입니다. "수집할 수 있으니까"가 아니라 실제 목적에 필요한지 먼저 따지는 접근법입니다.
+    long: |-
+      Data Minimization은 GDPR 제5조에 명시된 핵심 원칙 중 하나로, 설계 단계부터 적용되어야 합니다. 이를 실천하는 대표적인 예로, 회원가입 시 이메일 주소만으로도 서비스 제공이 가능하다면 전화번호와 주소를 요구하지 않습니다. 결제 이력 분석이 필요하다면 특정 거래 ID와 금액만 추출하고, 사용자 이름이나 배송지는 제외합니다. 사용자 행동 분석을 위해 전체 IP 주소를 저장하는 대신 마지막 옥텟(octet)을 제거한 익명화된 IP만 저장할 수도 있습니다. 또한 이미 수집한 데이터라도 목적 달성 후에는 즉시 삭제하는 것도 최소화의 연장선입니다.
+
+      Data Minimization을 구현하는 기술적 방법으로는 필드 수준 암호화(특정 필드만 접근 가능하게), 집계(Aggregation, 개별 사용자 대신 통계만 저장), 차등 프라이버시(Differential Privacy, 노이즈를 추가해 개인 식별 불가능하게 만듦), 데이터 보존 정책 자동화(90일 후 자동 삭제) 등이 있습니다. 비즈니스 입장에서는 "나중에 쓸 수도 있으니" 미리 많이 모으고 싶은 유혹이 있지만, 이는 위반 시 막대한 과징금뿐 아니라 데이터 유출 사고 시 피해 범위를 크게 늘립니다. GDPR 위반 과징금은 글로벌 매출의 4% 또는 2천만 유로 중 큰 금액까지 올라갈 수 있습니다. 결국 Data Minimization은 사용자 신뢰와 법적 리스크 사이의 균형이 아니라, 처음부터 안 모으는 것이 가장 안전한 보안이라는 원칙의 실천입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Data Minimization
+      - data minimization
+      - 데이터 최소화
+      - Differential Privacy
+      - 데이터 보존 정책
+    match_phrases:
+      - phrase: Data Minimization
+        auto_match: true
+        priority: 100
+      - phrase: 데이터 최소화
+        auto_match: true
+        priority: 95
+      - phrase: Differential Privacy
+        auto_match: true
+        priority: 75
   - id: security.privacy-access-broker
     label: Privacy Access Broker
     slug: privacy-access-broker
-    short: 자동 처리 시스템이나 내부 도구가 사용자 데이터를 읽기 전에 목적과 범위를 확인하는 중간 경계입니다.
+    short: Privacy Access Broker(프라이버시 접근 중개자)는 개인정보(PD)에 대한 접근 요청을 중앙에서 관리하고, 자동화된 정책 기반으로 승인/거부/익명화/거버넌스를 수행하는 시스템입니다.
     long: |-
-      Privacy Access Broker는 자동 처리 시스템이나 내부 도구가 사용자 데이터를 읽기 전에 목적과 범위를 확인하는 중간 경계입니다. 시스템이 데이터베이스를 직접 뒤지는 구조를 피하게 합니다. 필요한 데이터만 제한된 형태로 넘기는 문 역할을 합니다.
+      Privacy Access Broker는 GDPR, CCPA, LGPD 등의 개인정보 보호 규제에서 요구하는 "데이터 접근 기록 의무", "삭제권(Right to be Forgotten)", "데이터 이동권(Portability)", "처리 제한권" 등을 체계적으로 구현하기 위한 아키텍처 패턴입니다. 조직 내부의 다양한 데이터 소스(데이터웨어하우스, CRM, 지원 티켓 시스템, 로그 파일, 백업)를 하나의 게이트웨이로 연결하여, 데이터 요청자가 누구인지(직원, 고객, 규제 기관, 제3자), 어떤 목적인지(마케팅, 법적 의무, 디버깅, 감사), 어떤 데이터인지(이름, 이메일, 위치 데이터, 건강 정보)에 따라 접근 수준을 동적으로 결정합니다. 핵심 기능으로는 자동 가명화(pseudonymization) 또는 익명화(anonymization), 세분화된 접근 로깅, 자동 만료되는 임시 접근 토큰, 그리고 "데이터 삭제 요청"이 들어왔을 때 연결된 모든 시스템에 삭제 명령을 전파하는 기능이 포함됩니다.
 
-      이 경계는 모든 접근을 막는 장치가 아닙니다. 대신 동의, 목적, 권한, 감사 기록을 확인한 뒤 최소한의 조각만 전달하게 만듭니다. 사용자 데이터 접근을 기능 구현 편의가 아니라 명시적인 정책 흐름으로 다루게 합니다.
+      디자인 시스템 및 프론트엔드 인프라 관점에서 Privacy Access Broker는 보통 내부 개발자 포털이나 관리자 대시보드의 형태로 UI가 제공됩니다. 예를 들어, 고객 지원팀 직원이 특정 사용자의 데이터를 보려고 하면, 브로커가 자동으로 "접근 사유 입력" 팝업을 표시하고, 그 사유와 직원 ID, 접근 시간을 감사 로그에 기록한 후, 반환되는 데이터에서는 신용카드 번호나 주민등록번호 같은 민감 필드를 마스킹 처리합니다. 실제 구현 도구로는 Imprivata, SailPoint, Okta의 Identity Governance, Axiomatics, 또는 오픈소스의 Open Policy Agent(OPA) + DataHub 조합 등이 있습니다. 보안 감사 로그와 밀접하게 연결되어 있어서, 브로커 자체의 모든 결정(승인/거부)도 Append-Only 감사 로그에 기록되어야 합니다.
     example:
     translation_status: reviewed
     aliases:
@@ -63,11 +421,11 @@ terms:
   - id: security.owasp-asvs
     label: OWASP ASVS
     slug: owasp-asvs
-    short: 웹 애플리케이션 보안을 점검할 때 쓰는 공개 검증 기준입니다.
+    short: OWASP ASVS(Application Security Verification Standard)는 웹 애플리케이션 및 API의 보안 요구사항을 계층화하여 정의한 테스트 및 검증 표준 프레임워크입니다.
     long: |-
-      OWASP ASVS는 웹 애플리케이션 보안을 점검할 때 쓰는 공개 검증 기준입니다. 인증, 권한, 입력 검증, 로그 같은 항목을 빠뜨리지 않게 도와줍니다. 팀마다 다른 감으로 보안을 판단하는 일을 줄여줍니다.
+      OWASP ASVS는 단순한 체크리스트가 아니라, 보안 수준에 따라 3개의 레벨(L1: 자동화된 도구로 찾을 수 있는 기본 취약점 방지, L2: 일반적인 트랜잭션 처리 앱, L3: 금융/군사/의료 등 가장 높은 보안 요구 사항)로 구분된 약 300개 이상의 검증 가능한 요구사항 집합입니다. 이 요구사항은 19개 카테고리(V1: 아키텍처 설계 및 위협 모델링, V2: 인증, V3: 세션 관리, V4: 접근 제어, V5: 입력 검증, V6: 암호화, V7: 오류 처리 및 로깅, V8: 데이터 보호, V9: 통신 보안, V10: 악성 코드 방지 등)로 구성됩니다. ASVS의 핵심 철학은 "모든 요구사항은 자동화된 테스트 또는 수동 침투 테스트로 명확히 확인 가능해야 한다"는 것입니다.
 
-      ASVS는 팀마다 제멋대로 보안 체크를 만들지 않게 해주는 기준점이 됩니다. ASVS 자체가 제품 보안을 대신 구현해주지는 않습니다. 다만 무엇을 확인해야 하는지 공통 언어를 제공해서 리뷰와 자동화 기준을 세우기 쉽게 합니다.
+      디자인 시스템 및 프론트엔드 개발 관점에서 ASVS는 보안 감사 로그와 직접 연결된 요구사항들을 포함합니다. 예를 들어, **V7 (오류 처리 및 로깅)** 항목에서는 모든 인증 실패, 접근 권한 위반, 입력 값 검증 실패 이벤트가 보안 감사 로그에 기록되어야 하며(`7.1.1`), 로그 자체에 민감 정보(비밀번호, 토큰, 세션 ID)가 포함되어서는 안 된다(`7.1.2`)고 명시합니다. 또한 V1(아키텍처)에서는 Append-Only 감사 로그의 사용을 권장하고(`1.2.4`), 모든 접근 제어 결정을 Privacy Access Broker 같은 중앙화된 정책 엔진에서 수행하는 것이 L2 이상에서 요구됩니다(`1.4.3`). ASVS를 디자인 시스템에 통합하려면, 보안 요구사항을 디자인 토큰이나 컴포넌트 레벨에서 강제할 수 없으므로, 대신 개발자 가이드라인과 자동화된 보안 테스트 파이프라인(예: ZAP, Burp Suite, Selenium 기반 ASVS 테스트 스위트)으로 함께 관리합니다.
     example:
     translation_status: reviewed
     aliases:
@@ -76,3 +434,66 @@ terms:
       - phrase: OWASP ASVS
         auto_match: true
         priority: 100
+  - id: security.session
+    label: Session
+    slug: session
+    short: Session(세션)은 사용자가 웹사이트나 애플리케이션과 상호작용하는 일련의 기간 동안 서버 측에 유지되는 상태 정보입니다. 로그인 상태, 장바구니 아이템, 사용자 설정 등을 임시로 저장하여 HTTP의 무상태성(stateless) 문제를 해결합니다.
+    long: |-
+      Session은 기본적으로 서버 메모리나 Redis 같은 인메모리 데이터 저장소에 유지됩니다. 사용자가 로그인에 성공하면 서버는 고유한 Session ID를 생성하여 쿠키(`Set-Cookie: sessionId=abc123`) 형태로 브라우저에 전달합니다. 이후 모든 요청마다 브라우저는 이 쿠키를 자동으로 첨부하고, 서버는 Session ID로 저장된 정보를 조회하여 "이 사용자는 이미 인증된 상태"임을 알 수 있습니다. Session은 보통 일정 시간(예: 30분) 동안 활동이 없으면 만료(expiration)되어 자동 삭제되도록 설정합니다.
+
+      Session의 주요 장점은 보안에 있습니다. 실제 사용자 데이터(이름, 권한, 장바구니 등)는 서버에만 존재하고, 클라이언트에는 참조용 식별자(Session ID)만 있기 때문입니다. 그러나 서버가 세션 정보를 저장하고 있어야 하므로, 트래픽이 많은 서비스에서는 수평 확장(horizontal scaling)이 까다로워집니다. 예를 들어, 사용자가 로그인한 서버 A가 이후 요청을 서버 B로 보내면 세션 정보가 없어 로그아웃될 수 있습니다. 이를 해결하기 위해 **스티키 세션(sticky session)** 이나 **공유 세션 저장소(Redis, Memcached)** 를 사용하거나, 반대로 세션을 포기하고 JWT 같은 무상태 토큰을 도입하기도 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - session
+      - sessions
+      - 세션
+    match_phrases:
+      - phrase: Session
+        auto_match: true
+        priority: 100
+      - phrase: 세션
+        auto_match: true
+        priority: 90
+  - id: security.permission
+    label: Permission
+    slug: permission
+    short: Permission(권한)은 특정 사용자나 시스템 구성 요소가 특정 리소스(파일, 데이터, 기능)에 대해 특정 작업(읽기, 쓰기, 삭제, 실행)을 수행할 수 있는 권리를 정의한 규칙입니다. "누가, 무엇을, 어떻게 할 수 있는가"를 명시합니다.
+    long: |-
+      Permission은 보통 `resource:action` 형태로 표현됩니다. 예를 들어, `document:read`는 문서 읽기 권한, `user:delete`는 사용자 삭제 권한, `report:export`는 보고서 내보내기 권한을 의미합니다. 더 세분화하면 `project.alpha.task:create`처럼 특정 프로젝트나 특정 태스크에만 한정된 권한도 만들 수 있습니다. 시스템이 커질수록 이런 개별 권한을 직접 사용자에게 하나씩 할당하는 것은 현실적으로 불가능하기 때문에, 대부분은 역할(Role) 또는 그룹(Group)을 매개로 간접 부여합니다.
+
+      Permission 설계에서 중요한 개념은 **긍정 권한(allow)** 과 **부정 권한(deny)** 의 우선순위입니다. 대부분 시스템에서 Deny가 Allow보다 우선합니다. 예를 들어, "모든 문서 읽기 허용"이라는 그룹 권한이 있더라도, 특정 문서에 대해 개별적으로 "읽기 거부"가 설정되어 있다면 거부가 적용됩니다. 또한 상속(inheritance) 개념도 중요하며, 폴더의 권한은 하위 파일에 자동으로 상속되지만 하위에서 더 좁은 권한으로 재정의(override)할 수 있습니다. 현대 애플리케이션에서는 Open Policy Agent(OPA)나 Casbin 같은 정책 엔진을 도입하여 코드와 분리된 선언적 권한 규칙을 관리하는 추세입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - permission
+      - permissions
+      - 권한
+    match_phrases:
+      - phrase: Permission
+        auto_match: true
+        priority: 100
+      - phrase: 권한
+        auto_match: true
+        priority: 90
+  - id: security.access-control
+    label: Access Control
+    slug: access-control
+    short: Access Control(접근 제어)은 누가(Who) 어떤 리소스(What)에 어떻게(How) 접근할 수 있는지를 결정하고 시행(Enforce)하는 전반적인 보안 메커니즘입니다. 인증(Authentication) 이후에 적용되는 권한 부여(Authorization)의 구체적인 구현 방식입니다.
+    long: |-
+      Access Control은 크게 네 가지 모델로 분류됩니다. **DAC(Discretionary Access Control, 임의적 접근 제어)** 는 리소스 소유자가 직접 접근 권한을 부여합니다(예: 개인 Google Drive 파일 공유). **MAC(Mandatory Access Control, 강제적 접근 제어)** 는 시스템이 미리 정한 레이블(기밀, 비밀, 일반)에 따라 접근을 강제하며, 주로 군대나 정부 시스템에서 사용됩니다. **RBAC(Role-Based Access Control, 역할 기반 접근 제어)** 는 사용자 대신 역할(관리자, 편집자, 뷰어)에 권한을 묶고, 사용자에게 역할을 할당하는 방식으로, 상업용 애플리케이션에서 가장 널리 쓰입니다. **ABAC(Attribute-Based Access Control, 속성 기반 접근 제어)** 는 사용자 속성(부서=영업, 근속년수>5), 리소스 속성(문서 유형=계약서, 생성일<2023), 환경 속성(시간=업무시간, IP=사내망)을 조합하여 동적으로 접근을 결정합니다.
+
+      Access Control의 실제 구현은 주로 미들웨어 형태로 이루어집니다. 웹 프레임워크(예: Express 미들웨어, Django의 `@permission_required`, Spring Security의 `@PreAuthorize`)에서 요청이 컨트롤러에 도달하기 전에 현재 사용자의 권한을 확인하고, 권한이 없으면 HTTP 403 Forbidden을 반환합니다. 데이터베이스 수준에서는 Row-Level Security(RLS)를 적용하여, 예를 들어 PostgreSQL에서 "자신이 작성한 글만 조회할 수 있음" 같은 정책을 테이블에 직접 걸어둘 수 있습니다. 가장 중요한 설계 원칙은 **중앙 집중식(centralized)** 접근 제어입니다. 권한 검사 로직을 컨트롤러마다 흩어 놓지 말고, 하나의 게이트웨이나 미들웨어 계층에서 일관되게 적용해야 보안 허점이 생기지 않습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Access Control
+      - access control
+      - 접근 제어
+    match_phrases:
+      - phrase: Access Control
+        auto_match: true
+        priority: 100
+      - phrase: 접근 제어
+        auto_match: true
+        priority: 90

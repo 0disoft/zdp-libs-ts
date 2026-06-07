@@ -160,6 +160,7 @@ const FORBIDDEN_I18N_OWNERSHIP = [
 
 const REQUIRED_GLOSSARY_METADATA = [
   'id',
+  'canonical_label',
   'status',
   'visibility',
   'aliases',

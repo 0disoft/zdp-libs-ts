@@ -3,11 +3,11 @@ terms:
   - id: design.oklch
     label: OKLCH
     slug: oklch
-    short: 사람이 느끼는 밝기와 색 차이에 더 가깝게 색을 다루는 색상 방식입니다.
+    short: OKLCH는 색상의 밝기(L), 채도(C), 색상(H)을 인간의 시각 인지에 맞춰 균일하게 표현하는 색 공간입니다. CSS Color Module Level 4에 포함되어 웹에서 직접 사용할 수 있습니다.
     long: |-
-      OKLCH는 색을 숫자로만 맞추는 대신 사람이 느끼는 밝기 차이를 더 잘 반영합니다. HEX보다 밝기와 채도를 예측하기 쉬워서 라이트 모드와 다크 모드 색을 맞출 때 덜 흔들립니다. 그래서 같은 색상 의도가 여러 화면에서 더 안정적으로 유지됩니다.
+      OKLCH는 기존 RGB나 HSL의 비균일성 문제를 해결하기 위해 만들어진 지각적(perceptual) 색 공간입니다. L(밝기)은 0~1, C(채도)는 0~0.4 정도, H(색상각)는 0~360도로 구성되며, 같은 L값에서 채도를 높여도 어둡지 않고 깔끔한 색상 변화를 보여줍니다. 이 덕분에 디자이너는 기계적인 수치보다 실제로 보이는 느낌에 맞춰 색을 조정할 수 있습니다.
 
-      실제 화면에서는 OKLCH 값을 그대로 흩뿌리기보다 역할이 드러나는 이름으로 묶어 쓰는 편이 안전합니다. 배경, 본문, 강조, 경고처럼 쓰임새를 먼저 정하면 색을 바꿔도 의미가 쉽게 흔들리지 않습니다. 이렇게 하면 브랜드 색이 바뀌어도 각 화면의 역할과 대비 기준을 함께 관리하기 쉽습니다.
+      OKLCH는 특히 컬러 시스템이나 디자인 토큰에서 유용합니다. 예를 들어, 특정 색상의 채도만 일관되게 올리거나 내리는 작업을 RGB보다 훨씬 직관적으로 할 수 있습니다. 또한 현대 브라우저에서 CSS로 `oklch(70% 0.15 240)` 같은 형태로 직접 선언 가능해, 디자인 시스템에서 일관된 색상 관리를 쉽게 구현할 수 있습니다.
     example:
     translation_status: reviewed
     aliases:
@@ -19,11 +19,11 @@ terms:
   - id: design.semantic-token
     label: Semantic Token
     slug: semantic-token
-    short: 색 이름 대신 역할 이름으로 쓰는 디자인 값입니다.
+    short: 시맨틱 토큰은 디자인 시스템에서 "어디에 쓰이는가"에 따라 이름을 붙인 디자인 토큰으로, 예를 들어 `color.background.primary`처럼 역할 기반으로 정의됩니다.
     long: |-
-      Semantic Token은 색이나 간격을 생김새 이름이 아니라 역할 이름으로 부르는 방식입니다. 예를 들어 초록색을 직접 쓰는 대신 success, surface, focus 같은 이름을 씁니다. 그래서 화면 코드는 색상값보다 의도를 먼저 말하게 됩니다.
+      시맨틱 토큰은 원시 값(예: `#FF0000`)이나 기능 토큰(예: `color.red.500`)을 한 단계 추상화한 것입니다. 디자인 컴포넌트가 특정 색상이나 간격 값을 직접 참조하는 대신, `button.background.hover` 같은 시맨틱 토큰을 참조하면 테마나 상태 변화에 유연하게 대응할 수 있습니다. 예를 들어 다크 모드에서 같은 시맨틱 토큰이 다른 원시 값을 가리키도록 변경할 수 있습니다.
 
-      이 방식은 테마가 바뀔 때 특히 중요합니다. 라이트 모드와 다크 모드가 서로 다른 실제 색을 쓰더라도 제품 코드는 같은 토큰 이름을 유지할 수 있습니다. 결과적으로 UI는 덜 깨지고, 변경 범위는 토큰 계층 안에 머뭅니다.
+      시맨틱 토큰을 사용하면 유지보수성과 확장성이 크게 향상됩니다. 디자이너와 개발자 간에 "이 색상은 에러 상태를 뜻한다" 같은 공통 언어가 생기고, 나중에 브랜드 컬러가 바뀌어도 시맨틱 토큰이 가리키는 실제 값만 수정하면 전체 UI가 일관되게 갱신됩니다. 다크 모드, 고대비 모드, 브랜드 스킨 같은 변형도 시맨틱 토큰 매핑만 교체하여 구현할 수 있습니다.
     example:
     translation_status: reviewed
     aliases:
@@ -35,5 +35,736 @@ terms:
         auto_match: true
         priority: 90
       - phrase: semantic 토큰
+        auto_match: true
+        priority: 80
+  - id: design.oklab
+    label: Oklab
+    slug: oklab
+    short: Oklab은 OKLCH의 밑바탕이 되는 직교 좌표계 색 공간으로, L(밝기), a(초록-빨강 축), b(파랑-노랑 축)로 구성된 지각 균일 색 공간입니다.
+    long: |-
+      Oklab은 인간의 시각 시스템과 매우 유사하게 색 차이를 측정하도록 설계된 색 공간입니다. a축은 음수에서 양수로 갈수록 초록에서 빨강으로, b축은 파랑에서 노랑으로 변합니다. L값이 동일할 때 a와 b의 변화가 밝기 인지에 영향을 거의 주지 않아, 그레이디언트나 색상 변형 작업이 매우 예측 가능합니다.
+
+      Oklab은 OKLCH와 수학적으로 쉽게 변환됩니다. 실제 디자인 작업에서는 주로 OKLCH를 더 직관적으로 사용하지만, Oklab의 a,b 좌표는 색상 간 거리(델타E) 계산이나 두 색 사이의 보간(interpolation)이 필요할 때 더 유리합니다. 예를 들어, 다크 모드와 라이트 모드 간 색상 매핑을 자동으로 생성할 때 Oklab 좌표계를 기반으로 계산하면 자연스러운 결과를 얻을 수 있습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Oklab
+    match_phrases:
+      - phrase: Oklab
+        auto_match: true
+        priority: 100
+  - id: design.design-token
+    label: Design Token
+    slug: design-token
+    short: 디자인 토큰은 색상, 폰트 크기, 간격, 애니메이션 등 디자인 결정을 플랫폼 중립적인 키-값 쌍으로 저장한 원자적(atomic) 단위입니다.
+    long: |-
+      디자인 토큰은 디자인 시스템의 가장 작은 빌딩 블록입니다. 예를 들어 `color.blue.500: "#0066FF"`, `spacing.md: "16px"`, `font.size.body: "1rem"` 같은 형태로 저장되며, JSON, YAML, CSS 커스텀 프로퍼티 등 다양한 형식으로 표현됩니다. 토큰을 사용하면 디자이너가 피그마에서 정의한 값이 개발자의 코드와 동기화되는 "단일 진실 공급원(Single Source of Truth)"을 만들 수 있습니다.
+
+      디자인 토큰은 일반적으로 원시 토큰(primitive token) → 기능 토큰(functional token) → 시맨틱 토큰(semantic token) 계층 구조를 가집니다. 이 구조를 통해 브랜드 기본 색상(raw value)이 특정 UI 역할(시맨틱)에 어떻게 매핑되는지 명확해집니다. 또한, Style Dictionary 같은 도구를 사용하면 하나의 토큰 파일로 iOS, Android, 웹 각 플랫폼에 맞는 코드(예: XML, Swift, CSS)를 자동 생성할 수 있어 대규모 팀의 일관성을 확보하는 데 필수적입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - design token
+      - design tokens
+      - 디자인 토큰
+    match_phrases:
+      - phrase: Design Token
+        auto_match: true
+        priority: 100
+      - phrase: 디자인 토큰
+        auto_match: true
+        priority: 90
+  - id: design.primitive-token
+    label: Primitive Token
+    slug: primitive-token
+    short: >-
+      Primitive Token(원시 토큰)은 디자인 시스템에서 가장 낮은 수준의 토큰으로, 순수한 원자값(예: `#FF0000`, `16px`)만을 저장하며 어떤 맥락도 포함하지 않습니다.
+    long: |-
+      Primitive Token은 브랜드의 기본 디자인 자산을 순수한 값 그대로 표현합니다. 예를 들어 `blue.50: "#EBF2FF"`, `blue.100: "#D9E6FF"`, `spacing.1: "4px"`, `spacing.2: "8px"` 등이 이에 해당합니다. 이 단계에서는 "이 색상이 버튼인지, 배경인지, 에러 상태인지"와 같은 의미적 정보가 전혀 없습니다. 단순히 "이 값이 존재한다"는 사실만 정의합니다.
+
+      Primitive Token은 직접 UI 컴포넌트에서 사용되지 않고, 항상 상위 토큰(기능 토큰 또는 시맨틱 토큰)을 통해 간접적으로 참조됩니다. 이렇게 분리하면 브랜드 컬러 팔레트가 바뀌었을 때 Primitive Token 값만 수정하면 모든 하위 토큰이 자동으로 업데이트됩니다. 또한 여러 디자인 시스템이 공통된 Primitive Token 세트를 공유할 수 있어, 예를 들어 회사의 모든 제품군이 같은 원시 색상값을 사용하면서도 각 제품의 시맨틱 매핑은 다르게 가져갈 수 있습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - primitive token
+      - primitive tokens
+      - 원시 토큰
+    match_phrases:
+      - phrase: Primitive Token
+        auto_match: true
+        priority: 100
+      - phrase: 원시 토큰
+        auto_match: true
+        priority: 90
+  - id: design.base-token
+    label: Base Token
+    slug: base-token
+    short: >-
+      Base Token은 Primitive Token과 유사하지만, 보통 전역 디자인 기준(예: 기본 폰트 사이즈, 기본 행간, 기본 색상)을 정의하는 최상위 토큰을 가리킵니다.
+    long: |-
+      Base Token은 종종 Primitive Token과 혼용되지만, 미묘한 차이가 있습니다. Primitive Token이 값 자체의 집합이라면, Base Token은 "시스템의 기본값"이라는 성격이 강합니다. 예를 들어 `base.font.size: "16px"`, `base.line.height: "1.5"`, `base.color: "#111111"` 같은 것들입니다. Base Token은 보통 리셋 CSS나 글로벌 스타일에 직접 사용되며, 다른 모든 상대적인 토큰(rem 기반 간격, 폰트 스케일 등)이 이 값을 기준으로 계산됩니다.
+
+      실제 디자인 시스템에서는 Base Token을 따로 두는 편이 유지보수에 좋습니다. 예를 들어 `base.font.size`를 16px에서 14px로 변경하면, `spacing.md`가 `1rem`일 때 실제 픽셀값이 16px에서 14px로 자동 조정됩니다. 이렇게 하면 모바일 환경이나 접근성 설정에 따라 전체 UI의 스케일을 일관되게 변경할 수 있습니다. Base Token은 다른 토큰과 달리 "단 한 번만" 정의되고 거의 변경되지 않는 시스템의 뿌리 역할을 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - base token
+      - base tokens
+      - 베이스 토큰
+    match_phrases:
+      - phrase: Base Token
+        auto_match: true
+        priority: 100
+      - phrase: 베이스 토큰
+        auto_match: true
+        priority: 90
+  - id: design.component-token
+    label: Component Token
+    slug: component-token
+    short: >-
+      Component Token은 특정 UI 컴포넌트(예: 버튼, 카드, 모달)의 스타일을 정의하는 시맨틱 토큰의 한 종류로, 컴포넌트의 각 상태와 요소에 매핑됩니다.
+    long: |-
+      Component Token은 `button.background.default`, `button.background.hover`, `button.border.radius`, `card.padding`, `modal.overlay.color` 등과 같이 특정 컴포넌트의 모든 스타일 속성을 이름으로 관리합니다. 이 토큰들은 보통 Primitive Token이나 기능 토큰을 참조하며, 컴포넌트 자체가 직접 원시값을 보지 않도록 캡슐화합니다. 예를 들어 `button.background.primary.default`는 `color.blue.500`(기능 토큰)을 가리키고, `color.blue.500`은 다시 `#0066FF`(Primitive Token)를 가리킵니다.
+
+      Component Token을 사용하면 디자인 시스템의 확장성이 극적으로 향상됩니다. 새로운 테마(예: 다크 모드, 고대비 모드, 브랜드 스킨)를 도입할 때, 각 컴포넌트 토큰이 가리키는 값만 다른 토큰 세트로 교체하면 전체 UI가 자동 변경됩니다. 또한 개발자는 `button` 컴포넌트를 구현할 때 `var(--button-background-default)` 같은 Component Token만 사용하면 돼서, 디자인 변경이 생겨도 컴포넌트 코드 자체는 수정할 필요가 없습니다. 이를 통해 디자이너와 개발자 간의 협업이 "토큰 이름"이라는 명확한 인터페이스로 추상화됩니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - component token
+      - component tokens
+      - 컴포넌트 토큰
+    match_phrases:
+      - phrase: Component Token
+        auto_match: true
+        priority: 100
+      - phrase: 컴포넌트 토큰
+        auto_match: true
+        priority: 90
+  - id: design.theme
+    label: Theme
+    slug: theme
+    short: Theme(테마)은 애플리케이션의 시각적 외관(색상, 폰트, 간격, 그림자, 모서리 둥글기 등)을 일관되게 정의하는 디자인 토큰의 모음입니다.
+    long: |-
+      Theme은 디자인 시스템의 핵심 개념으로, 단일 값의 집합이 아닌 다양한 변형(예: 라이트 테마, 다크 테마, 고대비 테마, 브랜드별 테마)을 가질 수 있습니다. 구현 방식은 CSS Custom Properties(`--primary-color: #0066FF`), CSS-in-JS(ThemeProvider, styled-components), SASS 변수, 또는 Flutter의 ThemeData, SwiftUI의 Environment, Jetpack Compose의 MaterialTheme 등 프레임워크별 솔루션으로 다양합니다. 테마를 적용하면 런타임에 전체 UI의 모양을 일괄 변경할 수 있으며, 사용자 기본 설정(OS 레벨의 다크 모드 감지)이나 사용자 명시적 선택을 지원할 수 있습니다.
+
+      프론트엔드 아키텍처 관점에서 Theme은 보통 Context API, Redux, Zustand 같은 전역 상태로 관리됩니다. 다크 모드 전환 시 모든 컴포넌트가 리렌더링되는 성능 비용을 최소화하기 위해, 대부분의 현대 프레임워크는 CSS 변수 기반 테마를 선호합니다. 예를 들어, `document.documentElement.style.setProperty('--bg', '#fff')` 같은 방식으로 단 한 번의 DOM 업데이트로 전체 테마가 변경됩니다. 또한 Design Token 파이프라인과 결합할 때는, Figma의 테마 변형을 Style Dictionary로 추출하여 `theme.light.json`, `theme.dark.json` 파일로 분리한 후, 빌드 시 각 플랫폼에 맞는 형식으로 컴파일하는 것이 모범 사례입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Theme
+      - theme
+      - 테마
+    match_phrases:
+      - phrase: Theme
+        auto_match: true
+        priority: 100
+      - phrase: 테마
+        auto_match: true
+        priority: 90
+  - id: design.color-scheme
+    label: Color Scheme
+    slug: color-scheme
+    short: Color Scheme(컬러 스킴)은 사용자 인터페이스에서 조화롭게 사용될 색상들의 체계적인 집합으로, 주 색상, 보조 색상, 강조 색상, 중립 색상, 상태 색상 등으로 구성됩니다.
+    long: |-
+      Color Scheme은 단순한 팔레트 이상의 의미를 가집니다. 일반적으로 3~5개의 주요 색상군(primary, secondary, accent)과 회색조(neutral 또는 gray scale), 그리고 의미 기반 상태 색상(success, warning, error, info)을 포함합니다. 각 색상군은 다시 여러 계조(gradient)로 나뉘어, 예를 들어 `blue.50`(가장 밝음)에서 `blue.900`(가장 어두움)까지의 스펙트럼을 제공합니다. 이는 접근성 대비 비율(`WCAG 2.1` 기준 `4.5:1` 이상)을 유지하면서, 다양한 컴포넌트 상태(기본, 호버, 활성, 비활성, 포커스)에 적합한 색상을 선택할 수 있게 해줍니다.
+
+      Color Scheme을 정의할 때는 색상 모델 선택이 중요합니다. 기존의 RGB나 HSL은 지각적 균일성이 낮지만, OKLCH 또는 Oklab을 기반으로 Color Scheme을 생성하면 밝기(L)를 유지한 채 색상(H)과 채도(C)만 변경해도 일관된 시각적 무게감을 얻을 수 있습니다. 또한 Color Scheme은 Theme의 하위 개념으로, 하나의 Theme 내에서도 여러 Color Scheme(예: 같은 다크 테마에서 블루 기반 스킴 vs 그린 기반 스킴)이 존재할 수 있습니다. 디자인 시스템에서는 보통 `color-scheme` CSS 속성을 사용하여 브라우저에게 폼 컨트롤, 스크롤바의 기본 렌더링 방식을 힌트로 제공합니다. 예를 들어 `html { color-scheme: light dark; }`는 OS 설정에 따라 브라우저 UI 요소가 자동으로 변환되게 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Color Scheme
+      - color scheme
+      - 컬러 스킴
+    match_phrases:
+      - phrase: Color Scheme
+        auto_match: true
+        priority: 100
+      - phrase: 컬러 스킴
+        auto_match: true
+        priority: 90
+  - id: design.dark-mode
+    label: Dark Mode
+    slug: dark-mode
+    short: Dark Mode(다크 모드)는 밝은 배경에 어두운 텍스트 대신 어두운 배경에 밝은 텍스트를 사용하는 대체 Color Scheme으로, 눈의 피로 감소와 OLED 기기 배터리 절약 효과가 있습니다.
+    long: |-
+      Dark Mode는 단순히 색상을 반전(invert)하는 것이 아니라, 사용자 경험을 위해 설계된 완전한 별도의 Color Scheme입니다. 배경은 완전한 검정(#000000)보다는 약간 밝은 어두운 회색(예: #121212, #1E1E1E)을 사용하는데, 이는 완전한 검정과 밝은 텍스트 사이의 극단적 명도 대비가 오히려 가독성을 해칠 수 있기 때문입니다. 또한 그림자(elevation) 표현 방식이 라이트 모드와 완전히 다릅니다. 라이트 모드에서는 그림자를 드리우지만, 다크 모드에서는 빛을 반사하는 듯한 "높은 표면일수록 더 밝게" 하는 방식을 사용합니다(Material Design의 다크 테마 가이드라인 참고). 텍스트도 순수한 흰색 대신 불투명도 기반의 계층화된 흰색(예: 고강도 텍스트 87% 불투명, 중간 60%, 비활성 38%)을 사용합니다.
+
+      기술적 구현 측면에서 Dark Mode는 CSS `prefers-color-scheme` 미디어 쿼리로 OS 설정을 감지할 수 있습니다. `window.matchMedia('(prefers-color-scheme: dark)')`를 JavaScript에서 사용하면 동적 전환도 가능합니다. 디자인 시스템의 Dark Mode는 모든 시맨틱 토큰이 라이트/다크 모드별로 별도 매핑을 가져야 하며, 단순히 색상만 바뀌는 것이 아니라 섀도우, 오버레이, 블러 효과, 보더의 명도까지 재정의해야 합니다. 접근성 측면에서는 다크 모드에서도 WCAG AA 등급(일반 텍스트 `4.5:1`, 대형 텍스트 `3:1`)을 유지해야 하며, 일부 사용자는 고대비 모드와 다크 모드를 함께 사용할 수 있으므로 둘 다 지원하는 것이 좋습니다. 감사 로그 관점에서 Dark Mode 전환 자체는 보안 이벤트가 아니므로 일반적으로 기록되지 않지만, 사용자 환경 설정 변경은 사용자 행동 분석을 위해 익명화된 통계로 수집될 수 있습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Dark Mode
+      - dark mode
+      - 다크 모드
+    match_phrases:
+      - phrase: Dark Mode
+        auto_match: true
+        priority: 100
+      - phrase: 다크 모드
+        auto_match: true
+        priority: 90
+  - id: design.light-mode
+    label: Light Mode
+    slug: light-mode
+    short: >-
+      Light Mode(라이트 모드)는 어두운 텍스트에 밝은 배경을 사용하는 기본 Color Scheme으로, 높은 명암비와 자연광 환경에서의 가독성에 최적화되어 있습니다.
+    long: |-
+      Light Mode는 전통적인 종이 기반 미디어의 경험을 디지털로 가져온 UI 패턴으로, 배경색은 일반적으로 흰색(`#FFFFFF`)이나 매우 밝은 회색(`#F5F5F5`)을 사용합니다. 텍스트는 거의 검정(`#111111`, `#222222`)에 가까운 색상을 사용하여 WCAG AA 기준(일반 텍스트 `4.5:1`)을 여유 있게 충족합니다. 그림자는 어두운 색상을 사용하여 깊이감을 표현하며, 카드, 버튼, 모달 등의 표면 경계는 얇은 보더나 미묘한 그림자로 구분합니다. 광원이 강한 사무실 환경이나 야외에서도 가독성이 뛰어나기 때문에, 대부분의 애플리케이션은 라이트 모드를 기본값으로 설정합니다.
+
+      다크 모드와 비교했을 때 라이트 모드는 색상 대비 측면에서 더 예측 가능합니다. 같은 색상값이 라이트 배경 위에서는 더 밝게, 다크 배경 위에서는 더 어둡게 보이는 시각적 현상(동시 대비)이 라이트 모드에서는 덜 두드러집니다. 디자인 시스템에서 라이트 모드는 보통 Color Scheme의 기준 역할을 합니다. 예를 들어, `primary.500` 라이트 모드 색상이 `#0066FF`라면, 동일한 색상은 다크 모드에서도 그대로 쓰기보다는 더 밝은 계열(예: `#4D9AFF`)로 조정하는 것이 일반적입니다. 구현 시에는 CSS `light-dark()` 함수를 사용하면 단일 CSS 변수로 라이트/다크 모드를 동시에 정의할 수 있습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Light Mode
+      - light mode
+      - 라이트 모드
+    match_phrases:
+      - phrase: Light Mode
+        auto_match: true
+        priority: 100
+      - phrase: 라이트 모드
+        auto_match: true
+        priority: 90
+  - id: design.focus-ring
+    label: Focus Ring
+    slug: focus-ring
+    short: >-
+      Focus Ring(포커스 링)은 키보드로 탐색할 때 현재 포커스를 받은 요소 주변에 표시되는 시각적 표시자로, 보통 파란색 아웃라인이나 글로우 효과로 구현됩니다.
+    long: |-
+      Focus Ring은 웹 접근성의 핵심 요소로, 마우스가 아닌 키보드(Tab, Shift+Tab, 화살표 키)로 인터페이스를 탐색하는 사용자에게 현재 위치를 알려줍니다. 브라우저 기본 스타일은 `:focus` 가상 클래스에 `outline: 5px auto -webkit-focus-ring-color`를 적용합니다. 그러나 디자인 시스템에서는 이 기본 스타일을 제거하고 브랜드에 맞는 커스텀 Focus Ring을 적용하는 것이 일반적입니다. 주요 속성으로는 `outline`, `box-shadow`, `ring` 등이 있으며, 최소 명도 대비(배경 대비 `3:1`)와 두께(최소 `2px`)가 `WCAG 2.2 SC 2.4.11`(Focus Appearance)에서 권장됩니다.
+
+      Focus Ring을 구현할 때 주의할 점은 `outline: none`으로 제거만 하고 대체 스타일을 제공하지 않는 것입니다. 이는 키보드 사용자를 시각적으로 방치하는 심각한 접근성 위반입니다. 반대로 너무 과한 스타일(두꺼운 빨간 테두리, 깜빡이는 애니메이션)은 인지 과부하나 발작 유발 위험이 있습니다. 현대 디자인 시스템에서는 `:focus-visible` 가상 클래스를 적극 활용합니다. `:focus`와 달리 `:focus-visible`은 브라우저가 판단하기에 포커스 표시가 필요한 경우(주로 키보드 입력 시)에만 스타일이 적용되어, 마우스로 클릭할 때는 불필요한 테두리가 나타나지 않게 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Focus Ring
+      - focus ring
+      - 포커스 링
+    match_phrases:
+      - phrase: Focus Ring
+        auto_match: true
+        priority: 100
+      - phrase: 포커스 링
+        auto_match: true
+        priority: 90
+  - id: design.focus-visible
+    label: Focus Visible
+    slug: focus-visible
+    short: >-
+      Focus Visible(가시적 포커스)은 `WCAG 2.1` 성공 기준 `2.4.7`에 정의된 요구사항으로, 키보드 포커스를 받은 모든 요소가 시각적으로 식별 가능해야 한다는 원칙입니다.
+    long: |-
+      Focus Visible은 단순히 포커스 링이 존재하는 것을 넘어, 그것이 충분히 눈에 띄어야 한다는 것을 의미합니다. WCAG 성공 기준 `2.4.7`은 "키보드로 포커스를 받을 수 있는 모든 인터페이스 요소는 포커스 표시기가 시각적으로 보여야 한다"고 명시합니다. 이때 "보여야 한다"의 기준은 사용자가 포커스된 요소를 즉시 식별할 수 있는 정도입니다. 예를 들어, 버튼의 배경색이 미묘하게 변하는 것만으로는 Focus Visible로 간주되지 않을 수 있습니다. 대신 테두리, 글로우, 밑줄, 아이콘 변화 등 주변 환경과 뚜렷이 구분되는 시각적 변화가 필요합니다.
+
+      Focus Visible는 네 가지 중요한 상위 기준을 충족하는 방식으로 구현되어야 합니다. 구현 기준은 최소 2픽셀 두께의 시각적 표시, 배경 대비 최소 `3:1`의 명도 차이, 요소 경계를 넘어 확장되어도 인지 가능한 표시, `:focus`와 `:focus-visible` 양쪽에서 동작하는 상태입니다. 개발 도구 측면에서는 브라우저 개발자 도구에서 `:focus-visible` 상태를 강제로 활성화하여 테스트할 수 있습니다. 또한 Jest + Testing Library에서는 `userEvent.tab()`로 키보드 포커스 이동을 시뮬레이션하고, `expect(element).toHaveFocus()`와 함께 getComputedStyle로 포커스 스타일을 단위 테스트할 수 있습니다. OWASP ASVS에서는 직접 명시되지는 않지만, 보안과 접근성의 교차점에서 Focus Visible 위반은 서비스 거부(DoS) 유형의 접근성 장벽을 만들 수 있습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Focus Visible
+      - focus visible
+      - 가시적 포커스
+    match_phrases:
+      - phrase: Focus Visible
+        auto_match: true
+        priority: 100
+      - phrase: 가시적 포커스
+        auto_match: true
+        priority: 90
+  - id: design.accessibility
+    label: Accessibility
+    slug: accessibility
+    short: >-
+      Accessibility(접근성, a11y)는 장애인, 일시적 제약(부상, 열악한 환경), 고령자 등 모든 사용자가 차별 없이 디지털 서비스를 사용할 수 있도록 설계하고 개발하는 원칙과 실천 방법입니다.
+    long: |-
+      Accessibility는 단순히 "장애인 지원 기능"이 아니라, 모든 사용자에게 더 나은 경험을 제공하는 포용적 디자인의 핵심입니다. 네 가지 주요 범주로는 시각(저시력, 색맹, 완전 시각 장애), 청각(난청, 농인), 운동(미세 운동 제어 어려움, 떨림, 마우스 사용 불가), 인지(난독증, 주의력 결핍, 학습 장애, 고령에 따른 인지 저하)가 있습니다. 각 범주에 대응하는 기술적 해법으로는 스크린 리더(JAWS, NVDA, VoiceOver, TalkBack) 호환성, 키보드 탐색 완전 지원, 충분한 색상 대비, 텍스트 크기 조정 가능, 깜빡임 제한(초당 3회 미만), 명확한 언어 사용 등이 있습니다.
+
+      접근성은 단순히 "착한 일"이 아니라 법적 의무입니다. 미국의 ADA(Americans with Disabilities Act), EU의 EAA(European Accessibility Act), 한국의 장애인차별금지법 등은 웹 및 모바일 앱에 대한 접근성 준수를 법적으로 요구합니다. 기술적 표준으로는 WCAG(Web Content Accessibility Guidelines)가 전 세계적으로 사실상의 기준이며, 현재 버전은 `2.2`(2023년 발표)이고 `WCAG 3.0`이 개발 중입니다. 디자인 시스템에서 접근성을 구현하려면 ARIA(Accessible Rich Internet Applications) 속성(`aria-label`, `aria-describedby`, `role`, `aria-expanded` 등)을 올바르게 사용하는 것이 필수적입니다. 또한 자동화된 테스트 도구(Axe, Lighthouse, WAVE)만으로는 전체 접근성 문제의 약 30%밖에 발견하지 못하기 때문에, 실제 스크린 리더와 키보드만으로 직접 테스트하는 수동 검증이 반드시 필요합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Accessibility
+      - accessibility
+      - a11y
+      - 접근성
+    match_phrases:
+      - phrase: Accessibility
+        auto_match: true
+        priority: 100
+      - phrase: 접근성
+        auto_match: true
+        priority: 90
+      - phrase: a11y
+        auto_match: true
+        priority: 80
+  - id: design.wcag
+    label: WCAG
+    slug: wcag
+    short: WCAG(Web Content Accessibility Guidelines)는 웹 콘텐츠를 장애인도 이용할 수 있도록 만드는 방법에 대한 국제 표준 가이드라인으로, W3C에서 개발하고 유지 관리합니다.
+    long: |-
+      WCAG는 단순한 권고사항이 아니라, 전 세계 많은 국가에서 법적 기준으로 채택된 접근성 표준입니다. 현재 안정판은 `WCAG 2.2`(2023년 발표)이며, `WCAG 2.1`과 `WCAG 2.0`을 포함한 이전 버전과 역호환됩니다. 네 가지 원칙(인식 가능성, 운용 가능성, 이해 가능성, 견고성) 아래 총 13개의 지침과 86개의 성공 기준(Success Criterion)으로 구성됩니다. 각 성공 기준에는 A(가장 기본), AA(중간), AAA(가장 높음)의 세 가지 적합 수준(Conformance Level)이 있으며, 대부분의 법적 규제(예: 미국 ADA, 유럽 EAA, 한국 장애인차별금지법)는 `WCAG 2.1 Level AA` 준수를 요구합니다.
+
+      디자인 시스템 및 프론트엔드 개발 측면에서 WCAG는 구현 가능한 구체적인 테스트 기준을 제공합니다. 예를 들어, 색상 대비는 `SC 1.4.3`(일반 텍스트 `4.5:1`, 대형 텍스트 `3:1`), 키보드 접근성은 `SC 2.1.1`(모든 기능 키보드 접근 가능), 포커스 표시는 `SC 2.4.7` 및 `SC 2.4.11`, 텍스트 크기 조정은 `SC 1.4.4`(200% 확대 시에도 내용 손실 없음) 등으로 정량화되어 있습니다. 개발자는 axe-core, Lighthouse, WAVE 같은 자동화 도구로 기본적인 위반 사항을 검사하고, 스크린 리더(JAWS, NVDA, VoiceOver)와 키보드만으로 직접 테스트하여 통과 여부를 확인합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - WCAG
+      - Web Content Accessibility Guidelines
+      - 웹 콘텐츠 접근성 지침
+    match_phrases:
+      - phrase: WCAG
+        auto_match: true
+        priority: 100
+      - phrase: Web Content Accessibility Guidelines
+        auto_match: true
+        priority: 90
+  - id: design.contrast-ratio
+    label: Contrast Ratio
+    slug: contrast-ratio
+    short: >-
+      Contrast Ratio(명도 대비비)는 텍스트와 배경 간의 밝기 차이를 수치로 나타낸 것으로, 값이 높을수록 가독성이 좋으며 WCAG에서 최소 `4.5:1`을 요구합니다.
+    long: |-
+      Contrast Ratio는 `(가장 밝은 색상의 휘도 + 0.05) / (가장 어두운 색상의 휘도 + 0.05)` 공식으로 계산됩니다. 휘도(luminance)는 sRGB 색상 공간에서 각 채널(R, G, B)을 감마 보정한 후 가중치(`0.2126 * R`, `0.7152 * G`, `0.0722 * B`)를 적용하여 구합니다. 계산 결과는 `1:1`(완전히 동일한 색상)에서 `21:1`(순수 검정 텍스트에 순수 흰색 배경 또는 그 반대) 사이의 값을 가집니다. `WCAG 2.1 SC 1.4.3`에 따르면 일반 텍스트(18px 미만 또는 14px 굵게 미만)는 `4.5:1` 이상, 대형 텍스트(18px 이상 또는 14px 굵게 이상)는 `3:1` 이상이어야 Level AA를 충족합니다.
+
+      Contrast Ratio는 단순히 텍스트뿐만 아니라 아이콘, 그래픽, UI 컴포넌트의 경계, 포커스 링, 입력 필드의 플레이스홀더 등에도 적용됩니다. `SC 1.4.11` 비텍스트 대비는 Level AA에서 `3:1`을 요구합니다. 디자인 시스템에서 Contrast Ratio를 관리할 때는 텍스트와 배경의 실제 조합을 기준으로 판단해야 합니다. 예를 들어 흰색 배경에 연한 파란색 버튼 자체는 문제가 없어 보여도, 그 위에 흰색 텍스트가 올라가면 흰색 텍스트와 연한 파란색 배경의 대비가 문제가 됩니다. 색상 선택 시 OKLCH나 Oklab 색 공간을 사용하면 동일한 L(밝기) 값을 유지한 채 색상(H)만 변경해도 대비를 더 예측 가능하게 관리할 수 있습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Contrast Ratio
+      - contrast ratio
+      - 명도 대비비
+      - 대비비
+    match_phrases:
+      - phrase: Contrast Ratio
+        auto_match: true
+        priority: 100
+      - phrase: 명도 대비비
+        auto_match: true
+        priority: 90
+      - phrase: 대비비
+        auto_match: true
+        priority: 80
+  - id: design.user-select
+    label: User Select
+    slug: user-select
+    short: >-
+      `user-select`는 CSS 속성으로, 사용자가 웹 페이지에서 텍스트를 선택(드래그하여 하이라이트)할 수 있는지 여부를 제어합니다.
+    long: |-
+      `user-select` 속성은 주로 네 가지 값을 가집니다. `auto`는 브라우저 기본 동작을 따르고, `none`은 텍스트 선택을 차단하며, `text`는 텍스트 선택을 강제하고, `all`은 한 번의 클릭이나 탭으로 전체 요소 내용이 선택되게 합니다. 부분적인 제어도 가능하며, 부모 요소에 `user-select: none`을 적용한 뒤 자식 요소에 `user-select: text`를 적용하면 특정 영역만 다시 선택 가능하게 만들 수 있습니다. 이 속성은 상속되므로, `body { user-select: none; }`처럼 넓은 범위에 적용하면 페이지 전체의 텍스트 선택을 차단할 수 있습니다.
+
+      접근성 관점에서 `user-select: none`은 신중하게 사용해야 합니다. 텍스트 선택을 완전히 차단하는 것은 스크린 리더 사용자에게는 직접 영향을 주지 않지만, 읽기 위치를 하이라이트하며 따라가는 사용자나 오류 메시지와 코드 조각을 복사해야 하는 사용자에게 불편을 줄 수 있습니다. 일반적으로 `user-select: none`은 버튼 내부의 장식 아이콘, 드래그 가능한 슬라이더의 핸들, 반복 클릭 중 텍스트 선택이 조작을 방해하는 UI 요소처럼 선택이 의미 없는 영역에만 제한적으로 사용해야 합니다. 디자인 시스템에서는 기본적으로 일반 텍스트 콘텐츠를 선택 가능하게 두고, 조작 부품과 장식 요소만 예외로 두는 스타일 가이드를 정의하는 것이 좋습니다. 드래그 표면은 평소부터 선택을 막기보다 실제 드래그가 시작된 동안에만 선택 방지를 적용하는 편이 안전합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - User Select
+      - user-select
+      - user select
+      - 텍스트 선택 방지
+    match_phrases:
+      - phrase: user-select
+        auto_match: true
+        priority: 100
+      - phrase: User Select
+        auto_match: true
+        priority: 90
+      - phrase: 텍스트 선택 방지
+        auto_match: true
+        priority: 80
+  - id: design.text-selection
+    label: Text Selection
+    slug: text-selection
+    short: Text Selection(텍스트 선택)은 사용자가 마우스나 키보드로 텍스트의 일부를 드래그하여 하이라이트하는 동작으로, 복사, 강조, 검색 등의 상호작용을 가능하게 합니다.
+    long: |-
+      Text Selection은 기본적으로 브라우저의 내장 기능으로, 파란색 계열의 배경색(브라우저마다 다름)으로 선택 영역을 표시합니다. CSS `::selection` 가상 요소(또는 브라우저 프리픽스 `::-moz-selection`)를 사용하면 선택 영역의 배경색과 텍스트 색상을 커스터마이즈할 수 있습니다. 예를 들어 `::selection { background: #0066FF; color: white; }`와 같이 설정하면 브랜드 색상에 맞는 선택 스타일을 적용할 수 있습니다. 이때 선택된 텍스트의 배경과 텍스트 자체의 Contrast Ratio는 최소 `4.5:1`을 유지하는 것이 접근성 측면에서 권장됩니다.
+
+      접근성 및 사용자 경험 측면에서 Text Selection은 단순한 시각 효과 이상의 의미를 가집니다. 읽기 장애가 있는 사용자는 선택을 통해 읽고 있는 위치를 추적하고, 모든 사용자는 오류 메시지나 코드 조각을 복사할 때 선택 기능에 의존합니다. 디자인 시스템에서 커스텀 Text Selection을 구현할 때는 선택 배경색이 너무 연해서 대비가 낮아지지 않도록 하고, 검색 결과 같은 다른 하이라이트와 충돌하지 않도록 해야 합니다. 다크 모드와 라이트 모드 각각에 적절한 선택 색상을 별도로 정의하는 것도 중요합니다. 또한 `user-select: none`을 사용한 요소 내부의 텍스트는 선택이 불가능하므로, 선택 가능한 텍스트와 불가능한 텍스트의 경계를 디자인 시스템 문서에 명확히 정의해야 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Text Selection
+      - text selection
+      - 텍스트 선택
+      - 드래그 선택
+    match_phrases:
+      - phrase: Text Selection
+        auto_match: true
+        priority: 100
+      - phrase: 텍스트 선택
+        auto_match: true
+        priority: 90
+      - phrase: 드래그 선택
+        auto_match: true
+        priority: 80
+  - id: design.tooltip
+    label: Tooltip
+    slug: tooltip
+    short: Tooltip은 특정 UI 요소에 마우스를 호버하거나 키보드 포커스를 받을 때 나타나는 짧은 설명 텍스트 라벨로, 해당 요소의 기능이나 목적을 보충 설명합니다.
+    long: |-
+      Tooltip은 일반적으로 아이콘 버튼, 텍스트 링크, 입력 필드, 이미지 등 사용자에게 추가 설명이 필요한 요소에 연결됩니다. 마우스 호버 또는 키보드 포커스 시 약간의 지연(보통 `300~500ms`) 후에 나타나며, 마우스가 요소 밖으로 나가거나 포커스가 해제되면 자동으로 사라집니다. 내용은 항상 순수 텍스트만 포함해야 하며, 상호작용 가능한 요소(버튼, 링크, 입력 필드)는 Tooltip 안에 넣지 않습니다. WCAG 접근성 요구사항에 따라 Tooltip은 키보드로 접근 가능해야 하며(`aria-describedby` 또는 `tooltip` 역할 사용), 충분한 명도 대비(`4.5:1` 이상)를 유지하고, 터치 스크린에서도 확인할 방법을 제공해야 합니다.
+
+      디자인 시스템 관점에서 Tooltip 컴포넌트는 짧은 보조 설명에 머물러야 합니다. 위치는 상단, 하단, 좌측, 우측 중에서 선택 가능하고, 화면 가장자리에 닿았을 때는 잘리지 않도록 오프셋이나 플립 같은 배치 규칙을 둘 수 있습니다. 화살표(pointer)는 Tooltip이 가리키는 요소를 향하도록 구현할 수 있지만, 장식 요소이므로 텍스트 선택이나 스크린 리더 읽기 대상이 되지 않게 처리합니다. 툴팁 내 텍스트는 너무 길지 않게(보통 1~2문장, 최대 50자 내외) 제한하고, 긴 안내나 상태 설명은 Popover나 별도 안내 패턴으로 분리하는 것이 좋습니다. CSS 구현 시 Tooltip 자체가 포인터 상호작용을 가로채지 않도록 처리하고, JavaScript에서는 hover와 focus 상태가 서로 충돌하지 않게 관리해야 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Tooltip
+      - tooltip
+      - 툴팁
+    match_phrases:
+      - phrase: Tooltip
+        auto_match: true
+        priority: 100
+      - phrase: 툴팁
+        auto_match: true
+        priority: 90
+  - id: design.popover
+    label: Popover
+    slug: popover
+    short: Popover(팝오버)는 버튼 클릭 등 사용자 액션에 의해 트리거되어 현재 페이지 위에 떠서 표시되는 일시적인 UI 패널로, 추가 정보, 폼, 또는 간단한 상호작용을 제공합니다.
+    long: |-
+      Popover은 Tooltip과 달리 더 복잡한 콘텐츠를 포함할 수 있습니다. 텍스트뿐만 아니라 링크, 버튼, 간단한 폼(예: 검색창, 날짜 선택기), 리스트, 아이콘 등 다양한 HTML 요소를 담을 수 있습니다. 일반적으로 클릭 또는 Enter 키로 열리고, 팝오버 바깥 영역을 클릭하거나 Esc 키를 누르면 닫힙니다. 내용이 길거나 사용자가 흐름을 명확히 끝내야 하는 경우에는 명시적인 닫기 버튼을 제공하는 것이 좋습니다. HTML 표준에는 `popover` 속성이 있으며, 지원 브라우저에서는 JavaScript 없이도 네이티브 Popover를 구현할 수 있습니다.
+
+      디자인 시스템에서 Popover를 구현할 때는 포지셔닝, 포커스 관리, 접근성 역할을 함께 고려해야 합니다. 트리거 요소를 기준으로 상대적 위치(상단, 하단, 좌측, 우측)를 계산하고, 뷰포트 밖으로 나가면 플립하거나 오프셋을 조정해야 합니다. Popover가 열리면 내부의 첫 번째 의미 있는 요소나 패널 자체로 포커스를 옮기고, 닫힐 때는 이전 포커스 위치로 복원하는 것이 좋습니다. 접근성 역할은 내용에 따라 `dialog`, `menu`, `listbox`처럼 달라질 수 있으며, 모든 Popover가 항상 모달이거나 Tab 순환을 가둬야 하는 것은 아닙니다. Tooltip과 달리 Popover는 닫기 전까지 사용자가 그 안에서 자유롭게 상호작용할 수 있어야 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Popover
+      - popover
+      - 팝오버
+    match_phrases:
+      - phrase: Popover
+        auto_match: true
+        priority: 100
+      - phrase: 팝오버
+        auto_match: true
+        priority: 90
+  - id: design.menu
+    label: Menu
+    slug: menu
+    short: Menu는 사용자가 선택할 수 있는 작업 또는 옵션 목록을 표시하는 UI 컴포넌트로, 보통 버튼, 메뉴바, 또는 컨텍스트(우클릭)에 의해 트리거됩니다.
+    long: |-
+      Menu는 Popover의 특수한 형태이지만, 명확한 역할과 상호작용 패턴이 다릅니다. Menu는 항목(MenuItem)의 집합으로 구성되며, 각 항목은 명령(예: 복사, 붙여넣기, 삭제), 네비게이션 링크, 또는 하위 메뉴를 포함할 수 있습니다. 일반적으로 사용자 액션(버튼 클릭, 우클릭, 상단 메뉴바 호버)에 의해 열리며, 메뉴 외부를 클릭하거나 Esc 키를 누르면 닫힙니다. 키보드 탐색에서는 위/아래 화살표 키로 항목 간 이동, Enter 또는 Space로 선택, 오른쪽 화살표로 하위 메뉴 열기, 왼쪽 화살표로 닫기, Home/End로 맨 처음이나 맨 마지막으로 이동하는 동작이 자주 사용됩니다.
+
+      디자인 시스템에서 Menu 컴포넌트는 항목 간 구분선, 비활성화된 항목, 체크 표시나 아이콘이 있는 항목, 단축키 표시, 하위 메뉴 인디케이터 등을 정의할 수 있습니다. 메뉴의 최소 너비와 최대 높이를 정하고, 내용이 넘칠 경우 스크롤이 가능해야 합니다. Context Menu의 경우 브라우저 기본 컨텍스트 메뉴를 막고 커스텀 메뉴를 표시할 수 있지만, 접근성을 위해 키보드로도 같은 메뉴를 열 수 있어야 합니다. Menu의 상태(열림/닫힘, 현재 포커스된 항목)는 JavaScript로 관리하며, z-index는 Tooltip, Popover, Dialog 등과 일관된 레이어 시스템의 일부로 통합하는 것이 좋습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Menu
+      - menu
+      - 메뉴
+      - Context Menu
+      - context menu
+    match_phrases:
+      - phrase: Menu
+        auto_match: true
+        priority: 100
+      - phrase: Context Menu
+        auto_match: true
+        priority: 90
+      - phrase: 메뉴
+        auto_match: true
+        priority: 80
+  - id: design.toast
+    label: Toast
+    slug: toast
+    short: Toast(또는 Toast Notification)는 사용자 작업 결과(저장 완료, 오류 발생 등)를 잠시(보통 3~5초) 화면 가장자리에 표시했다가 자동으로 사라지는 비모달(non-modal) 피드백 컴포넌트입니다.
+    long: |-
+      Toast는 모달(Modal)과 달리 사용자의 현재 작업을 방해하지 않습니다. 보통 화면의 우측 상단, 우측 하단, 또는 상단 중앙에 위치하며, 여러 개의 Toast가 동시에 쌓일 때는 최신 메시지가 아래 또는 위로 밀어내는 스택(stack) 방식을 사용합니다. 각 Toast는 일반적으로 아이콘(성공, 오류, 경고, 정보), 텍스트 메시지, 그리고 선택적 닫기 버튼으로 구성됩니다. 메시지는 짧고 명확하게(한 줄에서 세 줄 이내) 작성하며, 중요한 정보나 결정을 요구하는 내용은 Toast 대신 모달이나 배너를 사용해야 합니다. 자동 사라짐(auto-dismiss)은 보통 `4~6초`가 적절하지만, 오류 메시지나 긴 내용은 사용자가 명시적으로 닫을 때까지 유지하는 옵션을 제공하는 것이 좋습니다.
+
+      디자인 시스템에서 Toast 컴포넌트 구현 시 고려할 핵심 사항은 접근성, 애니메이션, 전역 상태 관리, 다크 모드 대비입니다. 접근성 측면에서는 `role="status"`(성공/정보 메시지용) 또는 `role="alert"`(오류/경고 메시지용)를 사용하여 스크린 리더가 자동으로 읽도록 합니다. 자동 사라짐 시간을 사용자가 제어할 수 없으므로 너무 짧은 시간(2초 미만)은 피하고, 가능하면 hover나 focus 중 일시 정지 기능을 추가하는 것이 `WCAG 2.2.1` Timing Adjustable 요구와 잘 맞습니다. CSS 애니메이션은 fade-in, fade-out, slide 효과가 일반적이며, 여러 Toast가 쌓일 때의 진입/퇴장 애니메이션도 정의해야 합니다. Toast는 여러 컴포넌트에서 트리거될 수 있으므로 전역 스토어나 싱글톤 서비스 패턴으로 관리하되, 배경, 텍스트, 보더 색상은 라이트/다크 테마에 맞게 별도로 정의해야 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Toast
+      - toast
+      - Toast Notification
+      - toast notification
+      - 토스트
+      - 토스트 알림
+    match_phrases:
+      - phrase: Toast
+        auto_match: true
+        priority: 100
+      - phrase: Toast Notification
+        auto_match: true
+        priority: 90
+      - phrase: 토스트
+        auto_match: true
+        priority: 80
+  - id: design.skeleton
+    label: Skeleton
+    slug: skeleton
+    short: Skeleton(스켈레톤 스크린)은 콘텐츠가 로딩 중일 때 실제 내용이 들어갈 자리에 미리 표시하는 회색조의 윤곽선(placeholder) UI 패턴입니다.
+    long: |-
+      Skeleton은 전통적인 로딩 스피너보다 사용자 경험 측면에서 진보된 방식으로, 콘텐츠 구조를 미리 보여줌으로써 인지된 로딩 시간을 줄여줍니다. 예를 들어 블로그 글 목록을 로딩할 때 각 항목마다 제목 영역(너비 80%, 높이 24px)과 본문 미리보기 영역(너비 100%, 높이 60px, 여러 줄)을 회색 배경에 흐릿한 애니메이션(펄스 또는 웨이브)으로 표시합니다. 구현은 순수 CSS로도 가능하지만, 복잡한 형태는 SVG 기반 컴포넌트나 전용 로더를 사용하여 곡선, 둥근 모서리, 여백 등을 세밀하게 조정합니다.
+
+      디자인 시스템에서 Skeleton 컴포넌트는 텍스트 줄, 아바타, 이미지 썸네일, 버튼, 카드 같은 기본 UI 패턴에 대응하는 변형을 제공하는 것이 좋습니다. 각 변형은 너비, 높이, 둥근 모서리 값을 디자인 토큰으로 정의하고, 애니메이션은 `@keyframes`로 구현할 수 있습니다. 사용자가 느린 네트워크에서 불필요한 깜빡임을 경험하지 않도록 최소 `300ms` 이상 지속되는 로딩에만 Skeleton을 표시하는 것도 좋은 기준입니다. 접근성 측면에서는 장식용 Skeleton 자체를 `aria-hidden="true"`로 숨기고, 실제 로딩 상태는 컨테이너의 `aria-busy`나 별도 상태 텍스트로 알리는 방식이 안전합니다. 실제 콘텐츠가 로드되면 Skeleton DOM은 제거하고 콘텐츠 DOM으로 교체해야 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Skeleton
+      - skeleton
+      - Skeleton Screen
+      - skeleton screen
+      - 스켈레톤
+      - 스켈레톤 스크린
+    match_phrases:
+      - phrase: Skeleton
+        auto_match: true
+        priority: 100
+      - phrase: Skeleton Screen
+        auto_match: true
+        priority: 90
+      - phrase: 스켈레톤
+        auto_match: true
+        priority: 80
+  - id: design.progress
+    label: Progress
+    slug: progress
+    short: Progress(진행 표시기)는 작업이 완료된 정도를 0%에서 100% 사이의 값으로 시각적으로 표시하는 컴포넌트로, 주로 파일 업로드, 설치, 긴 계산 작업 등에 사용됩니다.
+    long: |-
+      Progress는 두 가지 주요 형태로 나뉩니다. 확정형(Determinate)은 백분율을 정확히 알 수 있을 때 사용하며, 보통 가로 막대(progress bar) 형태로 채워지는 비율을 보여줍니다. 예를 들어 `value="45"`와 `max="100"`인 경우 45%만큼 막대가 채워집니다. 불확정형(Indeterminate)은 총 작업량을 알 수 없을 때 사용하며, 끝없이 반복되는 애니메이션(줄무늬 움직임 또는 원형 회전)으로 진행 중임을 알립니다. HTML 표준에서는 `<progress value="45" max="100">45%</progress>`로 기본 진행 막대를 제공하지만, 디자인 시스템에서는 이를 커스터마이즈하여 둥근 모서리, 색상, 애니메이션 효과를 추가할 수 있습니다.
+
+      디자인 시스템 구현 시 Progress의 핵심 고려사항은 접근성과 상태 관리입니다. 커스텀 Progress에는 `role="progressbar"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, `aria-valuetext` 같은 속성을 포함해야 합니다. 불확정형 상태에서는 `aria-valuenow`를 생략하거나 `aria-label="Loading"`처럼 상태를 설명하는 이름을 제공할 수 있습니다. 여러 개의 독립적인 진행 작업이 동시에 발생할 수 있으므로, 각 Progress 인스턴스는 고유한 라벨이나 ID로 구분되어야 합니다. 다크 모드에서는 진행 막대의 배경과 진행률 색상 간 Contrast Ratio를 `3:1` 이상 유지하도록 조정하고, 30초 이상 걸리는 작업에는 취소 버튼이나 완료 예상 시간(ETA)을 함께 제공하는 것이 좋습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Progress
+      - progress
+      - Progress Bar
+      - progress bar
+      - 진행 표시기
+      - 진행 막대
+    match_phrases:
+      - phrase: Progress
+        auto_match: true
+        priority: 100
+      - phrase: Progress Bar
+        auto_match: true
+        priority: 90
+      - phrase: 진행 표시기
+        auto_match: true
+        priority: 80
+  - id: design.spinner
+    label: Spinner
+    slug: spinner
+    short: Spinner(스피너, 로딩 스피너)는 작업이 진행 중임을 표시하는 원형 회전 애니메이션 컴포넌트로, Progress와 달리 완료율을 표시하지 않습니다.
+    long: |-
+      Spinner는 불확정형(Indeterminate) 진행 표시기의 가장 흔한 형태로, 버튼 클릭 후 응답 대기, 데이터 fetching, 페이지 전환 등 짧지만 불확실한 시간 동안 사용됩니다. 보통 작은 원(SVG 또는 CSS로 구현)이 계속 회전하며, 줄무늬가 있는 원형, 점점 커졌다 작아지는 원, 또는 세 개의 점이 순차적으로 나타나는 형태 등 다양한 디자인 변형이 존재합니다. 크기는 매우 작은 것(아이콘 버튼 안, `16x16px`)부터 큰 것(전체 페이지 중앙, `64x64px`)까지 다양하며, 버튼 내부에서 사용될 때는 텍스트 옆에 작게 위치하거나 텍스트를 Spinner로 대체하기도 합니다.
+
+      디자인 시스템에서 Spinner 구현 시 주의할 점은 접근성, 중첩 금지, 성능입니다. 회전 애니메이션은 전정 기관 문제나 발작 장애가 있는 사용자에게 부담이 될 수 있으므로, `prefers-reduced-motion: reduce` 미디어 쿼리를 적용하여 애니메이션을 정지하거나 매우 느리게 대체해야 합니다. 스크린 리더 지원을 위해 `role="status"`, `aria-label="Loading"`, `aria-live="polite"` 같은 속성으로 상태를 알려줄 수 있습니다. 이미 Spinner가 있는 영역 안에 또 다른 Spinner를 표시하지 않도록 상태 설계를 단순화하고, CSS `transform: rotate()` 기반 애니메이션을 사용하면 `top/left` 애니메이션보다 더 부드럽게 동작합니다. 버튼 등에 Spinner를 표시할 때는 버튼 자체를 비활성화하여 중복 클릭을 방지하는 것이 일반적입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Spinner
+      - spinner
+      - Loading Spinner
+      - loading spinner
+      - 스피너
+      - 로딩 스피너
+    match_phrases:
+      - phrase: Spinner
+        auto_match: true
+        priority: 100
+      - phrase: Loading Spinner
+        auto_match: true
+        priority: 90
+      - phrase: 스피너
+        auto_match: true
+        priority: 80
+  - id: design.pagination
+    label: Pagination
+    slug: pagination
+    short: Pagination(페이지네이션)은 많은 양의 데이터를 여러 페이지로 나누고, 사용자가 특정 페이지로 이동할 수 있는 UI 컨트롤 세트입니다.
+    long: |-
+      Pagination은 보통 이전(Previous) 버튼, 다음(Next) 버튼, 현재 페이지 번호 강조, 전체 페이지 수 표시, 페이지 번호 버튼들, 빠른 이동을 위한 점프 드롭다운이나 직접 페이지 입력 필드로 구성됩니다. 전통적인 Pagination은 서버 사이드 렌더링 또는 API 요청 시 `page`와 `per_page` 파라미터를 함께 사용합니다. 예를 들어 `/api/items?page=2&limit=20`은 20개씩 두 번째 페이지를 요청합니다. 무한 스크롤(Infinite Scroll)이나 더 보기(Load More) 버튼과 비교하면 Pagination은 특정 페이지로 직접 이동하고 브라우저 히스토리와 북마크에 친화적이라는 장점이 있습니다.
+
+      디자인 시스템에서 Pagination 컴포넌트는 반응형 디자인을 반드시 고려해야 합니다. 모바일에서는 페이지 번호 대신 이전/다음 버튼만 표시하거나, 간소화된 번호 배열로 변경하는 것이 일반적입니다. 접근성 측면에서는 `nav` 요소로 감싸고 `aria-label="Pagination"`을 추가하며, 현재 페이지 버튼에는 `aria-current="page"`를 설정해야 합니다. 비활성화된 버튼은 `disabled`나 `aria-disabled="true"`로 처리하고, 페이지네이션 컨트롤은 키보드로 완전히 탐색 가능해야 합니다. 페이지 번호가 너무 많을 경우 중간 생략 표시(ellipsis)를 사용하되, 이 생략 표시 자체는 클릭 불가능한 시각적 요소로 두고 양옆의 페이지 번호를 충분히 제공하는 것이 좋습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Pagination
+      - pagination
+      - 페이지네이션
+      - 페이지 이동
+    match_phrases:
+      - phrase: Pagination
+        auto_match: true
+        priority: 100
+      - phrase: 페이지네이션
+        auto_match: true
+        priority: 90
+      - phrase: 페이지 이동
+        auto_match: true
+        priority: 80
+  - id: design.accordion
+    label: Accordion
+    slug: accordion
+    short: 아코디언(Accordion)은 제목을 클릭하면 해당 콘텐츠 영역이 세로로 펼쳐지거나 접히는 UI 패턴입니다. 여러 섹션 중 하나만 열리거나 동시에 여러 개를 열 수 있도록 설계할 수 있습니다.
+    long: |-
+      아코디언은 제한된 공간에서 많은 양의 정보를 계층적으로 보여줄 때 효과적입니다. 사용자는 각 섹션의 제목만 먼저 훑어본 후, 필요한 항목만 선택적으로 열어 상세 내용을 확인할 수 있습니다. 이 패턴은 FAQ, 설정 메뉴, 제품 상세 페이지의 옵션 설명 등에서 자주 사용됩니다.
+
+      아코디언은 접근성 측면에서 중요한 고려사항이 있습니다. 키보드만으로도 각 제목에 포커스를 이동하고, Enter나 Space로 열고 닫을 수 있어야 합니다. 또한 `aria-expanded`, `aria-controls` 등의 WAI-ARIA 속성을 활용하여 스크린 리더 사용자에게 현재 상태를 명확히 전달해야 합니다. 모바일 환경에서는 터치 영역을 충분히 크게 잡고, 애니메이션을 부드럽게 처리하는 것이 사용자 경험에 좋습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Accordion
+      - accordion
+      - 아코디언
+    match_phrases:
+      - phrase: Accordion
+        auto_match: true
+        priority: 100
+      - phrase: 아코디언
+        auto_match: true
+        priority: 90
+  - id: design.disclosure
+    label: Disclosure
+    slug: disclosure
+    short: 디스클로저(Disclosure)는 추가 정보나 컨트롤을 숨겨두었다가 사용자의 동작(클릭, 탭)으로 나타나게 하는 UI 위젯입니다. 아코디언의 단일 항목 버전으로 볼 수 있습니다.
+    long: |-
+      디스클로저는 아코디언과 유사하지만 일반적으로 하나의 독립적인 요소에 적용됩니다. 예를 들어 "더 보기" 버튼을 누르면 긴 텍스트 일부가 펼쳐지거나, 고급 검색 옵션을 보여줄 때 사용됩니다. 아코디언이 여러 섹션을 묶어 관리한다면, 디스클로저는 더 단순하고 가벼운 패턴입니다.
+
+      디스클로저를 구현할 때는 예측 가능성이 핵심입니다. 사용자가 무언가를 펼친다는 행동은 페이지 전체를 다시 로드하지 않고 정보를 추가로 본다는 인식을 줍니다. 따라서 펼쳐지는 애니메이션은 `200~300ms` 내외가 적절하며, 갑작스러운 레이아웃 이동을 방지하기 위해 공간이 미리 확보되거나 부드럽게 밀려나도록 해야 합니다. 접근성 측면에서는 버튼 역할과 확장 상태를 `aria-expanded`로 표시하는 것이 필수입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Disclosure
+      - disclosure
+      - 디스클로저
+      - 더 보기
+    match_phrases:
+      - phrase: Disclosure
+        auto_match: true
+        priority: 100
+      - phrase: 디스클로저
+        auto_match: true
+        priority: 90
+  - id: design.segmented-control
+    label: Segmented Control
+    slug: segmented-control
+    short: 세그먼티드 컨트롤(Segmented Control)은 두 개 이상의 상호 배타적인 옵션을 가로로 나열한 버튼 그룹으로, 한 번에 하나만 선택할 수 있는 UI 요소입니다.
+    long: |-
+      세그먼티드 컨트롤은 주로 동일한 데이터 집합을 다른 방식으로 필터링하거나 뷰를 전환할 때 사용됩니다. 예를 들어 이메일 앱에서 "받은 편지함", "보낸 편지함", "중요"를 선택하는 식입니다. 모든 옵션이 동시에 화면에 보이므로 드롭다운 메뉴보다 선택 가능 항목을 직관적으로 파악할 수 있다는 장점이 있습니다.
+
+      세그먼티드 컨트롤은 옵션이 2개에서 5개 사이일 때 가장 효과적입니다. 너무 많은 옵션은 작은 터치 타겟을 초래하고, 모바일에서는 좌우 스크롤이 필요할 수 있어 오히려 불편합니다. 디자인적으로는 선택된 세그먼트와 선택되지 않은 세그먼트의 대비가 명확해야 하며, iOS의 기본 컴포넌트로 유명하지만 웹에서도 탭 컴포넌트와 유사하게 구현 가능합니다. 접근성 측면에서는 뷰 전환이면 `role="tablist"`와 `aria-selected`를, 폼 값 선택이면 `radiogroup`이나 실제 radio 입력을 사용하는 식으로 의미에 맞게 역할을 골라야 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Segmented Control
+      - segmented control
+      - 세그먼티드 컨트롤
+      - 세그먼트 컨트롤
+    match_phrases:
+      - phrase: Segmented Control
+        auto_match: true
+        priority: 100
+      - phrase: 세그먼티드 컨트롤
+        auto_match: true
+        priority: 90
+      - phrase: 세그먼트 컨트롤
+        auto_match: true
+        priority: 80
+  - id: design.avatar
+    label: Avatar
+    slug: avatar
+    short: 아바타(Avatar)는 사용자나 엔티티를 시각적으로 대표하는 원형 또는 사각형의 이미지, 아이콘, 이니셜 조합을 말합니다. 프로필 사진이나 기본 placeholder로 널리 사용됩니다.
+    long: |-
+      아바타는 사용자 계정, 댓글 작성자, 프로젝트 담당자 등 사람을 식별하는 데 중요한 시각적 단서를 제공합니다. 실제 사용자 사진이 없을 때는 이름의 앞글자(보통 1~2자)를 넣거나, 사람 모양의 기본 아이콘을 보여줍니다. 크기는 일반적으로 24px에서 64px 사이가 흔하며, 협업 툴(Slack, Figma)이나 소셜 미디어에서 쉽게 볼 수 있습니다.
+
+      아바타를 디자인할 때는 일관성과 접근성을 고려해야 합니다. 같은 시스템 내에서 모든 아바타는 동일한 형태(원형, 둥근 사각형 등)를 유지하는 것이 좋습니다. 아바타 이미지가 사람이나 엔티티를 식별하는 유일한 단서라면 `alt` 속성에 "홍길동의 프로필 사진" 같은 의미 있는 설명을 제공해야 합니다. 반대로 이름 텍스트가 바로 옆에 있어 이미지가 중복 정보라면 빈 `alt=""`로 장식 처리하는 편이 더 낫습니다. 여러 명의 아바타가 겹쳐서 표시되는 스택 아바타(avatar stack) 패턴도 인기 있는 변형으로, 팀원 목록을 효율적으로 보여줄 수 있습니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Avatar
+      - avatar
+      - 아바타
+      - Avatar Stack
+      - avatar stack
+    match_phrases:
+      - phrase: Avatar
+        auto_match: true
+        priority: 100
+      - phrase: 아바타
+        auto_match: true
+        priority: 90
+      - phrase: Avatar Stack
+        auto_match: true
+        priority: 80
+  - id: design.identity-chip
+    label: Identity Chip
+    slug: identity-chip
+    short: Identity Chip은 사용자, 계정, 또는 엔티티를 고유하게 식별하는 시각적 요소로, 주로 아바타, 이름, 이메일 등의 조합으로 표시됩니다. 리스트나 댓글, 선택 메뉴에서 누가 무엇인지 빠르게 구분할 수 있게 도와줍니다.
+    long: |-
+      Identity Chip은 UI 디자인에서 특정 개인이나 엔티티를 압축된 형태로 표현하는 컴포넌트입니다. 보통 원형 또는 사각형 아바타 이미지와 텍스트(이름, ID)가 함께 배치되며, 삭제나 전환 같은 액션 버튼이 포함되기도 합니다. Gmail이나 Slack에서 메시지 작성 시 수신자나 멘션을 칩 형태로 보여주는 것이 대표적인 예입니다.
+
+      이 칩은 정보 과부하를 줄이면서도 정체성을 명확히 전달하는 데 효과적입니다. 여러 개의 Identity Chip을 나란히 배치하면 권한 설정이나 팀원 목록처럼 복잡한 관계를 직관적으로 보여줄 수 있습니다. 접근성 측면에서는 칩이 단순 정보인지, 제거 가능한 선택 항목인지, 메뉴를 여는 버튼인지에 따라 적절한 역할과 라벨을 선택해야 하며, 표준에 없는 임의의 "사용자 태그" 역할을 만들지 않는 것이 안전합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Identity Chip
+      - identity chip
+      - 아이덴티티 칩
+      - 사용자 칩
+    match_phrases:
+      - phrase: Identity Chip
+        auto_match: true
+        priority: 100
+      - phrase: 아이덴티티 칩
+        auto_match: true
+        priority: 90
+      - phrase: 사용자 칩
+        auto_match: true
+        priority: 80
+  - id: design.command-field
+    label: Command Field
+    slug: command-field
+    short: >-
+      Command Field는 사용자가 텍스트 명령어를 직접 입력하여 시스템을 제어하거나 데이터를 조회할 수 있는 입력 영역입니다. 일반적인 검색창보다 더 구조화된 명령어 구문(예: `/create project "alpha"`)을 받아들입니다.
+    long: |-
+      Command Field는 단순 키워드 검색과 달리, 특정 문법(syntax)을 가진 명령을 해석하는 인터페이스 요소입니다. 개발자 도구의 콘솔, Slack이나 Discord의 슬래시(`/`) 명령어, Notion의 `/` 커맨드가 대표적입니다. 이를 통해 사용자는 마우스 클릭 없이도 문서 생성, 설정 변경, 데이터 필터링 같은 작업을 빠르게 수행할 수 있습니다.
+
+      디자인 측면에서 Command Field는 자동 완성, 제안 목록, 오류 피드백을 함께 제공해야 사용자 경험이 좋습니다. 예를 들어 사용자가 `/`를 입력하면 가능한 명령어 목록이 드롭다운으로 나타나고, 인자가 잘못되었을 때는 오류 메시지를 보여줄 수 있습니다. 전역 단축키를 제공할 때는 입력창, textarea, contenteditable, IME 조합 입력 중에는 절대 발동하지 않아야 합니다. 브라우저 기본 기능과 충돌할 수 있는 `Ctrl+K`나 `Cmd+K`는 1순위 기본값보다 선택 가능한 고급 단축키로 두는 편이 안전합니다. 명령 실행은 보조 수단이어야 하며, 같은 기능은 버튼이나 터치 조작으로도 사용할 수 있어야 합니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Command Field
+      - command field
+      - 커맨드 필드
+      - 명령 입력
+      - 슬래시 명령
+    match_phrases:
+      - phrase: Command Field
+        auto_match: true
+        priority: 100
+      - phrase: 커맨드 필드
+        auto_match: true
+        priority: 90
+      - phrase: 명령 입력
+        auto_match: true
+        priority: 80
+      - phrase: 슬래시 명령
+        auto_match: true
+        priority: 70
+  - id: design.sort-header
+    label: Sort Header
+    slug: sort-header
+    short: Sort Header는 테이블이나 리스트에서 특정 열(column)의 제목을 클릭하면 해당 열 기준으로 데이터의 정렬 순서를 바꾸는 인터페이스 요소입니다. 보통 열 제목 옆에 오름차순 또는 내림차순 아이콘이 표시됩니다.
+    long: |-
+      Sort Header는 데이터 그리드(data grid)에서 가장 흔히 볼 수 있는 상호작용 패턴 중 하나입니다. 사용자가 헤더를 한 번 클릭하면 오름차순(예: A-Z, 숫자 0-9), 다시 클릭하면 내림차순(Z-A, 9-0)으로 정렬되며, 현재 정렬 기준이 되는 열에는 화살표나 강조 표시가 나타납니다. 이는 대용량 데이터를 빠르게 재구성하여 원하는 패턴(가장 오래된 항목, 가장 높은 가격 등)을 찾도록 도와줍니다.
+
+      접근성과 개발 측면에서 Sort Header는 상태 관리가 중요합니다. 현재 정렬 중인 열과 방향을 시각적 표시뿐만 아니라 `aria-sort` 속성으로도 알려줘야 스크린 리더 사용자가 이해할 수 있습니다. 다중 정렬(multi-sort)을 지원할 경우 Shift 키를 누른 채 여러 헤더를 순서대로 클릭하는 방식으로 1차, 2차 정렬 기준을 설정하기도 합니다. 데이터베이스 쿼리 성능을 고려할 때 실제로 정렬이 필요한 열에만 인덱스를 걸어두는 것이 프론트엔드와 백엔드 모두에게 효율적입니다.
+    example:
+    translation_status: reviewed
+    aliases:
+      - Sort Header
+      - sort header
+      - 정렬 헤더
+      - 정렬 제목행
+    match_phrases:
+      - phrase: Sort Header
+        auto_match: true
+        priority: 100
+      - phrase: 정렬 헤더
+        auto_match: true
+        priority: 90
+      - phrase: 정렬 제목행
         auto_match: true
         priority: 80

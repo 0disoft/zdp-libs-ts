@@ -1,5 +1,6 @@
 terms:
   - id: operations.rate-limit
+    canonical_label: Rate Limit
     status: active
     visibility: public
     owner: platform-operations
@@ -8,6 +9,50 @@ terms:
     monetizable: false
     related_terms:
       - security.audit-log
+      - security.owasp-asvs
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: operations.deletion-propagation
+    canonical_label: Deletion Propagation
+    status: active
+    visibility: public
+    owner: platform-operations
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - security.audit-trail
+      - security.append-only
+      - security.data-minimization
+    interaction:
+      trigger: click
+      surface: term-sheet
+      desktop_placement: right-sheet
+      mobile_placement: bottom-sheet
+    ad_policy:
+      hover_card: forbidden
+      term_sheet: forbidden
+      detail_page: future-experiment-only
+  - id: operations.cache
+    canonical_label: Cache
+    status: active
+    visibility: public
+    owner: platform-operations
+    detail_enabled: true
+    indexable: false
+    monetizable: false
+    related_terms:
+      - platform.search-index
+      - operations.rate-limit
+      - platform.bundle
+      - platform.runtime
     interaction:
       trigger: click
       surface: term-sheet

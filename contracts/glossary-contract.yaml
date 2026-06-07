@@ -3,6 +3,7 @@ glossary_contract:
   term_id_pattern: namespace.concept
   required_metadata:
     - id
+    - canonical_label
     - status
     - visibility
     - aliases

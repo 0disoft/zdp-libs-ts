@@ -147,10 +147,14 @@ function readParagraphs(value: string): readonly string[] {
 }
 
 function countSentences(value: string): number {
-  return value
+  return maskInlineCode(value)
     .split(/[.!?。！？]+/g)
     .map((sentence) => sentence.trim())
     .filter((sentence) => sentence.length > 0).length;
+}
+
+function maskInlineCode(value: string): string {
+  return value.replace(/`[^`]*`/g, 'code');
 }
 
 function expectGeneralPublicCopy(termId: string, field: 'short' | 'long', value: string): void {
