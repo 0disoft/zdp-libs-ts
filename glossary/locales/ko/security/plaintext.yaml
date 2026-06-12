@@ -1,0 +1,26 @@
+id: security.plaintext
+label: Plaintext
+slug: plaintext
+short: "평문(Plaintext)은 암호화, 압축, 또는 어떠한 변환도 적용되지 않은 원본 그대로의 읽기 가능한 데이터를 의미합니다. 보안 관점에서 중요한 비밀은 저장이나 전송 시 반드시 암호화되거나 해싱되어야 하며, 평문으로 남겨두면 노출 위험이 큽니다."
+long: |-
+  암호학에서 평문은 암호화 알고리즘에 입력되기 전의 원본 메시지입니다. 대칭키 암호화에서는 평문과 반대되는 개념인 암호문이 생성됩니다. 예를 들어 평문 문자열을 AES 알고리즘으로 암호화하면 알아볼 수 없는 바이트열이 됩니다. 보안 관점에서 비밀번호나 API 키 같은 중요한 비밀은 저장이나 전송 시 반드시 암호화 또는 해싱되어야 합니다.
+
+  평문이 반드시 나쁜 것만은 아닙니다. 공개된 블로그 글이나 웹사이트 HTML, 이메일 본문 등은 의도적으로 평문으로 전송되어야 합니다. 문제는 민감 정보를 실수로 평문으로 저장하거나 로그에 기록하는 경우입니다. 평문으로 저장할 필요가 없는 민감 데이터는 절대 평문으로 두지 말아야 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Plaintext
+  - plaintext
+  - plain text
+  - 평문
+  - 원문
+match_phrases:
+  - phrase: Plaintext
+    auto_match: true
+    priority: 100
+  - phrase: plaintext
+    auto_match: true
+    priority: 95
+  - phrase: 평문
+    auto_match: true
+    priority: 90

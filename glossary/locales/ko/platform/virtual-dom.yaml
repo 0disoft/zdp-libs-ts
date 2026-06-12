@@ -1,0 +1,26 @@
+id: platform.virtual-dom
+label: Virtual DOM
+slug: virtual-dom
+short: "가상 DOM(Virtual DOM)은 실제 DOM의 추상화된 JavaScript 객체 표현으로, 변경 사항을 효율적으로 계산한 후 실제 DOM에 최소한의 업데이트만 수행하는 기술입니다. React에서 대중화된 이 개념은 복잡한 UI 업데이트를 예측 가능하게 관리합니다."
+long: |-
+
+  가상 DOM은 React에서 대중화된 개념으로, 메모리 상에 실제 DOM의 경량 복사본을 유지합니다. 상태가 변경될 때마다 새로운 가상 DOM 트리를 생성하고, 이전 가상 DOM 트리와의 차이를 계산하여 실제로 변경된 부분만 식별합니다. 이후 이 변경 사항들만 실제 DOM에 일괄 적용하기 때문에, 불필요한 리플로우나 리페인트를 줄이고 성능을 최적화할 수 있습니다. 이 방식은 개발자가 직접 DOM 조작을 최적화하는 부담을 크게 덜어줍니다.
+
+  물론 가상 DOM 자체도 비교 연산과 객체 생성 비용이 들기 때문에, 모든 상황에서 무조건 빠른 것은 아닙니다. 하지만 복잡한 UI에서 상태 업데이트가 빈번하게 발생할 때, 개발자가 직접 DOM 조작을 최적화하는 것보다 훨씬 예측 가능하고 유지보수하기 쉬운 성능을 제공합니다. React 외에도 `Vue.js`, Preact 등이 유사한 방식을 채택하고 있으며, 일부 프레임워크는 가상 DOM 대신 컴파일러 기반 최적화도 병행합니다. 프레임워크 선택 시 워크로드 특성에 따라 가상 DOM의 적합성을 판단하는 것이 중요합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Virtual DOM
+  - virtual dom
+  - 가상 DOM
+  - VDOM
+match_phrases:
+  - phrase: Virtual DOM
+    auto_match: true
+    priority: 100
+  - phrase: 가상 DOM
+    auto_match: true
+    priority: 90
+  - phrase: VDOM
+    auto_match: true
+    priority: 80

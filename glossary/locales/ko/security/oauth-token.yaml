@@ -1,0 +1,30 @@
+id: security.oauth-token
+label: OAuth Token
+slug: oauth-token
+short: "OAuth 토큰은 사용자의 비밀번호 없이 제3자 애플리케이션이 사용자 데이터에 제한적으로 접근할 수 있도록 발급되는 임시 자격 증명입니다. 단기간 유효하며, Authorization 헤더에 포함하여 API 요청 시 사용됩니다."
+long: |-
+  OAuth 토큰은 일반적으로 액세스 토큰(Access Token)과 리프레시 토큰(Refresh Token)으로 구성됩니다. 액세스 토큰은 단기(보통 1시간 이내)로 유효하며, API 요청 시 Authorization 헤더에 `Bearer <token>` 형태로 포함되어 사용자 대신 리소스에 접근합니다. 리프레시 토큰은 장기(수주~수개월) 유효하며, 액세스 토큰이 만료되었을 때 새 토큰을 발급받는 데 사용됩니다. 토큰 자체가 비밀번호보다 제한된 권한(예: 읽기만, 특정 스코프)을 가지므로, 유출되더라도 피해 범위를 줄일 수 있습니다.
+
+  보안 관점에서 OAuth 토큰은 반드시 HTTPS를 통해 전송되어야 하며, 클라이언트 사이드에서는 메모리나 httpOnly 쿠키에 저장하는 것이 권장됩니다. localStorage에 저장하면 XSS 공격에 취약하므로 피해야 합니다. 또한 토큰은 자체적으로 서명되거나 서버 측에서 상태를 저장하는 방식일 수 있습니다.   OAuth는 가장 널리 사용되는 프로토콜로, "Google로 로그인" 같은 기능이 전형적인 예시입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - OAuth Token
+  - OAuth token
+  - oauth token
+  - OAuth 토큰
+  - Access Token
+  - Refresh Token
+match_phrases:
+  - phrase: OAuth Token
+    auto_match: true
+    priority: 100
+  - phrase: OAuth 토큰
+    auto_match: true
+    priority: 95
+  - phrase: Access Token
+    auto_match: true
+    priority: 85
+  - phrase: Refresh Token
+    auto_match: true
+    priority: 80

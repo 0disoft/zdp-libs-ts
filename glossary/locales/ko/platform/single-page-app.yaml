@@ -1,0 +1,27 @@
+id: platform.single-page-app
+label: Single Page App
+slug: single-page-app
+short: "싱글 페이지 앱(SPA)은 하나의 HTML 페이지에서 동적으로 콘텐츠를 다시 작성하여 전체 페이지 새로고침 없이 사용자와 상호작용하는 웹 애플리케이션입니다. 네이티브 앱과 유사한 부드러운 페이지 전환을 제공합니다."
+long: |-
+
+  SPA는 최초 요청 시 HTML, CSS, JavaScript 번들을 모두 다운로드받은 후, 이후 라우팅은 브라우저 히스토리 API를 통해 URL만 변경하고 필요한 데이터만 API로 가져와서 현재 페이지의 일부를 갱신합니다. 이로 인해 페이지 전환이 매우 빠르고 부드러우며, 네이티브 앱과 유사한 사용자 경험을 제공합니다. React Router, Vue Router, SvelteKit의 클라이언트 사이드 라우팅 등이 이 방식을 구현합니다. 이러한 동적 갱신은 사용자가 앱 내에서 매끄럽게 이동할 수 있게 합니다.
+
+  단점으로는 초기 로딩 시 모든 코드를 다운로드받아야 하므로 첫 방문 시 속도가 느려질 수 있으며, 별도의 처리를 하지 않으면 SEO에 불리합니다. 또한 JavaScript가 비활성화된 환경에서는 아예 동작하지 않습니다. 이러한 문제를 해결하기 위해 최근에는 SPA의 상호작용 장점을 유지하면서 SSR, SSG와 결합한 하이브리드 접근이 많이 사용됩니다. 대표적인 순수 SPA 프레임워크로는 `create-react-app`, Vue CLI, Angular 등이 있습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Single Page App
+  - single page app
+  - SPA
+  - 싱글 페이지 앱
+  - 단일 페이지 앱
+match_phrases:
+  - phrase: Single Page App
+    auto_match: true
+    priority: 100
+  - phrase: SPA
+    auto_match: true
+    priority: 95
+  - phrase: 싱글 페이지 앱
+    auto_match: true
+    priority: 90

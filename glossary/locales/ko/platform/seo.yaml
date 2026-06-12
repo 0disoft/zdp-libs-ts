@@ -1,0 +1,29 @@
+id: platform.seo
+label: SEO
+slug: seo
+short: "SEO(Search Engine Optimization)는 검색 엔진이 웹사이트를 더 잘 이해하고 상위 노출되도록 콘텐츠, 구조, 기술적 요소를 최적화하는 일련의 과정입니다. 유기적인 검색 트래픽을 늘리는 것이 핵심 목표입니다."
+long: |-
+
+  SEO는 크게 온페이지와 오프페이지, 테크니컬 세 축으로 나뉩니다. 온페이지 SEO는 제목 태그, 메타 설명, 헤딩 구조, 내부 링크, 키워드 밀도 등 페이지 내 직접 제어 가능한 요소를 최적화하는 것입니다. 오프페이지 SEO는 백링크의 품질과 양, 소셜 신호 등을 통해 사이트의 권위도를 높이는 작업을 말합니다. 이 세 가지 축은 서로 보완하며 검색 결과 개선에 기여합니다.
+
+  테크니컬 SEO는 검색 엔진 크롤러가 사이트를 원활하게 탐색하고 색인할 수 있도록 하는 기반 작업입니다. 여기에는 사이트 속도, 모바일 친화성, 구조화된 데이터, HTTPS 적용, 그리고 sitemap과 `robots.txt`의 올바른 설정이 포함됩니다. 검색 알고리즘은 계속 변하기 때문에 SEO는 단발성 작업이 아닌 지속적인 모니터링과 적응이 필요한 분야입니다. 꾸준한 개선 노력 없이는 상위 노출을 유지하기 어렵습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - SEO
+  - Search Engine Optimization
+  - 검색 엔진 최적화
+  - 테크니컬 SEO
+match_phrases:
+  - phrase: SEO
+    auto_match: true
+    priority: 100
+  - phrase: Search Engine Optimization
+    auto_match: true
+    priority: 90
+  - phrase: 검색 엔진 최적화
+    auto_match: true
+    priority: 85
+  - phrase: 테크니컬 SEO
+    auto_match: true
+    priority: 80

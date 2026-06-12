@@ -1,0 +1,33 @@
+id: operations.cache
+label: Cache
+slug: cache
+short: "캐시(Cache)는 자주 조회되는 데이터를 원본 저장소보다 빠른 임시 저장소에 복제하여 응답 지연 시간과 시스템 부하를 동시에 줄이는 최적화 기법입니다. 웹 브라우저, CDN, 애플리케이션 메모리, 데이터베이스 등 다양한 계층에서 활용됩니다."
+long: |-
+  캐시는 여러 계층에서 구현될 수 있습니다. 브라우저 캐시(HTTP `Cache-Control`, `ETag` 헤더), CDN 캐시(Cloudflare, Akamai), 리버스 프록시 캐시(Varnish, Nginx), 애플리케이션 캐시(Redis, Memcached), 데이터베이스 쿼리 캐시, CPU 캐시 등이 대표적입니다. 핵심 설계 요소로는 TTL(Time To Live, 생존 시간)과 캐시 무효화(Cache Invalidation) 전략이 있습니다. 쓰기 전략에는 Cache-Aside(애플리케이션이 캐시를 직접 읽고 쓰는 가장 일반적인 방식), Write-Through(쓰기 시 캐시와 DB를 동시에 갱신), Write-Behind(쓰기 시 캐시만 먼저 갱신하고 DB는 비동기 처리) 등이 있습니다.
+
+  캐시의 가장 어려운 과제는 데이터 일관성(consistency) 문제입니다. 데이터베이스가 업데이트되었는데 캐시가 오래된 값을 반환하는 stale read 현상을 방지하려면, TTL을 짧게 설정하거나 데이터 변경 시 캐시를 명시적으로 삭제하는 이벤트 기반 무효화 방식을 사용해야 합니다. 이 문제는 컴퓨터 과학에서 가장 까다로운 과제 중 하나로 꼽히며, 캐시 스탬피드(cache stampede) 현상처럼 많은 요청이 동시에 만료된 캐시를 재생성하려는 상황을 방지하기 위해 mutex lock, probabilistic early expiration, 또는 background refresh 같은 기법을 적용하기도 합니다. 캐시 히트율(Cache Hit Ratio)은 핵심 지표이며, 히트율이 낮으면 오히려 불필요한 오버헤드만 발생시킬 수 있습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Cache
+  - cache
+  - 캐시
+  - Cache Invalidation
+  - Cache Hit Ratio
+  - cache stampede
+match_phrases:
+  - phrase: Cache
+    auto_match: true
+    priority: 100
+  - phrase: 캐시
+    auto_match: true
+    priority: 95
+  - phrase: Cache Invalidation
+    auto_match: true
+    priority: 85
+  - phrase: Cache Hit Ratio
+    auto_match: true
+    priority: 80
+  - phrase: cache stampede
+    auto_match: true
+    priority: 75

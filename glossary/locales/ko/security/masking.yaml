@@ -1,0 +1,29 @@
+id: security.masking
+label: Masking
+slug: masking
+short: "Masking(마스킹)은 민감한 데이터의 일부를 가려서 원본을 숨기는 기술로, `1234-5678-9012-3456` → `****-****-****-3456` 같은 방식입니다. 테스트, 로깅, 고객 지원 등에서 실제 데이터 노출 없이 형식은 유지할 때 사용합니다."
+long: |-
+  Masking은 데이터 보안과 프라이버시 사이의 실용적 절충안입니다. 정적 마스킹은 데이터베이스에 저장된 원본 값을 영구적으로 대체 문자로 바꾸는 방식입니다. 주로 비프로덕션 환경에서 사용되며, 신용카드 번호나 주민등록번호 등에 적용됩니다. 동적 마스킹은 쿼리 실행 시점에 사용자 권한에 따라 마스킹을 적용하여, 직원과 관리자에게 다른 수준의 데이터를 보여줍니다.
+
+  마스킹의 중요한 설계 원칙은 복원 불가능성과 형식 보존입니다. 단순한 문자 치환은 되돌릴 수 없어야 하며, 원본 데이터의 길이와 문자 유형은 유지되어야 애플리케이션의 유효성 검증 로직을 깨뜨리지 않습니다. 하지만 완전히 복원 불가능한 마스킹은 일단 적용되면 원본 복구가 불가능하므로, 법적 감사나 문제 추적이 필요하면 마스킹 대신 토큰화나 접근 제어를 고려해야 합니다. GDPR이나 PCI DSS 같은 규정에서는 마스킹을 익명화의 한 형태로 인정하지만, 매우 강력한 마스킹만 인정받을 수 있습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Masking
+  - masking
+  - 마스킹
+  - Static Data Masking
+  - Dynamic Data Masking
+match_phrases:
+  - phrase: Masking
+    auto_match: true
+    priority: 100
+  - phrase: 마스킹
+    auto_match: true
+    priority: 95
+  - phrase: Static Data Masking
+    auto_match: true
+    priority: 80
+  - phrase: Dynamic Data Masking
+    auto_match: true
+    priority: 80

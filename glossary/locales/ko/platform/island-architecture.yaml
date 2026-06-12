@@ -1,0 +1,22 @@
+id: platform.island-architecture
+label: Island Architecture
+slug: island-architecture
+short: "Island Architecture는 정적 HTML로 렌더링된 페이지에서 상호작용이 필요한 일부 컴포넌트만 독립적으로 하이드레이션하는 웹 디자인 패턴입니다. 각 아일랜드는 서로 독립적으로 작동하며, 서로 다른 프레임워크로 구성될 수도 있습니다."
+long: |-
+
+  Island Architecture는 전체 페이지를 하나의 거대한 JavaScript 번들로 만드는 전통적인 SPA 방식의 반대 개념입니다. 페이지의 대부분은 순수한 정적 HTML로 전송되며, 특정 아일랜드만 클라이언트에서 별도로 하이드레이션됩니다. 각 아일랜드는 서로 독립적으로 작동하며, 서로 다른 프레임워크로 구성될 수도 있습니다. 이 패턴은 콘텐츠 중심의 사이트에서 특히 효과적입니다.
+
+  이 아키텍처는 성능과 상호작용성 사이에서 이상적인 균형을 제공합니다. 첫 페이지 로드 시 전송되는 JavaScript의 양이 극적으로 줄어들어 Largest Contentful Paint와 Time to Interactive가 크게 개선됩니다. Astro, Eleventy, 또는 직접 구현할 수 있는 이 패턴은 블로그, 문서, 쇼케이스, 이커머스 상세 페이지에서 특히 효과적입니다. 디자인 시스템 관점에서는, 각 아일랜드가 자신에게 필요한 디자인 토큰만 참조하도록 설계하여 유지보수성을 높일 수 있습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Island Architecture
+  - island architecture
+  - 아일랜드 아키텍처
+match_phrases:
+  - phrase: Island Architecture
+    auto_match: true
+    priority: 100
+  - phrase: 아일랜드 아키텍처
+    auto_match: true
+    priority: 90

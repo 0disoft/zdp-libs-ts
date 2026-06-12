@@ -1,0 +1,29 @@
+id: security.audit-trail
+label: Audit Trail
+slug: audit-trail
+short: "감사 추적(Audit Trail)은 시스템 내 모든 중요한 이벤트를 시간순으로 기록한 불변 로그입니다. 보안 감사와 규정 준수를 위해 사용되며, 생성, 수정, 삭제, 접근 등의 이벤트가 기록 대상입니다."
+long: |-
+  감사 추적은 일반적으로 이벤트 유형, 타임스탬프, 사용자 ID, 소스 IP, 대상 리소스, 그리고 변경 전후의 값을 포함합니다. 데이터베이스 트리거나 애플리케이션 미들웨어, 또는 전용 로깅 서비스를 통해 구현됩니다. 한번 기록된 로그는 수정이나 삭제가 불가능하도록 설계되어야 합니다. 금융, 의료, 결제 등 법적 규제가 엄격한 산업에서 특히 필수적입니다.
+
+  효과적인 감사 추적을 위해서는 로그의 무결성과 검색 가능성이 핵심입니다. 일반적으로 로그는 write-once 스토리지나 WORM(Write Once Read Many) 파일 시스템에 저장되며, 중앙 집중식 로그 관리 시스템(예: ELK Stack, Splunk)과 연동하여 실시간 모니터링과 이상 탐지를 수행합니다. 또한 GDPR이나 CCPA 같은 개인정보 보호법에서는 사용자 데이터 접근 기록을 요구하므로, 감사 추적 없이는 법적 처벌을 받을 수 있습니다. 성능 부담을 줄이기 위해 중요한 테이블과 민감한 작업에만 선택적으로 적용하며, 로그는 압축 및 아카이빙하여 장기간(보통 7년) 보관합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Audit Trail
+  - audit trail
+  - 감사 추적
+  - 감사 기록
+  - WORM
+match_phrases:
+  - phrase: Audit Trail
+    auto_match: true
+    priority: 100
+  - phrase: 감사 추적
+    auto_match: true
+    priority: 95
+  - phrase: 감사 기록
+    auto_match: true
+    priority: 85
+  - phrase: WORM
+    auto_match: true
+    priority: 75

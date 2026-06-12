@@ -61,7 +61,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 
 공통 glossary 문구는 특정 제품, 회사, 내부 시스템의 채택 기준을 설명하지 않는다. 대중적으로 널리 통용될 수 있는 개념 설명만 두고, 제품별 적용 방식이나 관련 화면 설명은 소비 앱의 local glossary나 페이지 콘텐츠가 소유한다.
 
-Glossary locale 문구에서 `short`는 정확히 1문단, 1-2문장으로 쓴다. `long`은 상세 sheet 본문이므로 2-3문단으로 쓰고, 각 문단은 3-5문장으로 유지한다. 문체와 설명 난이도는 작성자 리뷰에 맡기되, 길이와 문단 수는 source test가 강제한다. `detail_enabled: true`이고 `translation_status: reviewed`인 용어는 `long`을 비워둘 수 없다.
+Glossary locale 문구에서 `short`는 정확히 **1문단 2문장**으로 쓴다. `long`은 상세 sheet 본문이므로 정확히 **2문단**으로 쓰고, 각 문단은 정확히 **4문장**으로 유지한다. 문체와 설명 난이도는 작성자 리뷰에 맡기되, 길이와 문단 수는 source test가 강제한다. `detail_enabled: true`이고 `translation_status: reviewed`인 용어는 `long`을 비워둘 수 없다. 본문에 볼드체 마크다운 문법(`**`)과 띄어쓰기 없이 100자 이상 연결된 긴 단어는 사용하지 않는다.
 
 API source input drift 검사는 `idempotency`, `success_statuses`, `request_id`, `trace_id`, `event_type`, SDK generation target, API catalog route metadata 같은 값이 API repo와 libs repo에서 서로 다르게 선언되는 일을 막는다. `idempotency`가 맞아야 재시도와 중복 요청이 한 번 처리된 것처럼 유지되고, `success_statuses`가 맞아야 클라이언트가 성공 응답을 제멋대로 해석하지 않으며, `request_id`/`trace_id`가 맞아야 SDK 오류를 서버 로그와 같은 추적선에서 찾을 수 있다.
 

@@ -1,0 +1,18 @@
+id: platform.sveltekit
+label: SvelteKit
+slug: sveltekit
+short: "SvelteKit은 Svelte를 위한 공식 풀스택 프레임워크로, 파일 기반 라우팅, 서버 사이드 렌더링, 정적 사이트 생성을 기본 지원합니다. 페이지 단위로 다양한 렌더링 방식을 혼합할 수 있는 유연성이 핵심입니다."
+long: |-
+
+  SvelteKit은 `Next.js`나 Nuxt와 유사한 위치에 있는 Svelte 생태계의 애플리케이션 프레임워크입니다. `+page.svelte`, `+layout.svelte`, `+page.server.js` 같은 파일 규칙을 통해 라우팅과 데이터 로딩을 직관적으로 처리합니다. SSR, SSG, 클라이언트 사이드 렌더링을 페이지 단위로 혼합할 수 있어, 일부는 완전 정적, 일부는 서버에서 동적으로 렌더링하는 하이브리드 접근이 가능합니다. 이러한 유연성은 다양한 요구사항을 가진 프로젝트에 적합합니다.
+
+  SvelteKit의 가장 강력한 특징 중 하나는 어댑터 시스템입니다. `@sveltejs/adapter-node`, `adapter-vercel`, `adapter-static`, `adapter-cloudflare` 등을 통해 동일한 코드베이스로 다양한 배포 환경에 최적화된 출력물을 생성할 수 있습니다. 디자인 시스템과 통합할 때는, SvelteKit의 `+layout.svelte`에 전역 디자인 토큰을 주입하고, `$app/stores`에서 테마 상태를 관리할 수 있습니다. 또한 기본적으로 타입스크립트를 완전 지원하고, 핫 리로딩 속도가 매우 빨라 개발 경험이 뛰어납니다.
+example: null
+translation_status: reviewed
+aliases:
+  - SvelteKit
+  - sveltekit
+match_phrases:
+  - phrase: SvelteKit
+    auto_match: true
+    priority: 100

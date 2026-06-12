@@ -1,0 +1,26 @@
+id: platform.server-side-rendering
+label: Server Side Rendering
+slug: server-side-rendering
+short: "서버사이드 렌더링(SSR)은 사용자가 페이지를 요청할 때마다 서버에서 HTML을 실시간으로 생성하여 보내주는 방식입니다. 초기 로딩 속도가 빠르고 검색 엔진 크롤러가 완성된 콘텐츠를 쉽게 읽을 수 있어 SEO에 유리합니다."
+long: |-
+
+  SSR은 요청이 들어오면 서버에서 데이터를 가져오고, React나 Vue 같은 프레임워크로 컴포넌트를 렌더링한 뒤 완성된 HTML 문자열을 클라이언트에 응답으로 전송합니다. 브라우저는 바로 표시 가능한 HTML을 받기 때문에 초기 로딩 속도가 빠릅니다. 검색 엔진 크롤러도 완성된 콘텐츠를 쉽게 읽을 수 있어 SEO에 유리합니다. 이후 클라이언트에서 JavaScript가 로드되면서 Hydration 과정을 통해 인터랙티브한 기능이 활성화됩니다.
+
+  단점으로는 요청마다 서버 CPU 자원을 사용하므로 트래픽이 많아지면 서버 비용이 증가합니다. TTFB가 빌드 타임 렌더링 방식보다 느릴 수도 있습니다. `Next.js`의 `getServerSideProps`, `Nuxt.js`, Remix 등이 대표적인 SSR 프레임워크이며, 사용자 개인화 콘텐츠처럼 매 요청마다 데이터가 달라지는 페이지에 적합합니다. 대시보드나 SNS 피드처럼 최신 데이터와 개인화가 중요한 화면에서 특히 자주 사용됩니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Server Side Rendering
+  - server side rendering
+  - SSR
+  - 서버사이드 렌더링
+match_phrases:
+  - phrase: Server Side Rendering
+    auto_match: true
+    priority: 100
+  - phrase: SSR
+    auto_match: true
+    priority: 95
+  - phrase: 서버사이드 렌더링
+    auto_match: true
+    priority: 90

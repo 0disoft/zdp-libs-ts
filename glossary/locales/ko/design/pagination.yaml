@@ -1,0 +1,25 @@
+id: design.pagination
+label: Pagination
+slug: pagination
+short: "Pagination(페이지네이션)은 많은 양의 데이터를 여러 페이지로 나누어 보여주는 UI 컨트롤 세트입니다. 사용자는 페이지 번호나 이전, 다음 버튼으로 원하는 페이지로 이동할 수 있습니다."
+long: |-
+  Pagination은 보통 이전(Previous) 버튼, 다음(Next) 버튼, 현재 페이지 번호 강조, 전체 페이지 수 표시, 페이지 번호 버튼들, 빠른 이동을 위한 점프 드롭다운이나 직접 페이지 입력 필드로 구성됩니다. 전통적인 Pagination은 서버 사이드 렌더링 또는 API 요청 시 `page`와 `per_page` 파라미터를 함께 사용합니다. 예를 들어 `/api/items?page=2&limit=20`은 20개씩 두 번째 페이지를 요청합니다. 무한 스크롤(Infinite Scroll)이나 더 보기(Load More) 버튼과 비교하면 Pagination은 특정 페이지로 직접 이동하고 브라우저 히스토리와 북마크에 친화적이라는 장점이 있습니다.
+
+  디자인 시스템에서 Pagination 컴포넌트는 반응형 디자인을 반드시 고려해야 합니다. 모바일에서는 페이지 번호 대신 이전/다음 버튼만 표시하거나, 간소화된 번호 배열로 변경하는 것이 일반적입니다. 접근성 측면에서는 `nav` 요소로 감싸고 `aria-label="Pagination"`을 추가하며, 현재 페이지 버튼에는 `aria-current="page"`를 설정해야 합니다. 페이지 번호가 너무 많을 경우 중간 생략 표시(ellipsis)를 사용하되, 이 생략 표시 자체는 클릭 불가능한 시각적 요소로 두어야 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Pagination
+  - pagination
+  - 페이지네이션
+  - 페이지 이동
+match_phrases:
+  - phrase: Pagination
+    auto_match: true
+    priority: 100
+  - phrase: 페이지네이션
+    auto_match: true
+    priority: 90
+  - phrase: 페이지 이동
+    auto_match: true
+    priority: 80

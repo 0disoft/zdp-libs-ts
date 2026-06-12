@@ -1,0 +1,21 @@
+id: security.permission
+label: Permission
+slug: permission
+short: "Permission(권한)은 특정 사용자나 시스템 구성 요소가 특정 리소스(파일, 데이터, 기능)에 대해 특정 작업(읽기, 쓰기, 삭제, 실행)을 수행할 수 있는 권리를 정의한 규칙입니다. \"누가, 무엇을, 어떻게 할 수 있는가\"를 명시합니다."
+long: |-
+  Permission은 보통 `resource:action` 형태로 표현됩니다. 예를 들어, `document:read`는 문서 읽기 권한, `user:delete`는 사용자 삭제 권한, `report:export`는 보고서 내보내기 권한을 의미합니다. 더 세분화하면 `project.alpha.task:create`처럼 특정 프로젝트나 특정 태스크에만 한정된 권한도 만들 수 있습니다. 시스템이 커질수록 이런 개별 권한을 직접 사용자에게 하나씩 할당하는 것은 현실적으로 불가능하기 때문에, 대부분은 역할(Role) 또는 그룹(Group)을 매개로 간접 부여합니다.
+
+  Permission 설계에서 중요한 개념은 긍정 권한과 부정 권한의 우선순위입니다. 대부분 시스템에서 Deny가 Allow보다 우선합니다. 예를 들어, 특정 문서에 대해 개별적으로 읽기 거부가 설정되어 있으면 그룹의 읽기 허용보다 거부가 적용됩니다. 현대 애플리케이션에서는 OPA나 Casbin 같은 정책 엔진을 도입하여 코드와 분리된 선언적 권한 규칙을 관리하는 추세입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - permission
+  - permissions
+  - 권한
+match_phrases:
+  - phrase: Permission
+    auto_match: true
+    priority: 100
+  - phrase: 권한
+    auto_match: true
+    priority: 90

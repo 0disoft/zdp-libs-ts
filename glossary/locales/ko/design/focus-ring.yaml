@@ -1,0 +1,21 @@
+id: design.focus-ring
+label: Focus Ring
+slug: focus-ring
+short: "Focus Ring(포커스 링)은 키보드로 탐색할 때 현재 포커스를 받은 요소 주변에 표시되는 시각적 표시자입니다. 보통 파란색 아웃라인이나 글로우 효과로 구현됩니다."
+long: |-
+  Focus Ring은 웹 접근성의 핵심 요소로, 마우스가 아닌 키보드(Tab, Shift+Tab, 화살표 키)로 인터페이스를 탐색하는 사용자에게 현재 위치를 알려줍니다. 브라우저 기본 스타일은 `:focus` 가상 클래스에 `outline: 5px auto -webkit-focus-ring-color`를 적용합니다. 그러나 디자인 시스템에서는 이 기본 스타일을 제거하고 브랜드에 맞는 커스텀 Focus Ring을 적용하는 것이 일반적입니다. 주요 속성으로는 `outline`, `box-shadow`, `ring` 등이 있으며, 최소 명도 대비(배경 대비 `3:1`)와 두께(최소 `2px`)가 `WCAG 2.2 SC 2.4.11`(Focus Appearance)에서 권장됩니다.
+
+  Focus Ring을 구현할 때는 `outline: none`으로 제거만 하고 대체 스타일을 제공하지 않는 것을 주의해야 합니다. 이는 키보드 사용자를 시각적으로 방치하는 심각한 접근성 위반입니다. 반대로 너무 과한 스타일은 인지 과부하나 발작 유발 위험이 있습니다. 현대 디자인 시스템에서는 `:focus-visible` 가상 클래스를 활용하여 키보드 입력 시에만 포커스 표시가 나타나도록 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Focus Ring
+  - focus ring
+  - 포커스 링
+match_phrases:
+  - phrase: Focus Ring
+    auto_match: true
+    priority: 100
+  - phrase: 포커스 링
+    auto_match: true
+    priority: 90

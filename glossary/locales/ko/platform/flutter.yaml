@@ -1,0 +1,18 @@
+id: platform.flutter
+label: Flutter
+slug: flutter
+short: "Flutter는 Google이 만든 크로스플랫폼 UI 프레임워크로, 자체 렌더링 엔진을 사용하여 iOS, Android, 웹, 데스크톱에서 동일한 UI를 구현합니다. Dart 언어를 사용하며, 핫 리로드 기능으로 실시간 UI 수정이 가능합니다."
+long: |-
+
+  Flutter는 기존 크로스플랫폼 솔루션과 근본적으로 다릅니다. 플랫폼의 네이티브 위젯을 래핑하지 않고, 자체적으로 모든 UI 컴포넌트를 렌더링 엔진을 통해 직접 그립니다. Dart 언어를 사용하며, 핫 리로드 기능으로 상태를 유지한 채 실시간으로 UI를 수정할 수 있는 뛰어난 개발 경험을 제공합니다. 웹 타겟의 경우 WebAssembly 기반 렌더러 또는 HTML/CSS 렌더러를 선택할 수 있습니다.
+
+  Flutter의 가장 큰 강점은 픽셀 단위의 완벽한 제어와 플랫폼 간 일관성입니다. iOS와 Android에서 버튼의 모양, 그림자, 애니메이션 곡선이 완전히 동일하며, 플랫폼별 디자인 가이드라인도 별도로 제공됩니다. 디자인 시스템 관점에서 Flutter는 테마 시스템이 매우 강력하며, `ThemeData` 클래스를 확장하여 커스텀 디자인 토큰을 정의하고 `Provider`나 `InheritedWidget`을 통해 앱 전체에 주입할 수 있습니다. 다만, 웹 타겟의 초기 로딩 시간과 Dart 생태계의 상대적 규모는 고려해야 할 요소입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Flutter
+  - flutter
+match_phrases:
+  - phrase: Flutter
+    auto_match: true
+    priority: 100

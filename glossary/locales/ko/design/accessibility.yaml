@@ -1,0 +1,25 @@
+id: design.accessibility
+label: Accessibility
+slug: accessibility
+short: "Accessibility(접근성, a11y)는 장애인, 일시적 제약, 고령자 등 모든 사용자가 차별 없이 디지털 서비스를 사용할 수 있도록 설계하는 원칙입니다. 이는 웹과 앱을 포함한 모든 디지털 콘텐츠에 적용되는 실천 방법입니다."
+long: |-
+  Accessibility는 단순한 장애인 지원 기능이 아니라, 모든 사용자에게 더 나은 경험을 제공하는 포용적 디자인의 핵심입니다. 주요 범주는 시각, 청각, 운동, 인지 영역으로 나뉘며, 각각에 맞는 기술적 해법이 필요합니다. 시각 영역에서는 스크린 리더 호환성과 충분한 색상 대비가 중요합니다. 운동 영역에서는 키보드 탐색 완전 지원과 클릭 가능한 영역의 적절한 크기가 필수적입니다.
+
+  접근성은 단순한 착한 일이 아니라 법적 의무입니다. 미국의 ADA와 EU의 EAA, 한국의 장애인차별금지법 등은 웹 및 모바일 앱의 접근성 준수를 요구합니다. 기술적 표준으로 WCAG가 전 세계적으로 사실상의 기준이며, 현재 버전은 `2.2`입니다. 디자인 시스템에서는 `ARIA` 속성을 올바르게 사용하고, 자동화 도구 외에 스크린 리더와 키보드로 직접 테스트하는 것이 필요합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Accessibility
+  - accessibility
+  - a11y
+  - 접근성
+match_phrases:
+  - phrase: Accessibility
+    auto_match: true
+    priority: 100
+  - phrase: 접근성
+    auto_match: true
+    priority: 90
+  - phrase: a11y
+    auto_match: true
+    priority: 80

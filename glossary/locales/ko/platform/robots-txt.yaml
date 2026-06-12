@@ -1,0 +1,25 @@
+id: platform.robots-txt
+label: robots.txt
+slug: robots-txt
+short: "robots 파일은 웹사이트 루트 디렉터리에 위치하는 텍스트 파일입니다. 검색 엔진 크롤러에게 어떤 페이지나 디렉터리를 크롤링해도 되는지 지시합니다."
+long: |-
+
+  `robots.txt`의 핵심 문법은 `User-agent`, `Disallow`, `Allow`로 구성됩니다. 예를 들어 모든 크롤러에게 `/admin/` 디렉터리 접근을 막으려면 `User-agent: *`와 `Disallow: /admin/`을 작성합니다. Googlebot에게만 특정 폴더를 허용하고 싶다면 `User-agent: Googlebot`을 명시하면 됩니다. 또한 `Sitemap` 지시어를 여기에 추가해 크롤러에게 색인 지도를 알려줄 수 있습니다.
+
+  중요한 점은 `robots.txt`는 보안 메커니즘이 아니라는 사실입니다. 민감한 개인정보나 비밀 페이지를 숨기기 위한 용도로 사용해서는 절대 안 됩니다. 왜냐하면 이 파일은 누구나 접근하여 내용을 볼 수 있고, 악의적인 사용자나 검색 엔진이 아닌 크롤러는 이를 무시할 수 있기 때문입니다. 실제 접근 제한이 필요하면 HTTP 인증이나 IP 허용 목록 같은 방법을 사용해야 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - robots.txt
+  - Robots Exclusion Protocol
+  - 로봇 배제 표준
+match_phrases:
+  - phrase: robots.txt
+    auto_match: true
+    priority: 100
+  - phrase: Robots Exclusion Protocol
+    auto_match: true
+    priority: 85
+  - phrase: 로봇 배제 표준
+    auto_match: true
+    priority: 80

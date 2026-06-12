@@ -1,0 +1,30 @@
+id: platform.atom
+label: Atom
+slug: atom
+short: "Atom은 RSS의 한계를 극복하기 위해 IETF 표준으로 제정된 XML 기반 웹 신디케이션 포맷입니다. 더 엄격하고 확장 가능한 구조를 가지며, 명확한 태그와 날짜 형식을 제공합니다."
+long: |-
+
+  Atom은 RSS의 모호함과 비표준 확장 문제를 해결하기 위해 2005년에 RFC 4287로 표준화되었습니다. XML 네임스페이스를 명확히 정의하고, `<entry>`, `<content>`, `<summary>`, `<updated>` 등 의미가 분명한 태그들을 제공합니다. 날짜 형식은 반드시 RFC 3339를 따르도록 강제하는 등 엄격함이 특징입니다. 또한 Atom Publishing Protocol과 함께 설계되어, 콘텐츠를 읽기뿐만 아니라 생성과 수정, 삭제하는 API 용도로도 사용할 수 있었습니다.
+
+  Atom은 RSS보다 기술적으로 우수했지만, 일반 사용자와 개발자 사이에서는 RSS라는 이름이 이미 강력한 브랜드가 되어 있었습니다. 구글 리더 같은 서비스도 RSS를 기본 지원했기 때문에 Atom이 RSS를 완전히 대체하지는 못했습니다. 결과적으로 대부분의 피드 리더와 블로그 플랫폼은 RSS와 Atom을 함께 지원하게 되었습니다. 현재는 RSS라는 용어가 피드 형식 전체를 지칭하는 일반 명사처럼 쓰이기도 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Atom
+  - Atom Feed
+  - AtomPub
+  - Atom Publishing Protocol
+  - Atom 피드
+match_phrases:
+  - phrase: Atom
+    auto_match: true
+    priority: 100
+  - phrase: Atom Feed
+    auto_match: true
+    priority: 90
+  - phrase: AtomPub
+    auto_match: true
+    priority: 85
+  - phrase: Atom 피드
+    auto_match: true
+    priority: 80

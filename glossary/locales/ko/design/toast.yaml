@@ -1,0 +1,27 @@
+id: design.toast
+label: Toast
+slug: toast
+short: "Toast(또는 Toast Notification)는 사용자 작업 결과(저장 완료, 오류 발생 등)를 잠시(보통 3~5초) 화면 가장자리에 표시했다가 자동으로 사라지는 비모달(non-modal) 피드백 컴포넌트입니다. 여러 개의 Toast가 동시에 쌓일 때는 최신 메시지가 위나 아래로 밀어내는 스택 방식을 사용합니다."
+long: |-
+  Toast는 모달(Modal)과 달리 사용자의 현재 작업을 방해하지 않습니다. 보통 화면의 우측 상단, 우측 하단, 또는 상단 중앙에 위치하며, 각 Toast는 아이콘(성공, 오류, 경고, 정보), 텍스트 메시지, 그리고 선택적 닫기 버튼으로 구성됩니다. 메시지는 짧고 명확하게(한 줄에서 세 줄 이내) 작성하며, 중요한 정보나 결정을 요구하는 내용은 Toast 대신 모달이나 배너를 사용해야 합니다. 자동 사라짐(auto-dismiss)은 보통 `4~6초`가 적절하지만, 오류 메시지나 긴 내용은 사용자가 명시적으로 닫을 때까지 유지하는 옵션을 제공하는 것이 좋습니다.
+
+  디자인 시스템에서 Toast 컴포넌트 구현 시 고려할 핵심 사항은 접근성, 애니메이션, 전역 상태 관리, 다크 모드 대비입니다. 접근성 측면에서는 `role="status"`(성공/정보 메시지용) 또는 `role="alert"`(오류/경고 메시지용)를 사용하여 스크린 리더가 자동으로 읽도록 합니다. 자동 사라짐 시간을 사용자가 제어할 수 없으므로 너무 짧은 시간(2초 미만)은 피하고, 가능하면 hover나 focus 중 일시 정지 기능을 추가하는 것이 `WCAG 2.2.1` Timing Adjustable 요구와 잘 맞습니다. CSS 애니메이션은 fade-in, fade-out, slide 효과가 일반적이며, 여러 Toast가 쌓일 때의 진입/퇴장 애니메이션도 정의해야 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Toast
+  - toast
+  - Toast Notification
+  - toast notification
+  - 토스트
+  - 토스트 알림
+match_phrases:
+  - phrase: Toast
+    auto_match: true
+    priority: 100
+  - phrase: Toast Notification
+    auto_match: true
+    priority: 90
+  - phrase: 토스트
+    auto_match: true
+    priority: 80

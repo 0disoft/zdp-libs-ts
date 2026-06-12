@@ -1,0 +1,26 @@
+id: platform.static-site-generation
+label: Static Site Generation
+slug: static-site-generation
+short: "정적 사이트 생성(SSG)은 빌드 타임에 모든 페이지를 미리 HTML로 렌더링하는 방식으로, 사용자 요청 시 준비된 정적 파일을 즉시 반환합니다. CDN을 통한 전 세계적 배포가 용이하며 서버 부하가 거의 없습니다."
+long: |-
+
+  SSG는 개발자가 마크다운이나 템플릿 파일로 콘텐츠를 작성하면, 빌드 명령어 실행 시점에 이를 크롤링하여 완전한 HTML 페이지들을 생성합니다. 생성된 파일들은 서버나 CDN에 업로드되고, 사용자가 접속하면 별도의 서버 계산 없이 즉시 페이지를 받아볼 수 있습니다. 콘텐츠가 많아질수록 빌드 시간이 길어진다는 단점이 있지만, 정적 파일 특성상 로딩 속도와 SEO가 매우 뛰어납니다. 이 방식은 콘텐츠 변경이 드문 사이트에 특히 효과적입니다.
+
+  SSG는 콘텐츠 변경 빈도가 낮고 트래픽이 많은 사이트에 특히 유리합니다. 예를 들어 전자상거래 상품 페이지처럼 수십만 개의 페이지가 있더라도, 상품 정보가 자주 바뀌지 않는다면 SSG로 미리 생성해 CDN에 올리는 방식이 비용과 성능 면에서 효과적입니다. `Next.js`의 `output: "export"`, Astro, Hugo 등이 이 방식을 지원합니다. 정적 생성은 보안 측면에서도 동적 실행 환경보다 안전한 경우가 많습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Static Site Generation
+  - static site generation
+  - SSG
+  - 정적 사이트 생성
+match_phrases:
+  - phrase: Static Site Generation
+    auto_match: true
+    priority: 100
+  - phrase: SSG
+    auto_match: true
+    priority: 95
+  - phrase: 정적 사이트 생성
+    auto_match: true
+    priority: 90

@@ -1,0 +1,24 @@
+id: security.append-only
+label: Append-Only
+slug: append-only
+short: "Append-Only는 기존 데이터를 수정하거나 삭제할 수 없고, 오직 새로운 데이터만 끝에 추가할 수 있는 데이터 저장 패턴입니다. UPDATE나 DELETE를 허용하지 않고 INSERT만 허용하여 데이터 무결성을 보장합니다."
+long: |-
+  Append-Only 패턴은 데이터 무결성과 감사 가능성(auditability)이 중요한 시스템에서 널리 사용됩니다. 일반적인 관계형 데이터베이스의 UPDATE나 DELETE 연산을 허용하지 않고, 대신 변경이 필요할 때는 "이전 상태를 무효화(invalidate)한다"는 의미의 새로운 레코드를 추가합니다. 예를 들어, 사용자의 이메일 주소가 변경되면 기존 레코드를 수정하는 대신, `user_email_changed` 이벤트를 새로 추가하고 현재 활성 이메일을 별도의 뷰나 최신 스냅샷으로 계산합니다. 이벤트 소싱(Event Sourcing), 블록체인, 감사 로그, 버전 관리 시스템(Git), 데이터 웨어하우스의 팩트 테이블 등이 대표적인 Append-Only 사례입니다.
+
+  보안 및 디자인 시스템 관점에서 Append-Only는 감사 로그의 구현 방식과 직접 연결됩니다. 악의적인 내부자나 침해된 관리자 계정이 과거 로그를 지우는 것을 물리적으로 방지하기 위해, 많은 조직은 로그를 Append-Only 스토리지(예: AWS S3 Object Lock, Azure Blob Storage Immutable Blobs, Google Cloud Bucket Lock)에 저장합니다. 또한 데이터베이스 레벨에서도, PostgreSQL의 `INSERT`만 허용하고 `UPDATE/DELETE` 권한을 아예 부여하지 않는 전용 감사 데이터베이스 사용자나, MySQL의 `sql_log_bin` 설정과 결합된 감사 테이블 트리거 방식을 활용할 수 있습니다. 단점은 디스크 사용량이 지속적으로 증가하고, "현재 상태"를 조회하려면 매번 최신 레코드를 재계산하거나 구체화된 뷰(Materialized View)를 유지해야 하는 오버헤드가 있다는 점입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Append-Only
+  - append-only
+  - 추가 전용
+match_phrases:
+  - phrase: Append-Only
+    auto_match: true
+    priority: 100
+  - phrase: append-only
+    auto_match: true
+    priority: 95
+  - phrase: 추가 전용
+    auto_match: true
+    priority: 80

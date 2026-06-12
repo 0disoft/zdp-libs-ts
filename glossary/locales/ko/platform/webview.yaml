@@ -1,0 +1,22 @@
+id: platform.webview
+label: WebView
+slug: webview
+short: "WebView는 네이티브 애플리케이션 내부에 임베드된 브라우저 엔진 인스턴스로, 웹 콘텐츠를 네이티브 UI처럼 렌더링합니다. iOS의 WKWebView, Android의 WebView, Windows의 WebView2 등이 대표적입니다."
+long: |-
+
+  WebView는 운영체제가 제공하는 내장 브라우저 컴포넌트입니다. iOS의 WKWebView, Android의 WebView, Windows의 WebView2 등이 대표적입니다. 네이티브 앱 개발자는 WebView를 사용하여 외부 웹페이지를 표시하거나, 로컬에 있는 HTML 파일을 앱의 일부처럼 보여줄 수 있습니다. Tauri, Electron, Cordova, Ionic, React Native WebView 등 많은 크로스플랫폼 프레임워크가 이 기술에 의존합니다.
+
+  WebView의 핵심 특성은 네이티브 앱의 제어권과 웹 기술의 접근성 사이의 절충점을 제공한다는 점입니다. WebView 내에서는 DOM 조작, CSS 애니메이션, JavaScript 로직 등 표준 웹 기술을 그대로 사용할 수 있습니다. 동시에 JavaScript Bridge를 통해 네이티브 기능을 호출할 수 있습니다. 디자인 시스템 관점에서는, WebView 앱은 일반 웹사이트와 동일한 디자인 토큰과 CSS 변수를 공유할 수 있어 일관성이 높지만, 각 OS별 WebView 엔진의 CSS 지원 차이에 대한 테스트가 필수적입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - WebView
+  - webview
+  - 웹뷰
+match_phrases:
+  - phrase: WebView
+    auto_match: true
+    priority: 100
+  - phrase: 웹뷰
+    auto_match: true
+    priority: 90

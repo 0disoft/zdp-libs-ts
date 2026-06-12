@@ -1,0 +1,29 @@
+id: platform.web-font
+label: Web Font
+slug: web-font
+short: "웹 폰트(Web Font)는 사용자의 로컬 컴퓨터에 설치되지 않은 폰트를 원격 서버에서 다운로드하여 웹페이지에서 사용하는 기술입니다. `@font-face` CSS 규칙을 통해 정의하며, 다양한 폰트 포맷을 지원합니다."
+long: |-
+  웹 폰트는 `@font-face` CSS 규칙을 통해 정의하며, `src: url("font.woff2") format("woff2")` 형태로 폰트 파일의 위치와 포맷을 지정합니다. 대표적인 폰트 포맷으로는 WOFF2, WOFF, TTF, EOT 등이 있습니다. Google Fonts, Adobe Fonts, Font Awesome 등은 CDN을 통해 쉽게 웹 폰트를 추가할 수 있는 서비스이며, 직접 폰트 파일을 호스팅할 수도 있습니다. 이 방식은 타이포그래피 디자인의 자유도를 크게 높여줍니다.
+
+  웹 폰트 사용 시 성능과 UX를 고려해야 할 사항이 많습니다. `font-display` 속성은 `auto`, `swap`, `fallback`, `optional` 등을 지원하는데, `swap`은 폴백 폰트로 먼저 표시했다가 웹 폰트 로드 후 교체하고, `optional`은 매우 짧은 시간 동안만 기다립니다. 또한 폰트 파일 크기가 크면 페이지 로딩을 차단할 수 있으므로, WOFF2 사용과 서브셋팅이 권장됩니다. 마지막으로 웹 폰트는 개인정보 이슈도 있어 최근에는 self-hosting을 선호하는 흐름이 있습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Web Font
+  - web font
+  - 웹 폰트
+  - "@font-face"
+  - font-display
+match_phrases:
+  - phrase: Web Font
+    auto_match: true
+    priority: 100
+  - phrase: 웹 폰트
+    auto_match: true
+    priority: 90
+  - phrase: "@font-face"
+    auto_match: true
+    priority: 85
+  - phrase: font-display
+    auto_match: true
+    priority: 80

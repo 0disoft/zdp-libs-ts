@@ -1,0 +1,21 @@
+id: design.color-scheme
+label: Color Scheme
+slug: color-scheme
+short: "Color Scheme(컬러 스킴)은 사용자 인터페이스에서 조화롭게 사용될 색상들의 체계적인 집합입니다. 주 색상, 보조 색상, 강조 색상, 중립 색상, 상태 색상 등으로 구성됩니다."
+long: |-
+  Color Scheme은 단순한 팔레트 이상의 의미를 가집니다. 일반적으로 3~5개의 주요 색상군(primary, secondary, accent)과 회색조(neutral 또는 gray scale), 그리고 의미 기반 상태 색상(success, warning, error, info)을 포함합니다. 각 색상군은 다시 여러 계조(gradient)로 나뉘어, 예를 들어 `blue.50`(가장 밝음)에서 `blue.900`(가장 어두움)까지의 스펙트럼을 제공합니다. 이는 접근성 대비 비율(`WCAG 2.1` 기준 `4.5:1` 이상)을 유지하면서, 다양한 컴포넌트 상태(기본, 호버, 활성, 비활성, 포커스)에 적합한 색상을 선택할 수 있게 해줍니다.
+
+  Color Scheme을 정의할 때는 색상 모델 선택이 중요합니다. 기존의 RGB나 HSL은 지각적 균일성이 낮지만, `OKLCH` 또는 `Oklab`을 기반으로 Color Scheme을 생성하면 밝기를 유지한 채 색상과 채도만 변경해도 일관된 시각적 무게감을 얻을 수 있습니다. 또한 Color Scheme은 Theme의 하위 개념으로, 하나의 Theme 내에서도 여러 Color Scheme이 존재할 수 있습니다. 디자인 시스템에서는 보통 `color-scheme` CSS 속성을 사용하여 브라우저에게 폼 컨트롤과 스크롤바의 기본 렌더링 방식을 힌트로 제공합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Color Scheme
+  - color scheme
+  - 컬러 스킴
+match_phrases:
+  - phrase: Color Scheme
+    auto_match: true
+    priority: 100
+  - phrase: 컬러 스킴
+    auto_match: true
+    priority: 90

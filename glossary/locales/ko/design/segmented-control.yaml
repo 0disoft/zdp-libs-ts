@@ -1,0 +1,25 @@
+id: design.segmented-control
+label: Segmented Control
+slug: segmented-control
+short: "세그먼티드 컨트롤(Segmented Control)은 두 개 이상의 상호 배타적인 옵션을 가로로 나열한 버튼 그룹입니다. 한 번에 하나의 옵션만 선택할 수 있어 뷰 전환이나 필터링에 적합합니다."
+long: |-
+  세그먼티드 컨트롤은 주로 동일한 데이터 집합을 다른 방식으로 필터링하거나 뷰를 전환할 때 사용됩니다. 예를 들어 이메일 앱에서 받은 편지함, 보낸 편지함, 중요함을 선택하는 식입니다. 모든 옵션이 화면에 동시에 보이므로 사용자가 항목을 직관적으로 파악할 수 있습니다. 드롭다운 메뉴보다 현재 선택 가능한 범위를 한눈에 알 수 있다는 장점이 있습니다.
+
+  세그먼티드 컨트롤은 옵션이 2개에서 5개 사이일 때 가장 효과적입니다. 너무 많은 옵션은 작은 터치 타겟을 초래하고, 모바일에서는 좌우 스크롤이 필요할 수 있어 오히려 불편합니다. 디자인적으로는 선택된 세그먼트와 선택되지 않은 세그먼트의 대비가 명확해야 하며, iOS의 기본 컴포넌트로 유명하지만 웹에서도 탭 컴포넌트와 유사하게 구현 가능합니다. 접근성 측면에서는 뷰 전환이면 `role="tablist"`와 `aria-selected`를, 폼 값 선택이면 `radiogroup`이나 실제 radio 입력을 사용하는 식으로 의미에 맞게 역할을 골라야 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Segmented Control
+  - segmented control
+  - 세그먼티드 컨트롤
+  - 세그먼트 컨트롤
+match_phrases:
+  - phrase: Segmented Control
+    auto_match: true
+    priority: 100
+  - phrase: 세그먼티드 컨트롤
+    auto_match: true
+    priority: 90
+  - phrase: 세그먼트 컨트롤
+    auto_match: true
+    priority: 80

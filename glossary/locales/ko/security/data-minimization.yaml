@@ -1,0 +1,26 @@
+id: security.data-minimization
+label: Data Minimization
+slug: data-minimization
+short: "Data Minimization(데이터 최소화)은 특정 목적을 달성하는 데 꼭 필요한 최소한의 개인정보만 수집하고, 나머지는 애초에 수집하지 않는 원칙입니다. \"수집할 수 있으니까\"가 아니라 실제 목적에 필요한지 먼저 따지는 접근법입니다."
+long: |-
+  Data Minimization은 GDPR 제5조에 명시된 핵심 원칙 중 하나로, 설계 단계부터 적용되어야 합니다. 회원가입 시 이메일만으로 서비스가 가능하다면 전화번호와 주소를 요구하지 않는 것이 대표적인 예입니다. 결제 이력 분석에는 거래 ID와 금액만 추출하고, 사용자 이름이나 배송지는 제외합니다. 사용자 행동 분석 시에는 익명화된 IP만 저장하고, 목적 달성 후에는 데이터를 즉시 삭제해야 합니다.
+
+  Data Minimization을 구현하는 기술적 방법으로는 필드 수준 암호화(특정 필드만 접근 가능하게), 집계(Aggregation, 개별 사용자 대신 통계만 저장), 차등 프라이버시(Differential Privacy, 노이즈를 추가해 개인 식별 불가능하게 만듦), 데이터 보존 정책 자동화(90일 후 자동 삭제) 등이 있습니다. 비즈니스 입장에서는 "나중에 쓸 수도 있으니" 미리 많이 모으고 싶은 유혹이 있지만, 이는 위반 시 막대한 과징금뿐 아니라 데이터 유출 사고 시 피해 범위를 크게 늘립니다. GDPR 위반 과징금은 글로벌 매출의 4% 또는 2천만 유로 중 큰 금액까지 올라갈 수 있습니다. 결국 Data Minimization은 사용자 신뢰와 법적 리스크 사이의 균형이 아니라, 처음부터 안 모으는 것이 가장 안전한 보안이라는 원칙의 실천입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Data Minimization
+  - data minimization
+  - 데이터 최소화
+  - Differential Privacy
+  - 데이터 보존 정책
+match_phrases:
+  - phrase: Data Minimization
+    auto_match: true
+    priority: 100
+  - phrase: 데이터 최소화
+    auto_match: true
+    priority: 95
+  - phrase: Differential Privacy
+    auto_match: true
+    priority: 75

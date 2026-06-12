@@ -1,0 +1,21 @@
+id: design.theme
+label: Theme
+slug: theme
+short: "Theme(테마)은 애플리케이션의 시각적 외관(색상, 폰트, 간격, 그림자, 모서리 둥글기 등)을 일관되게 정의하는 디자인 토큰의 모음입니다. 테마를 적용하면 런타임에 전체 UI의 모양을 일괄 변경할 수 있습니다."
+long: |-
+  Theme은 디자인 시스템의 핵심 개념으로, 단일 값의 집합이 아닌 다양한 변형을 가질 수 있습니다. 라이트 테마, 다크 테마, 고대비 테마, 브랜드별 테마 같은 변형이 예시입니다. 구현 방식은 CSS Custom Properties, CSS-in-JS, SASS 변수, 또는 Flutter의 ThemeData 등 프레임워크별 솔루션으로 다양합니다. 테마를 적용하면 런타임에 전체 UI의 모양을 일괄 변경할 수 있으며, 사용자 기본 설정이나 사용자 명시적 선택을 지원할 수 있습니다.
+
+  프론트엔드 아키텍처 관점에서 Theme은 보통 전역 상태로 관리됩니다. 다크 모드 전환 시 모든 컴포넌트가 리렌더링되는 성능 비용을 최소화하기 위해, 대부분의 현대 프레임워크는 CSS 변수 기반 테마를 선호합니다. 예를 들어, CSS 변수를 한 번 업데이트하면 전체 테마가 변경됩니다. 또한 Design Token 파이프라인과 결합할 때는, Figma의 테마 변형을 추출하여 각 플랫폼에 맞는 형식으로 컴파일하는 것이 모범 사례입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Theme
+  - theme
+  - 테마
+match_phrases:
+  - phrase: Theme
+    auto_match: true
+    priority: 100
+  - phrase: 테마
+    auto_match: true
+    priority: 90

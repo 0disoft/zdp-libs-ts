@@ -1,0 +1,26 @@
+id: platform.static-site
+label: Static Site
+slug: static-site
+short: "정적 사이트(Static Site)는 미리 생성된 HTML, CSS, JavaScript 파일을 그대로 사용자에게 제공하는 웹사이트로, 요청마다 서버에서 동적으로 콘텐츠를 만들지 않습니다. 데이터베이스나 서버사이드 로직이 필요 없어 CDN 캐싱이 매우 효율적입니다."
+long: |-
+
+  정적 사이트는 각 페이지가 빌드 시점에 완성된 형태로 서버에 저장되어 있다가, 사용자가 요청하면 해당 파일을 그대로 전송합니다. 데이터베이스나 서버사이드 로직이 필요 없기 때문에 CDN을 통한 캐싱이 매우 효율적이고, 서버 부하가 거의 없으며 보안 위협도 적습니다. 대신 콘텐츠가 변경되면 전체 사이트를 다시 빌드하고 배포해야 합니다. 이러한 특성은 콘텐츠가 안정적인 사이트에 적합합니다.
+
+  블로그, 문서 사이트, 포트폴리오처럼 콘텐츠 업데이트가 잦지 않거나 정적인 성격이 강한 사이트에 적합합니다. 최근에는 Jamstack 아키텍처와 결합해 댓글이나 검색 같은 동적 기능은 외부 API로 대체하면서 정적 사이트의 장점을 극대화하는 추세입니다. Gatsby, Hugo, Jekyll 등이 대표적인 정적 사이트 생성기 도구입니다. 정적 사이트는 호스팅 비용이 저렴하고 배포 과정이 단순한 장점도 있습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Static Site
+  - static site
+  - 정적 사이트
+  - Jamstack
+match_phrases:
+  - phrase: Static Site
+    auto_match: true
+    priority: 100
+  - phrase: 정적 사이트
+    auto_match: true
+    priority: 90
+  - phrase: Jamstack
+    auto_match: true
+    priority: 70

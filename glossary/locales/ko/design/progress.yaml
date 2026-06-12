@@ -1,0 +1,27 @@
+id: design.progress
+label: Progress
+slug: progress
+short: "Progress(진행 표시기)는 작업이 완료된 정도를 0%에서 100% 사이의 값으로 시각적으로 표시하는 컴포넌트입니다. 주로 파일 업로드, 설치, 긴 계산 작업 등에 사용됩니다."
+long: |-
+  Progress는 확정형과 불확정형 두 가지 주요 형태로 나뉩니다. 확정형은 백분율을 정확히 알 수 있을 때 사용하며, 보통 가로 막대 형태로 채워지는 비율을 보여줍니다. 예를 들어 값이 45이고 최대가 100이면 45%만큼 막대가 채워집니다. 불확정형은 총 작업량을 알 수 없을 때 끝없이 반복되는 애니메이션으로 진행 중임을 알립니다.
+
+  디자인 시스템에서 Progress의 핵심 고려사항은 접근성과 상태 관리입니다. 커스텀 Progress에는 진행률을 나타내는 속성을 포함해야 합니다. 여러 개의 독립적인 진행 작업이 동시에 발생할 수 있으므로, 각 Progress 인스턴스는 고유한 라벨이나 ID로 구분되어야 합니다. 다크 모드에서는 진행 막대의 배경과 진행률 색상 간 대비를 유지하도록 조정하고, 오래 걸리는 작업에는 취소 버튼이나 완료 예상 시간을 함께 제공하는 것이 좋습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Progress
+  - progress
+  - Progress Bar
+  - progress bar
+  - 진행 표시기
+  - 진행 막대
+match_phrases:
+  - phrase: Progress
+    auto_match: true
+    priority: 100
+  - phrase: Progress Bar
+    auto_match: true
+    priority: 90
+  - phrase: 진행 표시기
+    auto_match: true
+    priority: 80

@@ -1,0 +1,31 @@
+id: platform.seo
+label: undefined
+slug: undefined
+status: active
+visibility: public
+owner: platform-frontend
+detail_enabled: true
+indexable: false
+monetizable: false
+products: []
+sites: []
+related_terms:
+  - platform.sitemap
+  - platform.robots-txt
+  - platform.llms-txt
+  - platform.search-index
+  - platform.static-site-generation
+aliases:
+
+match_phrases:
+
+canonical_path: null
+interaction:
+  trigger: click
+  surface: term-sheet
+  desktop_placement: right-sheet
+  mobile_placement: bottom-sheet
+ad_policy:
+  hover_card: forbidden
+  term_sheet: forbidden
+  detail_page: future-experiment-only

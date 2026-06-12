@@ -1,0 +1,21 @@
+id: design.wcag
+label: WCAG
+slug: wcag
+short: "WCAG(Web Content Accessibility Guidelines)는 웹 콘텐츠를 장애인도 이용할 수 있도록 만드는 방법에 대한 국제 표준 가이드라인입니다. W3C에서 개발하고 유지 관리하며, 전 세계 많은 국가에서 법적 기준으로 채택되었습니다."
+long: |-
+  WCAG는 단순한 권고사항이 아니라, 전 세계 많은 국가에서 법적 기준으로 채택된 접근성 표준입니다. 현재 안정판은 `WCAG 2.2`(2023년 발표)이며, `WCAG 2.1`과 `WCAG 2.0`을 포함한 이전 버전과 역호환됩니다. 네 가지 원칙(인식 가능성, 운용 가능성, 이해 가능성, 견고성) 아래 총 13개의 지침과 86개의 성공 기준(Success Criterion)으로 구성됩니다. 각 성공 기준에는 A(가장 기본), AA(중간), AAA(가장 높음)의 세 가지 적합 수준(Conformance Level)이 있으며, 대부분의 법적 규제(예: 미국 ADA, 유럽 EAA, 한국 장애인차별금지법)는 `WCAG 2.1 Level AA` 준수를 요구합니다.
+
+  디자인 시스템과 프론트엔드 개발 측면에서 WCAG는 구체적인 테스트 기준을 제공합니다. 예를 들어 색상 대비는 `SC 1.4.3`으로, 키보드 접근성은 `SC 2.1.1`으로 정량화되어 있습니다. 포커스 표시는 `SC 2.4.7`과 `SC 2.4.11`에서 다루며, 텍스트 크기 조정은 `SC 1.4.4`에서 규정합니다. 개발자는 `axe-core`, `Lighthouse`, `WAVE` 같은 자동화 도구로 기본 위반 사항을 검사하고, 스크린 리더와 키보드만으로 직접 테스트하여 통과 여부를 확인합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - WCAG
+  - Web Content Accessibility Guidelines
+  - 웹 콘텐츠 접근성 지침
+match_phrases:
+  - phrase: WCAG
+    auto_match: true
+    priority: 100
+  - phrase: Web Content Accessibility Guidelines
+    auto_match: true
+    priority: 90

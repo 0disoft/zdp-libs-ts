@@ -1,0 +1,21 @@
+id: platform.flutter-token
+label: Flutter Tokens
+slug: flutter-tokens
+short: "Flutter Tokens은 Flutter 애플리케이션에서 디자인 토큰을 관리하는 방법으로, 주로 `ThemeData` 확장이나 코드 생성 도구를 통해 구현됩니다. 색상, 간격, 폰트 등의 일관된 스타일을 코드로 체계화할 수 있습니다."
+long: |-
+
+  Flutter는 기본적으로 `ThemeData`라는 중앙 테마 객체를 제공하지만, 여기에는 미리 정의된 속성만 포함되어 있습니다. 디자인 시스템에서 요구하는 커스텀 토큰을 추가하려면 여러 방법이 있습니다. 가장 간단한 방법은 `ThemeData`를 확장한 커스텀 클래스를 만들거나, `extension on ThemeData`를 사용하여 접근자를 추가하는 것입니다. 더 정교한 접근으로는 Figma Tokens, Style Dictionary, Supernova 같은 도구를 사용하여 JSON이나 YAML로 정의된 디자인 토큰을 Dart 코드로 자동 생성하는 방식이 있습니다.
+
+  Flutter Tokens의 실제 구현에서는 보통 원시 토큰과 시맨틱 토큰의 두 계층으로 구성합니다. 원시 토큰을 `app_tokens.dart` 파일에 상수로 정의하고, 시맨틱 토큰은 `AppTheme.light()`, `AppTheme.dark()` 같은 팩토리 메서드 내에서 매핑합니다. 이렇게 하면 다크 모드 전환이나 브랜드 스킨 변경이 매우 쉬워지고, `ColorScheme.fromSeed`와 결합하여 Material 3의 동적 컬러 시스템과 디자인 토큰을 함께 사용할 수도 있습니다. 주의할 점은 Flutter가 웹에서 CSS 변수를 직접 읽을 수 없기 때문에, 웹과 모바일 간 토큰을 공유하려면 JSON 기반 직렬화가 필요하다는 것입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Flutter tokens
+  - Flutter / Native
+match_phrases:
+  - phrase: Flutter / Native
+    auto_match: true
+    priority: 90
+  - phrase: Flutter Tokens
+    auto_match: true
+    priority: 85

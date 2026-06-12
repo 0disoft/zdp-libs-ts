@@ -29,12 +29,10 @@ interface PublicGlossaryLocaleTerm {
   readonly ad_policy?: unknown;
 }
 
-const SHORT_COPY_MIN_SENTENCES = 1;
-const SHORT_COPY_MAX_SENTENCES = 2;
+const SHORT_COPY_SENTENCES = 2;
 const LONG_COPY_MIN_PARAGRAPHS = 2;
 const LONG_COPY_MAX_PARAGRAPHS = 3;
-const LONG_COPY_MIN_SENTENCES_PER_PARAGRAPH = 3;
-const LONG_COPY_MAX_SENTENCES_PER_PARAGRAPH = 5;
+const LONG_COPY_SENTENCES_PER_PARAGRAPH = 4;
 const COMMON_GLOSSARY_PRODUCT_COPY_PATTERNS: readonly RegExp[] = [
   /\bZDP\b/u,
   /8ailors/u,
@@ -81,9 +79,9 @@ describe('public glossary source data', () => {
       expect(term.ad_policy).toBeUndefined();
       expect(term.short).toBeString();
       expectGeneralPublicCopy(term.id ?? '<missing-id>', 'short', term.short ?? '');
+      expectNoBoldMarkdown(term.id ?? '<missing-id>', 'short', term.short ?? '');
       expect(readParagraphs(term.short ?? '')).toHaveLength(1);
-      expect(countSentences(term.short ?? '')).toBeGreaterThanOrEqual(SHORT_COPY_MIN_SENTENCES);
-      expect(countSentences(term.short ?? '')).toBeLessThanOrEqual(SHORT_COPY_MAX_SENTENCES);
+      expect(countSentences(term.short ?? '')).toBe(SHORT_COPY_SENTENCES);
 
       if (term.translation_status === 'reviewed') {
         expect(term.long).toBeString();
@@ -91,14 +89,14 @@ describe('public glossary source data', () => {
 
       if (typeof term.long === 'string') {
         expectGeneralPublicCopy(term.id ?? '<missing-id>', 'long', term.long);
+        expectNoBoldMarkdown(term.id ?? '<missing-id>', 'long', term.long);
         const paragraphs = readParagraphs(term.long);
         expect(paragraphs.length).toBeGreaterThanOrEqual(LONG_COPY_MIN_PARAGRAPHS);
         expect(paragraphs.length).toBeLessThanOrEqual(LONG_COPY_MAX_PARAGRAPHS);
 
         for (const paragraph of paragraphs) {
           const sentenceCount = countSentences(paragraph);
-          expect(sentenceCount).toBeGreaterThanOrEqual(LONG_COPY_MIN_SENTENCES_PER_PARAGRAPH);
-          expect(sentenceCount).toBeLessThanOrEqual(LONG_COPY_MAX_SENTENCES_PER_PARAGRAPH);
+          expect(sentenceCount).toBe(LONG_COPY_SENTENCES_PER_PARAGRAPH);
         }
       }
     }
@@ -107,15 +105,17 @@ describe('public glossary source data', () => {
 
 async function readPublicGlossarySource(): Promise<PublicGlossarySource> {
   const termsRoot = new URL('../glossary/terms/', import.meta.url);
-  const files = (await readdir(termsRoot))
-    .filter((file) => /\.ya?ml$/i.test(file))
-    .sort((left, right) => left.localeCompare(right));
+  const files = await collectYamlFiles(termsRoot);
   const terms: PublicGlossaryTerm[] = [];
 
   for (const file of files) {
-    const source = await readFile(new URL(file, termsRoot), 'utf8');
-    const parsed = Bun.YAML.parse(source) as PublicGlossarySource;
-    terms.push(...(parsed.terms ?? []));
+    const source = await readFile(file, 'utf8');
+    const parsed = Bun.YAML.parse(source) as PublicGlossarySource | PublicGlossaryTerm;
+    if (Array.isArray((parsed as PublicGlossarySource).terms)) {
+      terms.push(...((parsed as PublicGlossarySource).terms ?? []));
+    } else if (typeof (parsed as PublicGlossaryTerm).id === 'string') {
+      terms.push(parsed as PublicGlossaryTerm);
+    }
   }
 
   return { terms };
@@ -123,19 +123,39 @@ async function readPublicGlossarySource(): Promise<PublicGlossarySource> {
 
 async function readPublicGlossaryLocaleSource(locale: string): Promise<PublicGlossaryLocaleSource> {
   const localeRoot = new URL(`../glossary/locales/${locale}/`, import.meta.url);
-  const files = (await readdir(localeRoot))
-    .filter((file) => /\.ya?ml$/i.test(file))
-    .sort((left, right) => left.localeCompare(right));
+  const files = await collectYamlFiles(localeRoot);
   const terms: PublicGlossaryLocaleTerm[] = [];
 
   for (const file of files) {
-    const source = await readFile(new URL(file, localeRoot), 'utf8');
-    const parsed = Bun.YAML.parse(source) as PublicGlossaryLocaleSource;
-    expect(parsed.locale).toBe(locale);
-    terms.push(...(parsed.terms ?? []));
+    const source = await readFile(file, 'utf8');
+    const parsed = Bun.YAML.parse(source) as PublicGlossaryLocaleSource | PublicGlossaryLocaleTerm;
+    if (typeof (parsed as PublicGlossaryLocaleSource).locale === 'string') {
+      expect((parsed as PublicGlossaryLocaleSource).locale).toBe(locale);
+    }
+    if (Array.isArray((parsed as PublicGlossaryLocaleSource).terms)) {
+      terms.push(...((parsed as PublicGlossaryLocaleSource).terms ?? []));
+    } else if (typeof (parsed as PublicGlossaryLocaleTerm).id === 'string') {
+      terms.push(parsed as PublicGlossaryLocaleTerm);
+    }
   }
 
   return { locale, terms };
+}
+
+async function collectYamlFiles(root: URL): Promise<URL[]> {
+  const result: URL[] = [];
+  const rootUrl = root.href.endsWith('/') ? root : new URL(root.href + '/');
+  const entries = await readdir(rootUrl, { withFileTypes: true });
+  for (const entry of entries) {
+    const entryUrl = new URL(entry.name, rootUrl);
+    if (entry.isDirectory()) {
+      const subFiles = await collectYamlFiles(entryUrl);
+      result.push(...subFiles);
+    } else if (entry.isFile() && /\.ya?ml$/i.test(entry.name)) {
+      result.push(entryUrl);
+    }
+  }
+  return result.sort((left, right) => left.pathname.localeCompare(right.pathname));
 }
 
 function readParagraphs(value: string): readonly string[] {
@@ -160,5 +180,11 @@ function maskInlineCode(value: string): string {
 function expectGeneralPublicCopy(termId: string, field: 'short' | 'long', value: string): void {
   for (const pattern of COMMON_GLOSSARY_PRODUCT_COPY_PATTERNS) {
     expect(`${termId}.${field}: ${value}`).not.toMatch(pattern);
+  }
+}
+
+function expectNoBoldMarkdown(termId: string, field: 'short' | 'long', value: string): void {
+  if (/\*\*[^*]+\*\*/.test(maskInlineCode(value))) {
+    throw new Error(`${termId}.${field} contains bold markdown`);
   }
 }

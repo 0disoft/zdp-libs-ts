@@ -1,0 +1,29 @@
+id: security.least-privilege
+label: Least Privilege
+slug: least-privilege
+short: "Least Privilege(최소 권한 원칙)는 사용자, 프로세스, 또는 시스템 구성 요소가 작업을 수행하는 데 꼭 필요한 최소한의 권한만 부여해야 한다는 보안 기본 원칙입니다. 핵심은 \"필요한 것 이상으로 주지 마라\"입니다."
+long: |-
+  Least Privilege는 모든 권한 남용의 잠재적 피해를 최소화하기 위해 설계되었습니다. 예를 들어, 데이터베이스 백업만 수행하는 서비스 계정에는 `SELECT` 권한만 주고 `DROP TABLE` 같은 파괴적 권한은 주지 않습니다. 마찬가지로, 일반 직원의 계정은 자신의 부서 데이터만 읽을 수 있고, 인사 데이터나 결제 정보는 접근할 수 없어야 합니다. 이 원칙을 따르면 공격자가 계정을 탈취하더라도 이동할 수 있는 범위(lateral movement)가 크게 줄어듭니다.
+
+  실제 적용은 역할 기반 접근 제어를 통해 이루어집니다. 역할별로 읽기나 쓰기 권한을 구분하여 부여하는 것이 일반적입니다. 현대 클라우드 환경에서는 개별 권한 단위로 매우 세밀한 정책을 작성할 수 있습니다. 정기적인 권한 감사와 컨테이너 환경의 파일 시스템 제한 등으로 권한 남용을 방지합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Least Privilege
+  - least privilege
+  - 최소 권한 원칙
+  - 최소 권한
+  - permission creep
+match_phrases:
+  - phrase: Least Privilege
+    auto_match: true
+    priority: 100
+  - phrase: 최소 권한 원칙
+    auto_match: true
+    priority: 95
+  - phrase: 최소 권한
+    auto_match: true
+    priority: 90
+  - phrase: permission creep
+    auto_match: true
+    priority: 75

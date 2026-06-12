@@ -1,0 +1,30 @@
+id: platform.font-stack
+label: Font Stack
+slug: font-stack
+short: "폰트 스택(Font Stack)은 CSS의 `font-family` 속성에 쉼표로 구분하여 여러 폰트를 나열하는 방식으로, 앞의 폰트가 없거나 로드 실패 시 다음 폰트로 대체됩니다. 마지막에는 `serif`, `sans-serif`, `monospace` 같은 generic family를 넣어 완전한 폰트 누락을 방지해야 합니다."
+long: |-
+
+  폰트 스택은 시스템 폰트, 웹 폰트, 폴백 폰트를 순서대로 지정하여 모든 사용자 환경에서 일관성 있게 텍스트를 표시하게 합니다. 예를 들어 `font-family: "Helvetica Neue", Arial, sans-serif;`라고 작성하면, Helvetica Neue가 설치된 Mac에서는 그것을 사용하고, Windows에서는 Arial을, 둘 다 없으면 기본 sans-serif 폰트를 사용합니다. 마지막에는 반드시 `serif`, `sans-serif`, `monospace`, `cursive`, `fantasy` 같은 generic family를 넣어 완전히 폰트가 없는 상황을 방지해야 합니다. 이 방식은 폰트 로딩 실패에도 일관된 타이포그래피를 유지하는 데 필수적입니다.
+
+  효과적인 폰트 스택을 구성하려면 각 운영체제의 기본 폰트를 이해해야 합니다. macOS는 San Francisco, Windows는 Segoe UI, Android는 Roboto, iOS는 San Francisco를 사용합니다. 따라서 `system-ui`라는 generic keyword를 사용하면 OS 기본 폰트를 자동으로 가져오는 현대적인 방법도 있습니다. 다만 웹 폰트를 사용할 경우, 폰트 로딩 시간 동안 폴백 폰트가 먼저 보이다가 교체되는 FOUT 현상이 발생할 수 있어, `font-display: swap` 같은 옵션으로 이를 제어합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Font Stack
+  - font stack
+  - 폰트 스택
+  - font-family
+  - system-ui
+match_phrases:
+  - phrase: Font Stack
+    auto_match: true
+    priority: 100
+  - phrase: 폰트 스택
+    auto_match: true
+    priority: 90
+  - phrase: font-family
+    auto_match: true
+    priority: 85
+  - phrase: system-ui
+    auto_match: true
+    priority: 75

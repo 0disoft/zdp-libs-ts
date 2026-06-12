@@ -1,0 +1,20 @@
+id: security.vault
+label: Vault
+slug: vault
+short: "Vault은 HashiCorp에서 만든 비밀 정보 관리 도구로, API 키나 데이터베이스 비밀번호, 인증서, 토큰 등을 안전하게 저장합니다. 접근 기록과 IP 제한, 시간 기반 토큰 만료, 감사 로그 같은 세밀한 보안 정책을 적용할 수 있습니다."
+long: |-
+  Vault은 단순한 비밀번호 관리자를 넘어선 엔터프라이즈 급 시크릿(secret) 관리 시스템입니다. 모든 비밀 정보는 암호화되어 저장되며, 접근 기록, IP 제한, 시간 기반 토큰 만료, 감사 로그(audit log) 같은 세밀한 보안 정책을 적용할 수 있습니다. 또한 데이터베이스, 클라우드 서비스(AWS/Azure/GCP), PKI 인증서, SSH 키 등 다양한 백엔드에 대한 "동적 시크릿(dynamic secret)" 생성 기능을 제공합니다. 예를 들어, 애플리케이션이 Vault에 요청할 때마다 60초만 유효한 PostgreSQL 비밀번호를 새로 발급받을 수 있습니다.
+
+  디자인 시스템 또는 프론트엔드 인프라 관점에서 Vault는 직접적으로 사용되지는 않지만, 백엔드 API나 CI/CD 파이프라인의 API 키 등을 보호하는 데 필수적입니다. 디자인 토큰 저장소에 접근하기 위한 인증 토큰을 Vault에서 관리할 수 있습니다. 서버 사이드 렌더링 환경에서는 Vault Agent를 통해 서버 측에서만 안전하게 API 키를 주입받을 수 있습니다. Vault 자체는 Go 언어로 작성되었으며, Kubernetes와의 통합이 뛰어나 현대 마이크로서비스 환경에서 표준으로 자리잡고 있습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - vault
+  - 비밀값 저장
+match_phrases:
+  - phrase: 비밀값 저장
+    auto_match: true
+    priority: 80
+  - phrase: vault
+    auto_match: true
+    priority: 70

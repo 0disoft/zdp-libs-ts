@@ -1,0 +1,26 @@
+id: platform.client-side-rendering
+label: Client Side Rendering
+slug: client-side-rendering
+short: "클라이언트사이드 렌더링(CSR)은 서버에서 거의 빈 HTML과 JavaScript 번들을 보내주고, 브라우저에서 모든 UI 렌더링을 수행하는 방식입니다. 페이지 전환 시 새로고침 없이 부드러운 사용자 경험을 제공하는 SPA 구현에 적합합니다."
+long: |-
+
+  CSR은 초기 요청 시 기본적인 뼈대만 포함된 HTML 파일과 번들로 묶인 JavaScript 파일을 받습니다. 이후 브라우저에서 JavaScript가 실행되면서 API 호출 등을 통해 데이터를 가져오고, DOM을 동적으로 생성하여 페이지를 완성합니다. 사용자 경험이 매우 부드럽고, 페이지 전환 시 새로고침 없이 필요한 부분만 다시 렌더링하는 SPA 구현에 적합합니다. React의 `create-react-app`, Vue CLI, Svelte 등이 CSR 방식을 기본으로 사용해 왔습니다.
+
+  단점으로는 초기 JavaScript 다운로드 및 실행 시간 동안 사용자에게 빈 화면이 노출될 수 있습니다. 또한 SEO에도 불리한데, 검색 엔진이 JavaScript 실행을 지원하더라도 렌더링 비용과 지연이 생길 수 있습니다. 내부 시스템이나 로그인 후 접근 가능한 대시보드처럼 SEO보다 상호작용이 중요한 앱에 적합합니다. 최근에는 SSR이나 SSG와 결합한 하이브리드 접근이 이러한 단점을 보완하고 있습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Client Side Rendering
+  - client side rendering
+  - CSR
+  - 클라이언트사이드 렌더링
+match_phrases:
+  - phrase: Client Side Rendering
+    auto_match: true
+    priority: 100
+  - phrase: CSR
+    auto_match: true
+    priority: 95
+  - phrase: 클라이언트사이드 렌더링
+    auto_match: true
+    priority: 90

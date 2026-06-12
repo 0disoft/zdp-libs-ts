@@ -1,0 +1,21 @@
+id: platform.tauri
+label: Tauri
+slug: tauri
+short: "Tauri는 웹 프론트엔드 기술로 데스크톱 애플리케이션을 만들되, 백엔드에는 Rust를 사용하는 경량 크로스플랫폼 프레임워크입니다. 프론트엔드는 React, Vue, Svelte 등 어떤 프레임워크든 사용할 수 있습니다."
+long: |-
+
+  Tauri는 Electron과 유사한 목적을 가지지만, 아키텍처와 성능 측면에서 큰 차이가 있습니다. 프론트엔드는 일반 웹 기술을 사용하여 UI를 만들고, 백엔드는 Rust로 작성된 매우 작은 네이티브 코어가 담당합니다. 이 Rust 코어는 시스템 API 접근, 파일 시스템, HTTP 요청, 네이티브 다이얼로그 등을 처리합니다. 웹뷰를 통해 UI를 렌더링하며, Windows의 WebView2, macOS의 WKWebView, Linux의 WebKitGTK 등 OS별 내장 웹뷰를 사용합니다.
+
+  Tauri의 가장 큰 장점은 결과물의 크기와 메모리 사용량으로, 최소 빈 앱의 크기는 약 3~10MB 수준이고 런타임 메모리도 Electron 대비 훨씬 적게 소비합니다. 또한 Rust의 메모리 안전성과 높은 성능을 활용할 수 있으며, IPC 메커니즘을 통해 프론트엔드에서 백엔드 함수를 타입 안전하게 호출할 수 있습니다. 디자인 시스템 관점에서는, Tauri가 프론트엔드 프레임워크와 완전히 독립적이므로 기존 웹 디자인 시스템을 그대로 가져와 데스크톱 앱으로 포팅하기 매우 쉽습니다. 다만, WebView의 버전이 OS마다 상이할 수 있어 CSS 기능 지원에 주의해야 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Tauri
+  - Tauri WebView
+match_phrases:
+  - phrase: Tauri WebView
+    auto_match: true
+    priority: 85
+  - phrase: Tauri
+    auto_match: true
+    priority: 80

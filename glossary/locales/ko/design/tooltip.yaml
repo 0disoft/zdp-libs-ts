@@ -1,0 +1,21 @@
+id: design.tooltip
+label: Tooltip
+slug: tooltip
+short: "Tooltip은 특정 UI 요소에 마우스를 호버하거나 키보드 포커스를 받을 때 나타나는 짧은 설명 텍스트입니다. 해당 요소의 기능이나 목적을 보충 설명하는 라벨 역할을 합니다."
+long: |-
+  Tooltip은 일반적으로 아이콘 버튼, 텍스트 링크, 입력 필드, 이미지 등 사용자에게 추가 설명이 필요한 요소에 연결됩니다. 마우스 호버 또는 키보드 포커스 시 약간의 지연(보통 `300~500ms`) 후에 나타나며, 마우스가 요소 밖으로 나가거나 포커스가 해제되면 자동으로 사라집니다. 내용은 항상 순수 텍스트만 포함해야 하며, 상호작용 가능한 요소(버튼, 링크, 입력 필드)는 Tooltip 안에 넣지 않습니다. WCAG 접근성 요구사항에 따라 Tooltip은 키보드로 접근 가능해야 하며(`aria-describedby` 또는 `tooltip` 역할 사용), 충분한 명도 대비(`4.5:1` 이상)를 유지하고, 터치 스크린에서도 확인할 방법을 제공해야 합니다.
+
+  디자인 시스템 관점에서 Tooltip 컴포넌트는 짧은 보조 설명에 머물러야 합니다. 위치는 상단, 하단, 좌측, 우측 중에서 선택 가능하고, 화면 가장자리에 닿았을 때는 잘리지 않도록 오프셋이나 플립 같은 배치 규칙을 둘 수 있습니다. 화살표(pointer)는 Tooltip이 가리키는 요소를 향하도록 구현할 수 있지만, 장식 요소이므로 텍스트 선택이나 스크린 리더 읽기 대상이 되지 않게 처리합니다. 툴팁 내 텍스트는 너무 길지 않게(보통 1~2문장, 최대 50자 내외) 제한하고, 긴 안내나 상태 설명은 Popover나 별도 안내 패턴으로 분리하는 것이 좋습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Tooltip
+  - tooltip
+  - 툴팁
+match_phrases:
+  - phrase: Tooltip
+    auto_match: true
+    priority: 100
+  - phrase: 툴팁
+    auto_match: true
+    priority: 90

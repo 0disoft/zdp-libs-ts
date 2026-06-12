@@ -1,0 +1,27 @@
+id: platform.locale
+label: Locale
+slug: locale
+short: "Locale(로케일)은 사용자의 언어, 지역, 문화적 관습에 맞게 애플리케이션의 출력 형식을 조정하기 위한 매개변수 집합입니다. 일반적으로 언어 코드와 지역 코드를 조합한 `ko_KR` 또는 `en-US` 같은 형식으로 표현합니다."
+long: |-
+
+  Locale은 단순히 어떤 언어를 사용하는지뿐만 아니라, 그 언어가 실제로 사용되는 구체적인 지역의 관습까지 포함합니다. 예를 들어 `pt_PT`와 `pt_BR`은 같은 언어라도 날짜 형식, 숫자 구분자, 통화 기호 등이 다릅니다. Locale은 또한 번호 매기기 방식, 첫 요일, 오전 오후 표기, 측정 단위 등도 결정합니다. 이러한 세부 차이는 글로벌 제품의 정확한 데이터 표현에 매우 중요합니다.
+
+  프로그래밍에서 Locale은 일반적으로 운영체제 수준에서 설정되거나, 웹에서는 브라우저의 `navigator.language`나 `Accept-Language` HTTP 헤더를 통해 전달됩니다. JavaScript의 `Intl` 객체나 Python의 `locale` 모듈은 Locale 정보를 바탕으로 날짜, 숫자, 통화, 문자열 비교 등을 자동으로 포맷팅해 줍니다. Locale을 잘못 설정하면 날짜가 익숙하지 않은 형식으로 보이거나, 콤마가 소수점으로 잘못 해석되는 문제가 발생할 수 있습니다. 따라서 다국어 애플리케이션에서는 Locale 설정을 명확하게 관리하는 것이 필수적입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Locale
+  - locale
+  - 로케일
+  - ko-KR
+  - en-US
+match_phrases:
+  - phrase: Locale
+    auto_match: true
+    priority: 100
+  - phrase: 로케일
+    auto_match: true
+    priority: 90
+  - phrase: ko-KR
+    auto_match: true
+    priority: 70

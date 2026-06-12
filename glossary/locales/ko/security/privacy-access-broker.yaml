@@ -1,0 +1,20 @@
+id: security.privacy-access-broker
+label: Privacy Access Broker
+slug: privacy-broker
+short: "Privacy Access Broker는 개인정보에 대한 접근 요청을 중앙에서 관리하는 시스템입니다. 자동화된 정책 기반으로 승인, 거부, 익명화, 거버넌스를 수행합니다."
+long: |-
+  Privacy Access Broker는 GDPR과 CCPA 등 개인정보 보호 규제의 요구사항을 체계적으로 구현하기 위한 아키텍처 패턴입니다. 조직 내부의 다양한 데이터 소스를 하나의 게이트웨이로 연결하여, 요청자와 목적, 데이터 유형에 따라 접근 수준을 동적으로 결정합니다. 핵심 기능으로는 자동 가명화나 익명화, 세분화된 접근 로깅, 자동 만료되는 임시 접근 토큰이 있습니다. 데이터 삭제 요청이 들어오면 연결된 모든 시스템에 삭제 명령을 전파할 수도 있습니다.
+
+  디자인 시스템 및 프론트엔드 인프라 관점에서 Privacy Access Broker는 보통 내부 개발자 포털이나 관리자 대시보드의 형태로 UI가 제공됩니다. 예를 들어, 고객 지원팀 직원이 특정 사용자의 데이터를 보려고 하면, 브로커가 자동으로 "접근 사유 입력" 팝업을 표시하고, 그 사유와 직원 ID, 접근 시간을 감사 로그에 기록한 후, 반환되는 데이터에서는 신용카드 번호나 주민등록번호 같은 민감 필드를 마스킹 처리합니다. 실제 구현 도구로는 Imprivata, SailPoint, Okta의 Identity Governance, Axiomatics, 또는 오픈소스의 Open Policy Agent(OPA) + DataHub 조합 등이 있습니다. 보안 감사 로그와 밀접하게 연결되어 있어서, 브로커 자체의 모든 결정(승인/거부)도 Append-Only 감사 로그에 기록되어야 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Privacy Access Broker
+  - 자동 처리 시스템 데이터 접근
+match_phrases:
+  - phrase: Privacy Access Broker
+    auto_match: true
+    priority: 100
+  - phrase: 자동 처리 시스템 데이터 접근
+    auto_match: true
+    priority: 80

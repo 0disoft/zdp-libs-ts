@@ -1,0 +1,21 @@
+id: security.access-control
+label: Access Control
+slug: access-control
+short: "Access Control(접근 제어)은 누가(Who) 어떤 리소스(What)에 어떻게(How) 접근할 수 있는지를 결정하고 시행(Enforce)하는 전반적인 보안 메커니즘입니다. 인증(Authentication) 이후에 적용되는 권한 부여(Authorization)의 구체적인 구현 방식입니다."
+long: |-
+  Access Control은 크게 네 가지 모델로 분류됩니다. DAC는 리소스 소유자가 직접 권한을 부여하고, MAC은 시스템 레이블에 따라 접근을 강제합니다. RBAC는 역할에 권한을 묶어 사용자에게 할당하는 방식으로 상업용 앱에서 널리 쓰입니다. ABAC는 사용자와 리소스 및 환경 속성을 조합하여 동적으로 접근을 결정합니다.
+
+  Access Control의 실제 구현은 주로 미들웨어 형태로 이루어집니다. 웹 프레임워크에서 요청이 컨트롤러에 도달하기 전에 권한을 확인하고, 없으면 403을 반환합니다. 데이터베이스 수준에서는 RLS를 적용하여 테이블에 직접 정책을 걸 수 있습니다. 권한 검사는 하나의 게이트웨이나 미들웨어에서 일관되게 적용해야 보안 허점이 생기지 않습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Access Control
+  - access control
+  - 접근 제어
+match_phrases:
+  - phrase: Access Control
+    auto_match: true
+    priority: 100
+  - phrase: 접근 제어
+    auto_match: true
+    priority: 90

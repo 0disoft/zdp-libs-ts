@@ -1,0 +1,26 @@
+id: platform.i18n
+label: i18n
+slug: i18n
+short: "i18n(국제화)은 소프트웨어를 코드 수정 없이 다양한 언어와 지역에 쉽게 적응할 수 있도록 설계하는 개발 관행입니다. 원어는 i와 n 사이에 18글자가 있어 i18n으로 줄여 씁니다."
+long: |-
+
+  i18n은 단순히 텍스트를 번역하는 것을 넘어서는 근본적인 아키텍처 작업입니다. 여기에는 텍스트 하드코딩 대신 키 기반의 메시지 참조 시스템 도입, 문자열이 아닌 데이터의 Locale 인식 포맷팅, 복수형 처리 등이 포함됩니다. 예를 들어 독일어는 영어보다 30~50% 더 길어질 수 있고, 아랍어는 영어와 다른 방향으로 읽히기 때문에 처음부터 레이아웃과 문장 구조를 유연하게 설계해야 합니다. 이러한 설계는 다양한 언어 환경에서 일관된 사용자 경험을 보장합니다.
+
+  i18n이 제대로 구현되면 그 위에 Localization만 얹으면 완성됩니다. 반대로 i18n이 없이 중간에 번역을 추가하려면 코드 곳곳을 뒤져 하드코딩된 문자열을 찾아 바꾸는 고통스러운 작업이 필요합니다. 프레임워크별 i18n 라이브러리는 이 모든 것을 체계적으로 처리할 수 있는 구조를 제공합니다. i18n을 처음부터 고려하지 않은 프로젝트를 국제화하는 리팩토링은 보통 매우 어렵기 때문에, 가능하면 프로젝트 시작 단계부터 도입하는 것이 좋습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - i18n
+  - Internationalization
+  - internationalization
+  - 국제화
+match_phrases:
+  - phrase: i18n
+    auto_match: true
+    priority: 100
+  - phrase: Internationalization
+    auto_match: true
+    priority: 90
+  - phrase: 국제화
+    auto_match: true
+    priority: 85

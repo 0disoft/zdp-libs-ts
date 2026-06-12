@@ -1,0 +1,26 @@
+id: security.consent
+label: Consent
+slug: consent
+short: "Consent(동의)는 데이터 주체(사용자)가 자신의 개인정보 수집, 처리, 공유에 대해 자발적이고 구체적으로 동의하는 행위입니다. GDPR, CCPA 등 개인정보 보호법에서 합법적 처리의 핵심 근거 중 하나로 요구됩니다."
+long: |-
+  Consent가 유효하려면 네 가지 조건을 모두 충족해야 합니다. 자발성은 동의 거부 시 서비스 이용이 부당하게 거부되지 않아야 함을 뜻합니다. 구체성은 목적별로 분리된 동의가 필요하며, 고지됨은 데이터의 수집 목적과 보관 기간을 명확히 알려야 함을 뜻합니다. 철회 가능성은 동의를 쉽게 철회할 수 있어야 하며, 이로 인한 불이익이 없어야 함을 뜻합니다.
+
+  Consent의 관리는 특히 쿠키 동의 팝업에서 가장 현실적인 어려움을 보여줍니다. 사용자가 "모두 허용"을 누르면 분석 및 마케팅 쿠키가 로드되고, "필수만"을 누르면 제한됩니다. 기술적으로는 브라우저 저장소에 동의 상태를 저장하고, 동의 없는 스크립트는 조건부로 차단해야 합니다. 사용자가 동의를 철회하면 저장된 데이터를 삭제하는 절차도 구현해야 하며, 아동 데이터 처리나 고용 관계 등 예외 규정도 존재합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Consent
+  - consent
+  - 동의
+  - Cookie Consent
+  - Cookie Consent Banner
+match_phrases:
+  - phrase: Consent
+    auto_match: true
+    priority: 100
+  - phrase: 동의
+    auto_match: true
+    priority: 90
+  - phrase: Cookie Consent
+    auto_match: true
+    priority: 85

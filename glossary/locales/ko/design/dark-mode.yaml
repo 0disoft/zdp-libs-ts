@@ -1,0 +1,21 @@
+id: design.dark-mode
+label: Dark Mode
+slug: dark-mode
+short: "Dark Mode(다크 모드)는 어두운 배경에 밝은 텍스트를 사용하는 대체 Color Scheme입니다. 눈의 피로 감소와 OLED 기기 배터리 절약 효과가 있습니다."
+long: |-
+  Dark Mode는 단순히 색상을 반전하는 것이 아니라, 사용자 경험을 위해 설계된 별도의 Color Scheme입니다. 배경은 완전한 검정보다는 약간 밝은 어두운 회색을 사용하는데, 극단적 명도 대비가 가독성을 해칠 수 있기 때문입니다. 또한 그림자 표현 방식이 라이트 모드와 완전히 다릅니다. 라이트 모드에서는 그림자를 드리우지만, 다크 모드에서는 높은 표면일수록 더 밝게 하는 방식을 사용합니다.
+
+  기술적 구현 측면에서 Dark Mode는 CSS `prefers-color-scheme` 미디어 쿼리로 OS 설정을 감지할 수 있습니다. JavaScript에서 `matchMedia`를 사용하면 동적 전환도 가능합니다. 디자인 시스템의 Dark Mode는 모든 시맨틱 토큰이 라이트와 다크 모드별로 별도 매핑을 가져야 합니다. 접근성 측면에서는 다크 모드에서도 WCAG AA 등급을 유지해야 하며, 고대비 모드와 함께 사용할 수 있도록 둘 다 지원하는 것이 좋습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Dark Mode
+  - dark mode
+  - 다크 모드
+match_phrases:
+  - phrase: Dark Mode
+    auto_match: true
+    priority: 100
+  - phrase: 다크 모드
+    auto_match: true
+    priority: 90

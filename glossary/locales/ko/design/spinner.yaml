@@ -1,0 +1,27 @@
+id: design.spinner
+label: Spinner
+slug: spinner
+short: "Spinner(스피너, 로딩 스피너)는 작업이 진행 중임을 표시하는 원형 회전 애니메이션 컴포넌트입니다. Progress와 달리 완료율을 표시하지 않고 단순히 대기 상태를 알립니다."
+long: |-
+  Spinner는 불확정형(Indeterminate) 진행 표시기의 가장 흔한 형태입니다. 버튼 클릭 후 응답 대기나 데이터 fetching, 페이지 전환 등 짧지만 불확실한 시간 동안 사용됩니다. 보통 작은 원(SVG 또는 CSS로 구현)이 계속 회전하며, 줄무늬가 있는 원형, 점점 커졌다 작아지는 원, 또는 세 개의 점이 순차적으로 나타나는 형태 등 다양한 디자인 변형이 존재합니다. 크기는 매우 작은 것(아이콘 버튼 안, `16x16px`)부터 큰 것(전체 페이지 중앙, `64x64px`)까지 다양하며, 버튼 내부에서 사용될 때는 텍스트 옆에 작게 위치하거나 텍스트를 Spinner로 대체하기도 합니다.
+
+  디자인 시스템에서 Spinner 구현 시 주의할 점은 접근성, 중첩 금지, 성능입니다. 회전 애니메이션은 전정 기관 문제나 발작 장애가 있는 사용자에게 부담이 될 수 있으므로, `prefers-reduced-motion: reduce` 미디어 쿼리를 적용하여 애니메이션을 정지하거나 매우 느리게 대체해야 합니다. 스크린 리더 지원을 위해 `role="status"`, `aria-label="Loading"`, `aria-live="polite"` 같은 속성으로 상태를 알려줄 수 있습니다. 버튼 등에 Spinner를 표시할 때는 버튼 자체를 비활성화하여 중복 클릭을 방지하는 것이 일반적입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Spinner
+  - spinner
+  - Loading Spinner
+  - loading spinner
+  - 스피너
+  - 로딩 스피너
+match_phrases:
+  - phrase: Spinner
+    auto_match: true
+    priority: 100
+  - phrase: Loading Spinner
+    auto_match: true
+    priority: 90
+  - phrase: 스피너
+    auto_match: true
+    priority: 80

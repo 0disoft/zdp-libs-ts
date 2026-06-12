@@ -1,0 +1,26 @@
+id: security.encryption
+label: Encryption
+slug: encryption
+short: "암호화(Encryption)는 평문을 키를 사용하여 읽을 수 없는 암호문으로 변환하는 과정입니다. 올바른 키가 있어야만 원래 평문으로 복호화할 수 있습니다."
+long: |-
+  암호화는 크게 대칭키 암호화(Symmetric)와 비대칭키 암호화(Asymmetric)로 나뉩니다. 대칭키(AES, ChaCha20)는 암호화와 복호화에 같은 키를 사용하므로 속도가 빠르지만, 키를 안전하게 공유해야 하는 문제가 있습니다. 비대칭키(RSA, ECC)는 공개키(Public Key)와 개인키(Private Key) 쌍을 사용하여, 공개키로 암호화하면 개인키로만 복호화할 수 있어 키 공유 문제를 해결하지만 속도가 느립니다. 실제로 HTTPS(TLS)에서는 둘을 결합하여, 비대칭키로 대칭키를 안전하게 교환한 뒤 대칭키로 실제 데이터를 암호화하는 하이브리드 방식을 사용합니다.
+
+  암호화는 전송 중 암호화와 저장 중 암호화로 구분됩니다. 전송 중 암호화는 HTTPS, SSH, VPN 등이 담당하며, 중간자 공격을 방지합니다. 저장 중 암호화는 데이터베이스, 디스크, 클라우드 객체 저장소 등에 적용됩니다. 올바른 알고리즘과 키 길이를 선택하고, 직접 구현하지 말고 검증된 라이브러리를 사용해야 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Encryption
+  - encryption
+  - 암호화
+  - Ciphertext
+  - 암호문
+match_phrases:
+  - phrase: Encryption
+    auto_match: true
+    priority: 100
+  - phrase: 암호화
+    auto_match: true
+    priority: 95
+  - phrase: Ciphertext
+    auto_match: true
+    priority: 80

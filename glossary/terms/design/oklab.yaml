@@ -1,0 +1,29 @@
+id: design.oklab
+label: undefined
+slug: undefined
+status: active
+visibility: public
+owner: platform-design
+detail_enabled: true
+indexable: false
+monetizable: false
+products: []
+sites: []
+related_terms:
+  - design.oklch
+  - design.design-token
+  - design.color-scheme
+aliases:
+
+match_phrases:
+
+canonical_path: null
+interaction:
+  trigger: click
+  surface: term-sheet
+  desktop_placement: right-sheet
+  mobile_placement: bottom-sheet
+ad_policy:
+  hover_card: forbidden
+  term_sheet: forbidden
+  detail_page: future-experiment-only

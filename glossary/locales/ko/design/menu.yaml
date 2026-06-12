@@ -1,0 +1,26 @@
+id: design.menu
+label: Menu
+slug: menu
+short: "Menu는 사용자가 선택할 수 있는 작업 또는 옵션 목록을 표시하는 UI 컴포넌트입니다. 보통 버튼, 메뉴바, 또는 컨텍스트(우클릭)에 의해 트리거됩니다."
+long: |-
+  Menu는 Popover의 특수한 형태이지만, 명확한 역할과 상호작용 패턴이 다릅니다. Menu는 항목(MenuItem)의 집합으로 구성되며, 각 항목은 명령(예: 복사, 붙여넣기, 삭제), 네비게이션 링크, 또는 하위 메뉴를 포함할 수 있습니다. 일반적으로 사용자 액션(버튼 클릭, 우클릭, 상단 메뉴바 호버)에 의해 열리며, 메뉴 외부를 클릭하거나 Esc 키를 누르면 닫힙니다. 키보드 탐색에서는 위/아래 화살표 키로 항목 간 이동, Enter 또는 Space로 선택, 오른쪽 화살표로 하위 메뉴 열기, 왼쪽 화살표로 닫기, Home/End로 맨 처음이나 맨 마지막으로 이동하는 동작이 자주 사용됩니다.
+
+  디자인 시스템에서 Menu 컴포넌트는 항목 간 구분선, 비활성화된 항목, 체크 표시나 아이콘이 있는 항목, 단축키 표시, 하위 메뉴 인디케이터 등을 정의할 수 있습니다. 메뉴의 최소 너비와 최대 높이를 정하고, 내용이 넘칠 경우 스크롤이 가능해야 합니다. Context Menu의 경우 브라우저 기본 컨텍스트 메뉴를 막고 커스텀 메뉴를 표시할 수 있지만, 접근성을 위해 키보드로도 같은 메뉴를 열 수 있어야 합니다. Menu의 상태(열림/닫힘, 현재 포커스된 항목)는 JavaScript로 관리하며, z-index는 Tooltip, Popover, Dialog 등과 일관된 레이어 시스템의 일부로 통합하는 것이 좋습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Menu
+  - menu
+  - 메뉴
+  - Context Menu
+  - context menu
+match_phrases:
+  - phrase: Menu
+    auto_match: true
+    priority: 100
+  - phrase: Context Menu
+    auto_match: true
+    priority: 90
+  - phrase: 메뉴
+    auto_match: true
+    priority: 80

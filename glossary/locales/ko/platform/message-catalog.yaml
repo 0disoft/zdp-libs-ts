@@ -1,0 +1,27 @@
+id: platform.message-catalog
+label: Message Catalog
+slug: message-catalog
+short: "Message Catalog(메시지 카탈로그)는 애플리케이션의 모든 원본 텍스트와 각 Locale별 번역문을 짝지어 저장하는 파일 또는 데이터베이스입니다. i18n 라이브러리는 런타임에 현재 Locale에 맞는 카탈로그를 조회하여 적절한 번역을 가져옵니다."
+long: |-
+
+  Message Catalog는 다양한 파일 형식으로 존재합니다. 가장 전통적인 형식은 GNU gettext에서 사용하는 `.po`와 컴파일된 `.mo`입니다. `.po` 파일은 사람이 읽고 편집할 수 있는 텍스트로, 각 메시지에는 `msgid`와 `msgstr`이 쌍으로 들어갑니다. 현대 JavaScript 생태계에서는 JSON 또는 YAML 형식이 더 보편적이며, 대규모 프로젝트에서는 XLIFF 같은 XML 기반 표준을 사용하기도 합니다.
+
+  Message Catalog를 효율적으로 관리하는 것이 Localization 워크플로우의 핵심입니다. 개발자는 코드에서 `t("hello")`처럼 키로 메시지를 참조하고, 빌드 타임에 스크립트가 모든 키를 추출하여 마스터 카탈로그를 생성합니다. 그러면 번역 도구가 각 언어별 카탈로그를 업데이트하고, 번역가가 작업합니다. 카탈로그의 중요한 메타데이터로는 번역 상태, 참조 위치, 번역가 댓글, 복수형 규칙에 따른 다양한 변형 등이 포함됩니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Message Catalog
+  - message catalog
+  - 메시지 카탈로그
+  - translation catalog
+  - 번역 카탈로그
+match_phrases:
+  - phrase: Message Catalog
+    auto_match: true
+    priority: 100
+  - phrase: 메시지 카탈로그
+    auto_match: true
+    priority: 90
+  - phrase: translation catalog
+    auto_match: true
+    priority: 80

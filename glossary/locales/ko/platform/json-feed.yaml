@@ -1,0 +1,26 @@
+id: platform.json-feed
+label: JSON Feed
+slug: json-feed
+short: "JSON Feed는 RSS나 Atom의 XML 복잡성을 피하기 위해 JSON 형식으로 만든 웹 피드 표준입니다. 2017년 Brent Simmons와 Manton Reece가 제안했으며, 단순하고 직관적인 구조를 가집니다."
+long: |-
+
+  JSON Feed는 단일 `feed.json` 파일로 제공되며, `version`, `title`, `items` 배열 등 단순하고 직관적인 구조를 가집니다. 각 아이템은 `id`, `url`, `content_html`, `content_text`, `date_published` 등의 필드를 가지며, XML처럼 태그 여닫기를 반복하지 않아 파일 크기도 작고 파싱도 JavaScript의 `JSON.parse()` 한 번으로 끝납니다. 또한 마크다운 형식의 콘텐츠나 첨부 파일, 짧은 글도 표현할 수 있도록 확장을 고려한 설계가 되어 있습니다. 이러한 단순함은 현대 웹 개발에서 JSON이 지배적인 데이터 형식임을 반영합니다.
+
+  아직 RSS만큼 널리 채택되지는 않았지만, 점점 더 많은 서비스와 정적 사이트 생성기가 JSON Feed를 기본 또는 옵션으로 지원하고 있습니다. 특히 JavaScript 기반의 RSS 리더를 직접 구현하거나, 정적 사이트의 최신 글 목록을 API 형태로 제공할 때 매우 편리합니다. XML 피드와 함께 제공하면 기존 피드 리더 호환성과 현대적인 API 소비 방식을 동시에 챙길 수 있습니다. 작은 파일 크기와 쉬운 파싱은 서버와 클라이언트 모두에게 부담을 줄여줍니다.
+example: null
+translation_status: reviewed
+aliases:
+  - JSON Feed
+  - json feed
+  - feed.json
+  - JSON 피드
+match_phrases:
+  - phrase: JSON Feed
+    auto_match: true
+    priority: 100
+  - phrase: feed.json
+    auto_match: true
+    priority: 90
+  - phrase: JSON 피드
+    auto_match: true
+    priority: 85

@@ -1,0 +1,21 @@
+id: design.primitive-token
+label: Primitive Token
+slug: primitive-token
+short: "Primitive Token(원시 토큰)은 디자인 시스템에서 가장 낮은 수준의 토큰으로, 순수한 원자값(예: `#FF0000`, `16px`)만을 저장합니다. 어떤 맥락도 포함하지 않는 순수한 값 그대로의 표현입니다."
+long: |-
+  Primitive Token은 브랜드의 기본 디자인 자산을 순수한 값 그대로 표현합니다. 예를 들어 `blue.50: "#EBF2FF"`, `blue.100: "#D9E6FF"`, `spacing.1: "4px"`, `spacing.2: "8px"` 등이 이에 해당합니다. 이 단계에서는 "이 색상이 버튼인지, 배경인지, 에러 상태인지"와 같은 의미적 정보가 전혀 없습니다. 단순히 "이 값이 존재한다"는 사실만 정의합니다.
+
+  Primitive Token은 직접 UI 컴포넌트에서 사용되지 않고, 항상 상위 토큰을 통해 간접적으로 참조됩니다. 이렇게 분리하면 브랜드 컬러 팔레트가 바뀌었을 때 Primitive Token 값만 수정하면 모든 하위 토큰이 자동으로 업데이트됩니다. 여러 디자인 시스템이 공통된 Primitive Token 세트를 공유할 수 있어, 회사의 모든 제품군이 같은 원시 색상값을 사용하면서도 각 제품의 시맨틱 매핑은 다르게 가져갈 수 있습니다. 이를 통해 대규모 조직에서도 일관된 기본 자산을 유지할 수 있습니다.
+example: null
+translation_status: reviewed
+aliases:
+  - primitive token
+  - primitive tokens
+  - 원시 토큰
+match_phrases:
+  - phrase: Primitive Token
+    auto_match: true
+    priority: 100
+  - phrase: 원시 토큰
+    auto_match: true
+    priority: 90

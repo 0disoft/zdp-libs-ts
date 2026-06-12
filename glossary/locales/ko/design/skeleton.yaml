@@ -1,0 +1,27 @@
+id: design.skeleton
+label: Skeleton
+slug: skeleton
+short: "Skeleton(스켈레톤 스크린)은 콘텐츠가 로딩 중일 때 실제 내용이 들어갈 자리에 미리 표시하는 회색조의 윤곽선(placeholder) UI 패턴입니다. 이는 전통적인 로딩 스피너보다 사용자 경험 측면에서 더 진보된 방식입니다."
+long: |-
+  Skeleton은 콘텐츠 구조를 미리 보여줌으로써 인지된 로딩 시간을 줄여줍니다. 예를 들어 블로그 글 목록을 로딩할 때 각 항목마다 제목 영역(너비 80%, 높이 24px)과 본문 미리보기 영역(너비 100%, 높이 60px, 여러 줄)을 회색 배경에 흐릿한 애니메이션(펄스 또는 웨이브)으로 표시합니다. 구현은 순수 CSS로도 가능하지만, 복잡한 형태는 SVG 기반 컴포넌트나 전용 로더를 사용하여 곡선, 둥근 모서리, 여백 등을 세밀하게 조정합니다. 이를 통해 사용자는 로딩 중에도 최종 콘텐츠의 형태를 예측할 수 있습니다.
+
+  디자인 시스템에서 Skeleton 컴포넌트는 텍스트 줄, 아바타, 이미지 썸네일, 버튼, 카드 같은 기본 UI 패턴에 대응하는 변형을 제공하는 것이 좋습니다. 각 변형은 너비, 높이, 둥근 모서리 값을 디자인 토큰으로 정의하고, 애니메이션은 `@keyframes`로 구현할 수 있습니다. 사용자가 느린 네트워크에서 불필요한 깜빡임을 경험하지 않도록 최소 `300ms` 이상 지속되는 로딩에만 Skeleton을 표시하는 것도 좋은 기준입니다. 실제 콘텐츠가 로드되면 Skeleton DOM은 제거하고 콘텐츠 DOM으로 교체해야 합니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Skeleton
+  - skeleton
+  - Skeleton Screen
+  - skeleton screen
+  - 스켈레톤
+  - 스켈레톤 스크린
+match_phrases:
+  - phrase: Skeleton
+    auto_match: true
+    priority: 100
+  - phrase: Skeleton Screen
+    auto_match: true
+    priority: 90
+  - phrase: 스켈레톤
+    auto_match: true
+    priority: 80

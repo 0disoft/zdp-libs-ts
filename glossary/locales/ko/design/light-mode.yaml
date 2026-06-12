@@ -1,0 +1,21 @@
+id: design.light-mode
+label: Light Mode
+slug: light-mode
+short: "Light Mode(라이트 모드)는 어두운 텍스트에 밝은 배경을 사용하는 기본 Color Scheme입니다. 높은 명암비와 자연광 환경에서의 가독성에 최적화되어 있습니다."
+long: |-
+  Light Mode는 전통적인 종이 기반 미디어의 경험을 디지털로 가져온 UI 패턴으로, 배경색은 일반적으로 흰색(`#FFFFFF`)이나 매우 밝은 회색(`#F5F5F5`)을 사용합니다. 텍스트는 거의 검정(`#111111`, `#222222`)에 가까운 색상을 사용하여 WCAG AA 기준(일반 텍스트 `4.5:1`)을 여유 있게 충족합니다. 그림자는 어두운 색상을 사용하여 깊이감을 표현하며, 카드, 버튼, 모달 등의 표면 경계는 얇은 보더나 미묘한 그림자로 구분합니다. 광원이 강한 사무실 환경이나 야외에서도 가독성이 뛰어나기 때문에, 대부분의 애플리케이션은 라이트 모드를 기본값으로 설정합니다.
+
+  다크 모드와 비교했을 때 라이트 모드는 색상 대비 측면에서 더 예측 가능합니다. 같은 색상값이 라이트 배경 위에서는 더 밝게, 다크 배경 위에서는 더 어둡게 보이는 시각적 현상(동시 대비)이 라이트 모드에서는 덜 두드러집니다. 디자인 시스템에서 라이트 모드는 보통 Color Scheme의 기준 역할을 합니다. 예를 들어, `primary.500` 라이트 모드 색상이 `#0066FF`라면, 동일한 색상은 다크 모드에서도 그대로 쓰기보다는 더 밝은 계열(예: `#4D9AFF`)로 조정하는 것이 일반적입니다.
+example: null
+translation_status: reviewed
+aliases:
+  - Light Mode
+  - light mode
+  - 라이트 모드
+match_phrases:
+  - phrase: Light Mode
+    auto_match: true
+    priority: 100
+  - phrase: 라이트 모드
+    auto_match: true
+    priority: 90
