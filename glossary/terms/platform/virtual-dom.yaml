@@ -1,6 +1,5 @@
 id: platform.virtual-dom
-label: undefined
-slug: undefined
+canonical_label: Virtual DOM
 status: active
 visibility: public
 owner: platform-frontend

@@ -1,6 +1,5 @@
 id: platform.localization
-label: undefined
-slug: undefined
+canonical_label: Localization
 status: active
 visibility: public
 owner: platform-frontend

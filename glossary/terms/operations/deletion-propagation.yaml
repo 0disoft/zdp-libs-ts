@@ -1,6 +1,5 @@
 id: operations.deletion-propagation
-label: undefined
-slug: undefined
+canonical_label: Deletion Propagation
 status: active
 visibility: public
 owner: platform-operations

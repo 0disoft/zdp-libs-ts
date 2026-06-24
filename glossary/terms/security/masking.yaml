@@ -1,6 +1,5 @@
 id: security.masking
-label: undefined
-slug: undefined
+canonical_label: Masking
 status: active
 visibility: public
 owner: platform-security

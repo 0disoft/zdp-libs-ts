@@ -1,6 +1,5 @@
 id: platform.robots-txt
-label: undefined
-slug: undefined
+canonical_label: robots.txt
 status: active
 visibility: public
 owner: platform-frontend

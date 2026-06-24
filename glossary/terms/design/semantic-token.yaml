@@ -1,6 +1,5 @@
 id: design.semantic-token
-label: undefined
-slug: undefined
+canonical_label: Semantic Token
 status: active
 visibility: public
 owner: platform-design

@@ -1,6 +1,5 @@
 id: platform.flutter
-label: undefined
-slug: undefined
+canonical_label: Flutter
 status: active
 visibility: public
 owner: platform-frontend

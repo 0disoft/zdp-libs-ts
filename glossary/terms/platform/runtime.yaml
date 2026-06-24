@@ -1,6 +1,5 @@
 id: platform.runtime
-label: undefined
-slug: undefined
+canonical_label: Runtime
 status: active
 visibility: public
 owner: platform-frontend

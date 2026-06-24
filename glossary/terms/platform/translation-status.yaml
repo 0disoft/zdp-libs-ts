@@ -1,6 +1,5 @@
 id: platform.translation-status
-label: undefined
-slug: undefined
+canonical_label: Translation Status
 status: active
 visibility: public
 owner: platform-frontend

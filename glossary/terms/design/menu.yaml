@@ -1,6 +1,5 @@
 id: design.menu
-label: undefined
-slug: undefined
+canonical_label: Menu
 status: active
 visibility: public
 owner: platform-design

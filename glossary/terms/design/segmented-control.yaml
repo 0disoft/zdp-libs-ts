@@ -1,6 +1,5 @@
 id: design.segmented-control
-label: undefined
-slug: undefined
+canonical_label: Segmented Control
 status: active
 visibility: public
 owner: platform-design

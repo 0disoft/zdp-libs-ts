@@ -1,6 +1,5 @@
 id: platform.fontsource
-label: undefined
-slug: undefined
+canonical_label: Fontsource
 status: active
 visibility: public
 owner: platform-frontend

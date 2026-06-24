@@ -1,6 +1,5 @@
 id: platform.search-index
-label: undefined
-slug: undefined
+canonical_label: Search Index
 status: active
 visibility: public
 owner: platform-frontend

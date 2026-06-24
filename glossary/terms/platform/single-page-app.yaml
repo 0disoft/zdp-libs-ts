@@ -1,6 +1,5 @@
 id: platform.single-page-app
-label: undefined
-slug: undefined
+canonical_label: Single Page App
 status: active
 visibility: public
 owner: platform-frontend

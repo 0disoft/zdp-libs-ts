@@ -1,6 +1,5 @@
 id: operations.rate-limit
-label: undefined
-slug: undefined
+canonical_label: Rate Limit
 status: active
 visibility: public
 owner: platform-operations

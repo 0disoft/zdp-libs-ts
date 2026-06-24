@@ -1,6 +1,5 @@
 id: platform.llms-txt
-label: undefined
-slug: undefined
+canonical_label: llms.txt
 status: active
 visibility: public
 owner: platform-frontend

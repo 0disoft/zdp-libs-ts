@@ -1,6 +1,5 @@
 id: operations.cache
-label: undefined
-slug: undefined
+canonical_label: Cache
 status: active
 visibility: public
 owner: platform-operations

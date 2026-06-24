@@ -1,6 +1,5 @@
 id: platform.build-time
-label: undefined
-slug: undefined
+canonical_label: Build Time
 status: active
 visibility: public
 owner: platform-frontend

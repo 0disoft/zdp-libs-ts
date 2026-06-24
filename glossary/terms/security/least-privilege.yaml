@@ -1,6 +1,5 @@
 id: security.least-privilege
-label: undefined
-slug: undefined
+canonical_label: Least Privilege
 status: active
 visibility: public
 owner: platform-security

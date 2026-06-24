@@ -7,6 +7,7 @@ api_contract_source:
     - contracts/webhook-contract.yaml
     - contracts/sdk-generation-input.yaml
     - contracts/apis/catalog.yaml
+    - contracts/apis/core-api/auth-session.yaml
   consumed_by_packages:
     - "@zdp/schema"
     - "@zdp/event-contracts"
@@ -33,4 +34,6 @@ api_contract_source:
     - provider_secret
     - authorization_header
     - cookie_header
+    - refresh_token_plaintext
+    - stack_trace
     - screen_component_payload

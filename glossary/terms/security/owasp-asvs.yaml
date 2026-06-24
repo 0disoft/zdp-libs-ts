@@ -1,6 +1,5 @@
 id: security.owasp-asvs
-label: undefined
-slug: undefined
+canonical_label: OWASP ASVS
 status: active
 visibility: public
 owner: platform-security

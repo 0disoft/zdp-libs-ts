@@ -1,6 +1,5 @@
 id: design.accordion
-label: undefined
-slug: undefined
+canonical_label: Accordion
 status: active
 visibility: public
 owner: platform-design

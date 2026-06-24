@@ -86,6 +86,18 @@ describe('libs contract checker', () => {
     const result = validateLibsContracts(contracts, {
       apiContractsInput: {
         ...apiContractsInput,
+        route: {
+          ...apiContractsInput.route,
+          forbiddenShapes: apiContractsInput.route.forbiddenShapes.filter(
+            (item) => item !== 'authorization_header'
+          )
+        },
+        errorEnvelope: {
+          ...apiContractsInput.errorEnvelope,
+          forbiddenFields: apiContractsInput.errorEnvelope.forbiddenFields.filter(
+            (item) => item !== 'authorization_header'
+          )
+        },
         sdkGenerationInput: {
           ...apiContractsInput.sdkGenerationInput,
           requiredErrorMetadata:

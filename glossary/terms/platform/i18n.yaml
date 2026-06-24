@@ -1,6 +1,5 @@
 id: platform.i18n
-label: undefined
-slug: undefined
+canonical_label: i18n
 status: active
 visibility: public
 owner: platform-frontend

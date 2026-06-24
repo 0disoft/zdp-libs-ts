@@ -7,6 +7,9 @@ interface PublicGlossarySource {
 
 interface PublicGlossaryTerm {
   readonly id?: string;
+  readonly canonical_label?: string;
+  readonly label?: string;
+  readonly slug?: string;
   readonly products?: readonly string[];
   readonly sites?: readonly string[];
   readonly canonical_path?: string | null;
@@ -53,6 +56,10 @@ describe('public glossary source data', () => {
     expect(new Set(termIds).size).toBe(termIds.length);
 
     for (const term of terms) {
+      expect(term.canonical_label).toBeString();
+      expect(term.canonical_label).not.toBe('undefined');
+      expect(term.label).toBeUndefined();
+      expect(term.slug).toBeUndefined();
       expect(term.products ?? []).toEqual([]);
       expect(term.sites ?? []).toEqual([]);
       expect(term.canonical_path ?? null).toBeNull();

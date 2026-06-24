@@ -1,6 +1,5 @@
 id: design.disclosure
-label: undefined
-slug: undefined
+canonical_label: Disclosure
 status: active
 visibility: public
 owner: platform-design

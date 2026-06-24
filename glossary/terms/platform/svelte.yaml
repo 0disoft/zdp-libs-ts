@@ -1,6 +1,5 @@
 id: platform.svelte
-label: undefined
-slug: undefined
+canonical_label: Svelte
 status: active
 visibility: public
 owner: platform-frontend

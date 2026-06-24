@@ -1,6 +1,5 @@
 id: security.privacy-access-broker
-label: undefined
-slug: undefined
+canonical_label: Privacy Access Broker
 status: active
 visibility: public
 owner: platform-security

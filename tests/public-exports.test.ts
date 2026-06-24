@@ -85,6 +85,7 @@ describe('public contract package exports', () => {
     const invalidTermId: GlossaryTermId = 'ledger';
     const term = defineGlossaryTermContract({
       id: termId,
+      canonicalLabel: 'Ledger',
       status: 'active',
       visibility: 'public',
       owner: 'platform-money',

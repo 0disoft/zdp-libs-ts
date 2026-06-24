@@ -50,6 +50,7 @@ export interface GlossaryInteraction {
 
 export interface GlossaryTermContract {
   readonly id: GlossaryTermId;
+  readonly canonicalLabel: string;
   readonly status: GlossaryTermStatus;
   readonly visibility: GlossaryVisibility;
   readonly products?: readonly string[];

@@ -1,6 +1,5 @@
 id: design.pagination
-label: undefined
-slug: undefined
+canonical_label: Pagination
 status: active
 visibility: public
 owner: platform-design

@@ -1,6 +1,5 @@
 id: design.design-token
-label: undefined
-slug: undefined
+canonical_label: Design Token
 status: active
 visibility: public
 owner: platform-design

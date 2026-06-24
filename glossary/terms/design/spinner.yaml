@@ -1,6 +1,5 @@
 id: design.spinner
-label: undefined
-slug: undefined
+canonical_label: Spinner
 status: active
 visibility: public
 owner: platform-design

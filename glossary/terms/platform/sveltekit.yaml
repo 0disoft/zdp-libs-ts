@@ -1,6 +1,5 @@
 id: platform.sveltekit
-label: undefined
-slug: undefined
+canonical_label: SvelteKit
 status: active
 visibility: public
 owner: platform-frontend

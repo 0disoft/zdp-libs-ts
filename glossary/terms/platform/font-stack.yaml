@@ -1,6 +1,5 @@
 id: platform.font-stack
-label: undefined
-slug: undefined
+canonical_label: Font Stack
 status: active
 visibility: public
 owner: platform-frontend

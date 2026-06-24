@@ -1,6 +1,5 @@
 id: design.base-token
-label: undefined
-slug: undefined
+canonical_label: Base Token
 status: active
 visibility: public
 owner: platform-design

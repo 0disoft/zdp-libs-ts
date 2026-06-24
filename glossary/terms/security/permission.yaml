@@ -1,6 +1,5 @@
 id: security.permission
-label: undefined
-slug: undefined
+canonical_label: Permission
 status: active
 visibility: public
 owner: platform-security

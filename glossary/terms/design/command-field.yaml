@@ -1,6 +1,5 @@
 id: design.command-field
-label: undefined
-slug: undefined
+canonical_label: Command Field
 status: active
 visibility: public
 owner: platform-design

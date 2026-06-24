@@ -1,6 +1,5 @@
 id: platform.static-site
-label: undefined
-slug: undefined
+canonical_label: Static Site
 status: active
 visibility: public
 owner: platform-frontend

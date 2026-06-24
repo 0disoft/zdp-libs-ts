@@ -1,6 +1,5 @@
 id: platform.webview
-label: undefined
-slug: undefined
+canonical_label: WebView
 status: active
 visibility: public
 owner: platform-frontend

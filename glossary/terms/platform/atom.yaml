@@ -1,6 +1,5 @@
 id: platform.atom
-label: undefined
-slug: undefined
+canonical_label: Atom
 status: active
 visibility: public
 owner: platform-frontend

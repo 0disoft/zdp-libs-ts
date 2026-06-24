@@ -1,6 +1,5 @@
 id: security.vault
-label: undefined
-slug: undefined
+canonical_label: Vault
 status: active
 visibility: public
 owner: platform-security

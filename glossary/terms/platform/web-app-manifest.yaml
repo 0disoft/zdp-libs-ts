@@ -1,6 +1,5 @@
 id: platform.web-app-manifest
-label: undefined
-slug: undefined
+canonical_label: Web App Manifest
 status: active
 visibility: public
 owner: platform-frontend

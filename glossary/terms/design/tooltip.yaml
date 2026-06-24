@@ -1,6 +1,5 @@
 id: design.tooltip
-label: undefined
-slug: undefined
+canonical_label: Tooltip
 status: active
 visibility: public
 owner: platform-design

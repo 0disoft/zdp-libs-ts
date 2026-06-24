@@ -1,6 +1,5 @@
 id: platform.message-catalog
-label: undefined
-slug: undefined
+canonical_label: Message Catalog
 status: active
 visibility: public
 owner: platform-frontend

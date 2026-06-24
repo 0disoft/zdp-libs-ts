@@ -1,6 +1,5 @@
 id: design.toast
-label: undefined
-slug: undefined
+canonical_label: Toast
 status: active
 visibility: public
 owner: platform-design

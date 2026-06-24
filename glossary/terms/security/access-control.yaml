@@ -1,6 +1,5 @@
 id: security.access-control
-label: undefined
-slug: undefined
+canonical_label: Access Control
 status: active
 visibility: public
 owner: platform-security

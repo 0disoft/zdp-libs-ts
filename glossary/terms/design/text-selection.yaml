@@ -1,6 +1,5 @@
 id: design.text-selection
-label: undefined
-slug: undefined
+canonical_label: Text Selection
 status: active
 visibility: public
 owner: platform-design

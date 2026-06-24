@@ -1,6 +1,5 @@
 id: design.oklch
-label: undefined
-slug: undefined
+canonical_label: OKLCH
 status: active
 visibility: public
 owner: platform-design

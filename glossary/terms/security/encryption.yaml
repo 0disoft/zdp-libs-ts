@@ -1,6 +1,5 @@
 id: security.encryption
-label: undefined
-slug: undefined
+canonical_label: Encryption
 status: active
 visibility: public
 owner: platform-security

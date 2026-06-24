@@ -1,6 +1,5 @@
 id: platform.server-side-rendering
-label: undefined
-slug: undefined
+canonical_label: Server Side Rendering
 status: active
 visibility: public
 owner: platform-frontend

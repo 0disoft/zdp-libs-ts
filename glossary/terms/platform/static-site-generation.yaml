@@ -1,6 +1,5 @@
 id: platform.static-site-generation
-label: undefined
-slug: undefined
+canonical_label: Static Site Generation
 status: active
 visibility: public
 owner: platform-frontend

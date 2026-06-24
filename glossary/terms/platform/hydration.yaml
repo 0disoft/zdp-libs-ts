@@ -1,6 +1,5 @@
 id: platform.hydration
-label: undefined
-slug: undefined
+canonical_label: Hydration
 status: active
 visibility: public
 owner: platform-frontend

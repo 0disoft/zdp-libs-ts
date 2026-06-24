@@ -1,6 +1,5 @@
 id: design.light-mode
-label: undefined
-slug: undefined
+canonical_label: Light Mode
 status: active
 visibility: public
 owner: platform-design

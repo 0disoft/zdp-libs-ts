@@ -1,6 +1,5 @@
 id: design.avatar
-label: undefined
-slug: undefined
+canonical_label: Avatar
 status: active
 visibility: public
 owner: platform-design

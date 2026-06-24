@@ -31,7 +31,8 @@ const REQUIRED_API_SOURCE_CONTRACTS = [
   'contracts/error-envelope.yaml',
   'contracts/webhook-contract.yaml',
   'contracts/sdk-generation-input.yaml',
-  'contracts/apis/catalog.yaml'
+  'contracts/apis/catalog.yaml',
+  'contracts/apis/core-api/auth-session.yaml'
 ] as const;
 
 const REQUIRED_API_SOURCE_PACKAGES = [
@@ -66,6 +67,8 @@ const REQUIRED_API_SOURCE_FORBIDDEN_VALUES = [
   'provider_secret',
   'authorization_header',
   'cookie_header',
+  'refresh_token_plaintext',
+  'stack_trace',
   'screen_component_payload'
 ] as const;
 
@@ -201,6 +204,11 @@ const ALLOWED_CONTRACT_STATUSES = [
   'active'
 ] as const;
 
+const ALLOWED_API_CATALOG_STATUSES = [
+  'empty-until-service-routes-exist',
+  'route-catalog-contract-only'
+] as const;
+
 const REQUIRED_API_CATALOG_ROUTE_FIELDS = [
   'operation_id',
   'service_id',
@@ -215,6 +223,12 @@ const REQUIRED_API_CATALOG_ROUTE_FIELDS = [
   'permission_check',
   'audit_event',
   'idempotency',
+  'owner_boundary',
+  'tenant_boundary',
+  'request_id_required',
+  'trace_id_required',
+  'session_effect',
+  'credential_policy',
   'error_codes'
 ] as const;
 
@@ -394,9 +408,9 @@ function validateApiContractInputHandoff(
     path: 'sdk_generation_input.status',
     label: 'API SDK generation input status'
   });
-  validateExactString({
+  validateAllowedString({
     actual: apiCatalog.status,
-    expected: 'empty-until-service-routes-exist',
+    allowed: ALLOWED_API_CATALOG_STATUSES,
     diagnostics,
     code: 'LIBS_API_INPUT_CATALOG_STATUS_DRIFT',
     file: '../zdp-api-contracts/contracts/apis/catalog.yaml',
@@ -424,6 +438,12 @@ function validateApiContractInputHandoff(
       'permission_check',
       'audit_event',
       'idempotency',
+      'owner_boundary',
+      'tenant_boundary',
+      'request_id_required',
+      'trace_id_required',
+      'session_effect',
+      'credential_policy',
       'success_statuses',
       'error_codes'
     ],
@@ -436,6 +456,8 @@ function validateApiContractInputHandoff(
     sdkInput.requiredRouteMetadata,
     [
       'operation_id',
+      'resource',
+      'action',
       'method',
       'path',
       'request_schema_ref',
@@ -444,6 +466,12 @@ function validateApiContractInputHandoff(
       'permission_check',
       'audit_event',
       'idempotency',
+      'owner_boundary',
+      'tenant_boundary',
+      'request_id_required',
+      'trace_id_required',
+      'session_effect',
+      'credential_policy',
       'success_statuses',
       'error_codes'
     ],
@@ -462,7 +490,14 @@ function validateApiContractInputHandoff(
   );
   requireAll(
     sdkInput.requiredErrorMetadata,
-    ['code', 'message', 'request_id', 'trace_id'],
+    [
+      'code',
+      'message',
+      'request_id',
+      'trace_id',
+      'retry_after_seconds',
+      'documentation_url'
+    ],
     diagnostics,
     'LIBS_API_INPUT_SDK_ERROR_METADATA_MISSING',
     '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
@@ -543,14 +578,7 @@ function validateApiContractInputHandoff(
       webhook.forbiddenControls,
       sdkInput.forbiddenValues
     ]),
-    [
-      'screen_component_payload',
-      'raw_provider_error',
-      'provider_secret',
-      'authorization_header',
-      'cookie_header',
-      'raw_customer_payload'
-    ],
+    REQUIRED_API_SOURCE_FORBIDDEN_VALUES,
     diagnostics,
     'LIBS_API_INPUT_FORBIDDEN_VALUE_MISSING',
     '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
@@ -796,16 +824,16 @@ function requireAll(
   }
 }
 
-function validateExactString(input: {
+function validateAllowedString(input: {
   readonly actual: string | null;
-  readonly expected: string;
+  readonly allowed: readonly string[];
   readonly diagnostics: LibsContractDiagnostic[];
   readonly code: string;
   readonly file: string;
   readonly path: string;
   readonly label: string;
 }): void {
-  if (input.actual === input.expected) {
+  if (input.actual !== null && input.allowed.includes(input.actual)) {
     return;
   }
 
@@ -813,7 +841,7 @@ function validateExactString(input: {
     code: input.code,
     file: input.file,
     path: input.path,
-    message: `${input.label} must be \`${input.expected}\`.`
+    message: `${input.label} must be one of ${formatAllowedValues(input.allowed)}.`
   });
 }
 
@@ -865,7 +893,11 @@ function combineValues(
 }
 
 function formatAllowedStatuses(): string {
-  return ALLOWED_CONTRACT_STATUSES.map((status) => `\`${status}\``).join(', ');
+  return formatAllowedValues(ALLOWED_CONTRACT_STATUSES);
+}
+
+function formatAllowedValues(values: readonly string[]): string {
+  return values.map((value) => `\`${value}\``).join(', ');
 }
 
 function isAllowedContractStatus(

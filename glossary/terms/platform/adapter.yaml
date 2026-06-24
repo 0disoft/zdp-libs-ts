@@ -1,6 +1,5 @@
 id: platform.adapter
-label: undefined
-slug: undefined
+canonical_label: Adapter
 status: active
 visibility: public
 owner: platform-frontend

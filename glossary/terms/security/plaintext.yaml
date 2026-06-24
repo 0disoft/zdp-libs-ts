@@ -1,6 +1,5 @@
 id: security.plaintext
-label: undefined
-slug: undefined
+canonical_label: Plaintext
 status: active
 visibility: public
 owner: platform-security

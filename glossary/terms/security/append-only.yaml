@@ -1,6 +1,5 @@
 id: security.append-only
-label: undefined
-slug: undefined
+canonical_label: Append-Only
 status: active
 visibility: public
 owner: platform-security

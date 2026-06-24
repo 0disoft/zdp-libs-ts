@@ -1,6 +1,5 @@
 id: platform.seo
-label: undefined
-slug: undefined
+canonical_label: SEO
 status: active
 visibility: public
 owner: platform-frontend

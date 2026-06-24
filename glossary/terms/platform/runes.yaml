@@ -1,6 +1,5 @@
 id: platform.runes
-label: undefined
-slug: undefined
+canonical_label: Runes
 status: active
 visibility: public
 owner: platform-frontend

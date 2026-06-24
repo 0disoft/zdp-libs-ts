@@ -1,6 +1,5 @@
 id: design.sort-header
-label: undefined
-slug: undefined
+canonical_label: Sort Header
 status: active
 visibility: public
 owner: platform-design

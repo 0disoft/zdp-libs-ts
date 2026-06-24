@@ -1,6 +1,5 @@
 id: platform.astro
-label: undefined
-slug: undefined
+canonical_label: Astro
 status: active
 visibility: public
 owner: platform-frontend

@@ -1,6 +1,5 @@
 id: security.session
-label: undefined
-slug: undefined
+canonical_label: Session
 status: active
 visibility: public
 owner: platform-security

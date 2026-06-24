@@ -1,6 +1,5 @@
 id: security.oauth-token
-label: undefined
-slug: undefined
+canonical_label: OAuth Token
 status: active
 visibility: public
 owner: platform-security

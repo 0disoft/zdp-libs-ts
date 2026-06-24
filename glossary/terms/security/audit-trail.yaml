@@ -1,6 +1,5 @@
 id: security.audit-trail
-label: undefined
-slug: undefined
+canonical_label: Audit Trail
 status: active
 visibility: public
 owner: platform-security

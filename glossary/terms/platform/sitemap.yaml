@@ -1,6 +1,5 @@
 id: platform.sitemap
-label: undefined
-slug: undefined
+canonical_label: Sitemap
 status: active
 visibility: public
 owner: platform-frontend

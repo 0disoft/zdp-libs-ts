@@ -1,6 +1,5 @@
 id: design.user-select
-label: undefined
-slug: undefined
+canonical_label: User Select
 status: active
 visibility: public
 owner: platform-design

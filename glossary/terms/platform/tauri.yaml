@@ -1,6 +1,5 @@
 id: platform.tauri
-label: undefined
-slug: undefined
+canonical_label: Tauri
 status: active
 visibility: public
 owner: platform-frontend

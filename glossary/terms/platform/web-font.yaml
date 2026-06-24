@@ -1,6 +1,5 @@
 id: platform.web-font
-label: undefined
-slug: undefined
+canonical_label: Web Font
 status: active
 visibility: public
 owner: platform-frontend

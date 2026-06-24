@@ -1,6 +1,5 @@
 id: platform.locale
-label: undefined
-slug: undefined
+canonical_label: Locale
 status: active
 visibility: public
 owner: platform-frontend

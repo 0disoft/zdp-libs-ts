@@ -1,6 +1,5 @@
 id: design.component-token
-label: undefined
-slug: undefined
+canonical_label: Component Token
 status: active
 visibility: public
 owner: platform-design

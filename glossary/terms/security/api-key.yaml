@@ -1,6 +1,5 @@
 id: security.api-key
-label: undefined
-slug: undefined
+canonical_label: API Key
 status: active
 visibility: public
 owner: platform-security

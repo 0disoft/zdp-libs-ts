@@ -1,6 +1,5 @@
 id: platform.bundle
-label: undefined
-slug: undefined
+canonical_label: Bundle
 status: active
 visibility: public
 owner: platform-frontend

@@ -1,6 +1,5 @@
 id: security.audit-log
-label: undefined
-slug: undefined
+canonical_label: Audit Log
 status: active
 visibility: public
 owner: platform-security

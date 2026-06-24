@@ -46,10 +46,10 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 
 ## 검증
 
-`contracts:check`는 package boundary, API contract source, schema, env, event, error, i18n 계약을 읽고 공통 패키지가 다음 경계를 잃지 않았는지 확인한다. 또한 sibling `zdp-api-contracts`의 route, error envelope, webhook, SDK generation input, API catalog 계약을 읽어 공통 TypeScript 패키지가 실제 API 원천과 다른 메타데이터를 믿지 않는지 확인한다.
+`contracts:check`는 package boundary, API contract source, schema, env, event, error, i18n, glossary 계약을 읽고 공통 패키지가 다음 경계를 잃지 않았는지 확인한다. 또한 sibling `zdp-api-contracts`의 route, error envelope, webhook, SDK generation input, API catalog, auth session schema bundle 계약을 읽어 공통 TypeScript 패키지가 실제 API 원천과 다른 메타데이터를 믿지 않는지 확인한다.
 
 - `@zdp/schema`: 제품 domain model이나 DB row shape을 소유하지 않는다.
-- API contract source handoff는 `zdp-api-contracts`의 route/error/webhook/`contracts/sdk-generation-input.yaml`/`contracts/apis/catalog.yaml` 계약을 소비하지만, 원천을 다시 만들지 않는다.
+- API contract source handoff는 `zdp-api-contracts`의 route/error/webhook/`contracts/sdk-generation-input.yaml`/`contracts/apis/catalog.yaml`/`contracts/apis/core-api/auth-session.yaml` 계약을 소비하지만, 원천을 다시 만들지 않는다.
 - `idempotency` metadata는 재시도와 중복 요청이 같은 의미를 유지하게 해주고, `success_statuses`는 생성 SDK와 문서가 같은 성공 응답 기준을 쓰게 하며, `request_id`/`trace_id`는 SDK와 API 실패를 같은 추적선으로 묶어준다.
 - `@zdp/env-contract`: 실제 secret, account id, server IP, provider token 값을 담지 않는다.
 - `@zdp/event-contracts`: `request_id`/`trace_id` 전파 기준과 민감 payload 금지 기준을 유지한다.
@@ -61,11 +61,11 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 
 공통 glossary 문구는 특정 제품, 회사, 내부 시스템의 채택 기준을 설명하지 않는다. 대중적으로 널리 통용될 수 있는 개념 설명만 두고, 제품별 적용 방식이나 관련 화면 설명은 소비 앱의 local glossary나 페이지 콘텐츠가 소유한다.
 
-Glossary locale 문구에서 `short`는 정확히 **1문단 2문장**으로 쓴다. `long`은 상세 sheet 본문이므로 정확히 **2문단**으로 쓰고, 각 문단은 정확히 **4문장**으로 유지한다. 문체와 설명 난이도는 작성자 리뷰에 맡기되, 길이와 문단 수는 source test가 강제한다. `detail_enabled: true`이고 `translation_status: reviewed`인 용어는 `long`을 비워둘 수 없다. 본문에 볼드체 마크다운 문법(`**`)과 띄어쓰기 없이 100자 이상 연결된 긴 단어는 사용하지 않는다.
+Glossary locale 문구에서 `short`는 정확히 **1문단 2문장**으로 쓴다. `long`은 상세 sheet 본문이므로 **2-3문단**으로 쓰고, 각 문단은 정확히 **4문장**으로 유지한다. 문체와 설명 난이도는 작성자 리뷰에 맡기되, 길이와 문단 수는 source test가 강제한다. `detail_enabled: true`이고 `translation_status: reviewed`인 용어는 `long`을 비워둘 수 없다. 본문에 볼드체 마크다운 문법(`**`)과 띄어쓰기 없이 100자 이상 연결된 긴 단어는 사용하지 않는다.
 
 API source input drift 검사는 `idempotency`, `success_statuses`, `request_id`, `trace_id`, `event_type`, SDK generation target, API catalog route metadata 같은 값이 API repo와 libs repo에서 서로 다르게 선언되는 일을 막는다. `idempotency`가 맞아야 재시도와 중복 요청이 한 번 처리된 것처럼 유지되고, `success_statuses`가 맞아야 클라이언트가 성공 응답을 제멋대로 해석하지 않으며, `request_id`/`trace_id`가 맞아야 SDK 오류를 서버 로그와 같은 추적선에서 찾을 수 있다.
 
-이렇게 해두면 공통 라이브러리가 편의 함수 창고로 변질되거나, 제품별 모델·비밀값·provider 원문 응답이 모든 저장소로 퍼지는 일을 checker 단계에서 먼저 막을 수 있다. 또한 `authorization_header`, `raw_customer_payload`, `screen_component_payload` 같은 값이 공통 타입 재료로 굳어지는 것을 막아 SDK와 API 계약이 민감한 운영 데이터를 끌고 다니지 않게 한다.
+이렇게 해두면 공통 라이브러리가 편의 함수 창고로 변질되거나, 제품별 모델·비밀값·provider 원문 응답이 모든 저장소로 퍼지는 일을 checker 단계에서 먼저 막을 수 있다. 또한 `authorization_header`, `refresh_token_plaintext`, `stack_trace`, `raw_customer_payload`, `screen_component_payload` 같은 값이 공통 타입 재료로 굳어지는 것을 막아 SDK와 API 계약이 민감한 운영 데이터를 끌고 다니지 않게 한다.
 
 ```bash
 bun run check

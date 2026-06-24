@@ -1,6 +1,5 @@
 id: design.wcag
-label: undefined
-slug: undefined
+canonical_label: WCAG
 status: active
 visibility: public
 owner: platform-design
