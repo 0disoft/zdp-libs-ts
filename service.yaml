@@ -1,3 +1,8 @@
+# mf:anchor zdp.libs-ts.service-contract
+# purpose: Locate the TypeScript shared schema, env, event, error, i18n, and glossary contract boundary.
+# search: libs ts, shared schema, env contract, event contract, error envelope, glossary
+# invariant: Shared packages cannot hide product domain models, auth, payment, permission, ledger, provider, or customer data policy.
+# risk: data_consistency, authz, security
 contract:
   schema_version: 2
   contract_version: 1
