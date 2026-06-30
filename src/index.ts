@@ -1,3 +1,10 @@
+/*
+ * mf:anchor zdp.libs-ts.public-export-surface
+ * purpose: Locate the public package barrel that exposes only shared contract metadata helpers.
+ * search: schema, env contract, event contracts, error, i18n contract, glossary contract
+ * invariant: Public exports stay metadata-oriented and do not become product model, provider SDK, or policy helper ownership.
+ * risk: data_consistency, dependency
+ */
 export type {
   SchemaGenerationTarget,
   SchemaMetadata

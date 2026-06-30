@@ -56,6 +56,13 @@ export class LibsContractLoadError extends Error {
 }
 
 export async function loadLibsContracts(root = process.cwd()): Promise<LibsContracts> {
+  /**
+   * mf:anchor zdp.libs-ts.contract-preload
+   * purpose: Locate the common TypeScript package contract input set before semantic validation.
+   * search: package boundaries, API source, schema, env, event, error, i18n, glossary
+   * invariant: Contract loading reads declared package contracts only and treats parse failures as diagnostics.
+   * risk: config, data_consistency
+   */
   const [
     packageBoundaries,
     apiContractSource,

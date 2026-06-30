@@ -240,6 +240,13 @@ export function validateLibsContracts(
 ): LibsContractValidationResult {
   const diagnostics: LibsContractDiagnostic[] = [];
 
+  /**
+   * mf:anchor zdp.libs-ts.semantic-validator
+   * purpose: Locate the common package semantic gate for package, API, schema, env, event, error, i18n, and glossary drift.
+   * search: shared contracts, API handoff, forbidden ownership, metadata, sensitive values
+   * invariant: Validation must keep product models, secrets, provider payloads, and final decisions out of common packages.
+   * risk: data_consistency, security, secrets
+   */
   validatePackageBoundaries(contracts, diagnostics);
   validateApiContractSource(contracts, diagnostics);
   if (options.apiContractsInput !== undefined) {
