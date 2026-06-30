@@ -7,6 +7,12 @@
 - public npm package 후보 메타데이터, MIT license, package file whitelist를 추가했다.
 - error contract와 package boundary에 public API error envelope 필드 기준을 명시했다.
 
+## 0.7.1
+
+### Changed
+
+- public npm package surface에 `SECURITY.md`를 포함해 공통 계약 패키지의 secret, credential, provider response 금지 경계를 명시했다.
+
 ## 0.7.0
 
 ### Changed

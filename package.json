@@ -1,6 +1,6 @@
 {
   "name": "zdp-libs-ts",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "private": false,
   "license": "MIT",
   "type": "module",
@@ -33,6 +33,7 @@
     "BOUNDARY.md",
     "RUNBOOK.md",
     "service.yaml",
+    "SECURITY.md",
     "LICENSE"
   ],
   "sideEffects": false,
