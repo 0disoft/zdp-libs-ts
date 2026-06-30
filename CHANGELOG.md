@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Changed
+
+- public npm package 후보 메타데이터, MIT license, package file whitelist를 추가했다.
+- error contract와 package boundary에 public API error envelope 필드 기준을 명시했다.
+
 ## 0.7.0
 
 ### Changed

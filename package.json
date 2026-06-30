@@ -1,9 +1,18 @@
 {
   "name": "zdp-libs-ts",
   "version": "0.7.0",
-  "private": true,
+  "private": false,
+  "license": "MIT",
   "type": "module",
   "description": "ZDP TypeScript contract libraries skeleton.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0disoft/zdp-libs-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0disoft/zdp-libs-ts/issues"
+  },
+  "homepage": "https://github.com/0disoft/zdp-libs-ts#readme",
   "exports": {
     ".": "./src/index.ts",
     "./schema": "./src/schema/index.ts",
@@ -14,6 +23,19 @@
     "./glossary-contract": "./src/glossary-contract/index.ts"
   },
   "types": "./src/index.ts",
+  "files": [
+    "src/",
+    "contracts/",
+    "glossary/",
+    "README.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "BOUNDARY.md",
+    "RUNBOOK.md",
+    "service.yaml",
+    "LICENSE"
+  ],
+  "sideEffects": false,
   "scripts": {
     "check": "tsc --noEmit && bun test && bun run contracts:check",
     "check:tsgo": "tsgo --noEmit",

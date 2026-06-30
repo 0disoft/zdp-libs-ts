@@ -13,4 +13,4 @@
 
 ## 릴리스
 
-현재는 private skeleton이다. publish는 package API와 compatibility policy가 닫힌 뒤에만 고려한다.
+package metadata와 file whitelist는 public npm package 후보 기준으로 유지한다. 실제 `npm publish` 실행은 package API와 compatibility policy가 닫히고 별도 승인이 있을 때만 진행한다.

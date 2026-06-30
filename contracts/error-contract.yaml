@@ -1,6 +1,8 @@
 error_contract:
   required_fields:
+    - error
     - code
+    - message
     - category
     - retryable
     - public_message_key
@@ -9,5 +11,28 @@ error_contract:
   forbidden_fields:
     - stack_trace
     - raw_provider_error
+    - raw_customer_payload
+    - provider_secret
+    - authorization_header
+    - cookie_header
+    - refresh_token_plaintext
     - secret_value
     - customer_payload
+    - screen_component_payload
+
+error_envelope:
+  required_fields:
+    - error
+    - code
+    - message
+    - request_id
+    - trace_id
+  forbidden_fields:
+    - raw_customer_payload
+    - raw_provider_error
+    - provider_secret
+    - authorization_header
+    - cookie_header
+    - refresh_token_plaintext
+    - stack_trace
+    - screen_component_payload
