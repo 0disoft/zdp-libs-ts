@@ -4,15 +4,17 @@ This repository owns shared TypeScript contract helpers. It must not absorb prod
 
 ## Normal Checks
 
-- Run `bun run contracts:check` after package boundary, API source handoff, schema, env, event, error, or i18n contract changes.
-- Run `bun run check` before locking a TypeScript checker change.
-- Keep `../zdp-api-contracts` available when running `contracts:check`; the checker reads its route, error, webhook, SDK generation input, and API catalog contracts.
-- Validate this repository with `zdp-architecture-linter`.
+- Use `zdp_architecture_validate_libs_ts_repository` for repository architecture policy validation.
+- Use `zdp_libs_ts_check` after TypeScript library, package boundary, API source handoff, schema, env, event, error, i18n, glossary, public export, or checker changes.
+- Use `zdp_libs_ts_npm_pack_dry_run` for npm package contents or release-readiness evidence.
+- Use `zdp_libs_ts_npm_publish_dry_run` only after explicit release approval and token/network gate review.
+- Keep `../zdp-api-contracts` available for configured checker coverage; the checker reads its route, error, webhook, SDK generation input, and API catalog contracts.
 - Keep package boundary changes synchronized with `contracts/package-boundaries.yaml`.
 - Keep API handoff changes synchronized with `contracts/api-contract-source.yaml`.
 - Keep public export skeleton changes synchronized with `package.json`, `src/index.ts`, subpath modules, and `tests/public-exports.test.ts`.
 - Keep contract `status` values inside the shared `skeleton`, `draft`, `reviewed`, `active` lifecycle.
 - Review public package API changes with `CHANGELOG.md`.
+- Treat raw package-manager, install, publish, server, and watcher commands as manual-only or missing command-contract coverage unless the root mustflow command contract exposes an eligible oneshot intent.
 
 ## Failure Response
 

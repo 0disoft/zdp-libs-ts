@@ -1,5 +1,23 @@
 # AGENTS.md
 
+## 읽는 순서
+
+1. `AGENTS.md`
+2. `service.yaml`
+3. `BOUNDARY.md`
+4. `SECURITY.md`
+5. `CHECKLIST.md`
+6. `VALIDATION.md`
+7. `.agents/README.md`
+8. `.agents/context-map.md`
+9. `README.md`
+10. `RUNBOOK.md`
+11. `docs/README.md`
+12. 작업 범위에 맞는 `.agents/checklists/*.md`
+13. 작업 범위에 맞는 `.agents/skills/*/SKILL.md`
+14. 작업 범위에 맞는 `.agents/validations/*.md`
+15. 관련 `contracts/**`, `glossary/**`, `src/**`, `scripts/**`, `tests/**`, `package.json`
+
 ## 역할
 
 이 저장소는 ZDP TypeScript 공통 계약 패키지를 소유한다. 초기 범위는 schema, env-contract, event-contracts, error, i18n-contract, glossary-contract의 얇은 경계다.
@@ -21,4 +39,11 @@
 
 ## 검증
 
-초기 검증은 `zdp-architecture-linter`에서 이 저장소 루트를 대상으로 수행한다. TypeScript build/test는 실제 패키지 코드가 추가될 때 연결한다.
+Agent가 실행하는 검증은 root mustflow command contract에 등록된 intent만 사용한다.
+
+- 저장소 architecture contract: `zdp_architecture_validate_libs_ts_repository`
+- TypeScript library, contracts, glossary, package exports: `zdp_libs_ts_check`
+- npm package contents 또는 release readiness: `zdp_libs_ts_npm_pack_dry_run`
+- 명시적 release approval과 token/network gate가 있는 publish dry-run: `zdp_libs_ts_npm_publish_dry_run`
+
+Raw package-manager, install, publish, watcher, server 명령은 `VALIDATION.md`에 manual-only 또는 missing coverage로 표시된 경계를 따른다.
