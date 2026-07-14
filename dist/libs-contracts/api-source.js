@@ -1,0 +1,160 @@
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+const ROUTE_CONTRACT_FILE = 'contracts/route-contract.yaml';
+const ERROR_ENVELOPE_FILE = 'contracts/error-envelope.yaml';
+const WEBHOOK_CONTRACT_FILE = 'contracts/webhook-contract.yaml';
+const SDK_GENERATION_INPUT_FILE = 'contracts/sdk-generation-input.yaml';
+const API_CATALOG_FILE = 'contracts/apis/catalog.yaml';
+const CALCULATOR_CATALOG_FILE = 'contracts/calculators/catalog.yaml';
+const CALCULATOR_CONFORMANCE_FILE = 'contracts/calculators/conformance.yaml';
+export async function loadApiContractsInput(apiContractsRoot) {
+    const [route, errorEnvelope, webhook, sdkGenerationInput, apiCatalog, calculatorCatalog, calculatorConformance] = await Promise.all([
+        loadRouteContract(apiContractsRoot),
+        loadErrorEnvelopeContract(apiContractsRoot),
+        loadWebhookContract(apiContractsRoot),
+        loadSdkGenerationInputContract(apiContractsRoot),
+        loadApiCatalogInputContract(apiContractsRoot),
+        loadCalculatorCatalogInputContract(apiContractsRoot),
+        loadCalculatorConformanceInputContract(apiContractsRoot)
+    ]);
+    return {
+        route,
+        errorEnvelope,
+        webhook,
+        sdkGenerationInput,
+        apiCatalog,
+        calculatorCatalog,
+        calculatorConformance
+    };
+}
+async function loadRouteContract(apiContractsRoot) {
+    const root = await readNamedContract(apiContractsRoot, ROUTE_CONTRACT_FILE, 'route_contract');
+    return {
+        status: readString(root, 'status'),
+        requiredPerRoute: readStringArray(root, 'required_per_route'),
+        allowedMethods: readStringArray(root, 'allowed_methods'),
+        allowedSuccessStatuses: readNumberArray(root, 'allowed_success_statuses'),
+        forbiddenShapes: readStringArray(root, 'forbidden_shapes')
+    };
+}
+async function loadErrorEnvelopeContract(apiContractsRoot) {
+    const root = await readNamedContract(apiContractsRoot, ERROR_ENVELOPE_FILE, 'error_envelope');
+    return {
+        schemaVersion: readNumber(root, 'schema_version'),
+        requiredFields: readStringArray(root, 'required_fields'),
+        optionalFields: readStringArray(root, 'optional_fields'),
+        forbiddenFields: readStringArray(root, 'forbidden_fields')
+    };
+}
+async function loadWebhookContract(apiContractsRoot) {
+    const root = await readNamedContract(apiContractsRoot, WEBHOOK_CONTRACT_FILE, 'webhook_contract');
+    return {
+        status: readString(root, 'status'),
+        requiredControls: readStringArray(root, 'required_controls'),
+        forbiddenControls: readStringArray(root, 'forbidden_controls')
+    };
+}
+async function loadSdkGenerationInputContract(apiContractsRoot) {
+    const root = await readNamedContract(apiContractsRoot, SDK_GENERATION_INPUT_FILE, 'sdk_generation_input');
+    return {
+        status: readString(root, 'status'),
+        sourceContracts: readStringArray(root, 'source_contracts'),
+        generationTargets: readStringArray(root, 'generation_targets'),
+        allowedGenerationTargets: readStringArray(root, 'allowed_generation_targets'),
+        requiredRouteMetadata: readStringArray(root, 'required_route_metadata'),
+        requiredErrorMetadata: readStringArray(root, 'required_error_metadata'),
+        requiredWebhookMetadata: readStringArray(root, 'required_webhook_metadata'),
+        forbiddenOwnership: readStringArray(root, 'forbidden_ownership'),
+        forbiddenValues: readStringArray(root, 'forbidden_values')
+    };
+}
+async function loadApiCatalogInputContract(apiContractsRoot) {
+    const root = await readNamedContract(apiContractsRoot, API_CATALOG_FILE, 'api_catalog');
+    return {
+        status: readString(root, 'status'),
+        routeDefinitionRequiredFields: readStringArray(root, 'route_definition_required_fields'),
+        forbiddenValues: readStringArray(root, 'forbidden_values')
+    };
+}
+async function loadCalculatorCatalogInputContract(apiContractsRoot) {
+    const source = await readFile(join(apiContractsRoot, CALCULATOR_CATALOG_FILE), 'utf8');
+    const document = parseYamlRecord(source);
+    const contract = isRecord(document.calculator_contract)
+        ? document.calculator_contract
+        : {};
+    const definitions = readRecordArray(document, 'definitions');
+    return {
+        status: readString(contract, 'status'),
+        contractVersion: readString(contract, 'contract_version'),
+        definitions: definitions.map((definition) => ({
+            id: readString(definition, 'id'),
+            lifecycleStatus: readString(definition, 'lifecycle_status'),
+            contractVersion: readString(definition, 'contract_version'),
+            compatibleEngineVersions: readStringArray(definition, 'compatible_engine_versions'),
+            precisionPolicy: readString(definition, 'precision_policy'),
+            roundingPolicy: readString(definition, 'rounding_policy'),
+            errorCodes: readStringArray(definition, 'error_codes')
+        }))
+    };
+}
+async function loadCalculatorConformanceInputContract(apiContractsRoot) {
+    const source = await readFile(join(apiContractsRoot, CALCULATOR_CONFORMANCE_FILE), 'utf8');
+    const document = parseYamlRecord(source);
+    const contract = isRecord(document.calculator_conformance)
+        ? document.calculator_conformance
+        : {};
+    return {
+        contractVersion: readString(contract, 'contract_version'),
+        engineVersionRange: readString(contract, 'engine_version_range'),
+        decimalInputPolicy: readString(contract, 'decimal_input_policy'),
+        maxInputDigits: readNumber(contract, 'max_input_digits'),
+        maxDecimalPlaces: readNumber(contract, 'max_decimal_places'),
+        roundingMode: readString(contract, 'rounding_mode'),
+        cases: readRecordArray(document, 'cases').map((testCase) => ({
+            id: readString(testCase, 'id'),
+            calculatorId: readString(testCase, 'calculator_id')
+        }))
+    };
+}
+async function readNamedContract(root, file, contractName) {
+    const source = await readFile(join(root, file), 'utf8');
+    const document = parseYamlRecord(source);
+    const contract = document[contractName];
+    return isRecord(contract) ? contract : {};
+}
+function parseYamlRecord(source) {
+    const value = Bun.YAML.parse(source);
+    return isRecord(value) ? value : {};
+}
+function readString(record, field) {
+    const value = record[field];
+    return typeof value === 'string' && value.trim().length > 0
+        ? value.trim()
+        : null;
+}
+function readNumber(record, field) {
+    const value = record[field];
+    return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+function readNumberArray(record, field) {
+    const value = record[field];
+    if (!Array.isArray(value)) {
+        return [];
+    }
+    return value.flatMap((entry) => typeof entry === 'number' && Number.isInteger(entry) ? [entry] : []);
+}
+function readStringArray(record, field) {
+    const value = record[field];
+    if (!Array.isArray(value)) {
+        return [];
+    }
+    return value.flatMap((entry) => typeof entry === 'string' && entry.trim().length > 0 ? [entry.trim()] : []);
+}
+function readRecordArray(record, field) {
+    const value = record[field];
+    return Array.isArray(value) ? value.filter(isRecord) : [];
+}
+function isRecord(value) {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+//# sourceMappingURL=api-source.js.map

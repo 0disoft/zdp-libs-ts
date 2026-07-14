@@ -77,7 +77,7 @@
     "check:tsgo": "tsgo --noEmit",
     "test": "bun test",
     "contracts:check": "bun scripts/check-libs-contracts.ts --api-contracts-root ../zdp-api-contracts",
-    "prepare": "bun run build",
+    "prepack": "bun run build",
     "smoke:package": "bun scripts/smoke-packed-package.ts"
   },
   "devDependencies": {
