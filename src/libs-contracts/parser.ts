@@ -11,7 +11,7 @@ import type {
   PackageBoundariesContract,
   PackageBoundary,
   SchemaContract
-} from './types';
+} from './types.js';
 
 interface ContractLoadFailure {
   readonly name: string;

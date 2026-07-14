@@ -1,7 +1,7 @@
 import { join } from 'node:path';
-import { loadApiContractsInput } from './api-source';
-import { loadLibsContracts } from './parser';
-import { validateLibsContracts } from './validator';
+import { loadApiContractsInput } from './api-source.js';
+import { loadLibsContracts } from './parser.js';
+import { validateLibsContracts } from './validator.js';
 
 export async function runLibsContractCheckCli(
   argv: readonly string[]

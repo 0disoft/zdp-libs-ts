@@ -1,6 +1,6 @@
 {
   "name": "zdp-libs-ts",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "private": false,
   "license": "MIT",
   "type": "module",
@@ -14,18 +14,50 @@
   },
   "homepage": "https://github.com/0disoft/zdp-libs-ts#readme",
   "exports": {
-    ".": "./src/index.ts",
-    "./schema": "./src/schema/index.ts",
-    "./env-contract": "./src/env-contract/index.ts",
-    "./event-contracts": "./src/event-contracts/index.ts",
-    "./error": "./src/error/index.ts",
-    "./i18n-contract": "./src/i18n-contract/index.ts",
-    "./glossary-contract": "./src/glossary-contract/index.ts",
-    "./calculator-engine": "./src/calculator-engine/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema/index.d.ts",
+      "import": "./dist/schema/index.js",
+      "default": "./dist/schema/index.js"
+    },
+    "./env-contract": {
+      "types": "./dist/env-contract/index.d.ts",
+      "import": "./dist/env-contract/index.js",
+      "default": "./dist/env-contract/index.js"
+    },
+    "./event-contracts": {
+      "types": "./dist/event-contracts/index.d.ts",
+      "import": "./dist/event-contracts/index.js",
+      "default": "./dist/event-contracts/index.js"
+    },
+    "./error": {
+      "types": "./dist/error/index.d.ts",
+      "import": "./dist/error/index.js",
+      "default": "./dist/error/index.js"
+    },
+    "./i18n-contract": {
+      "types": "./dist/i18n-contract/index.d.ts",
+      "import": "./dist/i18n-contract/index.js",
+      "default": "./dist/i18n-contract/index.js"
+    },
+    "./glossary-contract": {
+      "types": "./dist/glossary-contract/index.d.ts",
+      "import": "./dist/glossary-contract/index.js",
+      "default": "./dist/glossary-contract/index.js"
+    },
+    "./calculator-engine": {
+      "types": "./dist/calculator-engine/index.d.ts",
+      "import": "./dist/calculator-engine/index.js",
+      "default": "./dist/calculator-engine/index.js"
+    }
   },
-  "types": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "files": [
-    "src/",
+    "dist/",
     "contracts/",
     "glossary/",
     "README.md",
@@ -39,10 +71,14 @@
   ],
   "sideEffects": false,
   "scripts": {
+    "build": "bun scripts/build-package.ts",
+    "build:emit": "tsc -p tsconfig.build.json",
     "check": "tsc --noEmit && bun test && bun run contracts:check",
     "check:tsgo": "tsgo --noEmit",
     "test": "bun test",
-    "contracts:check": "bun scripts/check-libs-contracts.ts --api-contracts-root ../zdp-api-contracts"
+    "contracts:check": "bun scripts/check-libs-contracts.ts --api-contracts-root ../zdp-api-contracts",
+    "prepare": "bun run build",
+    "smoke:package": "bun scripts/smoke-packed-package.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.3.14",

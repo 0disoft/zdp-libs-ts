@@ -7,7 +7,7 @@
 | 변경 범위 | 확인 기준 |
 | --- | --- |
 | TypeScript library, contracts, glossary, package exports | `zdp_libs_ts_check` |
-| npm package contents or release readiness | `zdp_libs_ts_npm_pack_dry_run` |
+| npm build, declaration, package contents or release readiness | `zdp_libs_ts_build`, `zdp_libs_ts_package_smoke`, `zdp_libs_ts_npm_pack_dry_run` |
 | repository architecture contract | `zdp_architecture_validate_libs_ts_repository` |
 | architecture catalog or linter rule changes | `zdp_architecture_validate_fast` |
 | agent docs only | `docs_validate_fast` |
@@ -23,7 +23,7 @@
 - schema/env/event/error/i18n/glossary contracts: `contracts/*.yaml`
 - glossary sources: `glossary/terms/**`, `glossary/locales/**`
 - checker: `scripts/check-libs-contracts.ts`
-- public exports: `src/index.ts`, `src/*/index.ts`, `tests/public-exports.test.ts`
+- public export sources: `src/index.ts`, `src/*/index.ts`; consumer output: generated `dist/`; coverage: `tests/public-exports.test.ts` and tarball smoke
 - calculator engine: `src/calculator-engine/index.ts`, sibling `../zdp-api-contracts/contracts/calculators/*.yaml`, `tests/calculator-engine.test.ts`
 
 ## Drift Checks
@@ -33,6 +33,7 @@
 - Glossary base terms and locale copy must keep canonical-label versus displayed-label separation.
 - Error/env/event contracts must not expose secrets, provider payloads, stack traces, or customer payload examples.
 - Public export skeleton and `package.json` exports must stay synchronized.
+- Packed JavaScript and declarations must import from an empty Node consumer without relying on repository `src/` paths.
 - Calculator engine constants, reviewed API contract policies, common conformance cases, package export, tests, and docs must stay synchronized.
 
 ## Version Impact

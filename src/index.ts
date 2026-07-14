@@ -8,33 +8,33 @@
 export type {
   SchemaGenerationTarget,
   SchemaMetadata
-} from './schema/index';
+} from './schema/index.js';
 export {
   SCHEMA_GENERATION_TARGETS,
   defineSchemaMetadata
-} from './schema/index';
+} from './schema/index.js';
 
-export type { EnvContractMetadata } from './env-contract/index';
-export { defineEnvContractMetadata } from './env-contract/index';
+export type { EnvContractMetadata } from './env-contract/index.js';
+export { defineEnvContractMetadata } from './env-contract/index.js';
 
 export type {
   EventContractMetadata,
   EventTraceContext
-} from './event-contracts/index';
-export { defineEventContractMetadata } from './event-contracts/index';
+} from './event-contracts/index.js';
+export { defineEventContractMetadata } from './event-contracts/index.js';
 
 export type {
   ZdpErrorCategory,
   ZdpErrorContract
-} from './error/index';
-export { defineZdpErrorContract } from './error/index';
+} from './error/index.js';
+export { defineZdpErrorContract } from './error/index.js';
 
 export type {
   I18nMessageArgument,
   I18nMessageContract,
   I18nMessageKey
-} from './i18n-contract/index';
-export { defineI18nMessageContract } from './i18n-contract/index';
+} from './i18n-contract/index.js';
+export { defineI18nMessageContract } from './i18n-contract/index.js';
 
 export type {
   GlossaryAdPolicy,
@@ -48,8 +48,8 @@ export type {
   GlossaryTermStatus,
   GlossaryTranslationStatus,
   GlossaryVisibility
-} from './glossary-contract/index';
-export { defineGlossaryTermContract } from './glossary-contract/index';
+} from './glossary-contract/index.js';
+export { defineGlossaryTermContract } from './glossary-contract/index.js';
 
 export type {
   CalculatorErrorCode,
@@ -61,7 +61,7 @@ export type {
   PercentageChangeOutput,
   UnitDecimalInput,
   UnitDecimalOutput
-} from './calculator-engine/index';
+} from './calculator-engine/index.js';
 export {
   CALCULATOR_CONTRACT_VERSION,
   CALCULATOR_ENGINE_VERSION,
@@ -70,4 +70,4 @@ export {
   CALCULATOR_ROUNDING_MODE,
   calculateMarginMarkup,
   calculatePercentageChange
-} from './calculator-engine/index';
+} from './calculator-engine/index.js';

@@ -9,7 +9,7 @@ import type {
   ApiRouteContract,
   ApiSdkGenerationInputContract,
   ApiWebhookContract
-} from './types';
+} from './types.js';
 
 const ROUTE_CONTRACT_FILE = 'contracts/route-contract.yaml';
 const ERROR_ENVELOPE_FILE = 'contracts/error-envelope.yaml';

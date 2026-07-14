@@ -1,5 +1,13 @@
 # CHANGELOG.md
 
+## 0.8.1
+
+### Changed
+
+- npm package export와 file whitelist가 TypeScript source 대신 빌드된 Node 호환 ESM과 declaration을 가리키도록 정리했다.
+- npm publish tarball뿐 아니라 commit SHA로 고정한 Git dependency 설치에서도 `dist/`를 만들도록 package lifecycle을 정리했다.
+- 실제 tarball을 빈 Node 소비자에 설치해 root와 `calculator-engine` subpath를 검증하는 package smoke를 추가했다.
+
 ## 0.8.0
 
 ### Added

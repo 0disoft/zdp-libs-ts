@@ -47,9 +47,9 @@ ZDP TypeScript 공통 계약과 구현 중립 순수 계산 라이브러리 저�
 - `zdp-libs-ts/glossary-contract`
 - `zdp-libs-ts/calculator-engine`
 
-이 export skeleton은 제품 모델을 검증하거나 변환하지 않는다. 대신 import 입구를 먼저 고정해서 나중에 제품 repo가 각자 다른 공통 타입 이름을 만들고, 그 타입이 API/SDK와 어긋나는 일을 줄인다.
+이 export는 제품 모델을 검증하거나 변환하지 않는다. 대신 import 입구를 먼저 고정해서 나중에 제품 repo가 각자 다른 공통 타입 이름을 만들고, 그 타입이 API/SDK와 어긋나는 일을 줄인다. 구현 원천은 `src/`에 두고 소비자는 빌드된 Node 호환 ESM과 declaration인 `dist/`만 읽는다.
 
-package whitelist는 `src/`, `contracts/`, `glossary/`와 README/CHANGELOG/CONTRIBUTING/BOUNDARY/RUNBOOK/service.yaml/LICENSE만 포함한다. 실제 비밀값, provider 원문 응답, runtime artifact, test fixture, build output은 package 표면에 포함하지 않는다.
+package whitelist는 `dist/`, `contracts/`, `glossary/`와 README/CHANGELOG/CONTRIBUTING/BOUNDARY/RUNBOOK/service.yaml/LICENSE만 포함한다. 실제 비밀값, provider 원문 응답, test fixture와 TypeScript source는 package 표면에 포함하지 않는다. 실제 tarball은 빈 Node 소비자에서 root와 `calculator-engine` subpath import를 검증한다.
 
 ## 검증
 

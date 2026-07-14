@@ -6,6 +6,7 @@ This repository owns shared TypeScript contract helpers. It must not absorb prod
 
 - Use `zdp_architecture_validate_libs_ts_repository` for repository architecture policy validation.
 - Use `zdp_libs_ts_check` after TypeScript library, package boundary, API source handoff, schema, env, event, error, i18n, glossary, public export, or checker changes.
+- Use `zdp_libs_ts_build` after source, export, or declaration changes and `zdp_libs_ts_package_smoke` to install the produced tarball in an empty Node consumer.
 - Use `zdp_libs_ts_npm_pack_dry_run` for npm package contents or release-readiness evidence.
 - Use `zdp_libs_ts_npm_publish_dry_run` only after explicit release approval and token/network gate review.
 - Keep `../zdp-api-contracts` available for configured checker coverage; the checker reads its route, error, webhook, SDK generation input, and API catalog contracts.

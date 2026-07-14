@@ -3,7 +3,7 @@ import type {
   LibsContractDiagnostic,
   LibsContracts,
   LibsContractValidationResult
-} from './types';
+} from './types.js';
 
 const REQUIRED_PACKAGE_NAMES = [
   '@zdp/schema',
