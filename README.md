@@ -1,6 +1,6 @@
 # zdp-libs-ts
 
-ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, env-contract, event-contracts, error, i18n-contract, glossary-contract의 경계와 금지선을 먼저 고정하는 것이다.
+ZDP TypeScript 공통 계약과 구현 중립 순수 계산 라이브러리 저장소다. 계약 metadata와 계산 엔진은 서로 다른 public subpath로 분리한다.
 
 ## 현재 범위
 
@@ -16,6 +16,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - `zdp-api-contracts` 실제 route/error/webhook/SDK input/API catalog 계약 드리프트 검사
 - 최소 public export skeleton
 - public npm package 후보 메타데이터, MIT license, package file whitelist
+- 국가 정책과 로케일 표시에 의존하지 않는 `percentage-change`, `margin-markup` 순수 계산 엔진
 
 ## 현재 제외
 
@@ -25,6 +26,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - 실제 npm publish 실행
 - runtime framework adapter
 - 런타임 validator 구현
+- 제품 계산기 페이지, locale 숫자 파싱·표시, SEO, 광고, 크레딧, 국가별 세금·노동·규제 규칙
 
 ## 계약
 
@@ -34,7 +36,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 
 ## 패키지 표면
 
-현재 public export는 계약 metadata를 받는 얇은 함수와 타입만 제공한다.
+현재 public export는 계약 metadata 함수와 타입, 별도 계산 엔진 subpath를 제공한다.
 
 - `zdp-libs-ts`
 - `zdp-libs-ts/schema`
@@ -43,6 +45,7 @@ ZDP TypeScript 공통 계약 패키지 저장소다. 초기 목적은 schema, en
 - `zdp-libs-ts/error`
 - `zdp-libs-ts/i18n-contract`
 - `zdp-libs-ts/glossary-contract`
+- `zdp-libs-ts/calculator-engine`
 
 이 export skeleton은 제품 모델을 검증하거나 변환하지 않는다. 대신 import 입구를 먼저 고정해서 나중에 제품 repo가 각자 다른 공통 타입 이름을 만들고, 그 타입이 API/SDK와 어긋나는 일을 줄인다.
 
@@ -50,7 +53,7 @@ package whitelist는 `src/`, `contracts/`, `glossary/`와 README/CHANGELOG/CONTR
 
 ## 검증
 
-`contracts:check`는 package boundary, API contract source, schema, env, event, error, i18n, glossary 계약을 읽고 공통 패키지가 다음 경계를 잃지 않았는지 확인한다. 또한 sibling `zdp-api-contracts`의 route, error envelope, webhook, SDK generation input, API catalog, auth session schema bundle 계약을 읽어 공통 TypeScript 패키지가 실제 API 원천과 다른 메타데이터를 믿지 않는지 확인한다.
+`contracts:check`는 package boundary, API contract source, schema, env, event, error, i18n, glossary 계약을 읽고 공통 패키지가 다음 경계를 잃지 않았는지 확인한다. 또한 sibling `zdp-api-contracts`의 route, error envelope, webhook, SDK generation input, API catalog, auth session schema bundle, calculator catalog와 conformance 계약을 읽어 공통 TypeScript 패키지가 실제 API 원천과 다른 메타데이터를 믿지 않는지 확인한다.
 
 - `@zdp/schema`: 제품 domain model이나 DB row shape을 소유하지 않는다.
 - API contract source handoff는 `zdp-api-contracts`의 route/error/webhook/`contracts/sdk-generation-input.yaml`/`contracts/apis/catalog.yaml`/`contracts/apis/core-api/auth-session.yaml` 계약을 소비하지만, 원천을 다시 만들지 않는다.
@@ -60,6 +63,9 @@ package whitelist는 `src/`, `contracts/`, `glossary/`와 README/CHANGELOG/CONTR
 - `@zdp/error`: stack trace, raw provider error, secret value, customer payload를 공개 오류 표면에 넣지 않는다.
 - `@zdp/i18n-contract`: 번역 런타임이 아니라 message key와 argument contract만 소유한다.
 - `@zdp/glossary-contract`: 용어 backend, 광고 runtime, 제품별 문구 최종 승인 시스템이 아니라 term metadata, manifest type, click/right-sheet/bottom-sheet interaction 경계만 소유한다.
+- `@zdp/calculator-engine`: reviewed 계산기 계약의 순수 숫자 계산과 적합성만 소유하며 제품 화면, locale 표시, 광고·크레딧, 국가별 정책은 소유하지 않는다.
+
+계산 엔진은 로케일 구분자가 없는 canonical ASCII decimal string을 받고 `BigInt` 기반 정수 비율로 계산한다. 결과는 호출자가 지정한 0-100 소수 자리에서 half-away-from-zero로 한 번만 반올림한다. 제품은 사용자 입력의 locale 표기를 표준 decimal string으로 정규화하고 결과를 다시 locale에 맞게 표시해야 한다.
 
 `glossary/terms/*.yaml`은 여러 공개 사이트에서 반복되는 플랫폼 공통 용어 계약을 namespace별로 소유한다. Base term의 `canonical_label`은 AI 작업 지시, 리뷰, cross-locale 정렬에 쓰는 locale-neutral 기준 이름이며 영어권에서 널리 쓰이는 표기를 우선한다. `glossary/locales/<locale>/*.yaml`은 같은 namespace의 locale별 표시 문구, alias, match phrase, 번역 검수 상태를 소유한다. `감사 로그` 같은 한국어 표기는 `locales/ko`의 `label`과 `match_phrases`에만 두고, base term이나 공통 예시에서는 `Audit Log`와 `security.audit-log`처럼 canonical label과 term id를 쓴다. 공통 term 파일에는 사이트별 route나 관련 화면 경로를 넣지 않고, 소비 앱이 manifest 생성 단계에서 붙인다. 공통 파일에 `products`, `sites`, `canonical_path`를 넣지 않는 이유는 새 public site가 같은 용어를 다시 쓰면서도 자기 화면 구조를 따로 결정하게 하기 위해서다.
 

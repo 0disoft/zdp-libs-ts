@@ -11,7 +11,8 @@ const REQUIRED_PACKAGE_NAMES = [
   '@zdp/event-contracts',
   '@zdp/error',
   '@zdp/i18n-contract',
-  '@zdp/glossary-contract'
+  '@zdp/glossary-contract',
+  '@zdp/calculator-engine'
 ] as const;
 
 const REQUIRED_PACKAGE_FORBIDDEN_OWNERSHIP = [
@@ -21,7 +22,11 @@ const REQUIRED_PACKAGE_FORBIDDEN_OWNERSHIP = [
   'provider raw errors',
   'translation runtime',
   'glossary backend CMS',
-  'advertising runtime'
+  'advertising runtime',
+  'product calculator pages',
+  'locale number parsing or display formatting',
+  'tax labor finance or regulatory policy',
+  'calculator contract source truth'
 ] as const;
 
 const REQUIRED_API_CONTRACT_SOURCE_REPO = 'zdp-api-contracts';
@@ -35,10 +40,16 @@ const REQUIRED_API_SOURCE_CONTRACTS = [
   'contracts/apis/core-api/auth-session.yaml'
 ] as const;
 
+const REQUIRED_CALCULATOR_SOURCE_CONTRACTS = [
+  'contracts/calculators/catalog.yaml',
+  'contracts/calculators/conformance.yaml'
+] as const;
+
 const REQUIRED_API_SOURCE_PACKAGES = [
   '@zdp/schema',
   '@zdp/event-contracts',
-  '@zdp/error'
+  '@zdp/error',
+  '@zdp/calculator-engine'
 ] as const;
 
 const REQUIRED_API_SOURCE_HANDOFF_METADATA = [
@@ -50,8 +61,20 @@ const REQUIRED_API_SOURCE_HANDOFF_METADATA = [
   'trace_id',
   'idempotency',
   'success_statuses',
-  'sdk_generation_targets'
+  'sdk_generation_targets',
+  'calculator_id',
+  'contract_version',
+  'precision_policy',
+  'rounding_policy',
+  'conformance_case'
 ] as const;
+
+const REVIEWED_CALCULATOR_IDS = ['percentage-change', 'margin-markup'] as const;
+const CALCULATOR_CONTRACT_VERSION = '1.0.0';
+const CALCULATOR_PRECISION_POLICY =
+  'canonical_ascii_decimal_string_max_1000_digits';
+const CALCULATOR_ROUNDING_POLICY =
+  'caller_decimal_places_0_to_100_half_away_from_zero';
 
 const REQUIRED_API_SOURCE_FORBIDDEN_OWNERSHIP = [
   'API contract source',
@@ -329,6 +352,14 @@ function validateApiContractSource(
     'api_contract_source.source_contracts'
   );
   requireAll(
+    contracts.apiContractSource.sourceContracts,
+    REQUIRED_CALCULATOR_SOURCE_CONTRACTS,
+    diagnostics,
+    'LIBS_CALCULATOR_SOURCE_CONTRACT_MISSING',
+    'contracts/api-contract-source.yaml',
+    'api_contract_source.source_contracts'
+  );
+  requireAll(
     contracts.apiContractSource.consumedByPackages,
     REQUIRED_API_SOURCE_PACKAGES,
     diagnostics,
@@ -373,12 +404,22 @@ function validateApiContractInputHandoff(
   const webhook = apiContractsInput.webhook;
   const sdkInput = apiContractsInput.sdkGenerationInput;
   const apiCatalog = apiContractsInput.apiCatalog;
+  const calculatorCatalog = apiContractsInput.calculatorCatalog;
+  const calculatorConformance = apiContractsInput.calculatorConformance;
 
   requireAll(
     source.sourceContracts,
     REQUIRED_API_SOURCE_CONTRACTS,
     diagnostics,
     'LIBS_API_INPUT_SOURCE_CONTRACT_MISSING',
+    'contracts/api-contract-source.yaml',
+    'api_contract_source.source_contracts'
+  );
+  requireAll(
+    source.sourceContracts,
+    REQUIRED_CALCULATOR_SOURCE_CONTRACTS,
+    diagnostics,
+    'LIBS_API_INPUT_CALCULATOR_SOURCE_CONTRACT_MISSING',
     'contracts/api-contract-source.yaml',
     'api_contract_source.source_contracts'
   );
@@ -591,6 +632,107 @@ function validateApiContractInputHandoff(
     '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
     'api_contracts.forbidden_values'
   );
+
+  validateCalculatorInputHandoff(
+    calculatorCatalog,
+    calculatorConformance,
+    diagnostics
+  );
+}
+
+function validateCalculatorInputHandoff(
+  catalog: ApiContractsInput['calculatorCatalog'],
+  conformance: ApiContractsInput['calculatorConformance'],
+  diagnostics: LibsContractDiagnostic[]
+): void {
+  validateAllowedString({
+    actual: catalog.status,
+    allowed: ['draft'],
+    diagnostics,
+    code: 'LIBS_CALCULATOR_CATALOG_STATUS_DRIFT',
+    file: '../zdp-api-contracts/contracts/calculators/catalog.yaml',
+    path: 'calculator_contract.status',
+    label: 'Calculator catalog status'
+  });
+  if (catalog.contractVersion !== CALCULATOR_CONTRACT_VERSION) {
+    diagnostics.push({
+      code: 'LIBS_CALCULATOR_CONTRACT_VERSION_DRIFT',
+      file: '../zdp-api-contracts/contracts/calculators/catalog.yaml',
+      path: 'calculator_contract.contract_version',
+      message: `Calculator contract version must stay \`${CALCULATOR_CONTRACT_VERSION}\` for this engine release.`
+    });
+  }
+
+  for (const calculatorId of REVIEWED_CALCULATOR_IDS) {
+    const definition = catalog.definitions.find(
+      (candidate) => candidate.id === calculatorId
+    );
+    if (!definition) {
+      diagnostics.push({
+        code: 'LIBS_CALCULATOR_DEFINITION_MISSING',
+        file: '../zdp-api-contracts/contracts/calculators/catalog.yaml',
+        path: 'definitions',
+        message: `Calculator engine requires definition \`${calculatorId}\`.`
+      });
+      continue;
+    }
+    if (
+      definition.lifecycleStatus !== 'reviewed' ||
+      definition.contractVersion !== CALCULATOR_CONTRACT_VERSION ||
+      !definition.compatibleEngineVersions.includes('0.x') ||
+      definition.precisionPolicy !== CALCULATOR_PRECISION_POLICY ||
+      definition.roundingPolicy !== CALCULATOR_ROUNDING_POLICY
+    ) {
+      diagnostics.push({
+        code: 'LIBS_CALCULATOR_DEFINITION_POLICY_DRIFT',
+        file: '../zdp-api-contracts/contracts/calculators/catalog.yaml',
+        path: `definitions.${calculatorId}`,
+        message: `Calculator \`${calculatorId}\` must keep the reviewed 1.0.0 decimal and rounding policy for engine 0.x.`
+      });
+    }
+    for (const errorCode of [
+      'invalid_input',
+      'domain_error',
+      'limit_exceeded',
+      'contract_mismatch',
+      'denominator_zero'
+    ]) {
+      if (!definition.errorCodes.includes(errorCode)) {
+        diagnostics.push({
+          code: 'LIBS_CALCULATOR_ERROR_CODE_DRIFT',
+          file: '../zdp-api-contracts/contracts/calculators/catalog.yaml',
+          path: `definitions.${calculatorId}.error_codes`,
+          message: `Calculator \`${calculatorId}\` must declare engine error \`${errorCode}\`.`
+        });
+      }
+    }
+  }
+
+  if (
+    conformance.contractVersion !== CALCULATOR_CONTRACT_VERSION ||
+    conformance.engineVersionRange !== '0.x' ||
+    conformance.decimalInputPolicy !== 'canonical_ascii_decimal_string' ||
+    conformance.maxInputDigits !== 1000 ||
+    conformance.maxDecimalPlaces !== 100 ||
+    conformance.roundingMode !== 'half_away_from_zero'
+  ) {
+    diagnostics.push({
+      code: 'LIBS_CALCULATOR_CONFORMANCE_POLICY_DRIFT',
+      file: '../zdp-api-contracts/contracts/calculators/conformance.yaml',
+      path: 'calculator_conformance',
+      message: 'Calculator conformance metadata must match the engine decimal limits and rounding mode.'
+    });
+  }
+  for (const calculatorId of REVIEWED_CALCULATOR_IDS) {
+    if (!conformance.cases.some((testCase) => testCase.calculatorId === calculatorId)) {
+      diagnostics.push({
+        code: 'LIBS_CALCULATOR_CONFORMANCE_CASE_MISSING',
+        file: '../zdp-api-contracts/contracts/calculators/conformance.yaml',
+        path: 'cases',
+        message: `Calculator \`${calculatorId}\` must have shared conformance cases.`
+      });
+    }
+  }
 }
 
 function validateSchemaContract(

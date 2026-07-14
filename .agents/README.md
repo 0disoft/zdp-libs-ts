@@ -9,6 +9,7 @@ Start with `BOUNDARY.md`, `SECURITY.md`, `CHECKLIST.md`, and `VALIDATION.md`. Th
 - Putting secrets, provider raw responses, or internal URLs into env/error/glossary fixtures.
 - Treating glossary copy as product-specific adoption policy.
 - Changing package exports without downstream impact review.
+- Copying calculator definitions into the engine or mixing locale parsing, UI, ads, credits, or jurisdiction policy into pure calculations.
 
 ## Local Routes
 
@@ -16,6 +17,7 @@ Start with `BOUNDARY.md`, `SECURITY.md`, `CHECKLIST.md`, and `VALIDATION.md`. Th
 - `.agents/checklists/api-handoff.md`
 - `.agents/checklists/glossary-contract.md`
 - `.agents/checklists/security-contracts.md`
+- `docs/contracts/calculator-engine.md`
 - `.agents/skills/api-source-handoff/SKILL.md`
 - `.agents/skills/glossary-contract/SKILL.md`
 - `.agents/validations/libs-ts-contract.md`

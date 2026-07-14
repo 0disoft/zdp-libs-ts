@@ -8,10 +8,13 @@ api_contract_source:
     - contracts/sdk-generation-input.yaml
     - contracts/apis/catalog.yaml
     - contracts/apis/core-api/auth-session.yaml
+    - contracts/calculators/catalog.yaml
+    - contracts/calculators/conformance.yaml
   consumed_by_packages:
     - "@zdp/schema"
     - "@zdp/event-contracts"
     - "@zdp/error"
+    - "@zdp/calculator-engine"
   required_handoff_metadata:
     - schema_id
     - operation_id
@@ -22,6 +25,11 @@ api_contract_source:
     - idempotency
     - success_statuses
     - sdk_generation_targets
+    - calculator_id
+    - contract_version
+    - precision_policy
+    - rounding_policy
+    - conformance_case
   must_not_own:
     - API contract source
     - generated SDK source truth

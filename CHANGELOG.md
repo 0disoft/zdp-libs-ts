@@ -1,5 +1,17 @@
 # CHANGELOG.md
 
+## 0.8.0
+
+### Added
+
+- `./calculator-engine` public subpath와 root export에 `percentage-change`, `margin-markup` 순수 계산 함수를 추가했다.
+- canonical ASCII decimal string을 `BigInt` 비율로 계산하고 호출자 지정 0-100 소수 자리에서 half-away-from-zero로 반올림하는 공통 숫자 경계를 추가했다.
+- `zdp-api-contracts` 1.0.0 계산기 정의와 공통 적합성 벡터를 직접 소비하는 테스트와 드리프트 검사를 추가했다.
+
+### Changed
+
+- package boundary와 API source handoff에 `@zdp/calculator-engine`을 추가하고 제품 화면, locale 표시, 광고·크레딧, 국가별 정책 금지선을 명시했다.
+
 ## Unreleased
 
 ### Changed

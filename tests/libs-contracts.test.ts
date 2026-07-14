@@ -142,6 +142,39 @@ describe('libs contract checker', () => {
     );
   });
 
+  it('fails when calculator contract precision or conformance rounding drifts', async () => {
+    const contracts = loadCommittedContracts();
+    const apiContractsInput = await loadCommittedApiContractsInput();
+    const firstDefinition = apiContractsInput.calculatorCatalog.definitions[0];
+    if (!firstDefinition) {
+      throw new Error('Expected a reviewed calculator definition.');
+    }
+    const result = validateLibsContracts(contracts, {
+      apiContractsInput: {
+        ...apiContractsInput,
+        calculatorCatalog: {
+          ...apiContractsInput.calculatorCatalog,
+          definitions: [
+            { ...firstDefinition, precisionPolicy: 'binary_float' },
+            ...apiContractsInput.calculatorCatalog.definitions.slice(1)
+          ]
+        },
+        calculatorConformance: {
+          ...apiContractsInput.calculatorConformance,
+          roundingMode: 'half_even'
+        }
+      }
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_CALCULATOR_DEFINITION_POLICY_DRIFT'
+    );
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_CALCULATOR_CONFORMANCE_POLICY_DRIFT'
+    );
+  });
+
   it('allows contracts to move through the reviewed lifecycle', () => {
     const contracts = loadCommittedContracts();
     const result = validateLibsContracts({

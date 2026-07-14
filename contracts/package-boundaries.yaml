@@ -39,6 +39,18 @@ packages:
       - glossary backend CMS
       - advertising runtime
       - product domain copy final approval
+  - name: "@zdp/calculator-engine"
+    status: reviewed
+    owns:
+      - jurisdiction-neutral pure calculator functions
+      - exact decimal ratio arithmetic
+      - calculator contract conformance adapters
+    must_not_own:
+      - product calculator pages
+      - locale number parsing or display formatting
+      - tax labor finance or regulatory policy
+      - advertising credits or payment policy
+      - calculator contract source truth
 
 error_envelope:
   required_fields:

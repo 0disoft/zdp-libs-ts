@@ -1,10 +1,10 @@
 {
   "name": "zdp-libs-ts",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "private": false,
   "license": "MIT",
   "type": "module",
-  "description": "ZDP TypeScript contract libraries skeleton.",
+  "description": "ZDP TypeScript contract libraries and jurisdiction-neutral calculator engine.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0disoft/zdp-libs-ts.git"
@@ -20,7 +20,8 @@
     "./event-contracts": "./src/event-contracts/index.ts",
     "./error": "./src/error/index.ts",
     "./i18n-contract": "./src/i18n-contract/index.ts",
-    "./glossary-contract": "./src/glossary-contract/index.ts"
+    "./glossary-contract": "./src/glossary-contract/index.ts",
+    "./calculator-engine": "./src/calculator-engine/index.ts"
   },
   "types": "./src/index.ts",
   "files": [

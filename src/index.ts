@@ -50,3 +50,24 @@ export type {
   GlossaryVisibility
 } from './glossary-contract/index';
 export { defineGlossaryTermContract } from './glossary-contract/index';
+
+export type {
+  CalculatorErrorCode,
+  CalculatorExecutionOptions,
+  CalculatorResult,
+  MarginMarkupInput,
+  MarginMarkupOutput,
+  PercentageChangeInput,
+  PercentageChangeOutput,
+  UnitDecimalInput,
+  UnitDecimalOutput
+} from './calculator-engine/index';
+export {
+  CALCULATOR_CONTRACT_VERSION,
+  CALCULATOR_ENGINE_VERSION,
+  CALCULATOR_MAX_DECIMAL_PLACES,
+  CALCULATOR_MAX_INPUT_DIGITS,
+  CALCULATOR_ROUNDING_MODE,
+  calculateMarginMarkup,
+  calculatePercentageChange
+} from './calculator-engine/index';

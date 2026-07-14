@@ -2,6 +2,8 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type {
   ApiCatalogInputContract,
+  ApiCalculatorCatalogInputContract,
+  ApiCalculatorConformanceInputContract,
   ApiContractsInput,
   ApiErrorEnvelopeContract,
   ApiRouteContract,
@@ -14,17 +16,29 @@ const ERROR_ENVELOPE_FILE = 'contracts/error-envelope.yaml';
 const WEBHOOK_CONTRACT_FILE = 'contracts/webhook-contract.yaml';
 const SDK_GENERATION_INPUT_FILE = 'contracts/sdk-generation-input.yaml';
 const API_CATALOG_FILE = 'contracts/apis/catalog.yaml';
+const CALCULATOR_CATALOG_FILE = 'contracts/calculators/catalog.yaml';
+const CALCULATOR_CONFORMANCE_FILE = 'contracts/calculators/conformance.yaml';
 
 export async function loadApiContractsInput(
   apiContractsRoot: string
 ): Promise<ApiContractsInput> {
-  const [route, errorEnvelope, webhook, sdkGenerationInput, apiCatalog] =
+  const [
+    route,
+    errorEnvelope,
+    webhook,
+    sdkGenerationInput,
+    apiCatalog,
+    calculatorCatalog,
+    calculatorConformance
+  ] =
     await Promise.all([
       loadRouteContract(apiContractsRoot),
       loadErrorEnvelopeContract(apiContractsRoot),
       loadWebhookContract(apiContractsRoot),
       loadSdkGenerationInputContract(apiContractsRoot),
-      loadApiCatalogInputContract(apiContractsRoot)
+      loadApiCatalogInputContract(apiContractsRoot),
+      loadCalculatorCatalogInputContract(apiContractsRoot),
+      loadCalculatorConformanceInputContract(apiContractsRoot)
     ]);
 
   return {
@@ -32,7 +46,9 @@ export async function loadApiContractsInput(
     errorEnvelope,
     webhook,
     sdkGenerationInput,
-    apiCatalog
+    apiCatalog,
+    calculatorCatalog,
+    calculatorConformance
   };
 }
 
@@ -128,6 +144,63 @@ async function loadApiCatalogInputContract(
   };
 }
 
+async function loadCalculatorCatalogInputContract(
+  apiContractsRoot: string
+): Promise<ApiCalculatorCatalogInputContract> {
+  const source = await readFile(
+    join(apiContractsRoot, CALCULATOR_CATALOG_FILE),
+    'utf8'
+  );
+  const document = parseYamlRecord(source);
+  const contract = isRecord(document.calculator_contract)
+    ? document.calculator_contract
+    : {};
+  const definitions = readRecordArray(document, 'definitions');
+
+  return {
+    status: readString(contract, 'status'),
+    contractVersion: readString(contract, 'contract_version'),
+    definitions: definitions.map((definition) => ({
+      id: readString(definition, 'id'),
+      lifecycleStatus: readString(definition, 'lifecycle_status'),
+      contractVersion: readString(definition, 'contract_version'),
+      compatibleEngineVersions: readStringArray(
+        definition,
+        'compatible_engine_versions'
+      ),
+      precisionPolicy: readString(definition, 'precision_policy'),
+      roundingPolicy: readString(definition, 'rounding_policy'),
+      errorCodes: readStringArray(definition, 'error_codes')
+    }))
+  };
+}
+
+async function loadCalculatorConformanceInputContract(
+  apiContractsRoot: string
+): Promise<ApiCalculatorConformanceInputContract> {
+  const source = await readFile(
+    join(apiContractsRoot, CALCULATOR_CONFORMANCE_FILE),
+    'utf8'
+  );
+  const document = parseYamlRecord(source);
+  const contract = isRecord(document.calculator_conformance)
+    ? document.calculator_conformance
+    : {};
+
+  return {
+    contractVersion: readString(contract, 'contract_version'),
+    engineVersionRange: readString(contract, 'engine_version_range'),
+    decimalInputPolicy: readString(contract, 'decimal_input_policy'),
+    maxInputDigits: readNumber(contract, 'max_input_digits'),
+    maxDecimalPlaces: readNumber(contract, 'max_decimal_places'),
+    roundingMode: readString(contract, 'rounding_mode'),
+    cases: readRecordArray(document, 'cases').map((testCase) => ({
+      id: readString(testCase, 'id'),
+      calculatorId: readString(testCase, 'calculator_id')
+    }))
+  };
+}
+
 async function readNamedContract(
   root: string,
   file: string,
@@ -194,6 +267,14 @@ function readStringArray(
   return value.flatMap((entry) =>
     typeof entry === 'string' && entry.trim().length > 0 ? [entry.trim()] : []
   );
+}
+
+function readRecordArray(
+  record: Record<string, unknown>,
+  field: string
+): readonly Record<string, unknown>[] {
+  const value = record[field];
+  return Array.isArray(value) ? value.filter(isRecord) : [];
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

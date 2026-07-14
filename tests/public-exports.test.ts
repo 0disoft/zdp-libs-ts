@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import {
   SCHEMA_GENERATION_TARGETS,
+  CALCULATOR_CONTRACT_VERSION,
+  calculatePercentageChange,
   defineEnvContractMetadata,
   defineEventContractMetadata,
   defineGlossaryTermContract,
@@ -10,6 +12,7 @@ import {
 } from '../src/index';
 import type { GlossaryTermId, I18nMessageKey } from '../src/index';
 import { defineSchemaMetadata as defineSchemaMetadataFromSubpath } from '../src/schema/index';
+import { calculateMarginMarkup as calculateMarginMarkupFromSubpath } from '../src/calculator-engine/index';
 
 describe('public contract package exports', () => {
   it('exposes schema metadata without owning product models', () => {
@@ -150,5 +153,39 @@ describe('public contract package exports', () => {
     expect(term.interaction.mobilePlacement).toBe('bottom-sheet');
     expect(term.adPolicy.termSheet).toBe('future-experiment-only');
     expect(String(invalidTermId)).toBe('ledger');
+  });
+
+  it('exposes calculator functions through root and calculator-engine subpath', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 2
+    };
+
+    expect(
+      calculatePercentageChange(
+        { initialValue: '100', finalValue: '125' },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        percentageChange: { value: '25.00', unit: 'percent' }
+      }
+    });
+    expect(
+      calculateMarginMarkupFromSubpath(
+        {
+          cost: { value: '80', unit: 'USD' },
+          sellingPrice: { value: '100', unit: 'USD' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        marginPercentage: { value: '20.00', unit: 'percent' },
+        markupPercentage: { value: '25.00', unit: 'percent' }
+      }
+    });
   });
 });

@@ -70,12 +70,45 @@ export interface ApiCatalogInputContract {
   readonly forbiddenValues: readonly string[];
 }
 
+export interface ApiCalculatorDefinitionInputContract {
+  readonly id: string | null;
+  readonly lifecycleStatus: string | null;
+  readonly contractVersion: string | null;
+  readonly compatibleEngineVersions: readonly string[];
+  readonly precisionPolicy: string | null;
+  readonly roundingPolicy: string | null;
+  readonly errorCodes: readonly string[];
+}
+
+export interface ApiCalculatorCatalogInputContract {
+  readonly status: string | null;
+  readonly contractVersion: string | null;
+  readonly definitions: readonly ApiCalculatorDefinitionInputContract[];
+}
+
+export interface ApiCalculatorConformanceCaseInputContract {
+  readonly id: string | null;
+  readonly calculatorId: string | null;
+}
+
+export interface ApiCalculatorConformanceInputContract {
+  readonly contractVersion: string | null;
+  readonly engineVersionRange: string | null;
+  readonly decimalInputPolicy: string | null;
+  readonly maxInputDigits: number | null;
+  readonly maxDecimalPlaces: number | null;
+  readonly roundingMode: string | null;
+  readonly cases: readonly ApiCalculatorConformanceCaseInputContract[];
+}
+
 export interface ApiContractsInput {
   readonly route: ApiRouteContract;
   readonly errorEnvelope: ApiErrorEnvelopeContract;
   readonly webhook: ApiWebhookContract;
   readonly sdkGenerationInput: ApiSdkGenerationInputContract;
   readonly apiCatalog: ApiCatalogInputContract;
+  readonly calculatorCatalog: ApiCalculatorCatalogInputContract;
+  readonly calculatorConformance: ApiCalculatorConformanceInputContract;
 }
 
 export interface EnvContract {
