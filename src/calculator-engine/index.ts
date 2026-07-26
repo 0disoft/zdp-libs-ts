@@ -1,3 +1,5 @@
+import { isRecord } from '../internal/record.js';
+
 export const CALCULATOR_ENGINE_VERSION = '0.1.0' as const;
 export const CALCULATOR_CONTRACT_VERSION = '1.0.0' as const;
 export const CALCULATOR_ROUNDING_MODE = 'half_away_from_zero' as const;
@@ -339,8 +341,4 @@ function failure(
   return field === undefined
     ? { ok: false, error: { code } }
     : { ok: false, error: { code, field } };
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }

@@ -1,3 +1,4 @@
+import { CALCULATOR_CONTRACT_VERSION } from '../calculator-engine/index.js';
 const REQUIRED_PACKAGE_NAMES = [
     '@zdp/schema',
     '@zdp/env-contract',
@@ -56,7 +57,6 @@ const REQUIRED_API_SOURCE_HANDOFF_METADATA = [
     'conformance_case'
 ];
 const REVIEWED_CALCULATOR_IDS = ['percentage-change', 'margin-markup'];
-const CALCULATOR_CONTRACT_VERSION = '1.0.0';
 const CALCULATOR_PRECISION_POLICY = 'canonical_ascii_decimal_string_max_1000_digits';
 const CALCULATOR_ROUNDING_POLICY = 'caller_decimal_places_0_to_100_half_away_from_zero';
 const REQUIRED_API_SOURCE_FORBIDDEN_OWNERSHIP = [
@@ -422,6 +422,9 @@ function validateApiContractInputHandoff(contracts, apiContractsInput, diagnosti
     requireAll(apiCatalog.routeDefinitionRequiredFields, REQUIRED_API_CATALOG_ROUTE_FIELDS, diagnostics, 'LIBS_API_INPUT_CATALOG_ROUTE_FIELD_MISSING', '../zdp-api-contracts/contracts/apis/catalog.yaml', 'api_catalog.route_definition_required_fields');
     requireAll(apiCatalog.routeDefinitionRequiredFields, sdkInput.requiredRouteMetadata, diagnostics, 'LIBS_API_INPUT_CATALOG_SDK_METADATA_MISSING', '../zdp-api-contracts/contracts/apis/catalog.yaml', 'api_catalog.route_definition_required_fields');
     requireAll(apiCatalog.forbiddenValues, sdkInput.forbiddenValues, diagnostics, 'LIBS_API_INPUT_CATALOG_FORBIDDEN_VALUE_MISSING', '../zdp-api-contracts/contracts/apis/catalog.yaml', 'api_catalog.forbidden_values');
+    requireAll(route.forbiddenShapes, source.forbiddenValues, diagnostics, 'LIBS_API_INPUT_ROUTE_FORBIDDEN_VALUE_MISSING', '../zdp-api-contracts/contracts/route-contract.yaml', 'route_contract.forbidden_shapes');
+    requireAll(errorEnvelope.forbiddenFields, source.forbiddenValues, diagnostics, 'LIBS_API_INPUT_ERROR_FORBIDDEN_VALUE_MISSING', '../zdp-api-contracts/contracts/error-envelope.yaml', 'error_envelope.forbidden_fields');
+    requireAll(sdkInput.forbiddenValues, source.forbiddenValues, diagnostics, 'LIBS_API_INPUT_SDK_FORBIDDEN_VALUE_MISSING', '../zdp-api-contracts/contracts/sdk-generation-input.yaml', 'sdk_generation_input.forbidden_values');
     requireAll(combineValues([
         route.forbiddenShapes,
         errorEnvelope.forbiddenFields,

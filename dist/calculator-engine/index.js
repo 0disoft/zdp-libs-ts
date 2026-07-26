@@ -1,3 +1,4 @@
+import { isRecord } from '../internal/record.js';
 export const CALCULATOR_ENGINE_VERSION = '0.1.0';
 export const CALCULATOR_CONTRACT_VERSION = '1.0.0';
 export const CALCULATOR_ROUNDING_MODE = 'half_away_from_zero';
@@ -188,8 +189,5 @@ function failure(code, field) {
     return field === undefined
         ? { ok: false, error: { code } }
         : { ok: false, error: { code, field } };
-}
-function isRecord(value) {
-    return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 //# sourceMappingURL=index.js.map

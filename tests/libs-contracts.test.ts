@@ -2,7 +2,10 @@ import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'bun:test';
-import { loadApiContractsInput } from '../src/libs-contracts/api-source';
+import {
+  ApiContractLoadError,
+  loadApiContractsInput
+} from '../src/libs-contracts/api-source';
 import {
   LibsContractLoadError,
   loadLibsContracts,
@@ -120,6 +123,63 @@ describe('libs contract checker', () => {
     );
   });
 
+  it('fails when one API input drops a forbidden value covered elsewhere', async () => {
+    const contracts = loadCommittedContracts();
+    const apiContractsInput = await loadCommittedApiContractsInput();
+    const forbiddenValue = 'authorization_header';
+    const cases = [
+      {
+        code: 'LIBS_API_INPUT_ROUTE_FORBIDDEN_VALUE_MISSING',
+        input: {
+          ...apiContractsInput,
+          route: {
+            ...apiContractsInput.route,
+            forbiddenShapes: apiContractsInput.route.forbiddenShapes.filter(
+              (item) => item !== forbiddenValue
+            )
+          }
+        }
+      },
+      {
+        code: 'LIBS_API_INPUT_ERROR_FORBIDDEN_VALUE_MISSING',
+        input: {
+          ...apiContractsInput,
+          errorEnvelope: {
+            ...apiContractsInput.errorEnvelope,
+            forbiddenFields:
+              apiContractsInput.errorEnvelope.forbiddenFields.filter(
+                (item) => item !== forbiddenValue
+              )
+          }
+        }
+      },
+      {
+        code: 'LIBS_API_INPUT_SDK_FORBIDDEN_VALUE_MISSING',
+        input: {
+          ...apiContractsInput,
+          sdkGenerationInput: {
+            ...apiContractsInput.sdkGenerationInput,
+            forbiddenValues:
+              apiContractsInput.sdkGenerationInput.forbiddenValues.filter(
+                (item) => item !== forbiddenValue
+              )
+          }
+        }
+      }
+    ] as const;
+
+    for (const testCase of cases) {
+      const result = validateLibsContracts(contracts, {
+        apiContractsInput: testCase.input
+      });
+
+      expect(result.ok).toBe(false);
+      expect(result.diagnostics.map((item) => item.code)).toContain(
+        testCase.code
+      );
+    }
+  });
+
   it('fails when API catalog input no longer mirrors route metadata', async () => {
     const contracts = loadCommittedContracts();
     const apiContractsInput = await loadCommittedApiContractsInput();
@@ -229,6 +289,29 @@ describe('libs contract checker', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(LibsContractLoadError);
       expect((error as LibsContractLoadError).failures.length).toBeGreaterThan(1);
+    }
+  });
+
+  it('accumulates API contract input load errors', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'zdp-api-contracts-'));
+
+    try {
+      await loadApiContractsInput(root);
+      throw new Error('Expected API contract input loading to fail.');
+    } catch (error) {
+      expect(error).toBeInstanceOf(ApiContractLoadError);
+      expect((error as ApiContractLoadError).failures).toHaveLength(7);
+      expect(
+        (error as ApiContractLoadError).failures.map((failure) => failure.file)
+      ).toEqual([
+        'contracts/route-contract.yaml',
+        'contracts/error-envelope.yaml',
+        'contracts/webhook-contract.yaml',
+        'contracts/sdk-generation-input.yaml',
+        'contracts/apis/catalog.yaml',
+        'contracts/calculators/catalog.yaml',
+        'contracts/calculators/conformance.yaml'
+      ]);
     }
   });
 

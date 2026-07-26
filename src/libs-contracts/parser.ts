@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { isRecord } from '../internal/record.js';
 import type {
   ApiContractSourceContract,
   EnvContract,
@@ -400,11 +401,11 @@ function requireLoadedContract<T>(
 }
 
 function asRecord(value: unknown, path: string): Record<string, unknown> {
-  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+  if (!isRecord(value)) {
     throw new Error(`${path}: expected object.`);
   }
 
-  return value as Record<string, unknown>;
+  return value;
 }
 
 function readString(

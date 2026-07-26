@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { isRecord } from '../internal/record.js';
 const ROUTE_CONTRACT_FILE = 'contracts/route-contract.yaml';
 const ERROR_ENVELOPE_FILE = 'contracts/error-envelope.yaml';
 const WEBHOOK_CONTRACT_FILE = 'contracts/webhook-contract.yaml';
@@ -7,8 +8,19 @@ const SDK_GENERATION_INPUT_FILE = 'contracts/sdk-generation-input.yaml';
 const API_CATALOG_FILE = 'contracts/apis/catalog.yaml';
 const CALCULATOR_CATALOG_FILE = 'contracts/calculators/catalog.yaml';
 const CALCULATOR_CONFORMANCE_FILE = 'contracts/calculators/conformance.yaml';
+export class ApiContractLoadError extends Error {
+    failures;
+    constructor(failures) {
+        super([
+            `Failed to load ${failures.length} API contract input file(s):`,
+            ...failures.map((failure) => `- ${failure.file}: ${failure.message}`)
+        ].join('\n'));
+        this.name = 'ApiContractLoadError';
+        this.failures = failures;
+    }
+}
 export async function loadApiContractsInput(apiContractsRoot) {
-    const [route, errorEnvelope, webhook, sdkGenerationInput, apiCatalog, calculatorCatalog, calculatorConformance] = await Promise.all([
+    const [route, errorEnvelope, webhook, sdkGenerationInput, apiCatalog, calculatorCatalog, calculatorConformance] = await Promise.allSettled([
         loadRouteContract(apiContractsRoot),
         loadErrorEnvelopeContract(apiContractsRoot),
         loadWebhookContract(apiContractsRoot),
@@ -17,7 +29,16 @@ export async function loadApiContractsInput(apiContractsRoot) {
         loadCalculatorCatalogInputContract(apiContractsRoot),
         loadCalculatorConformanceInputContract(apiContractsRoot)
     ]);
-    return {
+    const files = [
+        ROUTE_CONTRACT_FILE,
+        ERROR_ENVELOPE_FILE,
+        WEBHOOK_CONTRACT_FILE,
+        SDK_GENERATION_INPUT_FILE,
+        API_CATALOG_FILE,
+        CALCULATOR_CATALOG_FILE,
+        CALCULATOR_CONFORMANCE_FILE
+    ];
+    const results = [
         route,
         errorEnvelope,
         webhook,
@@ -25,7 +46,35 @@ export async function loadApiContractsInput(apiContractsRoot) {
         apiCatalog,
         calculatorCatalog,
         calculatorConformance
+    ];
+    const failures = results.flatMap((result, index) => result.status === 'rejected'
+        ? [
+            {
+                file: files[index] ?? 'unknown API contract input',
+                message: result.reason instanceof Error
+                    ? result.reason.message
+                    : String(result.reason)
+            }
+        ]
+        : []);
+    if (failures.length > 0) {
+        throw new ApiContractLoadError(failures);
+    }
+    return {
+        route: requireFulfilled(route),
+        errorEnvelope: requireFulfilled(errorEnvelope),
+        webhook: requireFulfilled(webhook),
+        sdkGenerationInput: requireFulfilled(sdkGenerationInput),
+        apiCatalog: requireFulfilled(apiCatalog),
+        calculatorCatalog: requireFulfilled(calculatorCatalog),
+        calculatorConformance: requireFulfilled(calculatorConformance)
     };
+}
+function requireFulfilled(result) {
+    if (result.status === 'fulfilled') {
+        return result.value;
+    }
+    throw new Error('API contract input remained rejected after load failures were aggregated.');
 }
 async function loadRouteContract(apiContractsRoot) {
     const root = await readNamedContract(apiContractsRoot, ROUTE_CONTRACT_FILE, 'route_contract');
@@ -153,8 +202,5 @@ function readStringArray(record, field) {
 function readRecordArray(record, field) {
     const value = record[field];
     return Array.isArray(value) ? value.filter(isRecord) : [];
-}
-function isRecord(value) {
-    return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 //# sourceMappingURL=api-source.js.map

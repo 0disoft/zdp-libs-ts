@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { isRecord } from '../internal/record.js';
 export class LibsContractLoadError extends Error {
     failures;
     constructor(failures) {
@@ -175,7 +176,7 @@ function requireLoadedContract(result) {
     return result;
 }
 function asRecord(value, path) {
-    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+    if (!isRecord(value)) {
         throw new Error(`${path}: expected object.`);
     }
     return value;

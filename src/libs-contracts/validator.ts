@@ -1,3 +1,4 @@
+import { CALCULATOR_CONTRACT_VERSION } from '../calculator-engine/index.js';
 import type {
   ApiContractsInput,
   LibsContractDiagnostic,
@@ -70,7 +71,6 @@ const REQUIRED_API_SOURCE_HANDOFF_METADATA = [
 ] as const;
 
 const REVIEWED_CALCULATOR_IDS = ['percentage-change', 'margin-markup'] as const;
-const CALCULATOR_CONTRACT_VERSION = '1.0.0';
 const CALCULATOR_PRECISION_POLICY =
   'canonical_ascii_decimal_string_max_1000_digits';
 const CALCULATOR_ROUNDING_POLICY =
@@ -617,6 +617,31 @@ function validateApiContractInputHandoff(
     'LIBS_API_INPUT_CATALOG_FORBIDDEN_VALUE_MISSING',
     '../zdp-api-contracts/contracts/apis/catalog.yaml',
     'api_catalog.forbidden_values'
+  );
+
+  requireAll(
+    route.forbiddenShapes,
+    source.forbiddenValues,
+    diagnostics,
+    'LIBS_API_INPUT_ROUTE_FORBIDDEN_VALUE_MISSING',
+    '../zdp-api-contracts/contracts/route-contract.yaml',
+    'route_contract.forbidden_shapes'
+  );
+  requireAll(
+    errorEnvelope.forbiddenFields,
+    source.forbiddenValues,
+    diagnostics,
+    'LIBS_API_INPUT_ERROR_FORBIDDEN_VALUE_MISSING',
+    '../zdp-api-contracts/contracts/error-envelope.yaml',
+    'error_envelope.forbidden_fields'
+  );
+  requireAll(
+    sdkInput.forbiddenValues,
+    source.forbiddenValues,
+    diagnostics,
+    'LIBS_API_INPUT_SDK_FORBIDDEN_VALUE_MISSING',
+    '../zdp-api-contracts/contracts/sdk-generation-input.yaml',
+    'sdk_generation_input.forbidden_values'
   );
 
   requireAll(
