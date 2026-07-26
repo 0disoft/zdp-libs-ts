@@ -25,6 +25,7 @@ interface PublicGlossaryLocaleTerm {
   readonly short?: string;
   readonly long?: string | null;
   readonly translation_status?: string;
+  readonly copy_contract_version?: number;
   readonly status?: string;
   readonly visibility?: string;
   readonly owner?: string;
@@ -32,28 +33,86 @@ interface PublicGlossaryLocaleTerm {
   readonly ad_policy?: unknown;
 }
 
-const SHORT_COPY_SENTENCES = 2;
-const LONG_COPY_MIN_PARAGRAPHS = 2;
-const LONG_COPY_MAX_PARAGRAPHS = 3;
-const LONG_COPY_SENTENCES_PER_PARAGRAPH = 4;
+interface GlossaryAuthoringContractSource {
+  readonly glossary_contract?: {
+    readonly copy_contract?: unknown;
+  };
+}
+
+interface CopyShapeContract {
+  readonly shortParagraphs: number;
+  readonly shortSentences: number;
+  readonly longParagraphs: number;
+  readonly longSentencesPerParagraph: number;
+  readonly koreanPlainDeclarative: boolean;
+}
+
+const COPY_SHAPE_CONTRACTS: Readonly<Record<1 | 2, CopyShapeContract>> = {
+  1: {
+    shortParagraphs: 1,
+    shortSentences: 2,
+    longParagraphs: 2,
+    longSentencesPerParagraph: 4,
+    koreanPlainDeclarative: false
+  },
+  2: {
+    shortParagraphs: 1,
+    shortSentences: 3,
+    longParagraphs: 3,
+    longSentencesPerParagraph: 4,
+    koreanPlainDeclarative: true
+  }
+};
 const COMMON_GLOSSARY_PRODUCT_COPY_PATTERNS: readonly RegExp[] = [
   /\bZDP\b/u,
   /8ailors/u,
   /우리\s*(시스템|서비스|제품|앱|플랫폼)/u,
   /이\s*(저장소|사이트|서비스|시스템|제품|앱|플랫폼)/u
 ];
+const EXPECTED_COMMON_GLOSSARY_TERM_IDS = [
+  'operations.rate-limit',
+  'security.vault'
+] as const;
 
 describe('public glossary source data', () => {
+  it('pins the current glossary copy authoring contract', async () => {
+    const source = await readFile(new URL('../contracts/glossary-contract.yaml', import.meta.url), 'utf8');
+    const parsed = Bun.YAML.parse(source) as GlossaryAuthoringContractSource;
+
+    expect(parsed.glossary_contract?.copy_contract).toEqual({
+      current_version: 2,
+      legacy_default_version: 1,
+      llm_authoring_model: 'umans/umans-kimi-k2.7',
+      human_review_required: true,
+      model_update_policy: 'contract-revision',
+      copy_provenance: {
+        required_from_version: 2,
+        allowed_origins: ['human', 'llm'],
+        llm_model_required: true,
+        llm_initial_human_review_status: 'pending',
+        human_review_complete_status: 'reviewed',
+        unreviewed_llm_severity: 'warning'
+      },
+      short: {
+        paragraphs: 1,
+        sentences_per_paragraph: 3
+      },
+      long: {
+        paragraphs: 3,
+        sentences_per_paragraph: 4
+      },
+      locale_style: {
+        ko: 'plain-declarative-da'
+      }
+    });
+  });
+
   it('owns reusable platform terms without site routing or product filters', async () => {
     const source = await readPublicGlossarySource();
     const terms = source.terms ?? [];
     const termIds = terms.map((term) => term.id);
 
-    expect(termIds).toContain('design.oklch');
-    expect(termIds).toContain('security.vault');
-    expect(termIds).toContain('security.privacy-access-broker');
-    expect(termIds).toContain('operations.rate-limit');
-    expect(new Set(termIds).size).toBe(termIds.length);
+    expect([...termIds].sort()).toEqual([...EXPECTED_COMMON_GLOSSARY_TERM_IDS].sort());
 
     for (const term of terms) {
       expect(term.canonical_label).toBeString();
@@ -72,39 +131,34 @@ describe('public glossary source data', () => {
     const termIds = terms.map((term) => term.id);
 
     expect(source.locale).toBe('ko');
-    expect(termIds).toContain('design.oklch');
-    expect(termIds).toContain('security.vault');
-    expect(termIds).toContain('security.privacy-access-broker');
-    expect(termIds).toContain('operations.rate-limit');
-    expect(new Set(termIds).size).toBe(termIds.length);
+    expect([...termIds].sort()).toEqual([...EXPECTED_COMMON_GLOSSARY_TERM_IDS].sort());
 
     for (const term of terms) {
+      const contractVersion = readCopyContractVersion(term);
+      const copyShape = COPY_SHAPE_CONTRACTS[contractVersion];
       expect(term.status).toBeUndefined();
       expect(term.visibility).toBeUndefined();
       expect(term.owner).toBeUndefined();
       expect(term.interaction).toBeUndefined();
-      expect(term.ad_policy).toBeUndefined();
-      expect(term.short).toBeString();
-      expectGeneralPublicCopy(term.id ?? '<missing-id>', 'short', term.short ?? '');
-      expectNoBoldMarkdown(term.id ?? '<missing-id>', 'short', term.short ?? '');
-      expect(readParagraphs(term.short ?? '')).toHaveLength(1);
-      expect(countSentences(term.short ?? '')).toBe(SHORT_COPY_SENTENCES);
-
+     expect(term.ad_policy).toBeUndefined();
       if (term.translation_status === 'reviewed') {
-        expect(term.long).toBeString();
-      }
-
-      if (typeof term.long === 'string') {
-        expectGeneralPublicCopy(term.id ?? '<missing-id>', 'long', term.long);
-        expectNoBoldMarkdown(term.id ?? '<missing-id>', 'long', term.long);
-        const paragraphs = readParagraphs(term.long);
-        expect(paragraphs.length).toBeGreaterThanOrEqual(LONG_COPY_MIN_PARAGRAPHS);
-        expect(paragraphs.length).toBeLessThanOrEqual(LONG_COPY_MAX_PARAGRAPHS);
+        expect(term.short).toBeString();
+        expectGeneralPublicCopy(term.id ?? '<missing-id>', 'short', term.short ?? '');
+        expectNoBoldMarkdown(term.id ?? '<missing-id>', 'short', term.short ?? '');
+        expect(readParagraphs(term.short ?? '')).toHaveLength(copyShape.shortParagraphs);
+        expect(countSentences(term.short ?? '')).toBe(copyShape.shortSentences);
+        expectKoreanPlainDeclarativeCopy(term.id ?? '<missing-id>', 'short', term.short ?? '', copyShape);
+       expect(term.long).toBeString();
+        expectGeneralPublicCopy(term.id ?? '<missing-id>', 'long', term.long ?? '');
+        expectNoBoldMarkdown(term.id ?? '<missing-id>', 'long', term.long ?? '');
+        const paragraphs = readParagraphs(term.long ?? '');
+        expect(paragraphs).toHaveLength(copyShape.longParagraphs);
 
         for (const paragraph of paragraphs) {
           const sentenceCount = countSentences(paragraph);
-          expect(sentenceCount).toBe(LONG_COPY_SENTENCES_PER_PARAGRAPH);
+          expect(sentenceCount).toBe(copyShape.longSentencesPerParagraph);
         }
+        expectKoreanPlainDeclarativeCopy(term.id ?? '<missing-id>', 'long', term.long ?? '', copyShape);
       }
     }
   });
@@ -182,6 +236,37 @@ function countSentences(value: string): number {
 
 function maskInlineCode(value: string): string {
   return value.replace(/`[^`]*`/g, 'code');
+}
+
+function readCopyContractVersion(term: PublicGlossaryLocaleTerm): 1 | 2 {
+  const version = term.copy_contract_version ?? 1;
+  expect([1, 2]).toContain(version);
+  return version as 1 | 2;
+}
+
+function expectKoreanPlainDeclarativeCopy(
+  termId: string,
+  field: 'short' | 'long',
+  value: string,
+  contract: CopyShapeContract
+): void {
+  if (!contract.koreanPlainDeclarative) {
+    return;
+  }
+
+  for (const sentence of readSentences(value)) {
+    expect(`${termId}.${field}: ${sentence}`).toMatch(/다$/u);
+    if (!sentence.endsWith('아니다')) {
+      expect(`${termId}.${field}: ${sentence}`).not.toMatch(/니다$/u);
+    }
+  }
+}
+
+function readSentences(value: string): readonly string[] {
+  return maskInlineCode(value)
+    .split(/[.!?。！？]+/g)
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => sentence.length > 0);
 }
 
 function expectGeneralPublicCopy(termId: string, field: 'short' | 'long', value: string): void {

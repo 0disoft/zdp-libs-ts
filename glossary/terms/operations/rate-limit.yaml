@@ -8,9 +8,7 @@ indexable: false
 monetizable: false
 products: []
 sites: []
-related_terms:
-  - security.audit-log
-  - security.owasp-asvs
+related_terms: []
 aliases:
 
 match_phrases:

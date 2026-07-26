@@ -1,0 +1,24 @@
+id: security.vault
+label: Vault
+slug: vault
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: umans/umans-kimi-k2.7
+  human_review_status: reviewed
+short: "Vault is a system that encrypts and manages secrets. It includes capabilities such as access records, expiration, audit logs, and dynamic secret generation. It protects API keys, database passwords, certificates, tokens, and similar values securely."
+long: |-
+  Vault is a system that stores and manages secrets securely. Secrets refer to values such as API keys, database passwords, certificates, and tokens. Encryption is applied during storage to prevent external leakage. It keeps a record of who accessed what and when.
+
+  Access permissions can be controlled in fine detail. Certain secrets automatically expire after a set period of time. The expiration feature helps reduce the impact of exposed secrets. Access history can be traced through audit logs.
+
+  Secrets can also be generated dynamically. This approach creates short-lived temporary secrets. Temporary secrets carry a lower risk of long-term leakage. Overall, it improves the stability and flexibility of secret management.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - vault
+match_phrases:
+  - phrase: Vault
+    auto_match: true
+    priority: 100

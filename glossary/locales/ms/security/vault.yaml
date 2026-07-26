@@ -1,0 +1,24 @@
+id: security.vault
+label: Vault
+slug: vault
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: umans/umans-kimi-k2.7
+  human_review_status: reviewed
+short: "Vault adalah sistem yang menyulitkan dan mengurus rahsia. Ia merangkumi keupayaan seperti rekod akses, tamat tempoh, log audit, dan penjanaan rahsia dinamik. Ia melindungi kunci API, kata laluan pangkalan data, sijil, dan token dengan selamat."
+long: |-
+  Vault adalah sistem yang menyimpan dan mengurus rahsia dengan selamat. Rahsia merujuk kepada nilai seperti kunci API, kata laluan pangkalan data, sijil, dan token. Penyulitan digunakan semasa penyimpanan untuk mengelakkan kebocoran luaran. Rekod menunjukkan siapa yang mengakses apa dan bila.
+
+  Keizinan akses boleh dikawal dengan terperinci. Rahsia tertentu luput secara automatik selepas tempoh masa tertentu. Fungsi luput membantu mengurangkan kesan rahsia yang terdedah. Sejarah akses boleh dikesan melalui log audit.
+
+  Rahsia juga boleh dijana secara dinamik. Pendekatan ini menghasilkan rahsia sementara yang berumur pendek. Rahsia sementara mempunyai risiko kebocoran jangka panjang yang lebih rendah. Keseluruhannya meningkatkan kestabilan dan fleksibiliti pengurusan rahsia.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - vault
+match_phrases:
+  - phrase: Vault
+    auto_match: true
+    priority: 100

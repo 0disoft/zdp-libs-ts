@@ -1,0 +1,28 @@
+id: operations.rate-limit
+label: Rate Limit
+slug: rate-limit
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: umans/umans-kimi-k2.7
+  human_review_status: reviewed
+short: "Rate Limit adalah teknik yang membatasi jumlah permintaan yang dapat dikirim klien dalam jendela waktu tertentu. Tujuan utamanya adalah mencegah penyalahgunaan, menjaga stabilitas, dan mengurangi serangan. Teknik ini menggunakan respons HTTP 429 dan algoritma seperti token bucket dan sliding window."
+long: |-
+  Rate Limit adalah teknik yang membatasi jumlah permintaan yang diterima server dalam periode waktu tertentu. Klien tidak dapat mengirim lebih banyak permintaan daripada jumlah yang ditetapkan. Batasan ini melindungi sumber daya server. Permintaan yang melebihi batas dapat ditolak atau diproses dengan penundaan.
+
+  Tujuan utama adalah mencegah penyalahgunaan permintaan. Teknik ini menjaga stabilitas dengan mengurangi beban server. Teknik ini mengurangi dampak serangan yang disengaja. Hal ini juga melindungi pengalaman pengguna normal.
+
+  Status pembatasan dapat disampaikan melalui respons HTTP 429. Algoritma token bucket sering digunakan untuk implementasi. Algoritma sliding window juga banyak digunakan. Tergantung situasinya, keduanya dapat digabungkan untuk kontrol yang lebih tepat.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - rate limit
+  - Rate Limit
+match_phrases:
+  - phrase: Rate Limit
+    auto_match: true
+    priority: 90
+  - phrase: rate limit
+    auto_match: true
+    priority: 80

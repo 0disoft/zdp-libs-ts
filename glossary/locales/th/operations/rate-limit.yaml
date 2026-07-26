@@ -1,0 +1,28 @@
+id: operations.rate-limit
+label: Rate Limit
+slug: rate-limit
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: umans/umans-kimi-k2.7
+  human_review_status: reviewed
+short: "Rate Limit คือเทคนิคที่จำกัดจำนวนคำขอที่ไคลเอนต์สามารถส่งได้ในช่วงเวลาที่กำหนด วัตถุประสงค์หลักคือป้องกันการใช้งานที่มากเกินไป รักษาความเสถียร และลดการโจมตี ใช้การตอบกลับ HTTP 429 และอัลกอริทึมเช่น token bucket และ sliding window"
+long: |-
+  Rate Limit คือเทคนิคที่จำกัดจำนวนคำขอที่เซิร์ฟเวอร์จะรับในช่วงเวลาที่กำหนด ไคลเอนต์ไม่สามารถส่งคำขอเกินจำนวนที่กำหนดได้ ขีดจำกัดนี้มีบทบาทปกป้องทรัพยากรของเซิร์ฟเวอร์ คำขอที่เกินจำนวนอาจถูกปฏิเสธหรือประมวลผลล่าช้า
+
+  วัตถุประสงค์หลักคือป้องกันการใช้งานคำขอที่มากเกินไป ช่วยรักษาความเสถียรโดยลดภาระของเซิร์ฟเวอร์ ช่วยลดผลกระทบจากการโจมตีที่มีเจตนา สิ่งนี้ยังปกป้องประสบการณ์ของผู้ใช้ทั่วไป
+
+  สถานะขีดจำกัดสามารถส่งผ่านการตอบกลับ HTTP 429 อัลกอริทึม token bucket มักใช้ในการใช้งานจริง อัลกอริทึม sliding window ก็ได้รับการใช้งานอย่างกว้างขวางเช่นกัน ขึ้นอยู่กับสถานการณ์ ทั้งสองสามารถผสมผสานกันเพื่อควบคุมที่แม่นยำยิ่งขึ้น
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - rate limit
+  - Rate Limit
+match_phrases:
+  - phrase: Rate Limit
+    auto_match: true
+    priority: 90
+  - phrase: rate limit
+    auto_match: true
+    priority: 80

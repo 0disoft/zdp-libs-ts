@@ -1,0 +1,28 @@
+id: operations.rate-limit
+label: Rate Limit
+slug: rate-limit
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: umans/umans-kimi-k2.7
+  human_review_status: reviewed
+short: "Rate Limitは、特定の時間内にクライアントが送信可能なリクエスト数を制限する手法である。悪用防止、安定性維持、攻撃緩和が主な目的である。HTTP 429レスポンスやトークンバケット、スライディングウィンドウなどのアルゴリズムが使われる。"
+long: |-
+  Rate Limitは、サーバーが一定時間に受け入れるリクエスト数を制限する手法である。クライアントは定められた回数以上のリクエストを送信できない。この制限はサーバーのリソースを保護する役割を担う。超過したリクエストは拒否されたり、遅延処理されたりする。
+
+  主な目的はリクエストの悪用を防ぐことである。サーバーの過負荷を減らし、安定性を維持できる。意図的な攻撃の影響を緩和できる。これにより通常ユーザーの体験も保護される。
+
+  制限状態はHTTP 429レスポンスで伝達できる。実装にはトークンバケットアルゴリズムがよく使われる。スライディングウィンドウアルゴリズムも広く利用されている。状況に応じて両方を組み合わせ、より精密に制御することもできる。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - rate limit
+  - Rate Limit
+match_phrases:
+  - phrase: Rate Limit
+    auto_match: true
+    priority: 90
+  - phrase: rate limit
+    auto_match: true
+    priority: 80

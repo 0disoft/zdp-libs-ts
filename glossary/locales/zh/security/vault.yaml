@@ -1,0 +1,24 @@
+id: security.vault
+label: Vault
+slug: vault
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: umans/umans-kimi-k2.7
+  human_review_status: reviewed
+short: "Vault 是一个用于加密存储和管理机密值的系统。它包含访问记录、过期、审计日志和动态密钥生成等功能。可以安全保护 API 密钥、数据库密码、证书和令牌等。"
+long: |-
+  Vault 是一个安全存储和管理机密值的系统。机密值包括 API 密钥、数据库密码、证书和令牌等。存储时应用加密以防止外部泄露。会记录谁在何时访问了什么。
+
+  可以精细控制访问权限。某些机密值在设定时间后会自动过期。过期功能有助于减少已泄露机密值的影响。可以通过审计日志追踪访问历史。
+
+  也可以动态生成密钥。这种方式会生成短生命周期的临时机密值。临时机密值的长期泄露风险较低。整体上提高了机密值管理的稳定性和灵活性。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - vault
+match_phrases:
+  - phrase: Vault
+    auto_match: true
+    priority: 100

@@ -8,11 +8,7 @@ indexable: false
 monetizable: false
 products: []
 sites: []
-related_terms:
-  - security.secret
-  - security.api-key
-  - security.audit-log
-  - security.session
+related_terms: []
 aliases:
 
 match_phrases:

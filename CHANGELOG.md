@@ -1,5 +1,25 @@
 # CHANGELOG.md
 
+## 0.9.0
+
+### Changed
+
+- 공용 glossary authoring contract에 v2와 `umans/umans-kimi-k2.7` LLM 초안 모델, 1문단 3문장 `short`, 문단별 4문장인 3문단 `long`, 한국어 `-다` 평서형을 추가했다.
+- v2 locale 설명에 `copy_provenance` 계약을 추가하고, 사람 검수가 끝나지 않은 LLM 초안을 경고 대상으로 정의했다.
+- 기존 무표기 locale 문구는 legacy v1로 유지하고, 새로 작성하거나 다시 작성한 문구부터 `copy_contract_version: 2`를 적용한다.
+- 공용 glossary는 실제 공통 계약 회귀에 쓰이는 `security.vault`, `operations.rate-limit` 두 개만 남기고 나머지 미사용 용어를 제거했다.
+
+## 0.8.2
+
+### Changed
+
+- calculator engine과 libs contract checker가 같은 contract version 정본을 사용하고, 내부 object 판별 predicate를 하나로 통합했다.
+
+### Fixed
+
+- API source handoff에서 route, error envelope, SDK generation input 각각의 금지값 누락을 다른 계약 배열이 가리지 못하도록 검증을 강화했다.
+- sibling `zdp-api-contracts` 입력 여러 개를 읽지 못할 때 첫 실패만 버리지 않고 파일별 로드 오류를 한 번에 보고하도록 정리했다.
+
 ## 0.8.1
 
 ### Changed

@@ -1,0 +1,28 @@
+id: operations.rate-limit
+label: Rate Limit
+slug: rate-limit
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: umans/umans-kimi-k2.7
+  human_review_status: reviewed
+short: "Rate Limit est une technique qui limite le nombre de requêtes qu'un client peut envoyer dans une fenêtre de temps donnée. Ses objectifs principaux sont de prévenir les abus, maintenir la stabilité et atténuer les attaques. Elle utilise les réponses HTTP 429 et des algorithmes tels que token bucket et sliding window."
+long: |-
+  Rate Limit est une technique qui limite le nombre de requêtes qu'un serveur accepte pendant une période donnée. Les clients ne peuvent pas envoyer plus de requêtes que le nombre défini. Cette restriction protège les ressources du serveur. Les requêtes excédentaires peuvent être rejetées ou traitées avec délai.
+
+  L'objectif principal est d'éviter l'abus de requêtes. Elle maintient la stabilité en réduisant la surcharge du serveur. Elle atténue l'impact des attaques intentionnelles. Cela protège également l'expérience des utilisateurs normaux.
+
+  L'état de la limitation peut être communiqué par une réponse HTTP 429. L'algorithme token bucket est couramment utilisé pour l'implémentation. L'algorithme sliding window est également largement utilisé. Selon les situations, les deux peuvent être combinés pour un contrôle plus précis.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - rate limit
+  - Rate Limit
+match_phrases:
+  - phrase: Rate Limit
+    auto_match: true
+    priority: 90
+  - phrase: rate limit
+    auto_match: true
+    priority: 80

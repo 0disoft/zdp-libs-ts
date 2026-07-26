@@ -1,0 +1,28 @@
+id: operations.rate-limit
+label: Rate Limit
+slug: rate-limit
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: umans/umans-kimi-k2.7
+  human_review_status: reviewed
+short: "Rate Limit 是一种限制客户端在特定时间窗口内可发送请求数量的技术。主要目的是防止滥用、保持稳定性和缓解攻击。使用 HTTP 429 响应以及令牌桶和滑动窗口等算法。"
+long: |-
+  Rate Limit 是一种限制服务器在指定时间内接收请求数量的技术。客户端无法发送超过规定次数的请求。该限制用于保护服务器资源。超出限制的请求可能被拒绝或延迟处理。
+
+  主要目的是防止请求滥用。通过减少服务器过载来维持稳定性。可以缓解故意攻击带来的影响。这也有助于保护正常用户的体验。
+
+  限制状态可以通过 HTTP 429 响应传递。实现中经常使用令牌桶算法。滑动窗口算法也被广泛使用。根据情况可以将两者组合以实现更精确的控制。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - rate limit
+  - Rate Limit
+match_phrases:
+  - phrase: Rate Limit
+    auto_match: true
+    priority: 90
+  - phrase: rate limit
+    auto_match: true
+    priority: 80

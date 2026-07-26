@@ -1,0 +1,28 @@
+id: operations.rate-limit
+label: Rate Limit
+slug: rate-limit
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: umans/umans-kimi-k2.7
+  human_review_status: reviewed
+short: "Rate Limit là kỹ thuật giới hạn số lượng yêu cầu mà một máy khách có thể gửi trong một khung thời gian nhất định. Mục đích chính là ngăn chặn lạm dụng, duy trì ổn định và giảm thiểu tấn công. Nó sử dụng phản hồi HTTP 429 và các thuật toán như token bucket và sliding window."
+long: |-
+  Rate Limit là kỹ thuật giới hạn số lượng yêu cầu mà máy chủ chấp nhận trong một khoảng thời gian nhất định. Máy khách không thể gửi nhiều hơn số lượng đã định. Giới hạn này có vai trò bảo vệ tài nguyên máy chủ. Các yêu cầu vượt quá có thể bị từ chối hoặc xử lý chậm.
+
+  Mục đích chính là ngăn chặn việc lạm dụng yêu cầu. Nó duy trì ổn định bằng cách giảm tải cho máy chủ. Nó giảm thiểu tác động của các cuộc tấn công có chủ đích. Điều này cũng bảo vệ trải nghiệm của người dùng bình thường.
+
+  Trạng thái giới hạn có thể được truyền đạt qua phản hồi HTTP 429. Thuật toán token bucket thường được sử dụng khi triển khai. Thuật toán sliding window cũng được sử dụng rộng rãi. Tùy theo tình huống, cả hai có thể được kết hợp để kiểm soát chính xác hơn.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - rate limit
+  - Rate Limit
+match_phrases:
+  - phrase: Rate Limit
+    auto_match: true
+    priority: 90
+  - phrase: rate limit
+    auto_match: true
+    priority: 80

@@ -1,0 +1,24 @@
+id: security.vault
+label: Vault
+slug: vault
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: umans/umans-kimi-k2.7
+  human_review_status: reviewed
+short: "Vault adalah sistem yang mengenkripsi dan mengelola rahasia. Ia mencakup kemampuan seperti catatan akses, kedaluwarsa, log audit, dan pembuatan rahasia dinamis. Ia melindungi kunci API, kata sandi basis data, sertifikat, dan token dengan aman."
+long: |-
+  Vault adalah sistem yang menyimpan dan mengelola rahasia secara aman. Rahasia merujuk pada nilai-nilai seperti kunci API, kata sandi basis data, sertifikat, dan token. Enkripsi diterapkan saat penyimpanan untuk mencegah kebocoran ke luar. Tercatat siapa yang mengakses apa dan kapan.
+
+  Izin akses dapat dikontrol dengan detail tinggi. Rahasia tertentu kedaluwarsa secara otomatis setelah periode waktu tertentu. Fitur kedaluwarsa membantu mengurangi dampak rahasia yang terpapar. Riwayat akses dapat dilacak melalui log audit.
+
+  Rahasia juga dapat dibuat secara dinamis. Pendekatan ini menciptakan rahasia sementara dengan masa hidup singkat. Rahasia sementara memiliki risiko kebocoran jangka panjang yang lebih rendah. Secara keseluruhan, ini meningkatkan stabilitas dan fleksibilitas pengelolaan rahasia.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - vault
+match_phrases:
+  - phrase: Vault
+    auto_match: true
+    priority: 100

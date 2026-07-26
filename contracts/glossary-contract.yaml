@@ -1,6 +1,29 @@
 glossary_contract:
   status: skeleton
   term_id_pattern: namespace.concept
+  copy_contract:
+    current_version: 2
+    legacy_default_version: 1
+    llm_authoring_model: umans/umans-kimi-k2.7
+    human_review_required: true
+    model_update_policy: contract-revision
+    copy_provenance:
+      required_from_version: 2
+      allowed_origins:
+        - human
+        - llm
+      llm_model_required: true
+      llm_initial_human_review_status: pending
+      human_review_complete_status: reviewed
+      unreviewed_llm_severity: warning
+    short:
+      paragraphs: 1
+      sentences_per_paragraph: 3
+    long:
+      paragraphs: 3
+      sentences_per_paragraph: 4
+    locale_style:
+      ko: plain-declarative-da
   required_metadata:
     - id
     - canonical_label
@@ -16,6 +39,9 @@ glossary_contract:
     - slug
     - short
     - translation_status
+  current_locale_metadata:
+    - copy_contract_version
+    - copy_provenance
   forbidden_ownership:
     - glossary_backend_cms
     - advertising_runtime
