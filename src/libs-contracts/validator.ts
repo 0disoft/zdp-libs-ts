@@ -73,7 +73,8 @@ const REQUIRED_API_SOURCE_HANDOFF_METADATA = [
 const REVIEWED_CALCULATOR_IDS = [
   'percentage-change',
   'margin-markup',
-  'break-even-point'
+  'break-even-point',
+  'data-transfer-time'
 ] as const;
 const CALCULATOR_PRECISION_POLICY =
   'canonical_ascii_decimal_string_max_1000_digits';
@@ -705,10 +706,12 @@ function validateCalculatorInputHandoff(
       });
       continue;
     }
+    const requiredEngineVersion =
+      calculatorId === 'data-transfer-time' ? '0.3.0' : '0.x';
     if (
       definition.lifecycleStatus !== 'reviewed' ||
       definition.contractVersion !== CALCULATOR_CONTRACT_VERSION ||
-      !definition.compatibleEngineVersions.includes('0.x') ||
+      !definition.compatibleEngineVersions.includes(requiredEngineVersion) ||
       definition.precisionPolicy !== CALCULATOR_PRECISION_POLICY ||
       definition.roundingPolicy !== CALCULATOR_ROUNDING_POLICY
     ) {
@@ -716,25 +719,36 @@ function validateCalculatorInputHandoff(
         code: 'LIBS_CALCULATOR_DEFINITION_POLICY_DRIFT',
         file: '../zdp-api-contracts/contracts/calculators/catalog.yaml',
         path: `definitions.${calculatorId}`,
-        message: `Calculator \`${calculatorId}\` must keep the reviewed 1.0.0 decimal and rounding policy for engine 0.x.`
+        message: `Calculator \`${calculatorId}\` must keep the reviewed 1.0.0 decimal and rounding policy for engine ${requiredEngineVersion}.`
       });
     }
-    const requiredErrorCodes = calculatorId === 'break-even-point'
-      ? [
-          'invalid_input',
-          'domain_error',
-          'limit_exceeded',
-          'contract_mismatch',
-          'non_positive_contribution_margin',
-          'incompatible_units'
-        ]
-      : [
-          'invalid_input',
-          'domain_error',
-          'limit_exceeded',
-          'contract_mismatch',
-          'denominator_zero'
-        ];
+    const requiredErrorCodes =
+      calculatorId === 'break-even-point'
+        ? [
+            'invalid_input',
+            'domain_error',
+            'limit_exceeded',
+            'contract_mismatch',
+            'non_positive_contribution_margin',
+            'incompatible_units'
+          ]
+        : calculatorId === 'data-transfer-time'
+          ? [
+              'invalid_input',
+              'domain_error',
+              'limit_exceeded',
+              'contract_mismatch',
+              'unsupported_unit',
+              'precision_policy_required',
+              'rounding_policy_required'
+            ]
+          : [
+              'invalid_input',
+              'domain_error',
+              'limit_exceeded',
+              'contract_mismatch',
+              'denominator_zero'
+            ];
     for (const errorCode of requiredErrorCodes) {
       if (!definition.errorCodes.includes(errorCode)) {
         diagnostics.push({

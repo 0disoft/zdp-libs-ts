@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import {
   CALCULATOR_CONTRACT_VERSION,
   calculateBreakEvenPoint,
+  calculateDataTransferTime,
   calculateMarginMarkup,
   calculatePercentageChange
 } from '../src/calculator-engine/index';
@@ -11,7 +12,11 @@ import type { CalculatorErrorCode } from '../src/calculator-engine/index';
 
 interface ConformanceCase {
   readonly id: string;
-  readonly calculatorId: 'percentage-change' | 'margin-markup' | 'break-even-point';
+  readonly calculatorId:
+    | 'percentage-change'
+    | 'margin-markup'
+    | 'break-even-point'
+    | 'data-transfer-time';
   readonly input: Readonly<Record<string, unknown>>;
   readonly decimalPlaces: number;
   readonly expected:
@@ -104,6 +109,69 @@ describe('calculator engine', () => {
     expect(scaled.value.breakEvenQuantity).toEqual(base.value.breakEvenQuantity);
     expect(scaled.value.contributionMarginPerUnit.value).toBe('200.00');
   });
+
+  it('keeps transfer duration invariant when size and rate scale equally', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 2
+    } as const;
+    const base = calculateDataTransferTime(
+      {
+        dataSize: { value: '1', unit: 'gigabyte' },
+        dataRate: { value: '100', unit: 'megabits_per_second' }
+      },
+      options
+    );
+    const scaled = calculateDataTransferTime(
+      {
+        dataSize: { value: '10', unit: 'gigabyte' },
+        dataRate: { value: '1', unit: 'gigabits_per_second' }
+      },
+      options
+    );
+
+    expect(base.ok).toBe(true);
+    expect(scaled.ok).toBe(true);
+    if (!base.ok || !scaled.ok) {
+      throw new Error('Expected scaled data transfer inputs to succeed.');
+    }
+    expect(base.value.transferDuration).toEqual(
+      scaled.value.transferDuration
+    );
+    expect(base.value.transferDuration.value).toBe('80.00');
+  });
+
+  it('requires exact data-transfer unit tokens without trimming', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 2
+    } as const;
+
+    expect(
+      calculateDataTransferTime(
+        {
+          dataSize: { value: '1', unit: ' gigabyte ' },
+          dataRate: { value: '100', unit: 'megabits_per_second' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'invalid_input', field: 'data_size.unit' }
+    });
+    expect(
+      calculateDataTransferTime(
+        {
+          dataSize: { value: '1', unit: 'gigabyte' },
+          dataRate: { value: '100', unit: 'bits_per_minute' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'unsupported_unit', field: 'data_rate.unit' }
+    });
+  });
 });
 
 function runConformanceCase(testCase: ConformanceCase) {
@@ -129,11 +197,20 @@ function runConformanceCase(testCase: ConformanceCase) {
       options
     );
   }
-  return calculateBreakEvenPoint(
+  if (testCase.calculatorId === 'break-even-point') {
+    return calculateBreakEvenPoint(
+      {
+        fixedCost: testCase.input.fixed_cost,
+        unitPrice: testCase.input.unit_price,
+        unitVariableCost: testCase.input.unit_variable_cost
+      },
+      options
+    );
+  }
+  return calculateDataTransferTime(
     {
-      fixedCost: testCase.input.fixed_cost,
-      unitPrice: testCase.input.unit_price,
-      unitVariableCost: testCase.input.unit_variable_cost
+      dataSize: testCase.input.data_size,
+      dataRate: testCase.input.data_rate
     },
     options
   );
@@ -151,6 +228,9 @@ function toContractOutput(value: unknown): Record<string, unknown> {
       contribution_margin_per_unit: value.contributionMarginPerUnit,
       break_even_quantity: value.breakEvenQuantity
     };
+  }
+  if ('transferDuration' in value) {
+    return { transfer_duration: value.transferDuration };
   }
   return {
     margin_percentage: value.marginPercentage,
@@ -189,7 +269,8 @@ function parseConformanceCase(value: unknown, index: number): ConformanceCase {
   if (
     calculatorId !== 'percentage-change' &&
     calculatorId !== 'margin-markup' &&
-    calculatorId !== 'break-even-point'
+    calculatorId !== 'break-even-point' &&
+    calculatorId !== 'data-transfer-time'
   ) {
     throw new Error(`Unsupported conformance calculator ${calculatorId}.`);
   }
@@ -277,7 +358,9 @@ function isCalculatorErrorCode(value: string): value is CalculatorErrorCode {
     'contract_mismatch',
     'denominator_zero',
     'non_positive_contribution_margin',
+    'unsupported_unit',
     'incompatible_units',
-    'precision_policy_required'
+    'precision_policy_required',
+    'rounding_policy_required'
   ].includes(value);
 }

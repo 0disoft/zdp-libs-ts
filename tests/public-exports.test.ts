@@ -3,6 +3,7 @@ import {
   SCHEMA_GENERATION_TARGETS,
   CALCULATOR_CONTRACT_VERSION,
   calculateBreakEvenPoint,
+  calculateDataTransferTime,
   calculatePercentageChange,
   defineEnvContractMetadata,
   defineEventContractMetadata,
@@ -202,6 +203,20 @@ describe('public contract package exports', () => {
       value: {
         contributionMarginPerUnit: { value: '20.00', unit: 'USD' },
         breakEvenQuantity: { value: '50.00', unit: 'items' }
+      }
+    });
+    expect(
+      calculateDataTransferTime(
+        {
+          dataSize: { value: '1', unit: 'gigabyte' },
+          dataRate: { value: '100', unit: 'megabits_per_second' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        transferDuration: { value: '80.00', unit: 'seconds' }
       }
     });
   });

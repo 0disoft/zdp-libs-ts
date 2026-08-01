@@ -1,10 +1,37 @@
 import { isRecord } from '../internal/record.js';
 
-export const CALCULATOR_ENGINE_VERSION = '0.2.0' as const;
+export const CALCULATOR_ENGINE_VERSION = '0.3.0' as const;
 export const CALCULATOR_CONTRACT_VERSION = '1.0.0' as const;
 export const CALCULATOR_ROUNDING_MODE = 'half_away_from_zero' as const;
 export const CALCULATOR_MAX_INPUT_DIGITS = 1000 as const;
 export const CALCULATOR_MAX_DECIMAL_PLACES = 100 as const;
+
+export const DATA_SIZE_UNITS = [
+  'bit',
+  'byte',
+  'kilobit',
+  'kilobyte',
+  'megabit',
+  'megabyte',
+  'gigabit',
+  'gigabyte',
+  'terabit',
+  'terabyte',
+  'kibibyte',
+  'mebibyte',
+  'gibibyte',
+  'tebibyte'
+] as const;
+
+export const DATA_RATE_UNITS = [
+  'bits_per_second',
+  'kilobits_per_second',
+  'megabits_per_second',
+  'gigabits_per_second'
+] as const;
+
+export type DataSizeUnit = (typeof DATA_SIZE_UNITS)[number];
+export type DataRateUnit = (typeof DATA_RATE_UNITS)[number];
 
 export type CalculatorErrorCode =
   | 'invalid_input'
@@ -13,8 +40,10 @@ export type CalculatorErrorCode =
   | 'contract_mismatch'
   | 'denominator_zero'
   | 'non_positive_contribution_margin'
+  | 'unsupported_unit'
   | 'incompatible_units'
-  | 'precision_policy_required';
+  | 'precision_policy_required'
+  | 'rounding_policy_required';
 
 export interface CalculatorExecutionOptions {
   readonly contractVersion: string;
@@ -56,6 +85,15 @@ export interface BreakEvenPointOutput {
   readonly breakEvenQuantity: UnitDecimalOutput;
 }
 
+export interface DataTransferTimeInput {
+  readonly dataSize: UnitDecimalInput;
+  readonly dataRate: UnitDecimalInput;
+}
+
+export interface DataTransferTimeOutput {
+  readonly transferDuration: UnitDecimalOutput;
+}
+
 export interface UnitDecimalOutput {
   readonly value: string;
   readonly unit: string;
@@ -88,6 +126,30 @@ type DecimalParseResult =
 
 const CANONICAL_DECIMAL_PATTERN = /^-?(?:0|[1-9]\d*)(?:\.\d+)?$/;
 const UNIT_PATTERN = /^[A-Za-z][A-Za-z0-9_-]{0,31}$/;
+const DATA_SIZE_TO_BITS: Readonly<Record<DataSizeUnit, bigint>> = {
+  bit: 1n,
+  byte: 8n,
+  kilobit: 1_000n,
+  kilobyte: 8_000n,
+  megabit: 1_000_000n,
+  megabyte: 8_000_000n,
+  gigabit: 1_000_000_000n,
+  gigabyte: 8_000_000_000n,
+  terabit: 1_000_000_000_000n,
+  terabyte: 8_000_000_000_000n,
+  kibibyte: 8_192n,
+  mebibyte: 8_388_608n,
+  gibibyte: 8_589_934_592n,
+  tebibyte: 8_796_093_022_208n
+};
+const DATA_RATE_TO_BITS_PER_SECOND: Readonly<
+  Record<DataRateUnit, bigint>
+> = {
+  bits_per_second: 1n,
+  kilobits_per_second: 1_000n,
+  megabits_per_second: 1_000_000n,
+  gigabits_per_second: 1_000_000_000n
+};
 
 export function calculatePercentageChange(
   input: PercentageChangeInput,
@@ -285,6 +347,68 @@ export function calculateBreakEvenPoint(
   };
 }
 
+export function calculateDataTransferTime(
+  input: DataTransferTimeInput,
+  options: CalculatorExecutionOptions
+): CalculatorResult<DataTransferTimeOutput>;
+export function calculateDataTransferTime(
+  input: unknown,
+  options: unknown
+): CalculatorResult<DataTransferTimeOutput>;
+export function calculateDataTransferTime(
+  input: unknown,
+  options: unknown
+): CalculatorResult<DataTransferTimeOutput> {
+  const parsedOptions = parseOptions(options);
+  if (!parsedOptions.ok) {
+    return parsedOptions;
+  }
+  if (!isRecord(input)) {
+    return failure('invalid_input');
+  }
+
+  const dataSize = parseNamedUnitDecimal(input.dataSize, 'data_size');
+  if (!dataSize.ok) {
+    return dataSize;
+  }
+  const dataRate = parseNamedUnitDecimal(input.dataRate, 'data_rate');
+  if (!dataRate.ok) {
+    return dataRate;
+  }
+
+  const sizeMultiplier = ownUnitMultiplier(DATA_SIZE_TO_BITS, dataSize.unit);
+  if (sizeMultiplier === undefined) {
+    return failure('unsupported_unit', 'data_size.unit');
+  }
+  const rateMultiplier = ownUnitMultiplier(
+    DATA_RATE_TO_BITS_PER_SECOND,
+    dataRate.unit
+  );
+  if (rateMultiplier === undefined) {
+    return failure('unsupported_unit', 'data_rate.unit');
+  }
+  if (dataSize.decimal.coefficient < 0n) {
+    return failure('domain_error', 'data_size.value');
+  }
+  if (dataRate.decimal.coefficient <= 0n) {
+    return failure('domain_error', 'data_rate.value');
+  }
+
+  return {
+    ok: true,
+    value: {
+      transferDuration: {
+        value: divideAsDecimal(
+          multiplyDecimalByInteger(dataSize.decimal, sizeMultiplier),
+          multiplyDecimalByInteger(dataRate.decimal, rateMultiplier),
+          parsedOptions.value.decimalPlaces
+        ),
+        unit: 'seconds'
+      }
+    }
+  };
+}
+
 function parseOptions(
   options: unknown
 ): CalculatorResult<CalculatorExecutionOptions> {
@@ -328,7 +452,7 @@ function parseNamedUnitDecimal(
   if (!isRecord(value) || typeof value.unit !== 'string') {
     return failure('invalid_input', field);
   }
-  const unit = value.unit.trim();
+  const unit = value.unit;
   if (!UNIT_PATTERN.test(unit)) {
     return failure('invalid_input', `${field}.unit`);
   }
@@ -374,6 +498,25 @@ function subtractDecimals(
       right.coefficient * powerOfTen(scale - right.scale),
     scale
   };
+}
+
+function multiplyDecimalByInteger(
+  value: ParsedDecimal,
+  multiplier: bigint
+): ParsedDecimal {
+  return {
+    coefficient: value.coefficient * multiplier,
+    scale: value.scale
+  };
+}
+
+function ownUnitMultiplier<Unit extends string>(
+  multipliers: Readonly<Record<Unit, bigint>>,
+  unit: string
+): bigint | undefined {
+  return Object.hasOwn(multipliers, unit)
+    ? multipliers[unit as Unit]
+    : undefined;
 }
 
 function divideAsPercent(

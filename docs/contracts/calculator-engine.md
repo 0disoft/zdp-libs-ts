@@ -7,10 +7,13 @@
 - `calculatePercentageChange`
 - `calculateMarginMarkup`
 - `calculateBreakEvenPoint`
+- `calculateDataTransferTime`
 
 입력 숫자는 로케일 구분자가 없는 canonical ASCII decimal string이다. 내부 계산은 `BigInt` 정수 비율로 수행하고 결과 문자열을 만들 때만 호출자가 지정한 0-100 소수 자리에서 half-away-from-zero 반올림한다. 엔진은 `number` 부동소수점이나 화면용 `toLocaleString`을 계산 경계에 사용하지 않는다.
 
 손익분기점은 단위당 판매가에서 단위당 변동비를 뺀 기여이익이 양수일 때만 계산한다. 결과 수량은 계약의 이론적 손익분기 수량이며 엔진이 임의로 정수 단위까지 올림하지 않는다.
+
+데이터 전송 시간은 SI 단위를 1000 배율, IEC byte 단위를 1024 배율로 bits에 정규화하고 전송률을 bits per second로 정규화한 뒤 나눈다. byte는 8 bits이며 결과는 seconds다. 엔진은 네트워크 오버헤드나 실제 회선 효율을 추측하지 않는다.
 
 ## 오류
 

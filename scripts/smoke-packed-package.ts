@@ -37,6 +37,7 @@ await writeFile(
   `import {
   CALCULATOR_CONTRACT_VERSION,
   calculateBreakEvenPoint,
+  calculateDataTransferTime,
   calculatePercentageChange
 } from 'zdp-libs-ts/calculator-engine';
 import { CALCULATOR_ENGINE_VERSION } from 'zdp-libs-ts';
@@ -53,12 +54,21 @@ const breakEven = calculateBreakEvenPoint(
   },
   { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
 );
+const transferTime = calculateDataTransferTime(
+  {
+    dataSize: { value: '1', unit: 'gigabyte' },
+    dataRate: { value: '100', unit: 'megabits_per_second' }
+  },
+  { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+);
 if (
   !result.ok ||
   result.value.percentageChange.value !== '25.00' ||
   !breakEven.ok ||
   breakEven.value.breakEvenQuantity.value !== '50.00' ||
-  CALCULATOR_ENGINE_VERSION !== '0.2.0'
+  !transferTime.ok ||
+  transferTime.value.transferDuration.value !== '80.00' ||
+  CALCULATOR_ENGINE_VERSION !== '0.3.0'
 ) {
   throw new Error('Calculator engine tarball result was invalid.');
 }

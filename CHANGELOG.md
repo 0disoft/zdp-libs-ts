@@ -1,5 +1,18 @@
 # CHANGELOG.md
 
+## 0.11.0
+
+### Added
+
+- `calculateDataTransferTime`, `DATA_SIZE_UNITS`, `DATA_RATE_UNITS`와 관련 public 타입을 root 및 `./calculator-engine` export에 추가했다.
+- 14개 SI·IEC 데이터 크기 단위와 4개 bits-per-second 전송률 단위를 `BigInt` 정수 배율로 정규화하고 초 단위 전송 시간을 계산한다.
+- sibling `zdp-api-contracts` 0.18.0의 전체 데이터 전송 적합성 벡터와 크기·속도 균등 배율 성질 테스트를 추가했다.
+- 계약 오류 코드에 `unsupported_unit`, `rounding_policy_required`가 추가되므로 완전한 오류 메시지 맵을 가진 소비자는 두 키를 함께 추가해야 한다.
+
+### Changed
+
+- 계산 엔진 버전을 `0.3.0`으로 올리고 reviewed 계산기 드리프트 검사를 `data-transfer-time`까지 확장했다.
+
 ## 0.10.0
 
 ### Added

@@ -57,6 +57,10 @@ export type {
   CalculatorResult,
   BreakEvenPointInput,
   BreakEvenPointOutput,
+  DataRateUnit,
+  DataSizeUnit,
+  DataTransferTimeInput,
+  DataTransferTimeOutput,
   MarginMarkupInput,
   MarginMarkupOutput,
   PercentageChangeInput,
@@ -70,7 +74,10 @@ export {
   CALCULATOR_MAX_DECIMAL_PLACES,
   CALCULATOR_MAX_INPUT_DIGITS,
   CALCULATOR_ROUNDING_MODE,
+  DATA_RATE_UNITS,
+  DATA_SIZE_UNITS,
   calculateBreakEvenPoint,
+  calculateDataTransferTime,
   calculateMarginMarkup,
   calculatePercentageChange
 } from './calculator-engine/index.js';
