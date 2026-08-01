@@ -70,7 +70,11 @@ const REQUIRED_API_SOURCE_HANDOFF_METADATA = [
   'conformance_case'
 ] as const;
 
-const REVIEWED_CALCULATOR_IDS = ['percentage-change', 'margin-markup'] as const;
+const REVIEWED_CALCULATOR_IDS = [
+  'percentage-change',
+  'margin-markup',
+  'break-even-point'
+] as const;
 const CALCULATOR_PRECISION_POLICY =
   'canonical_ascii_decimal_string_max_1000_digits';
 const CALCULATOR_ROUNDING_POLICY =
@@ -715,13 +719,23 @@ function validateCalculatorInputHandoff(
         message: `Calculator \`${calculatorId}\` must keep the reviewed 1.0.0 decimal and rounding policy for engine 0.x.`
       });
     }
-    for (const errorCode of [
-      'invalid_input',
-      'domain_error',
-      'limit_exceeded',
-      'contract_mismatch',
-      'denominator_zero'
-    ]) {
+    const requiredErrorCodes = calculatorId === 'break-even-point'
+      ? [
+          'invalid_input',
+          'domain_error',
+          'limit_exceeded',
+          'contract_mismatch',
+          'non_positive_contribution_margin',
+          'incompatible_units'
+        ]
+      : [
+          'invalid_input',
+          'domain_error',
+          'limit_exceeded',
+          'contract_mismatch',
+          'denominator_zero'
+        ];
+    for (const errorCode of requiredErrorCodes) {
       if (!definition.errorCodes.includes(errorCode)) {
         diagnostics.push({
           code: 'LIBS_CALCULATOR_ERROR_CODE_DRIFT',

@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   CALCULATOR_CONTRACT_VERSION,
+  calculateBreakEvenPoint,
   calculateMarginMarkup,
   calculatePercentageChange
 } from '../src/calculator-engine/index';
@@ -10,7 +11,7 @@ import type { CalculatorErrorCode } from '../src/calculator-engine/index';
 
 interface ConformanceCase {
   readonly id: string;
-  readonly calculatorId: 'percentage-change' | 'margin-markup';
+  readonly calculatorId: 'percentage-change' | 'margin-markup' | 'break-even-point';
   readonly input: Readonly<Record<string, unknown>>;
   readonly decimalPlaces: number;
   readonly expected:
@@ -72,6 +73,37 @@ describe('calculator engine', () => {
       error: { code: 'limit_exceeded', field: 'initial_value' }
     });
   });
+
+  it('keeps break-even quantity invariant when all monetary inputs scale equally', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 2
+    } as const;
+    const base = calculateBreakEvenPoint(
+      {
+        fixedCost: { value: '1000', unit: 'USD' },
+        unitPrice: { value: '50', unit: 'USD' },
+        unitVariableCost: { value: '30', unit: 'USD' }
+      },
+      options
+    );
+    const scaled = calculateBreakEvenPoint(
+      {
+        fixedCost: { value: '10000', unit: 'USD' },
+        unitPrice: { value: '500', unit: 'USD' },
+        unitVariableCost: { value: '300', unit: 'USD' }
+      },
+      options
+    );
+
+    expect(base.ok).toBe(true);
+    expect(scaled.ok).toBe(true);
+    if (!base.ok || !scaled.ok) {
+      throw new Error('Expected scaled break-even inputs to succeed.');
+    }
+    expect(scaled.value.breakEvenQuantity).toEqual(base.value.breakEvenQuantity);
+    expect(scaled.value.contributionMarginPerUnit.value).toBe('200.00');
+  });
 });
 
 function runConformanceCase(testCase: ConformanceCase) {
@@ -88,10 +120,20 @@ function runConformanceCase(testCase: ConformanceCase) {
       options
     );
   }
-  return calculateMarginMarkup(
+  if (testCase.calculatorId === 'margin-markup') {
+    return calculateMarginMarkup(
+      {
+        cost: testCase.input.cost,
+        sellingPrice: testCase.input.selling_price
+      },
+      options
+    );
+  }
+  return calculateBreakEvenPoint(
     {
-      cost: testCase.input.cost,
-      sellingPrice: testCase.input.selling_price
+      fixedCost: testCase.input.fixed_cost,
+      unitPrice: testCase.input.unit_price,
+      unitVariableCost: testCase.input.unit_variable_cost
     },
     options
   );
@@ -103,6 +145,12 @@ function toContractOutput(value: unknown): Record<string, unknown> {
   }
   if ('percentageChange' in value) {
     return { percentage_change: value.percentageChange };
+  }
+  if ('breakEvenQuantity' in value) {
+    return {
+      contribution_margin_per_unit: value.contributionMarginPerUnit,
+      break_even_quantity: value.breakEvenQuantity
+    };
   }
   return {
     margin_percentage: value.marginPercentage,
@@ -138,7 +186,11 @@ function parseConformanceCase(value: unknown, index: number): ConformanceCase {
     value.calculator_id,
     `cases[${index}].calculator_id`
   );
-  if (calculatorId !== 'percentage-change' && calculatorId !== 'margin-markup') {
+  if (
+    calculatorId !== 'percentage-change' &&
+    calculatorId !== 'margin-markup' &&
+    calculatorId !== 'break-even-point'
+  ) {
     throw new Error(`Unsupported conformance calculator ${calculatorId}.`);
   }
   if (!isRecord(value.input) || !isRecord(value.options)) {
@@ -224,6 +276,7 @@ function isCalculatorErrorCode(value: string): value is CalculatorErrorCode {
     'limit_exceeded',
     'contract_mismatch',
     'denominator_zero',
+    'non_positive_contribution_margin',
     'incompatible_units',
     'precision_policy_required'
   ].includes(value);

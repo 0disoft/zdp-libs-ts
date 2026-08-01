@@ -1,5 +1,17 @@
 # CHANGELOG.md
 
+## 0.10.0
+
+### Added
+
+- `calculateBreakEvenPoint`를 root와 `./calculator-engine` public export에 추가했다.
+- 고정비, 단가, 단위당 변동비의 통화 일치와 비음수 domain을 검증하고 기여이익이 0 이하일 때 안정 오류를 반환한다.
+- sibling `zdp-api-contracts`의 손익분기점 적합성 벡터와 균등 금액 배율 성질 테스트를 추가했다.
+
+### Changed
+
+- 계산 엔진 버전을 `0.2.0`으로 올리고 reviewed 계산기 드리프트 검사를 손익분기점까지 확장했다.
+
 ## 0.9.0
 
 ### Changed

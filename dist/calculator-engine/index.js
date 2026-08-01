@@ -1,5 +1,5 @@
 import { isRecord } from '../internal/record.js';
-export const CALCULATOR_ENGINE_VERSION = '0.1.0';
+export const CALCULATOR_ENGINE_VERSION = '0.2.0';
 export const CALCULATOR_CONTRACT_VERSION = '1.0.0';
 export const CALCULATOR_ROUNDING_MODE = 'half_away_from_zero';
 export const CALCULATOR_MAX_INPUT_DIGITS = 1000;
@@ -77,6 +77,58 @@ export function calculateMarginMarkup(input, options) {
             markupPercentage: {
                 value: divideAsPercent(grossProfit, cost.decimal, decimalPlaces),
                 unit: 'percent'
+            }
+        }
+    };
+}
+export function calculateBreakEvenPoint(input, options) {
+    const parsedOptions = parseOptions(options);
+    if (!parsedOptions.ok) {
+        return parsedOptions;
+    }
+    if (!isRecord(input)) {
+        return failure('invalid_input');
+    }
+    const fixedCost = parseNamedUnitDecimal(input.fixedCost, 'fixed_cost');
+    if (!fixedCost.ok) {
+        return fixedCost;
+    }
+    const unitPrice = parseNamedUnitDecimal(input.unitPrice, 'unit_price');
+    if (!unitPrice.ok) {
+        return unitPrice;
+    }
+    const unitVariableCost = parseNamedUnitDecimal(input.unitVariableCost, 'unit_variable_cost');
+    if (!unitVariableCost.ok) {
+        return unitVariableCost;
+    }
+    if (fixedCost.decimal.coefficient < 0n) {
+        return failure('domain_error', 'fixed_cost');
+    }
+    if (unitPrice.decimal.coefficient <= 0n) {
+        return failure('domain_error', 'unit_price');
+    }
+    if (unitVariableCost.decimal.coefficient < 0n) {
+        return failure('domain_error', 'unit_variable_cost');
+    }
+    if (fixedCost.unit !== unitPrice.unit ||
+        fixedCost.unit !== unitVariableCost.unit) {
+        return failure('incompatible_units');
+    }
+    const contributionMargin = subtractDecimals(unitPrice.decimal, unitVariableCost.decimal);
+    if (contributionMargin.coefficient <= 0n) {
+        return failure('non_positive_contribution_margin');
+    }
+    const decimalPlaces = parsedOptions.value.decimalPlaces;
+    return {
+        ok: true,
+        value: {
+            contributionMarginPerUnit: {
+                value: formatDecimal(contributionMargin, decimalPlaces),
+                unit: fixedCost.unit
+            },
+            breakEvenQuantity: {
+                value: divideAsDecimal(fixedCost.decimal, contributionMargin, decimalPlaces),
+                unit: 'items'
             }
         }
     };
@@ -162,6 +214,24 @@ function divideAsPercent(numerator, denominator, decimalPlaces) {
     }
     const rounded = divideHalfAwayFromZero(scaledNumerator, scaledDenominator);
     return formatScaledInteger(rounded, decimalPlaces);
+}
+function divideAsDecimal(numerator, denominator, decimalPlaces) {
+    let scaledNumerator = numerator.coefficient;
+    let scaledDenominator = denominator.coefficient;
+    const exponent = denominator.scale - numerator.scale + decimalPlaces;
+    if (exponent >= 0) {
+        scaledNumerator *= powerOfTen(exponent);
+    }
+    else {
+        scaledDenominator *= powerOfTen(-exponent);
+    }
+    return formatScaledInteger(divideHalfAwayFromZero(scaledNumerator, scaledDenominator), decimalPlaces);
+}
+function formatDecimal(value, decimalPlaces) {
+    if (value.scale <= decimalPlaces) {
+        return formatScaledInteger(value.coefficient * powerOfTen(decimalPlaces - value.scale), decimalPlaces);
+    }
+    return formatScaledInteger(divideHalfAwayFromZero(value.coefficient, powerOfTen(value.scale - decimalPlaces)), decimalPlaces);
 }
 function divideHalfAwayFromZero(numerator, denominator) {
     const negative = (numerator < 0n) !== (denominator < 0n);

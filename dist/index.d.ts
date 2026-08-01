@@ -10,6 +10,6 @@ export type { I18nMessageArgument, I18nMessageContract, I18nMessageKey } from '.
 export { defineI18nMessageContract } from './i18n-contract/index.js';
 export type { GlossaryAdPolicy, GlossaryAdSurfacePolicy, GlossaryLocaleContract, GlossaryManifest, GlossaryManifestEntry, GlossaryMatchPhrase, GlossaryTermContract, GlossaryTermId, GlossaryTermStatus, GlossaryTranslationStatus, GlossaryVisibility } from './glossary-contract/index.js';
 export { defineGlossaryTermContract } from './glossary-contract/index.js';
-export type { CalculatorErrorCode, CalculatorExecutionOptions, CalculatorResult, MarginMarkupInput, MarginMarkupOutput, PercentageChangeInput, PercentageChangeOutput, UnitDecimalInput, UnitDecimalOutput } from './calculator-engine/index.js';
-export { CALCULATOR_CONTRACT_VERSION, CALCULATOR_ENGINE_VERSION, CALCULATOR_MAX_DECIMAL_PLACES, CALCULATOR_MAX_INPUT_DIGITS, CALCULATOR_ROUNDING_MODE, calculateMarginMarkup, calculatePercentageChange } from './calculator-engine/index.js';
+export type { CalculatorErrorCode, CalculatorExecutionOptions, CalculatorResult, BreakEvenPointInput, BreakEvenPointOutput, MarginMarkupInput, MarginMarkupOutput, PercentageChangeInput, PercentageChangeOutput, UnitDecimalInput, UnitDecimalOutput } from './calculator-engine/index.js';
+export { CALCULATOR_CONTRACT_VERSION, CALCULATOR_ENGINE_VERSION, CALCULATOR_MAX_DECIMAL_PLACES, CALCULATOR_MAX_INPUT_DIGITS, CALCULATOR_ROUNDING_MODE, calculateBreakEvenPoint, calculateMarginMarkup, calculatePercentageChange } from './calculator-engine/index.js';
 //# sourceMappingURL=index.d.ts.map

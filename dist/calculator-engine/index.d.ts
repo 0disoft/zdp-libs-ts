@@ -1,9 +1,9 @@
-export declare const CALCULATOR_ENGINE_VERSION: "0.1.0";
+export declare const CALCULATOR_ENGINE_VERSION: "0.2.0";
 export declare const CALCULATOR_CONTRACT_VERSION: "1.0.0";
 export declare const CALCULATOR_ROUNDING_MODE: "half_away_from_zero";
 export declare const CALCULATOR_MAX_INPUT_DIGITS: 1000;
 export declare const CALCULATOR_MAX_DECIMAL_PLACES: 100;
-export type CalculatorErrorCode = 'invalid_input' | 'domain_error' | 'limit_exceeded' | 'contract_mismatch' | 'denominator_zero' | 'incompatible_units' | 'precision_policy_required';
+export type CalculatorErrorCode = 'invalid_input' | 'domain_error' | 'limit_exceeded' | 'contract_mismatch' | 'denominator_zero' | 'non_positive_contribution_margin' | 'incompatible_units' | 'precision_policy_required';
 export interface CalculatorExecutionOptions {
     readonly contractVersion: string;
     readonly decimalPlaces: number;
@@ -27,9 +27,18 @@ export interface MarginMarkupOutput {
     readonly marginPercentage: UnitDecimalOutput;
     readonly markupPercentage: UnitDecimalOutput;
 }
+export interface BreakEvenPointInput {
+    readonly fixedCost: UnitDecimalInput;
+    readonly unitPrice: UnitDecimalInput;
+    readonly unitVariableCost: UnitDecimalInput;
+}
+export interface BreakEvenPointOutput {
+    readonly contributionMarginPerUnit: UnitDecimalOutput;
+    readonly breakEvenQuantity: UnitDecimalOutput;
+}
 export interface UnitDecimalOutput {
     readonly value: string;
-    readonly unit: 'percent';
+    readonly unit: string;
 }
 export type CalculatorResult<T> = {
     readonly ok: true;
@@ -45,4 +54,6 @@ export declare function calculatePercentageChange(input: PercentageChangeInput, 
 export declare function calculatePercentageChange(input: unknown, options: unknown): CalculatorResult<PercentageChangeOutput>;
 export declare function calculateMarginMarkup(input: MarginMarkupInput, options: CalculatorExecutionOptions): CalculatorResult<MarginMarkupOutput>;
 export declare function calculateMarginMarkup(input: unknown, options: unknown): CalculatorResult<MarginMarkupOutput>;
+export declare function calculateBreakEvenPoint(input: BreakEvenPointInput, options: CalculatorExecutionOptions): CalculatorResult<BreakEvenPointOutput>;
+export declare function calculateBreakEvenPoint(input: unknown, options: unknown): CalculatorResult<BreakEvenPointOutput>;
 //# sourceMappingURL=index.d.ts.map

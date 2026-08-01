@@ -36,6 +36,7 @@ await writeFile(
   join(consumerRoot, 'smoke.mjs'),
   `import {
   CALCULATOR_CONTRACT_VERSION,
+  calculateBreakEvenPoint,
   calculatePercentageChange
 } from 'zdp-libs-ts/calculator-engine';
 import { CALCULATOR_ENGINE_VERSION } from 'zdp-libs-ts';
@@ -44,10 +45,20 @@ const result = calculatePercentageChange(
   { initialValue: '100', finalValue: '125' },
   { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
 );
+const breakEven = calculateBreakEvenPoint(
+  {
+    fixedCost: { value: '1000', unit: 'USD' },
+    unitPrice: { value: '50', unit: 'USD' },
+    unitVariableCost: { value: '30', unit: 'USD' }
+  },
+  { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+);
 if (
   !result.ok ||
   result.value.percentageChange.value !== '25.00' ||
-  CALCULATOR_ENGINE_VERSION !== '0.1.0'
+  !breakEven.ok ||
+  breakEven.value.breakEvenQuantity.value !== '50.00' ||
+  CALCULATOR_ENGINE_VERSION !== '0.2.0'
 ) {
   throw new Error('Calculator engine tarball result was invalid.');
 }

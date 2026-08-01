@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import {
   SCHEMA_GENERATION_TARGETS,
   CALCULATOR_CONTRACT_VERSION,
+  calculateBreakEvenPoint,
   calculatePercentageChange,
   defineEnvContractMetadata,
   defineEventContractMetadata,
@@ -185,6 +186,22 @@ describe('public contract package exports', () => {
       value: {
         marginPercentage: { value: '20.00', unit: 'percent' },
         markupPercentage: { value: '25.00', unit: 'percent' }
+      }
+    });
+    expect(
+      calculateBreakEvenPoint(
+        {
+          fixedCost: { value: '1000', unit: 'USD' },
+          unitPrice: { value: '50', unit: 'USD' },
+          unitVariableCost: { value: '30', unit: 'USD' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        contributionMarginPerUnit: { value: '20.00', unit: 'USD' },
+        breakEvenQuantity: { value: '50.00', unit: 'items' }
       }
     });
   });

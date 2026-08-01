@@ -55,6 +55,8 @@ export type {
   CalculatorErrorCode,
   CalculatorExecutionOptions,
   CalculatorResult,
+  BreakEvenPointInput,
+  BreakEvenPointOutput,
   MarginMarkupInput,
   MarginMarkupOutput,
   PercentageChangeInput,
@@ -68,6 +70,7 @@ export {
   CALCULATOR_MAX_DECIMAL_PLACES,
   CALCULATOR_MAX_INPUT_DIGITS,
   CALCULATOR_ROUNDING_MODE,
+  calculateBreakEvenPoint,
   calculateMarginMarkup,
   calculatePercentageChange
 } from './calculator-engine/index.js';
