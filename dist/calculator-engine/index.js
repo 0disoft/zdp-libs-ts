@@ -1,11 +1,55 @@
 import { isRecord } from '../internal/record.js';
-export const CALCULATOR_ENGINE_VERSION = '0.2.0';
+export const CALCULATOR_ENGINE_VERSION = '0.3.0';
 export const CALCULATOR_CONTRACT_VERSION = '1.0.0';
 export const CALCULATOR_ROUNDING_MODE = 'half_away_from_zero';
 export const CALCULATOR_MAX_INPUT_DIGITS = 1000;
 export const CALCULATOR_MAX_DECIMAL_PLACES = 100;
+export const DATA_SIZE_UNITS = [
+    'bit',
+    'byte',
+    'kilobit',
+    'kilobyte',
+    'megabit',
+    'megabyte',
+    'gigabit',
+    'gigabyte',
+    'terabit',
+    'terabyte',
+    'kibibyte',
+    'mebibyte',
+    'gibibyte',
+    'tebibyte'
+];
+export const DATA_RATE_UNITS = [
+    'bits_per_second',
+    'kilobits_per_second',
+    'megabits_per_second',
+    'gigabits_per_second'
+];
 const CANONICAL_DECIMAL_PATTERN = /^-?(?:0|[1-9]\d*)(?:\.\d+)?$/;
 const UNIT_PATTERN = /^[A-Za-z][A-Za-z0-9_-]{0,31}$/;
+const DATA_SIZE_TO_BITS = {
+    bit: 1n,
+    byte: 8n,
+    kilobit: 1000n,
+    kilobyte: 8000n,
+    megabit: 1000000n,
+    megabyte: 8000000n,
+    gigabit: 1000000000n,
+    gigabyte: 8000000000n,
+    terabit: 1000000000000n,
+    terabyte: 8000000000000n,
+    kibibyte: 8192n,
+    mebibyte: 8388608n,
+    gibibyte: 8589934592n,
+    tebibyte: 8796093022208n
+};
+const DATA_RATE_TO_BITS_PER_SECOND = {
+    bits_per_second: 1n,
+    kilobits_per_second: 1000n,
+    megabits_per_second: 1000000n,
+    gigabits_per_second: 1000000000n
+};
 export function calculatePercentageChange(input, options) {
     const parsedOptions = parseOptions(options);
     if (!parsedOptions.ok) {
@@ -133,6 +177,46 @@ export function calculateBreakEvenPoint(input, options) {
         }
     };
 }
+export function calculateDataTransferTime(input, options) {
+    const parsedOptions = parseOptions(options);
+    if (!parsedOptions.ok) {
+        return parsedOptions;
+    }
+    if (!isRecord(input)) {
+        return failure('invalid_input');
+    }
+    const dataSize = parseNamedUnitDecimal(input.dataSize, 'data_size');
+    if (!dataSize.ok) {
+        return dataSize;
+    }
+    const dataRate = parseNamedUnitDecimal(input.dataRate, 'data_rate');
+    if (!dataRate.ok) {
+        return dataRate;
+    }
+    const sizeMultiplier = ownUnitMultiplier(DATA_SIZE_TO_BITS, dataSize.unit);
+    if (sizeMultiplier === undefined) {
+        return failure('unsupported_unit', 'data_size.unit');
+    }
+    const rateMultiplier = ownUnitMultiplier(DATA_RATE_TO_BITS_PER_SECOND, dataRate.unit);
+    if (rateMultiplier === undefined) {
+        return failure('unsupported_unit', 'data_rate.unit');
+    }
+    if (dataSize.decimal.coefficient < 0n) {
+        return failure('domain_error', 'data_size.value');
+    }
+    if (dataRate.decimal.coefficient <= 0n) {
+        return failure('domain_error', 'data_rate.value');
+    }
+    return {
+        ok: true,
+        value: {
+            transferDuration: {
+                value: divideAsDecimal(multiplyDecimalByInteger(dataSize.decimal, sizeMultiplier), multiplyDecimalByInteger(dataRate.decimal, rateMultiplier), parsedOptions.value.decimalPlaces),
+                unit: 'seconds'
+            }
+        }
+    };
+}
 function parseOptions(options) {
     if (!isRecord(options)) {
         return failure('precision_policy_required');
@@ -162,7 +246,7 @@ function parseNamedUnitDecimal(value, field) {
     if (!isRecord(value) || typeof value.unit !== 'string') {
         return failure('invalid_input', field);
     }
-    const unit = value.unit.trim();
+    const unit = value.unit;
     if (!UNIT_PATTERN.test(unit)) {
         return failure('invalid_input', `${field}.unit`);
     }
@@ -201,6 +285,17 @@ function subtractDecimals(left, right) {
             right.coefficient * powerOfTen(scale - right.scale),
         scale
     };
+}
+function multiplyDecimalByInteger(value, multiplier) {
+    return {
+        coefficient: value.coefficient * multiplier,
+        scale: value.scale
+    };
+}
+function ownUnitMultiplier(multipliers, unit) {
+    return Object.hasOwn(multipliers, unit)
+        ? multipliers[unit]
+        : undefined;
 }
 function divideAsPercent(numerator, denominator, decimalPlaces) {
     let scaledNumerator = numerator.coefficient * 100n;
