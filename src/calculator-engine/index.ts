@@ -1,6 +1,6 @@
 import { isRecord } from '../internal/record.js';
 
-export const CALCULATOR_ENGINE_VERSION = '0.4.0' as const;
+export const CALCULATOR_ENGINE_VERSION = '0.5.0' as const;
 export const CALCULATOR_CONTRACT_VERSION = '1.0.0' as const;
 export const CALCULATOR_ROUNDING_MODE = 'half_away_from_zero' as const;
 export const CALCULATOR_MAX_INPUT_DIGITS = 1000 as const;
@@ -135,6 +135,93 @@ export interface CompoundInterestInput {
 export interface CompoundInterestOutput {
   readonly futureValue: UnitDecimalOutput;
   readonly interestEarned: UnitDecimalOutput;
+}
+
+export interface StudycafeSeatOccupancyInput {
+  readonly seatCount: UnitDecimalInput;
+  readonly openingDaysPerMonth: UnitDecimalInput;
+  readonly openingHoursPerDay: UnitDecimalInput;
+  readonly occupiedSeatHours: UnitDecimalInput;
+}
+
+export interface StudycafeSeatOccupancyOutput {
+  readonly availableSeatHours: UnitDecimalOutput;
+  readonly occupancyPercentage: UnitDecimalOutput;
+}
+
+export interface StudycafeBreakEvenInput {
+  readonly seatCount: UnitDecimalInput;
+  readonly openingDaysPerMonth: UnitDecimalInput;
+  readonly openingHoursPerDay: UnitDecimalInput;
+  readonly averageSeatHourPrice: UnitDecimalInput;
+  readonly monthlyFixedCost: UnitDecimalInput;
+  readonly variableCostRatio: string;
+}
+
+export interface StudycafeBreakEvenOutput {
+  readonly breakEvenRevenue: UnitDecimalOutput;
+  readonly breakEvenOccupancyPercentage: UnitDecimalOutput;
+}
+
+export interface KioskRoiInput {
+  readonly initialInvestment: UnitDecimalInput;
+  readonly monthlyIncrementalRevenue: UnitDecimalInput;
+  readonly monthlyLaborSavings: UnitDecimalInput;
+  readonly monthlyAdditionalOperatingCost: UnitDecimalInput;
+}
+
+export interface KioskRoiOutput {
+  readonly monthlyNetBenefit: UnitDecimalOutput;
+  readonly paybackMonths: UnitDecimalOutput;
+}
+
+export interface UnattendedLaborSavingsInput {
+  readonly currentMonthlyLaborCost: UnitDecimalInput;
+  readonly unattendedMonthlyLaborCost: UnitDecimalInput;
+  readonly additionalMonthlySystemCost: UnitDecimalInput;
+}
+
+export interface UnattendedLaborSavingsOutput {
+  readonly grossMonthlyLaborSavings: UnitDecimalOutput;
+  readonly netMonthlySavings: UnitDecimalOutput;
+}
+
+export interface LockerRevenueInput {
+  readonly lockerCount: UnitDecimalInput;
+  readonly monthlyPricePerLocker: UnitDecimalInput;
+  readonly utilizationRatio: string;
+  readonly monthlyOperatingCost: UnitDecimalInput;
+}
+
+export interface LockerRevenueOutput {
+  readonly monthlyGrossRevenue: UnitDecimalOutput;
+  readonly monthlyNetRevenue: UnitDecimalOutput;
+}
+
+export interface StudyRoomScheduleRevenueInput {
+  readonly bookableRoomHours: UnitDecimalInput;
+  readonly bookingRatio: string;
+  readonly averageHourlyPrice: UnitDecimalInput;
+  readonly monthlyOperatingCost: UnitDecimalInput;
+}
+
+export interface StudyRoomScheduleRevenueOutput {
+  readonly bookedRoomHours: UnitDecimalOutput;
+  readonly monthlyGrossRevenue: UnitDecimalOutput;
+  readonly monthlyNetRevenue: UnitDecimalOutput;
+}
+
+export interface SecurityCostBreakEvenInput {
+  readonly monthlyBaseFixedCost: UnitDecimalInput;
+  readonly monthlySecurityCost: UnitDecimalInput;
+  readonly unitPrice: UnitDecimalInput;
+  readonly unitVariableCost: UnitDecimalInput;
+}
+
+export interface SecurityCostBreakEvenOutput {
+  readonly totalMonthlyFixedCost: UnitDecimalOutput;
+  readonly contributionMarginPerUnit: UnitDecimalOutput;
+  readonly breakEvenQuantity: UnitDecimalOutput;
 }
 
 export interface UnitDecimalOutput {
@@ -588,6 +675,283 @@ export function calculateCompoundInterest(
   };
 }
 
+export function calculateStudycafeSeatOccupancy(
+  input: StudycafeSeatOccupancyInput,
+  options: CalculatorExecutionOptions
+): CalculatorResult<StudycafeSeatOccupancyOutput>;
+export function calculateStudycafeSeatOccupancy(
+  input: unknown,
+  options: unknown
+): CalculatorResult<StudycafeSeatOccupancyOutput>;
+export function calculateStudycafeSeatOccupancy(
+  input: unknown,
+  options: unknown
+): CalculatorResult<StudycafeSeatOccupancyOutput> {
+  const parsedOptions = parseOptions(options);
+  if (!parsedOptions.ok) return parsedOptions;
+  if (!isRecord(input)) return failure('invalid_input');
+  const seatCount = parseFixedUnitInteger(input.seatCount, 'seat_count', 'seats', false);
+  if (!seatCount.ok) return seatCount;
+  const openingDays = parseFixedUnitInteger(
+    input.openingDaysPerMonth,
+    'opening_days_per_month',
+    'days',
+    false
+  );
+  if (!openingDays.ok) return openingDays;
+  const openingHours = parseFixedUnitDecimal(
+    input.openingHoursPerDay,
+    'opening_hours_per_day',
+    'hours'
+  );
+  if (!openingHours.ok) return openingHours;
+  const occupied = parseFixedUnitDecimal(
+    input.occupiedSeatHours,
+    'occupied_seat_hours',
+    'seat_hours'
+  );
+  if (!occupied.ok) return occupied;
+  if (openingHours.decimal.coefficient <= 0n) {
+    return failure('domain_error', 'opening_hours_per_day');
+  }
+  if (occupied.decimal.coefficient < 0n) {
+    return failure('domain_error', 'occupied_seat_hours');
+  }
+  const available = multiplyRationals(
+    { numerator: seatCount.value * openingDays.value, denominator: 1n },
+    decimalToRational(openingHours.decimal)
+  );
+  const occupiedRational = decimalToRational(occupied.decimal);
+  if (compareRationals(occupiedRational, available) > 0) {
+    return failure('domain_error', 'occupied_seat_hours');
+  }
+  const places = parsedOptions.value.decimalPlaces;
+  return {
+    ok: true,
+    value: {
+      availableSeatHours: { value: formatRational(available, places), unit: 'seat_hours' },
+      occupancyPercentage: {
+        value: formatRational(
+          multiplyRationals(divideRationals(occupiedRational, available), { numerator: 100n, denominator: 1n }),
+          places
+        ),
+        unit: 'percent'
+      }
+    }
+  };
+}
+
+export function calculateStudycafeBreakEven(
+  input: StudycafeBreakEvenInput,
+  options: CalculatorExecutionOptions
+): CalculatorResult<StudycafeBreakEvenOutput>;
+export function calculateStudycafeBreakEven(
+  input: unknown,
+  options: unknown
+): CalculatorResult<StudycafeBreakEvenOutput>;
+export function calculateStudycafeBreakEven(
+  input: unknown,
+  options: unknown
+): CalculatorResult<StudycafeBreakEvenOutput> {
+  const parsedOptions = parseOptions(options);
+  if (!parsedOptions.ok) return parsedOptions;
+  if (!isRecord(input)) return failure('invalid_input');
+  const seatCount = parseFixedUnitInteger(input.seatCount, 'seat_count', 'seats', false);
+  if (!seatCount.ok) return seatCount;
+  const openingDays = parseFixedUnitInteger(input.openingDaysPerMonth, 'opening_days_per_month', 'days', false);
+  if (!openingDays.ok) return openingDays;
+  const openingHours = parseFixedUnitDecimal(input.openingHoursPerDay, 'opening_hours_per_day', 'hours');
+  if (!openingHours.ok) return openingHours;
+  const price = parseNamedUnitDecimal(input.averageSeatHourPrice, 'average_seat_hour_price');
+  if (!price.ok) return price;
+  const fixedCost = parseNamedUnitDecimal(input.monthlyFixedCost, 'monthly_fixed_cost');
+  if (!fixedCost.ok) return fixedCost;
+  const ratio = parseRatio(input.variableCostRatio, 'variable_cost_ratio', false);
+  if (!ratio.ok) return ratio;
+  if (openingHours.decimal.coefficient <= 0n) return failure('domain_error', 'opening_hours_per_day');
+  if (price.decimal.coefficient <= 0n) return failure('domain_error', 'average_seat_hour_price');
+  if (fixedCost.decimal.coefficient < 0n) return failure('domain_error', 'monthly_fixed_cost');
+  if (price.unit !== fixedCost.unit) return failure('incompatible_units');
+  const available = multiplyRationals(
+    { numerator: seatCount.value * openingDays.value, denominator: 1n },
+    decimalToRational(openingHours.decimal)
+  );
+  const fullCapacityRevenue = multiplyRationals(available, decimalToRational(price.decimal));
+  if (fullCapacityRevenue.numerator === 0n) return failure('denominator_zero');
+  const contributionRatio = subtractRationals({ numerator: 1n, denominator: 1n }, ratio.value);
+  const breakEvenRevenue = divideRationals(decimalToRational(fixedCost.decimal), contributionRatio);
+  const breakEvenOccupancy = multiplyRationals(
+    divideRationals(breakEvenRevenue, fullCapacityRevenue),
+    { numerator: 100n, denominator: 1n }
+  );
+  const places = parsedOptions.value.decimalPlaces;
+  return {
+    ok: true,
+    value: {
+      breakEvenRevenue: { value: formatRational(breakEvenRevenue, places), unit: price.unit },
+      breakEvenOccupancyPercentage: { value: formatRational(breakEvenOccupancy, places), unit: 'percent' }
+    }
+  };
+}
+
+export function calculateKioskRoi(
+  input: KioskRoiInput,
+  options: CalculatorExecutionOptions
+): CalculatorResult<KioskRoiOutput>;
+export function calculateKioskRoi(input: unknown, options: unknown): CalculatorResult<KioskRoiOutput>;
+export function calculateKioskRoi(input: unknown, options: unknown): CalculatorResult<KioskRoiOutput> {
+  const parsedOptions = parseOptions(options);
+  if (!parsedOptions.ok) return parsedOptions;
+  if (!isRecord(input)) return failure('invalid_input');
+  const investment = parseNamedUnitDecimal(input.initialInvestment, 'initial_investment');
+  if (!investment.ok) return investment;
+  const revenue = parseNamedUnitDecimal(input.monthlyIncrementalRevenue, 'monthly_incremental_revenue');
+  if (!revenue.ok) return revenue;
+  const labor = parseNamedUnitDecimal(input.monthlyLaborSavings, 'monthly_labor_savings');
+  if (!labor.ok) return labor;
+  const operating = parseNamedUnitDecimal(input.monthlyAdditionalOperatingCost, 'monthly_additional_operating_cost');
+  if (!operating.ok) return operating;
+  if ([investment, revenue, labor, operating].some((value) => value.decimal.coefficient < 0n)) {
+    return failure('domain_error');
+  }
+  if (!sameUnits(investment.unit, revenue.unit, labor.unit, operating.unit)) return failure('incompatible_units');
+  const net = subtractRationals(
+    addRationals(decimalToRational(revenue.decimal), decimalToRational(labor.decimal)),
+    decimalToRational(operating.decimal)
+  );
+  if (net.numerator <= 0n) return failure('domain_error', 'monthly_net_benefit');
+  const payback = divideRationals(decimalToRational(investment.decimal), net);
+  const places = parsedOptions.value.decimalPlaces;
+  return { ok: true, value: {
+    monthlyNetBenefit: { value: formatRational(net, places), unit: investment.unit },
+    paybackMonths: { value: formatRational(payback, places), unit: 'months' }
+  } };
+}
+
+export function calculateUnattendedLaborSavings(
+  input: UnattendedLaborSavingsInput,
+  options: CalculatorExecutionOptions
+): CalculatorResult<UnattendedLaborSavingsOutput>;
+export function calculateUnattendedLaborSavings(input: unknown, options: unknown): CalculatorResult<UnattendedLaborSavingsOutput>;
+export function calculateUnattendedLaborSavings(input: unknown, options: unknown): CalculatorResult<UnattendedLaborSavingsOutput> {
+  const parsedOptions = parseOptions(options);
+  if (!parsedOptions.ok) return parsedOptions;
+  if (!isRecord(input)) return failure('invalid_input');
+  const current = parseNamedUnitDecimal(input.currentMonthlyLaborCost, 'current_monthly_labor_cost');
+  if (!current.ok) return current;
+  const unattended = parseNamedUnitDecimal(input.unattendedMonthlyLaborCost, 'unattended_monthly_labor_cost');
+  if (!unattended.ok) return unattended;
+  const system = parseNamedUnitDecimal(input.additionalMonthlySystemCost, 'additional_monthly_system_cost');
+  if (!system.ok) return system;
+  if ([current, unattended, system].some((value) => value.decimal.coefficient < 0n)) return failure('domain_error');
+  if (!sameUnits(current.unit, unattended.unit, system.unit)) return failure('incompatible_units');
+  const gross = subtractRationals(decimalToRational(current.decimal), decimalToRational(unattended.decimal));
+  const net = subtractRationals(gross, decimalToRational(system.decimal));
+  const places = parsedOptions.value.decimalPlaces;
+  return { ok: true, value: {
+    grossMonthlyLaborSavings: { value: formatRational(gross, places), unit: current.unit },
+    netMonthlySavings: { value: formatRational(net, places), unit: current.unit }
+  } };
+}
+
+export function calculateLockerRevenue(
+  input: LockerRevenueInput,
+  options: CalculatorExecutionOptions
+): CalculatorResult<LockerRevenueOutput>;
+export function calculateLockerRevenue(input: unknown, options: unknown): CalculatorResult<LockerRevenueOutput>;
+export function calculateLockerRevenue(input: unknown, options: unknown): CalculatorResult<LockerRevenueOutput> {
+  const parsedOptions = parseOptions(options);
+  if (!parsedOptions.ok) return parsedOptions;
+  if (!isRecord(input)) return failure('invalid_input');
+  const count = parseFixedUnitInteger(input.lockerCount, 'locker_count', 'lockers', true);
+  if (!count.ok) return count;
+  const price = parseNamedUnitDecimal(input.monthlyPricePerLocker, 'monthly_price_per_locker');
+  if (!price.ok) return price;
+  const ratio = parseRatio(input.utilizationRatio, 'utilization_ratio', true);
+  if (!ratio.ok) return ratio;
+  const operating = parseNamedUnitDecimal(input.monthlyOperatingCost, 'monthly_operating_cost');
+  if (!operating.ok) return operating;
+  if (price.decimal.coefficient < 0n) return failure('domain_error', 'monthly_price_per_locker');
+  if (operating.decimal.coefficient < 0n) return failure('domain_error', 'monthly_operating_cost');
+  if (price.unit !== operating.unit) return failure('incompatible_units');
+  const gross = multiplyRationals(
+    multiplyRationals({ numerator: count.value, denominator: 1n }, decimalToRational(price.decimal)),
+    ratio.value
+  );
+  const net = subtractRationals(gross, decimalToRational(operating.decimal));
+  const places = parsedOptions.value.decimalPlaces;
+  return { ok: true, value: {
+    monthlyGrossRevenue: { value: formatRational(gross, places), unit: price.unit },
+    monthlyNetRevenue: { value: formatRational(net, places), unit: price.unit }
+  } };
+}
+
+export function calculateStudyRoomScheduleRevenue(
+  input: StudyRoomScheduleRevenueInput,
+  options: CalculatorExecutionOptions
+): CalculatorResult<StudyRoomScheduleRevenueOutput>;
+export function calculateStudyRoomScheduleRevenue(input: unknown, options: unknown): CalculatorResult<StudyRoomScheduleRevenueOutput>;
+export function calculateStudyRoomScheduleRevenue(input: unknown, options: unknown): CalculatorResult<StudyRoomScheduleRevenueOutput> {
+  const parsedOptions = parseOptions(options);
+  if (!parsedOptions.ok) return parsedOptions;
+  if (!isRecord(input)) return failure('invalid_input');
+  const hours = parseFixedUnitDecimal(input.bookableRoomHours, 'bookable_room_hours', 'room_hours');
+  if (!hours.ok) return hours;
+  const ratio = parseRatio(input.bookingRatio, 'booking_ratio', true);
+  if (!ratio.ok) return ratio;
+  const price = parseNamedUnitDecimal(input.averageHourlyPrice, 'average_hourly_price');
+  if (!price.ok) return price;
+  const operating = parseNamedUnitDecimal(input.monthlyOperatingCost, 'monthly_operating_cost');
+  if (!operating.ok) return operating;
+  if (hours.decimal.coefficient < 0n) return failure('domain_error', 'bookable_room_hours');
+  if (price.decimal.coefficient < 0n) return failure('domain_error', 'average_hourly_price');
+  if (operating.decimal.coefficient < 0n) return failure('domain_error', 'monthly_operating_cost');
+  if (price.unit !== operating.unit) return failure('incompatible_units');
+  const booked = multiplyRationals(decimalToRational(hours.decimal), ratio.value);
+  const gross = multiplyRationals(booked, decimalToRational(price.decimal));
+  const net = subtractRationals(gross, decimalToRational(operating.decimal));
+  const places = parsedOptions.value.decimalPlaces;
+  return { ok: true, value: {
+    bookedRoomHours: { value: formatRational(booked, places), unit: 'room_hours' },
+    monthlyGrossRevenue: { value: formatRational(gross, places), unit: price.unit },
+    monthlyNetRevenue: { value: formatRational(net, places), unit: price.unit }
+  } };
+}
+
+export function calculateSecurityCostBreakEven(
+  input: SecurityCostBreakEvenInput,
+  options: CalculatorExecutionOptions
+): CalculatorResult<SecurityCostBreakEvenOutput>;
+export function calculateSecurityCostBreakEven(input: unknown, options: unknown): CalculatorResult<SecurityCostBreakEvenOutput>;
+export function calculateSecurityCostBreakEven(input: unknown, options: unknown): CalculatorResult<SecurityCostBreakEvenOutput> {
+  const parsedOptions = parseOptions(options);
+  if (!parsedOptions.ok) return parsedOptions;
+  if (!isRecord(input)) return failure('invalid_input');
+  const base = parseNamedUnitDecimal(input.monthlyBaseFixedCost, 'monthly_base_fixed_cost');
+  if (!base.ok) return base;
+  const security = parseNamedUnitDecimal(input.monthlySecurityCost, 'monthly_security_cost');
+  if (!security.ok) return security;
+  const price = parseNamedUnitDecimal(input.unitPrice, 'unit_price');
+  if (!price.ok) return price;
+  const variable = parseNamedUnitDecimal(input.unitVariableCost, 'unit_variable_cost');
+  if (!variable.ok) return variable;
+  if (base.decimal.coefficient < 0n) return failure('domain_error', 'monthly_base_fixed_cost');
+  if (security.decimal.coefficient < 0n) return failure('domain_error', 'monthly_security_cost');
+  if (price.decimal.coefficient <= 0n) return failure('domain_error', 'unit_price');
+  if (variable.decimal.coefficient < 0n) return failure('domain_error', 'unit_variable_cost');
+  if (!sameUnits(base.unit, security.unit, price.unit, variable.unit)) return failure('incompatible_units');
+  const total = addRationals(decimalToRational(base.decimal), decimalToRational(security.decimal));
+  const contribution = subtractRationals(decimalToRational(price.decimal), decimalToRational(variable.decimal));
+  if (contribution.numerator <= 0n) return failure('non_positive_contribution_margin');
+  const quantity = divideRationals(total, contribution);
+  const places = parsedOptions.value.decimalPlaces;
+  return { ok: true, value: {
+    totalMonthlyFixedCost: { value: formatRational(total, places), unit: base.unit },
+    contributionMarginPerUnit: { value: formatRational(contribution, places), unit: base.unit },
+    breakEvenQuantity: { value: formatRational(quantity, places), unit: 'items' }
+  } };
+}
+
 function parseOptions(
   options: unknown
 ): CalculatorResult<CalculatorExecutionOptions> {
@@ -713,6 +1077,61 @@ function parseNamedUnitDecimal(
   return { ok: true, decimal: decimal.value, unit };
 }
 
+function parseFixedUnitDecimal(
+  value: unknown,
+  field: string,
+  expectedUnit: string
+):
+  | { readonly ok: true; readonly decimal: ParsedDecimal; readonly unit: string }
+  | Extract<CalculatorResult<never>, { readonly ok: false }> {
+  const parsed = parseNamedUnitDecimal(value, field);
+  if (!parsed.ok) return parsed;
+  return parsed.unit === expectedUnit
+    ? parsed
+    : failure('invalid_input', `${field}.unit`);
+}
+
+function parseFixedUnitInteger(
+  value: unknown,
+  field: string,
+  expectedUnit: string,
+  allowZero: boolean
+): CalculatorResult<bigint> {
+  if (!isRecord(value) || value.unit !== expectedUnit) {
+    return failure('invalid_input', `${field}.unit`);
+  }
+  if (
+    typeof value.value !== 'string' ||
+    !CANONICAL_UNSIGNED_INTEGER_PATTERN.test(value.value)
+  ) {
+    return failure('invalid_input', field);
+  }
+  if (value.value.length > CALCULATOR_MAX_INPUT_DIGITS) {
+    return failure('limit_exceeded', field);
+  }
+  const parsed = BigInt(value.value);
+  if (!allowZero && parsed === 0n) {
+    return failure('domain_error', field);
+  }
+  return { ok: true, value: parsed };
+}
+
+function parseRatio(
+  value: unknown,
+  field: string,
+  upperInclusive: boolean
+): CalculatorResult<Rational> {
+  const parsed = parseNamedDecimal(value, field);
+  if (!parsed.ok) return parsed;
+  const ratio = decimalToRational(parsed.value);
+  const comparedToZero = compareRationals(ratio, { numerator: 0n, denominator: 1n });
+  const comparedToOne = compareRationals(ratio, { numerator: 1n, denominator: 1n });
+  if (comparedToZero < 0 || (upperInclusive ? comparedToOne > 0 : comparedToOne >= 0)) {
+    return failure('domain_error', field);
+  }
+  return { ok: true, value: ratio };
+}
+
 function parseDecimal(value: unknown): DecimalParseResult {
   if (typeof value !== 'string' || !CANONICAL_DECIMAL_PATTERN.test(value)) {
     return { ok: false, code: 'invalid_input' };
@@ -769,6 +1188,10 @@ function ownUnitMultiplier<Unit extends string, Value>(
     : undefined;
 }
 
+function sameUnits(first: string, ...rest: readonly string[]): boolean {
+  return rest.every((unit) => unit === first);
+}
+
 function decimalToRational(value: ParsedDecimal): Rational {
   return normalizeRational({
     numerator: value.coefficient,
@@ -806,6 +1229,30 @@ function multiplyRationals(left: Rational, right: Rational): Rational {
     numerator: left.numerator * right.numerator,
     denominator: left.denominator * right.denominator
   });
+}
+
+function addRationals(left: Rational, right: Rational): Rational {
+  return normalizeRational({
+    numerator:
+      left.numerator * right.denominator + right.numerator * left.denominator,
+    denominator: left.denominator * right.denominator
+  });
+}
+
+function divideRationals(left: Rational, right: Rational): Rational {
+  if (right.numerator === 0n) {
+    throw new Error('Rational divisor must not be zero.');
+  }
+  return normalizeRational({
+    numerator: left.numerator * right.denominator,
+    denominator: left.denominator * right.numerator
+  });
+}
+
+function compareRationals(left: Rational, right: Rational): -1 | 0 | 1 {
+  const difference =
+    left.numerator * right.denominator - right.numerator * left.denominator;
+  return difference < 0n ? -1 : difference > 0n ? 1 : 0;
 }
 
 function subtractRationals(left: Rational, right: Rational): Rational {

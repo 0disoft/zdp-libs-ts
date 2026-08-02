@@ -1,5 +1,17 @@
 # CHANGELOG.md
 
+## 0.13.0
+
+### Added
+
+- `calculateStudycafeSeatOccupancy`, `calculateStudycafeBreakEven`, `calculateKioskRoi`, `calculateUnattendedLaborSavings`, `calculateLockerRevenue`, `calculateStudyRoomScheduleRevenue`, `calculateSecurityCostBreakEven`을 추가했다.
+- 좌석 가동률, 매출 손익분기 가동률, 키오스크 회수기간, 무인화 인건비 절감, 사물함 매출, 스터디룸 예약 매출, 보안비 포함 손익분기점을 canonical decimal과 정확한 유리수 계산으로 처리한다.
+- 새 계산기 14개 공통 적합성 사례와 공개 export, packed-package 소비자 검증을 추가했다.
+
+### Changed
+
+- 계산 엔진 버전을 `0.5.0`으로 올리고 sibling API의 reviewed 계산기 13개 전체에 대한 계약 드리프트 검사를 적용했다.
+
 ## 0.12.0
 
 ### Added

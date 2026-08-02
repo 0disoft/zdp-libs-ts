@@ -16,7 +16,7 @@ ZDP TypeScript 공통 계약과 구현 중립 순수 계산 라이브러리 저�
 - `zdp-api-contracts` 실제 route/error/webhook/SDK input/API catalog 계약 드리프트 검사
 - 최소 public export skeleton
 - public npm package 후보 메타데이터, MIT license, package file whitelist
-- 국가 정책과 로케일 표시에 의존하지 않는 `percentage-change`, `margin-markup`, `break-even-point`, `data-transfer-time`, `date-difference`, `compound-interest` 순수 계산 엔진
+- 국가 정책과 로케일 표시에 의존하지 않는 reviewed 계산기 13개의 순수 계산 엔진
 
 ## 현재 제외
 
@@ -66,6 +66,8 @@ package whitelist는 `dist/`, `contracts/`, `glossary/`와 README/CHANGELOG/CONT
 - `@zdp/calculator-engine`: reviewed 계산기 계약의 순수 숫자 계산과 적합성만 소유하며 제품 화면, locale 표시, 광고·크레딧, 국가별 정책은 소유하지 않는다.
 
 계산 엔진은 로케일 구분자가 없는 canonical ASCII decimal string을 받고 `BigInt` 기반 정수 비율로 계산한다. 결과는 호출자가 지정한 0-100 소수 자리에서 half-away-from-zero로 한 번만 반올림한다. 제품은 사용자 입력의 locale 표기를 표준 decimal string으로 정규화하고 결과를 다시 locale에 맞게 표시해야 한다.
+
+현재 구현 ID는 `percentage-change`, `margin-markup`, `break-even-point`, `data-transfer-time`, `date-difference`, `compound-interest`, `studycafe-seat-occupancy`, `studycafe-break-even`, `kiosk-roi`, `unattended-labor-savings`, `locker-revenue`, `study-room-schedule-revenue`, `security-cost-break-even`이다. 스터디카페·무인매장 계산도 세금, 법정 인건비, 감가상각, 금융비용 같은 국가별 정책을 추정하지 않고 호출자가 넣은 값만 계산한다.
 
 `glossary/terms/*.yaml`은 여러 공개 사이트에서 반복되는 플랫폼 공통 용어 계약을 namespace별로 소유한다. Base term의 `canonical_label`은 AI 작업 지시, 리뷰, cross-locale 정렬에 쓰는 locale-neutral 기준 이름이며 영어권에서 널리 쓰이는 표기를 우선한다. `glossary/locales/<locale>/*.yaml`은 같은 namespace의 locale별 표시 문구, alias, match phrase, 번역 검수 상태를 소유한다. `비밀값 저장` 같은 한국어 표현은 `locales/ko`의 `aliases`와 `match_phrases`에만 두고, base term이나 공통 예시에서는 `Vault`와 `security.vault`처럼 canonical label과 term id를 쓴다. 공통 term 파일에는 사이트별 route나 관련 화면 경로를 넣지 않고, 소비 앱이 manifest 생성 단계에서 붙인다. 공통 파일에 `products`, `sites`, `canonical_path`를 넣지 않는 이유는 새 public site가 같은 용어를 다시 쓰면서도 자기 화면 구조를 따로 결정하게 하기 위해서다.
 

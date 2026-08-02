@@ -40,7 +40,8 @@ await writeFile(
   calculateCompoundInterest,
   calculateDataTransferTime,
   calculateDateDifference,
-  calculatePercentageChange
+  calculatePercentageChange,
+  calculateStudycafeSeatOccupancy
 } from 'zdp-libs-ts/calculator-engine';
 import { CALCULATOR_ENGINE_VERSION } from 'zdp-libs-ts';
 
@@ -80,6 +81,15 @@ const compoundInterest = calculateCompoundInterest(
   },
   { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
 );
+const seatOccupancy = calculateStudycafeSeatOccupancy(
+  {
+    seatCount: { value: '50', unit: 'seats' },
+    openingDaysPerMonth: { value: '30', unit: 'days' },
+    openingHoursPerDay: { value: '12', unit: 'hours' },
+    occupiedSeatHours: { value: '9000', unit: 'seat_hours' }
+  },
+  { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+);
 if (
   !result.ok ||
   result.value.percentageChange.value !== '25.00' ||
@@ -91,7 +101,9 @@ if (
   dateDifference.value.calendarDayCount.value !== 2 ||
   !compoundInterest.ok ||
   compoundInterest.value.futureValue.value !== '110.25' ||
-  CALCULATOR_ENGINE_VERSION !== '0.4.0'
+  !seatOccupancy.ok ||
+  seatOccupancy.value.occupancyPercentage.value !== '50.00' ||
+  CALCULATOR_ENGINE_VERSION !== '0.5.0'
 ) {
   throw new Error('Calculator engine tarball result was invalid.');
 }

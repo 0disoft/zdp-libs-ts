@@ -7,6 +7,8 @@ import {
   calculateDataTransferTime,
   calculateDateDifference,
   calculatePercentageChange,
+  calculateSecurityCostBreakEven,
+  calculateStudycafeSeatOccupancy,
   defineEnvContractMetadata,
   defineEventContractMetadata,
   defineGlossaryTermContract,
@@ -16,7 +18,10 @@ import {
 } from '../src/index';
 import type { GlossaryTermId, I18nMessageKey } from '../src/index';
 import { defineSchemaMetadata as defineSchemaMetadataFromSubpath } from '../src/schema/index';
-import { calculateMarginMarkup as calculateMarginMarkupFromSubpath } from '../src/calculator-engine/index';
+import {
+  calculateMarginMarkup as calculateMarginMarkupFromSubpath,
+  calculateStudyRoomScheduleRevenue as calculateStudyRoomScheduleRevenueFromSubpath
+} from '../src/calculator-engine/index';
 
 describe('public contract package exports', () => {
   it('exposes schema metadata without owning product models', () => {
@@ -251,6 +256,59 @@ describe('public contract package exports', () => {
       value: {
         futureValue: { value: '110.25', unit: 'USD' },
         interestEarned: { value: '10.25', unit: 'USD' }
+      }
+    });
+    expect(
+      calculateStudycafeSeatOccupancy(
+        {
+          seatCount: { value: '50', unit: 'seats' },
+          openingDaysPerMonth: { value: '30', unit: 'days' },
+          openingHoursPerDay: { value: '12', unit: 'hours' },
+          occupiedSeatHours: { value: '9000', unit: 'seat_hours' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        availableSeatHours: { value: '18000.00', unit: 'seat_hours' },
+        occupancyPercentage: { value: '50.00', unit: 'percent' }
+      }
+    });
+    expect(
+      calculateStudyRoomScheduleRevenueFromSubpath(
+        {
+          bookableRoomHours: { value: '200', unit: 'room_hours' },
+          bookingRatio: '0.75',
+          averageHourlyPrice: { value: '20', unit: 'USD' },
+          monthlyOperatingCost: { value: '500', unit: 'USD' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        bookedRoomHours: { value: '150.00', unit: 'room_hours' },
+        monthlyGrossRevenue: { value: '3000.00', unit: 'USD' },
+        monthlyNetRevenue: { value: '2500.00', unit: 'USD' }
+      }
+    });
+    expect(
+      calculateSecurityCostBreakEven(
+        {
+          monthlyBaseFixedCost: { value: '800', unit: 'USD' },
+          monthlySecurityCost: { value: '200', unit: 'USD' },
+          unitPrice: { value: '50', unit: 'USD' },
+          unitVariableCost: { value: '30', unit: 'USD' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        totalMonthlyFixedCost: { value: '1000.00', unit: 'USD' },
+        contributionMarginPerUnit: { value: '20.00', unit: 'USD' },
+        breakEvenQuantity: { value: '50.00', unit: 'items' }
       }
     });
   });

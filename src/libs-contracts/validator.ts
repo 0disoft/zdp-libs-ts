@@ -76,8 +76,45 @@ const REVIEWED_CALCULATOR_IDS = [
   'break-even-point',
   'data-transfer-time',
   'date-difference',
-  'compound-interest'
+  'compound-interest',
+  'studycafe-seat-occupancy',
+  'studycafe-break-even',
+  'kiosk-roi',
+  'unattended-labor-savings',
+  'locker-revenue',
+  'study-room-schedule-revenue',
+  'security-cost-break-even'
 ] as const;
+const CALCULATOR_REQUIRED_ENGINE_VERSION: Readonly<Record<string, string>> = {
+  'percentage-change': '0.x',
+  'margin-markup': '0.x',
+  'break-even-point': '0.x',
+  'data-transfer-time': '0.4.0',
+  'date-difference': '0.4.0',
+  'compound-interest': '0.4.0',
+  'studycafe-seat-occupancy': '0.5.0',
+  'studycafe-break-even': '0.5.0',
+  'kiosk-roi': '0.5.0',
+  'unattended-labor-savings': '0.5.0',
+  'locker-revenue': '0.5.0',
+  'study-room-schedule-revenue': '0.5.0',
+  'security-cost-break-even': '0.5.0'
+};
+const CALCULATOR_REQUIRED_ERROR_CODES: Readonly<Record<string, readonly string[]>> = {
+  'percentage-change': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'denominator_zero'],
+  'margin-markup': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'denominator_zero'],
+  'break-even-point': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'non_positive_contribution_margin', 'incompatible_units'],
+  'data-transfer-time': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'unsupported_unit', 'precision_policy_required', 'rounding_policy_required'],
+  'date-difference': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'invalid_date_range'],
+  'compound-interest': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'precision_policy_required', 'rounding_policy_required'],
+  'studycafe-seat-occupancy': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'denominator_zero'],
+  'studycafe-break-even': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'denominator_zero', 'incompatible_units'],
+  'kiosk-roi': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'denominator_zero', 'incompatible_units'],
+  'unattended-labor-savings': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'incompatible_units'],
+  'locker-revenue': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'incompatible_units'],
+  'study-room-schedule-revenue': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'incompatible_units'],
+  'security-cost-break-even': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'non_positive_contribution_margin', 'incompatible_units']
+};
 const CALCULATOR_PRECISION_POLICY =
   'canonical_ascii_decimal_string_max_1000_digits';
 const CALCULATOR_ROUNDING_POLICY =
@@ -708,12 +745,7 @@ function validateCalculatorInputHandoff(
       });
       continue;
     }
-    const requiredEngineVersion =
-      calculatorId === 'data-transfer-time'
-        ? '0.3.0'
-        : calculatorId === 'date-difference' || calculatorId === 'compound-interest'
-          ? '0.4.0'
-          : '0.x';
+    const requiredEngineVersion = CALCULATOR_REQUIRED_ENGINE_VERSION[calculatorId]!;
     const requiredPrecisionPolicy =
       calculatorId === 'date-difference'
         ? 'exact_integer_calendar_days_years_0001_to_9999'
@@ -736,50 +768,7 @@ function validateCalculatorInputHandoff(
         message: `Calculator \`${calculatorId}\` must keep its reviewed 1.0.0 precision and rounding policy for engine ${requiredEngineVersion}.`
       });
     }
-    const requiredErrorCodes =
-      calculatorId === 'break-even-point'
-        ? [
-            'invalid_input',
-            'domain_error',
-            'limit_exceeded',
-            'contract_mismatch',
-            'non_positive_contribution_margin',
-            'incompatible_units'
-          ]
-        : calculatorId === 'data-transfer-time'
-          ? [
-              'invalid_input',
-              'domain_error',
-              'limit_exceeded',
-              'contract_mismatch',
-              'unsupported_unit',
-              'precision_policy_required',
-              'rounding_policy_required'
-            ]
-          : calculatorId === 'date-difference'
-            ? [
-                'invalid_input',
-                'domain_error',
-                'limit_exceeded',
-                'contract_mismatch',
-                'invalid_date_range'
-              ]
-            : calculatorId === 'compound-interest'
-              ? [
-                  'invalid_input',
-                  'domain_error',
-                  'limit_exceeded',
-                  'contract_mismatch',
-                  'precision_policy_required',
-                  'rounding_policy_required'
-                ]
-              : [
-              'invalid_input',
-              'domain_error',
-              'limit_exceeded',
-              'contract_mismatch',
-              'denominator_zero'
-                ];
+    const requiredErrorCodes = CALCULATOR_REQUIRED_ERROR_CODES[calculatorId]!;
     for (const errorCode of requiredErrorCodes) {
       if (!definition.errorCodes.includes(errorCode)) {
         diagnostics.push({

@@ -1,4 +1,4 @@
-export declare const CALCULATOR_ENGINE_VERSION: "0.4.0";
+export declare const CALCULATOR_ENGINE_VERSION: "0.5.0";
 export declare const CALCULATOR_CONTRACT_VERSION: "1.0.0";
 export declare const CALCULATOR_ROUNDING_MODE: "half_away_from_zero";
 export declare const CALCULATOR_MAX_INPUT_DIGITS: 1000;
@@ -77,6 +77,79 @@ export interface CompoundInterestOutput {
     readonly futureValue: UnitDecimalOutput;
     readonly interestEarned: UnitDecimalOutput;
 }
+export interface StudycafeSeatOccupancyInput {
+    readonly seatCount: UnitDecimalInput;
+    readonly openingDaysPerMonth: UnitDecimalInput;
+    readonly openingHoursPerDay: UnitDecimalInput;
+    readonly occupiedSeatHours: UnitDecimalInput;
+}
+export interface StudycafeSeatOccupancyOutput {
+    readonly availableSeatHours: UnitDecimalOutput;
+    readonly occupancyPercentage: UnitDecimalOutput;
+}
+export interface StudycafeBreakEvenInput {
+    readonly seatCount: UnitDecimalInput;
+    readonly openingDaysPerMonth: UnitDecimalInput;
+    readonly openingHoursPerDay: UnitDecimalInput;
+    readonly averageSeatHourPrice: UnitDecimalInput;
+    readonly monthlyFixedCost: UnitDecimalInput;
+    readonly variableCostRatio: string;
+}
+export interface StudycafeBreakEvenOutput {
+    readonly breakEvenRevenue: UnitDecimalOutput;
+    readonly breakEvenOccupancyPercentage: UnitDecimalOutput;
+}
+export interface KioskRoiInput {
+    readonly initialInvestment: UnitDecimalInput;
+    readonly monthlyIncrementalRevenue: UnitDecimalInput;
+    readonly monthlyLaborSavings: UnitDecimalInput;
+    readonly monthlyAdditionalOperatingCost: UnitDecimalInput;
+}
+export interface KioskRoiOutput {
+    readonly monthlyNetBenefit: UnitDecimalOutput;
+    readonly paybackMonths: UnitDecimalOutput;
+}
+export interface UnattendedLaborSavingsInput {
+    readonly currentMonthlyLaborCost: UnitDecimalInput;
+    readonly unattendedMonthlyLaborCost: UnitDecimalInput;
+    readonly additionalMonthlySystemCost: UnitDecimalInput;
+}
+export interface UnattendedLaborSavingsOutput {
+    readonly grossMonthlyLaborSavings: UnitDecimalOutput;
+    readonly netMonthlySavings: UnitDecimalOutput;
+}
+export interface LockerRevenueInput {
+    readonly lockerCount: UnitDecimalInput;
+    readonly monthlyPricePerLocker: UnitDecimalInput;
+    readonly utilizationRatio: string;
+    readonly monthlyOperatingCost: UnitDecimalInput;
+}
+export interface LockerRevenueOutput {
+    readonly monthlyGrossRevenue: UnitDecimalOutput;
+    readonly monthlyNetRevenue: UnitDecimalOutput;
+}
+export interface StudyRoomScheduleRevenueInput {
+    readonly bookableRoomHours: UnitDecimalInput;
+    readonly bookingRatio: string;
+    readonly averageHourlyPrice: UnitDecimalInput;
+    readonly monthlyOperatingCost: UnitDecimalInput;
+}
+export interface StudyRoomScheduleRevenueOutput {
+    readonly bookedRoomHours: UnitDecimalOutput;
+    readonly monthlyGrossRevenue: UnitDecimalOutput;
+    readonly monthlyNetRevenue: UnitDecimalOutput;
+}
+export interface SecurityCostBreakEvenInput {
+    readonly monthlyBaseFixedCost: UnitDecimalInput;
+    readonly monthlySecurityCost: UnitDecimalInput;
+    readonly unitPrice: UnitDecimalInput;
+    readonly unitVariableCost: UnitDecimalInput;
+}
+export interface SecurityCostBreakEvenOutput {
+    readonly totalMonthlyFixedCost: UnitDecimalOutput;
+    readonly contributionMarginPerUnit: UnitDecimalOutput;
+    readonly breakEvenQuantity: UnitDecimalOutput;
+}
 export interface UnitDecimalOutput {
     readonly value: string;
     readonly unit: string;
@@ -103,4 +176,18 @@ export declare function calculateDateDifference(input: DateDifferenceInput, opti
 export declare function calculateDateDifference(input: unknown, options: unknown): CalculatorResult<DateDifferenceOutput>;
 export declare function calculateCompoundInterest(input: CompoundInterestInput, options: CalculatorExecutionOptions): CalculatorResult<CompoundInterestOutput>;
 export declare function calculateCompoundInterest(input: unknown, options: unknown): CalculatorResult<CompoundInterestOutput>;
+export declare function calculateStudycafeSeatOccupancy(input: StudycafeSeatOccupancyInput, options: CalculatorExecutionOptions): CalculatorResult<StudycafeSeatOccupancyOutput>;
+export declare function calculateStudycafeSeatOccupancy(input: unknown, options: unknown): CalculatorResult<StudycafeSeatOccupancyOutput>;
+export declare function calculateStudycafeBreakEven(input: StudycafeBreakEvenInput, options: CalculatorExecutionOptions): CalculatorResult<StudycafeBreakEvenOutput>;
+export declare function calculateStudycafeBreakEven(input: unknown, options: unknown): CalculatorResult<StudycafeBreakEvenOutput>;
+export declare function calculateKioskRoi(input: KioskRoiInput, options: CalculatorExecutionOptions): CalculatorResult<KioskRoiOutput>;
+export declare function calculateKioskRoi(input: unknown, options: unknown): CalculatorResult<KioskRoiOutput>;
+export declare function calculateUnattendedLaborSavings(input: UnattendedLaborSavingsInput, options: CalculatorExecutionOptions): CalculatorResult<UnattendedLaborSavingsOutput>;
+export declare function calculateUnattendedLaborSavings(input: unknown, options: unknown): CalculatorResult<UnattendedLaborSavingsOutput>;
+export declare function calculateLockerRevenue(input: LockerRevenueInput, options: CalculatorExecutionOptions): CalculatorResult<LockerRevenueOutput>;
+export declare function calculateLockerRevenue(input: unknown, options: unknown): CalculatorResult<LockerRevenueOutput>;
+export declare function calculateStudyRoomScheduleRevenue(input: StudyRoomScheduleRevenueInput, options: CalculatorExecutionOptions): CalculatorResult<StudyRoomScheduleRevenueOutput>;
+export declare function calculateStudyRoomScheduleRevenue(input: unknown, options: unknown): CalculatorResult<StudyRoomScheduleRevenueOutput>;
+export declare function calculateSecurityCostBreakEven(input: SecurityCostBreakEvenInput, options: CalculatorExecutionOptions): CalculatorResult<SecurityCostBreakEvenOutput>;
+export declare function calculateSecurityCostBreakEven(input: unknown, options: unknown): CalculatorResult<SecurityCostBreakEvenOutput>;
 //# sourceMappingURL=index.d.ts.map

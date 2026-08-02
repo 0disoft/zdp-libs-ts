@@ -7,8 +7,15 @@ import {
   calculateCompoundInterest,
   calculateDataTransferTime,
   calculateDateDifference,
+  calculateKioskRoi,
+  calculateLockerRevenue,
   calculateMarginMarkup,
-  calculatePercentageChange
+  calculatePercentageChange,
+  calculateSecurityCostBreakEven,
+  calculateStudycafeBreakEven,
+  calculateStudycafeSeatOccupancy,
+  calculateStudyRoomScheduleRevenue,
+  calculateUnattendedLaborSavings
 } from '../src/calculator-engine/index';
 import type { CalculatorErrorCode } from '../src/calculator-engine/index';
 
@@ -20,7 +27,14 @@ interface ConformanceCase {
     | 'break-even-point'
     | 'data-transfer-time'
     | 'date-difference'
-    | 'compound-interest';
+    | 'compound-interest'
+    | 'studycafe-seat-occupancy'
+    | 'studycafe-break-even'
+    | 'kiosk-roi'
+    | 'unattended-labor-savings'
+    | 'locker-revenue'
+    | 'study-room-schedule-revenue'
+    | 'security-cost-break-even';
   readonly input: Readonly<Record<string, unknown>>;
   readonly decimalPlaces: number | undefined;
   readonly expected:
@@ -228,6 +242,145 @@ describe('calculator engine', () => {
       error: { code: 'limit_exceeded', field: 'compounding_periods' }
     });
   });
+
+  it('keeps occupancy percentages invariant when capacity and usage scale together', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 4
+    } as const;
+    const base = calculateStudycafeSeatOccupancy(
+      {
+        seatCount: { value: '10', unit: 'seats' },
+        openingDaysPerMonth: { value: '20', unit: 'days' },
+        openingHoursPerDay: { value: '8', unit: 'hours' },
+        occupiedSeatHours: { value: '400', unit: 'seat_hours' }
+      },
+      options
+    );
+    const scaled = calculateStudycafeSeatOccupancy(
+      {
+        seatCount: { value: '100', unit: 'seats' },
+        openingDaysPerMonth: { value: '20', unit: 'days' },
+        openingHoursPerDay: { value: '8', unit: 'hours' },
+        occupiedSeatHours: { value: '4000', unit: 'seat_hours' }
+      },
+      options
+    );
+
+    expect(base.ok).toBe(true);
+    expect(scaled.ok).toBe(true);
+    if (!base.ok || !scaled.ok) {
+      throw new Error('Expected scaled seat occupancy inputs to succeed.');
+    }
+    expect(base.value.occupancyPercentage).toEqual(
+      scaled.value.occupancyPercentage
+    );
+    expect(base.value.occupancyPercentage.value).toBe('25.0000');
+  });
+
+  it('keeps payback and break-even quantities invariant under equal monetary scaling', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 4
+    } as const;
+    const kioskBase = calculateKioskRoi(
+      {
+        initialInvestment: { value: '6000', unit: 'USD' },
+        monthlyIncrementalRevenue: { value: '400', unit: 'USD' },
+        monthlyLaborSavings: { value: '300', unit: 'USD' },
+        monthlyAdditionalOperatingCost: { value: '100', unit: 'USD' }
+      },
+      options
+    );
+    const kioskScaled = calculateKioskRoi(
+      {
+        initialInvestment: { value: '60000', unit: 'USD' },
+        monthlyIncrementalRevenue: { value: '4000', unit: 'USD' },
+        monthlyLaborSavings: { value: '3000', unit: 'USD' },
+        monthlyAdditionalOperatingCost: { value: '1000', unit: 'USD' }
+      },
+      options
+    );
+    const securityBase = calculateSecurityCostBreakEven(
+      {
+        monthlyBaseFixedCost: { value: '800', unit: 'USD' },
+        monthlySecurityCost: { value: '200', unit: 'USD' },
+        unitPrice: { value: '50', unit: 'USD' },
+        unitVariableCost: { value: '30', unit: 'USD' }
+      },
+      options
+    );
+    const securityScaled = calculateSecurityCostBreakEven(
+      {
+        monthlyBaseFixedCost: { value: '8000', unit: 'USD' },
+        monthlySecurityCost: { value: '2000', unit: 'USD' },
+        unitPrice: { value: '500', unit: 'USD' },
+        unitVariableCost: { value: '300', unit: 'USD' }
+      },
+      options
+    );
+
+    expect(kioskBase.ok).toBe(true);
+    expect(kioskScaled.ok).toBe(true);
+    expect(securityBase.ok).toBe(true);
+    expect(securityScaled.ok).toBe(true);
+    if (!kioskBase.ok || !kioskScaled.ok || !securityBase.ok || !securityScaled.ok) {
+      throw new Error('Expected scaled payback and break-even inputs to succeed.');
+    }
+    expect(kioskBase.value.paybackMonths).toEqual(kioskScaled.value.paybackMonths);
+    expect(securityBase.value.breakEvenQuantity).toEqual(
+      securityScaled.value.breakEvenQuantity
+    );
+  });
+
+  it('rejects currency drift across each new monetary calculator boundary', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 2
+    } as const;
+
+    expect(
+      calculateUnattendedLaborSavings(
+        {
+          currentMonthlyLaborCost: { value: '1000', unit: 'USD' },
+          unattendedMonthlyLaborCost: { value: '500', unit: 'EUR' },
+          additionalMonthlySystemCost: { value: '100', unit: 'USD' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'incompatible_units' }
+    });
+    expect(
+      calculateLockerRevenue(
+        {
+          lockerCount: { value: '10', unit: 'lockers' },
+          monthlyPricePerLocker: { value: '20', unit: 'USD' },
+          utilizationRatio: '0.5',
+          monthlyOperatingCost: { value: '50', unit: 'EUR' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'incompatible_units' }
+    });
+    expect(
+      calculateStudyRoomScheduleRevenue(
+        {
+          bookableRoomHours: { value: '100', unit: 'room_hours' },
+          bookingRatio: '0.5',
+          averageHourlyPrice: { value: '20', unit: 'USD' },
+          monthlyOperatingCost: { value: '50', unit: 'EUR' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'incompatible_units' }
+    });
+  });
 });
 
 function runConformanceCase(testCase: ConformanceCase) {
@@ -287,12 +440,90 @@ function runConformanceCase(testCase: ConformanceCase) {
       { contractVersion }
     );
   }
-  return calculateCompoundInterest(
+  if (testCase.calculatorId === 'compound-interest') {
+    return calculateCompoundInterest(
+      {
+        principal: testCase.input.principal,
+        nominalAnnualRate: testCase.input.nominal_annual_rate,
+        compoundingPeriods: testCase.input.compounding_periods,
+        compoundingFrequency: testCase.input.compounding_frequency
+      },
+      options
+    );
+  }
+  if (testCase.calculatorId === 'studycafe-seat-occupancy') {
+    return calculateStudycafeSeatOccupancy(
+      {
+        seatCount: testCase.input.seat_count,
+        openingDaysPerMonth: testCase.input.opening_days_per_month,
+        openingHoursPerDay: testCase.input.opening_hours_per_day,
+        occupiedSeatHours: testCase.input.occupied_seat_hours
+      },
+      options
+    );
+  }
+  if (testCase.calculatorId === 'studycafe-break-even') {
+    return calculateStudycafeBreakEven(
+      {
+        seatCount: testCase.input.seat_count,
+        openingDaysPerMonth: testCase.input.opening_days_per_month,
+        openingHoursPerDay: testCase.input.opening_hours_per_day,
+        averageSeatHourPrice: testCase.input.average_seat_hour_price,
+        monthlyFixedCost: testCase.input.monthly_fixed_cost,
+        variableCostRatio: testCase.input.variable_cost_ratio
+      },
+      options
+    );
+  }
+  if (testCase.calculatorId === 'kiosk-roi') {
+    return calculateKioskRoi(
+      {
+        initialInvestment: testCase.input.initial_investment,
+        monthlyIncrementalRevenue: testCase.input.monthly_incremental_revenue,
+        monthlyLaborSavings: testCase.input.monthly_labor_savings,
+        monthlyAdditionalOperatingCost: testCase.input.monthly_additional_operating_cost
+      },
+      options
+    );
+  }
+  if (testCase.calculatorId === 'unattended-labor-savings') {
+    return calculateUnattendedLaborSavings(
+      {
+        currentMonthlyLaborCost: testCase.input.current_monthly_labor_cost,
+        unattendedMonthlyLaborCost: testCase.input.unattended_monthly_labor_cost,
+        additionalMonthlySystemCost: testCase.input.additional_monthly_system_cost
+      },
+      options
+    );
+  }
+  if (testCase.calculatorId === 'locker-revenue') {
+    return calculateLockerRevenue(
+      {
+        lockerCount: testCase.input.locker_count,
+        monthlyPricePerLocker: testCase.input.monthly_price_per_locker,
+        utilizationRatio: testCase.input.utilization_ratio,
+        monthlyOperatingCost: testCase.input.monthly_operating_cost
+      },
+      options
+    );
+  }
+  if (testCase.calculatorId === 'study-room-schedule-revenue') {
+    return calculateStudyRoomScheduleRevenue(
+      {
+        bookableRoomHours: testCase.input.bookable_room_hours,
+        bookingRatio: testCase.input.booking_ratio,
+        averageHourlyPrice: testCase.input.average_hourly_price,
+        monthlyOperatingCost: testCase.input.monthly_operating_cost
+      },
+      options
+    );
+  }
+  return calculateSecurityCostBreakEven(
     {
-      principal: testCase.input.principal,
-      nominalAnnualRate: testCase.input.nominal_annual_rate,
-      compoundingPeriods: testCase.input.compounding_periods,
-      compoundingFrequency: testCase.input.compounding_frequency
+      monthlyBaseFixedCost: testCase.input.monthly_base_fixed_cost,
+      monthlySecurityCost: testCase.input.monthly_security_cost,
+      unitPrice: testCase.input.unit_price,
+      unitVariableCost: testCase.input.unit_variable_cost
     },
     options
   );
@@ -304,6 +535,50 @@ function toContractOutput(value: unknown): Record<string, unknown> {
   }
   if ('percentageChange' in value) {
     return { percentage_change: value.percentageChange };
+  }
+  if ('availableSeatHours' in value) {
+    return {
+      available_seat_hours: value.availableSeatHours,
+      occupancy_percentage: value.occupancyPercentage
+    };
+  }
+  if ('breakEvenRevenue' in value) {
+    return {
+      break_even_revenue: value.breakEvenRevenue,
+      break_even_occupancy_percentage: value.breakEvenOccupancyPercentage
+    };
+  }
+  if ('monthlyNetBenefit' in value) {
+    return {
+      monthly_net_benefit: value.monthlyNetBenefit,
+      payback_months: value.paybackMonths
+    };
+  }
+  if ('grossMonthlyLaborSavings' in value) {
+    return {
+      gross_monthly_labor_savings: value.grossMonthlyLaborSavings,
+      net_monthly_savings: value.netMonthlySavings
+    };
+  }
+  if ('bookedRoomHours' in value) {
+    return {
+      booked_room_hours: value.bookedRoomHours,
+      monthly_gross_revenue: value.monthlyGrossRevenue,
+      monthly_net_revenue: value.monthlyNetRevenue
+    };
+  }
+  if ('monthlyGrossRevenue' in value) {
+    return {
+      monthly_gross_revenue: value.monthlyGrossRevenue,
+      monthly_net_revenue: value.monthlyNetRevenue
+    };
+  }
+  if ('totalMonthlyFixedCost' in value) {
+    return {
+      total_monthly_fixed_cost: value.totalMonthlyFixedCost,
+      contribution_margin_per_unit: value.contributionMarginPerUnit,
+      break_even_quantity: value.breakEvenQuantity
+    };
   }
   if ('breakEvenQuantity' in value) {
     return {
@@ -363,7 +638,14 @@ function parseConformanceCase(value: unknown, index: number): ConformanceCase {
     calculatorId !== 'break-even-point' &&
     calculatorId !== 'data-transfer-time' &&
     calculatorId !== 'date-difference' &&
-    calculatorId !== 'compound-interest'
+    calculatorId !== 'compound-interest' &&
+    calculatorId !== 'studycafe-seat-occupancy' &&
+    calculatorId !== 'studycafe-break-even' &&
+    calculatorId !== 'kiosk-roi' &&
+    calculatorId !== 'unattended-labor-savings' &&
+    calculatorId !== 'locker-revenue' &&
+    calculatorId !== 'study-room-schedule-revenue' &&
+    calculatorId !== 'security-cost-break-even'
   ) {
     throw new Error(`Unsupported conformance calculator ${calculatorId}.`);
   }
