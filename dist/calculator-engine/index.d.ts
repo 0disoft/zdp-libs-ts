@@ -1,16 +1,25 @@
-export declare const CALCULATOR_ENGINE_VERSION: "0.3.0";
+export declare const CALCULATOR_ENGINE_VERSION: "0.4.0";
 export declare const CALCULATOR_CONTRACT_VERSION: "1.0.0";
 export declare const CALCULATOR_ROUNDING_MODE: "half_away_from_zero";
 export declare const CALCULATOR_MAX_INPUT_DIGITS: 1000;
 export declare const CALCULATOR_MAX_DECIMAL_PLACES: 100;
 export declare const DATA_SIZE_UNITS: readonly ["bit", "byte", "kilobit", "kilobyte", "megabit", "megabyte", "gigabit", "gigabyte", "terabit", "terabyte", "kibibyte", "mebibyte", "gibibyte", "tebibyte"];
 export declare const DATA_RATE_UNITS: readonly ["bits_per_second", "kilobits_per_second", "megabits_per_second", "gigabits_per_second"];
+export declare const DATE_BOUNDARY_MODES: readonly ["exclusive", "inclusive"];
+export declare const COMPOUNDING_FREQUENCIES: readonly ["1_per_year", "2_per_year", "4_per_year", "12_per_year", "365_per_year"];
+export declare const COMPOUND_INTEREST_MAX_YEARS: 100;
+export declare const COMPOUND_INTEREST_MAX_POWER_DIGITS: 250000;
 export type DataSizeUnit = (typeof DATA_SIZE_UNITS)[number];
 export type DataRateUnit = (typeof DATA_RATE_UNITS)[number];
-export type CalculatorErrorCode = 'invalid_input' | 'domain_error' | 'limit_exceeded' | 'contract_mismatch' | 'denominator_zero' | 'non_positive_contribution_margin' | 'unsupported_unit' | 'incompatible_units' | 'precision_policy_required' | 'rounding_policy_required';
+export type DateBoundaryMode = (typeof DATE_BOUNDARY_MODES)[number];
+export type CompoundingFrequency = (typeof COMPOUNDING_FREQUENCIES)[number];
+export type CalculatorErrorCode = 'invalid_input' | 'domain_error' | 'limit_exceeded' | 'contract_mismatch' | 'denominator_zero' | 'non_positive_contribution_margin' | 'unsupported_unit' | 'incompatible_units' | 'precision_policy_required' | 'rounding_policy_required' | 'invalid_date_range';
 export interface CalculatorExecutionOptions {
     readonly contractVersion: string;
     readonly decimalPlaces: number;
+}
+export interface ExactIntegerExecutionOptions {
+    readonly contractVersion: string;
 }
 export interface UnitDecimalInput {
     readonly value: string;
@@ -47,6 +56,27 @@ export interface DataTransferTimeInput {
 export interface DataTransferTimeOutput {
     readonly transferDuration: UnitDecimalOutput;
 }
+export interface DateDifferenceInput {
+    readonly startDate: string;
+    readonly endDate: string;
+    readonly boundaryMode: DateBoundaryMode;
+}
+export interface DateDifferenceOutput {
+    readonly calendarDayCount: {
+        readonly value: number;
+        readonly unit: 'days';
+    };
+}
+export interface CompoundInterestInput {
+    readonly principal: UnitDecimalInput;
+    readonly nominalAnnualRate: string;
+    readonly compoundingPeriods: string;
+    readonly compoundingFrequency: CompoundingFrequency;
+}
+export interface CompoundInterestOutput {
+    readonly futureValue: UnitDecimalOutput;
+    readonly interestEarned: UnitDecimalOutput;
+}
 export interface UnitDecimalOutput {
     readonly value: string;
     readonly unit: string;
@@ -69,4 +99,8 @@ export declare function calculateBreakEvenPoint(input: BreakEvenPointInput, opti
 export declare function calculateBreakEvenPoint(input: unknown, options: unknown): CalculatorResult<BreakEvenPointOutput>;
 export declare function calculateDataTransferTime(input: DataTransferTimeInput, options: CalculatorExecutionOptions): CalculatorResult<DataTransferTimeOutput>;
 export declare function calculateDataTransferTime(input: unknown, options: unknown): CalculatorResult<DataTransferTimeOutput>;
+export declare function calculateDateDifference(input: DateDifferenceInput, options: ExactIntegerExecutionOptions): CalculatorResult<DateDifferenceOutput>;
+export declare function calculateDateDifference(input: unknown, options: unknown): CalculatorResult<DateDifferenceOutput>;
+export declare function calculateCompoundInterest(input: CompoundInterestInput, options: CalculatorExecutionOptions): CalculatorResult<CompoundInterestOutput>;
+export declare function calculateCompoundInterest(input: unknown, options: unknown): CalculatorResult<CompoundInterestOutput>;
 //# sourceMappingURL=index.d.ts.map

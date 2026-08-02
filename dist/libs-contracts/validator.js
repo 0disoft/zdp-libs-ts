@@ -60,7 +60,9 @@ const REVIEWED_CALCULATOR_IDS = [
     'percentage-change',
     'margin-markup',
     'break-even-point',
-    'data-transfer-time'
+    'data-transfer-time',
+    'date-difference',
+    'compound-interest'
 ];
 const CALCULATOR_PRECISION_POLICY = 'canonical_ascii_decimal_string_max_1000_digits';
 const CALCULATOR_ROUNDING_POLICY = 'caller_decimal_places_0_to_100_half_away_from_zero';
@@ -467,17 +469,27 @@ function validateCalculatorInputHandoff(catalog, conformance, diagnostics) {
             });
             continue;
         }
-        const requiredEngineVersion = calculatorId === 'data-transfer-time' ? '0.3.0' : '0.x';
+        const requiredEngineVersion = calculatorId === 'data-transfer-time'
+            ? '0.3.0'
+            : calculatorId === 'date-difference' || calculatorId === 'compound-interest'
+                ? '0.4.0'
+                : '0.x';
+        const requiredPrecisionPolicy = calculatorId === 'date-difference'
+            ? 'exact_integer_calendar_days_years_0001_to_9999'
+            : CALCULATOR_PRECISION_POLICY;
+        const requiredRoundingPolicy = calculatorId === 'date-difference'
+            ? 'not_applicable_exact_integer'
+            : CALCULATOR_ROUNDING_POLICY;
         if (definition.lifecycleStatus !== 'reviewed' ||
             definition.contractVersion !== CALCULATOR_CONTRACT_VERSION ||
             !definition.compatibleEngineVersions.includes(requiredEngineVersion) ||
-            definition.precisionPolicy !== CALCULATOR_PRECISION_POLICY ||
-            definition.roundingPolicy !== CALCULATOR_ROUNDING_POLICY) {
+            definition.precisionPolicy !== requiredPrecisionPolicy ||
+            definition.roundingPolicy !== requiredRoundingPolicy) {
             diagnostics.push({
                 code: 'LIBS_CALCULATOR_DEFINITION_POLICY_DRIFT',
                 file: '../zdp-api-contracts/contracts/calculators/catalog.yaml',
                 path: `definitions.${calculatorId}`,
-                message: `Calculator \`${calculatorId}\` must keep the reviewed 1.0.0 decimal and rounding policy for engine ${requiredEngineVersion}.`
+                message: `Calculator \`${calculatorId}\` must keep its reviewed 1.0.0 precision and rounding policy for engine ${requiredEngineVersion}.`
             });
         }
         const requiredErrorCodes = calculatorId === 'break-even-point'
@@ -499,13 +511,30 @@ function validateCalculatorInputHandoff(catalog, conformance, diagnostics) {
                     'precision_policy_required',
                     'rounding_policy_required'
                 ]
-                : [
-                    'invalid_input',
-                    'domain_error',
-                    'limit_exceeded',
-                    'contract_mismatch',
-                    'denominator_zero'
-                ];
+                : calculatorId === 'date-difference'
+                    ? [
+                        'invalid_input',
+                        'domain_error',
+                        'limit_exceeded',
+                        'contract_mismatch',
+                        'invalid_date_range'
+                    ]
+                    : calculatorId === 'compound-interest'
+                        ? [
+                            'invalid_input',
+                            'domain_error',
+                            'limit_exceeded',
+                            'contract_mismatch',
+                            'precision_policy_required',
+                            'rounding_policy_required'
+                        ]
+                        : [
+                            'invalid_input',
+                            'domain_error',
+                            'limit_exceeded',
+                            'contract_mismatch',
+                            'denominator_zero'
+                        ];
         for (const errorCode of requiredErrorCodes) {
             if (!definition.errorCodes.includes(errorCode)) {
                 diagnostics.push({

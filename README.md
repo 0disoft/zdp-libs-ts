@@ -16,7 +16,7 @@ ZDP TypeScript 공통 계약과 구현 중립 순수 계산 라이브러리 저�
 - `zdp-api-contracts` 실제 route/error/webhook/SDK input/API catalog 계약 드리프트 검사
 - 최소 public export skeleton
 - public npm package 후보 메타데이터, MIT license, package file whitelist
-- 국가 정책과 로케일 표시에 의존하지 않는 `percentage-change`, `margin-markup`, `break-even-point`, `data-transfer-time` 순수 계산 엔진
+- 국가 정책과 로케일 표시에 의존하지 않는 `percentage-change`, `margin-markup`, `break-even-point`, `data-transfer-time`, `date-difference`, `compound-interest` 순수 계산 엔진
 
 ## 현재 제외
 

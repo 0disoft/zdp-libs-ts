@@ -4,7 +4,9 @@ import { join } from 'node:path';
 import {
   CALCULATOR_CONTRACT_VERSION,
   calculateBreakEvenPoint,
+  calculateCompoundInterest,
   calculateDataTransferTime,
+  calculateDateDifference,
   calculateMarginMarkup,
   calculatePercentageChange
 } from '../src/calculator-engine/index';
@@ -16,14 +18,16 @@ interface ConformanceCase {
     | 'percentage-change'
     | 'margin-markup'
     | 'break-even-point'
-    | 'data-transfer-time';
+    | 'data-transfer-time'
+    | 'date-difference'
+    | 'compound-interest';
   readonly input: Readonly<Record<string, unknown>>;
-  readonly decimalPlaces: number;
+  readonly decimalPlaces: number | undefined;
   readonly expected:
     | {
         readonly status: 'success';
         readonly output: Readonly<
-          Record<string, { readonly value: string; readonly unit: string }>
+          Record<string, { readonly value: string | number; readonly unit: string }>
         >;
       }
     | {
@@ -172,12 +176,69 @@ describe('calculator engine', () => {
       error: { code: 'unsupported_unit', field: 'data_rate.unit' }
     });
   });
+
+  it('keeps compound-interest principal scaling exact before final rounding', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 4
+    } as const;
+    const base = calculateCompoundInterest(
+      {
+        principal: { value: '10', unit: 'USD' },
+        nominalAnnualRate: '0.12',
+        compoundingPeriods: '6',
+        compoundingFrequency: '12_per_year'
+      },
+      options
+    );
+    const scaled = calculateCompoundInterest(
+      {
+        principal: { value: '100', unit: 'USD' },
+        nominalAnnualRate: '0.12',
+        compoundingPeriods: '6',
+        compoundingFrequency: '12_per_year'
+      },
+      options
+    );
+
+    expect(base.ok).toBe(true);
+    expect(scaled.ok).toBe(true);
+    if (!base.ok || !scaled.ok) {
+      throw new Error('Expected scaled compound-interest inputs to succeed.');
+    }
+    expect(scaled.value.futureValue.value).toBe('106.1520');
+    expect(base.value.futureValue.value).toBe('10.6152');
+    expect(scaled.value.interestEarned.value).toBe('6.1520');
+    expect(base.value.interestEarned.value).toBe('0.6152');
+  });
+
+  it('rejects compound powers whose exact rational would exceed the work budget', () => {
+    const result = calculateCompoundInterest(
+      {
+        principal: { value: '1', unit: 'USD' },
+        nominalAnnualRate: '9'.repeat(1000),
+        compoundingPeriods: '36500',
+        compoundingFrequency: '365_per_year'
+      },
+      { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+    );
+
+    expect(result).toEqual({
+      ok: false,
+      error: { code: 'limit_exceeded', field: 'compounding_periods' }
+    });
+  });
 });
 
 function runConformanceCase(testCase: ConformanceCase) {
+  const contractVersion =
+    testCase.expected.status === 'error' &&
+    testCase.expected.errorCode === 'contract_mismatch'
+      ? '2.0.0'
+      : CALCULATOR_CONTRACT_VERSION;
   const options = {
-    contractVersion: CALCULATOR_CONTRACT_VERSION,
-    decimalPlaces: testCase.decimalPlaces
+    contractVersion,
+    decimalPlaces: testCase.decimalPlaces ?? 0
   } as const;
   if (testCase.calculatorId === 'percentage-change') {
     return calculatePercentageChange(
@@ -207,10 +268,31 @@ function runConformanceCase(testCase: ConformanceCase) {
       options
     );
   }
-  return calculateDataTransferTime(
+  if (testCase.calculatorId === 'data-transfer-time') {
+    return calculateDataTransferTime(
+      {
+        dataSize: testCase.input.data_size,
+        dataRate: testCase.input.data_rate
+      },
+      options
+    );
+  }
+  if (testCase.calculatorId === 'date-difference') {
+    return calculateDateDifference(
+      {
+        startDate: testCase.input.start_date,
+        endDate: testCase.input.end_date,
+        boundaryMode: testCase.input.boundary_mode
+      },
+      { contractVersion }
+    );
+  }
+  return calculateCompoundInterest(
     {
-      dataSize: testCase.input.data_size,
-      dataRate: testCase.input.data_rate
+      principal: testCase.input.principal,
+      nominalAnnualRate: testCase.input.nominal_annual_rate,
+      compoundingPeriods: testCase.input.compounding_periods,
+      compoundingFrequency: testCase.input.compounding_frequency
     },
     options
   );
@@ -231,6 +313,15 @@ function toContractOutput(value: unknown): Record<string, unknown> {
   }
   if ('transferDuration' in value) {
     return { transfer_duration: value.transferDuration };
+  }
+  if ('calendarDayCount' in value) {
+    return { calendar_day_count: value.calendarDayCount };
+  }
+  if ('futureValue' in value) {
+    return {
+      future_value: value.futureValue,
+      interest_earned: value.interestEarned
+    };
   }
   return {
     margin_percentage: value.marginPercentage,
@@ -270,7 +361,9 @@ function parseConformanceCase(value: unknown, index: number): ConformanceCase {
     calculatorId !== 'percentage-change' &&
     calculatorId !== 'margin-markup' &&
     calculatorId !== 'break-even-point' &&
-    calculatorId !== 'data-transfer-time'
+    calculatorId !== 'data-transfer-time' &&
+    calculatorId !== 'date-difference' &&
+    calculatorId !== 'compound-interest'
   ) {
     throw new Error(`Unsupported conformance calculator ${calculatorId}.`);
   }
@@ -278,7 +371,7 @@ function parseConformanceCase(value: unknown, index: number): ConformanceCase {
     throw new Error(`Conformance case ${id} must have input and options.`);
   }
   const decimalPlaces = value.options.decimal_places;
-  if (typeof decimalPlaces !== 'number') {
+  if (decimalPlaces !== undefined && typeof decimalPlaces !== 'number') {
     throw new Error(`Conformance case ${id} needs numeric decimal_places.`);
   }
   if (!isRecord(value.expected)) {
@@ -322,7 +415,7 @@ function parseConformanceCase(value: unknown, index: number): ConformanceCase {
 function parseExpectedOutput(
   output: Record<string, unknown>,
   caseId: string
-): Record<string, { readonly value: string; readonly unit: string }> {
+): Record<string, { readonly value: string | number; readonly unit: string }> {
   return Object.fromEntries(
     Object.entries(output).map(([key, value]) => {
       if (!isRecord(value)) {
@@ -331,12 +424,22 @@ function parseExpectedOutput(
       return [
         key,
         {
-          value: requireString(value.value, `${caseId}.${key}.value`),
+          value: requireOutputValue(value.value, `${caseId}.${key}.value`),
           unit: requireString(value.unit, `${caseId}.${key}.unit`)
         }
       ];
     })
   );
+}
+
+function requireOutputValue(value: unknown, path: string): string | number {
+  if (typeof value === 'string' && value.length > 0) {
+    return value;
+  }
+  if (typeof value === 'number' && Number.isSafeInteger(value)) {
+    return value;
+  }
+  throw new Error(`${path} must be a non-empty string or safe integer.`);
 }
 
 function requireString(value: unknown, path: string): string {
@@ -361,6 +464,7 @@ function isCalculatorErrorCode(value: string): value is CalculatorErrorCode {
     'unsupported_unit',
     'incompatible_units',
     'precision_policy_required',
-    'rounding_policy_required'
+    'rounding_policy_required',
+    'invalid_date_range'
   ].includes(value);
 }

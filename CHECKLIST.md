@@ -23,9 +23,11 @@
 
 ## Calculator Engine
 
-- `percentage-change`, `margin-markup`, `break-even-point`, `data-transfer-time`은 sibling `zdp-api-contracts`의 reviewed 1.0.0 정의와 적합성 벡터를 따른다.
+- `percentage-change`, `margin-markup`, `break-even-point`, `data-transfer-time`, `date-difference`, `compound-interest`는 sibling `zdp-api-contracts`의 reviewed 1.0.0 정의와 적합성 벡터를 따른다.
 - decimal 입력은 로케일 구분자가 없는 canonical ASCII string이며 내부 비율 계산은 `BigInt`로 정확하게 수행한다.
 - 결과 반올림은 호출자가 지정한 0-100 소수 자리에서 half-away-from-zero로 한 번만 수행한다.
+- 날짜 차이는 연도 0001~9999의 엄격한 ASCII `YYYY-MM-DD`와 역산 그레고리력 정수 일수만 다룬다.
+- 복리는 빈도별 100년과 정확 유리수 거듭제곱 작업량 상한을 지키며 중간 반올림을 하지 않는다.
 - 제품 페이지, 번역, locale parsing, SEO, 광고, 크레딧, 세금·노동·규제 규칙은 엔진 경계 밖이다.
 
 ## Glossary

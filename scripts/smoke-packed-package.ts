@@ -37,7 +37,9 @@ await writeFile(
   `import {
   CALCULATOR_CONTRACT_VERSION,
   calculateBreakEvenPoint,
+  calculateCompoundInterest,
   calculateDataTransferTime,
+  calculateDateDifference,
   calculatePercentageChange
 } from 'zdp-libs-ts/calculator-engine';
 import { CALCULATOR_ENGINE_VERSION } from 'zdp-libs-ts';
@@ -61,6 +63,23 @@ const transferTime = calculateDataTransferTime(
   },
   { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
 );
+const dateDifference = calculateDateDifference(
+  {
+    startDate: '2024-02-28',
+    endDate: '2024-03-01',
+    boundaryMode: 'exclusive'
+  },
+  { contractVersion: CALCULATOR_CONTRACT_VERSION }
+);
+const compoundInterest = calculateCompoundInterest(
+  {
+    principal: { value: '100', unit: 'USD' },
+    nominalAnnualRate: '0.05',
+    compoundingPeriods: '2',
+    compoundingFrequency: '1_per_year'
+  },
+  { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+);
 if (
   !result.ok ||
   result.value.percentageChange.value !== '25.00' ||
@@ -68,7 +87,11 @@ if (
   breakEven.value.breakEvenQuantity.value !== '50.00' ||
   !transferTime.ok ||
   transferTime.value.transferDuration.value !== '80.00' ||
-  CALCULATOR_ENGINE_VERSION !== '0.3.0'
+  !dateDifference.ok ||
+  dateDifference.value.calendarDayCount.value !== 2 ||
+  !compoundInterest.ok ||
+  compoundInterest.value.futureValue.value !== '110.25' ||
+  CALCULATOR_ENGINE_VERSION !== '0.4.0'
 ) {
   throw new Error('Calculator engine tarball result was invalid.');
 }

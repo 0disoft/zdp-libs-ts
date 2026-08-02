@@ -3,7 +3,9 @@ import {
   SCHEMA_GENERATION_TARGETS,
   CALCULATOR_CONTRACT_VERSION,
   calculateBreakEvenPoint,
+  calculateCompoundInterest,
   calculateDataTransferTime,
+  calculateDateDifference,
   calculatePercentageChange,
   defineEnvContractMetadata,
   defineEventContractMetadata,
@@ -217,6 +219,38 @@ describe('public contract package exports', () => {
       ok: true,
       value: {
         transferDuration: { value: '80.00', unit: 'seconds' }
+      }
+    });
+    expect(
+      calculateDateDifference(
+        {
+          startDate: '2024-02-28',
+          endDate: '2024-03-01',
+          boundaryMode: 'exclusive'
+        },
+        { contractVersion: CALCULATOR_CONTRACT_VERSION }
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        calendarDayCount: { value: 2, unit: 'days' }
+      }
+    });
+    expect(
+      calculateCompoundInterest(
+        {
+          principal: { value: '100', unit: 'USD' },
+          nominalAnnualRate: '0.05',
+          compoundingPeriods: '2',
+          compoundingFrequency: '1_per_year'
+        },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        futureValue: { value: '110.25', unit: 'USD' },
+        interestEarned: { value: '10.25', unit: 'USD' }
       }
     });
   });
