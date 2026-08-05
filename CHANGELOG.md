@@ -1,5 +1,11 @@
 # CHANGELOG.md
 
+## 0.14.1
+
+### Fixed
+
+- 복리, 데이터 전송 시간, 날짜 차이의 required/reviewed 엔진 버전 선언을 현재 `0.6.0` 엔진으로 올리고, sibling catalog의 explicit `0.6.0` 선언을 exact match로 요구하는 drift gate와 회귀 테스트를 정리했다.
+
 ## 0.14.0
 
 ### Added

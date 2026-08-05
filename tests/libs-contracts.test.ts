@@ -18,7 +18,11 @@ import {
   parsePackageBoundariesContract,
   parseSchemaContract
 } from '../src/libs-contracts/parser';
-import { validateLibsContracts } from '../src/libs-contracts/validator';
+import {
+  CALCULATOR_REQUIRED_ENGINE_VERSION,
+  validateLibsContracts
+} from '../src/libs-contracts/validator';
+import { CALCULATOR_ENGINE_VERSION } from '../src/calculator-engine/index';
 import type { LibsContracts } from '../src/libs-contracts/types';
 
 describe('libs contract checker', () => {
@@ -232,6 +236,52 @@ describe('libs contract checker', () => {
     );
     expect(result.diagnostics.map((item) => item.code)).toContain(
       'LIBS_CALCULATOR_CONFORMANCE_POLICY_DRIFT'
+    );
+  });
+
+  it('keeps the current engine version in the calculator review ledger', () => {
+    expect(CALCULATOR_REQUIRED_ENGINE_VERSION['compound-interest']).toBe(
+      CALCULATOR_ENGINE_VERSION
+    );
+    expect(CALCULATOR_REQUIRED_ENGINE_VERSION['data-transfer-time']).toBe(
+      CALCULATOR_ENGINE_VERSION
+    );
+    expect(CALCULATOR_REQUIRED_ENGINE_VERSION['date-difference']).toBe(
+      CALCULATOR_ENGINE_VERSION
+    );
+  });
+
+  it('fails when the reviewed catalog drops engine 0.6 compatibility', async () => {
+    const contracts = loadCommittedContracts();
+    const apiContractsInput = await loadCommittedApiContractsInput();
+    const definitions = apiContractsInput.calculatorCatalog.definitions.map(
+      (definition) =>
+        definition.id !== null &&
+        ['compound-interest', 'data-transfer-time', 'date-difference'].includes(
+          definition.id
+        )
+          ? {
+              ...definition,
+              compatibleEngineVersions:
+                definition.compatibleEngineVersions.filter(
+                  (version) => version !== '0.6.0'
+                )
+            }
+          : definition
+    );
+    const result = validateLibsContracts(contracts, {
+      apiContractsInput: {
+        ...apiContractsInput,
+        calculatorCatalog: {
+          ...apiContractsInput.calculatorCatalog,
+          definitions
+        }
+      }
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.diagnostics.map((item) => item.code)).toContain(
+      'LIBS_CALCULATOR_DEFINITION_POLICY_DRIFT'
     );
   });
 

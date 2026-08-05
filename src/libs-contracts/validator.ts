@@ -89,13 +89,13 @@ const REVIEWED_CALCULATOR_IDS = [
   'work-hours',
   'fuel-cost'
 ] as const;
-const CALCULATOR_REQUIRED_ENGINE_VERSION: Readonly<Record<string, string>> = {
+export const CALCULATOR_REQUIRED_ENGINE_VERSION: Readonly<Record<string, string>> = {
   'percentage-change': '0.x',
   'margin-markup': '0.x',
   'break-even-point': '0.x',
-  'data-transfer-time': '0.4.0',
-  'date-difference': '0.4.0',
-  'compound-interest': '0.4.0',
+  'data-transfer-time': '0.6.0',
+  'date-difference': '0.6.0',
+  'compound-interest': '0.6.0',
   'studycafe-seat-occupancy': '0.5.0',
   'studycafe-break-even': '0.5.0',
   'kiosk-roi': '0.5.0',
