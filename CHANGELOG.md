@@ -1,5 +1,17 @@
 # CHANGELOG.md
 
+## 0.14.0
+
+### Added
+
+- `calculateDiscount`, `calculateAge`, `calculateWorkHours`, `calculateFuelCost`를 추가했다.
+- 할인은 정가·역산 모드와 연속 할인율, 나이는 2월 29일 평년 2월 28일 관측을 포함한 역산 그레고리력 연·월·일 나이, 근무시간은 자정 넘김과 휴게시간 차감, 연료비는 km/L·L/100km·mpg(US gallon)와 왕복·인원 분담을 정확한 유리수 계산으로 처리한다.
+- 신규 25개 공통 적합성 사례와 공개 export, packed-package 소비자 검증을 추가했다.
+
+### Changed
+
+- 계산 엔진 버전을 `0.6.0`으로 올리고 sibling API의 reviewed 계산기 17개 전체에 대한 계약 드리프트 검사를 적용했다.
+
 ## 0.13.0
 
 ### Added

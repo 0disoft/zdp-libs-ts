@@ -6,6 +6,7 @@ import {
   calculateCompoundInterest,
   calculateDataTransferTime,
   calculateDateDifference,
+  calculateDiscount,
   calculatePercentageChange,
   calculateSecurityCostBreakEven,
   calculateStudycafeSeatOccupancy,
@@ -20,7 +21,8 @@ import type { GlossaryTermId, I18nMessageKey } from '../src/index';
 import { defineSchemaMetadata as defineSchemaMetadataFromSubpath } from '../src/schema/index';
 import {
   calculateMarginMarkup as calculateMarginMarkupFromSubpath,
-  calculateStudyRoomScheduleRevenue as calculateStudyRoomScheduleRevenueFromSubpath
+  calculateStudyRoomScheduleRevenue as calculateStudyRoomScheduleRevenueFromSubpath,
+  calculateDiscount as calculateDiscountFromSubpath
 } from '../src/calculator-engine/index';
 
 describe('public contract package exports', () => {
@@ -226,6 +228,26 @@ describe('public contract package exports', () => {
         transferDuration: { value: '80.00', unit: 'seconds' }
       }
     });
+    expect(
+      calculateDiscountFromSubpath(
+        {
+          originalPrice: { value: '80', unit: 'USD' },
+          discountRate1: '25',
+          discountRate2: '0',
+          mode: 'final-price'
+        },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        originalPrice: { value: '80.00', unit: 'USD' },
+        finalPrice: { value: '60.00', unit: 'USD' },
+        totalSavings: { value: '20.00', unit: 'USD' },
+        totalDiscountPercent: { value: '25.00', unit: 'percent' }
+      }
+    });
+    expect(calculateDiscount).toBe(calculateDiscountFromSubpath);
     expect(
       calculateDateDifference(
         {

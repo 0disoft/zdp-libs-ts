@@ -3,10 +3,13 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   CALCULATOR_CONTRACT_VERSION,
+  calculateAge,
   calculateBreakEvenPoint,
   calculateCompoundInterest,
   calculateDataTransferTime,
   calculateDateDifference,
+  calculateDiscount,
+  calculateFuelCost,
   calculateKioskRoi,
   calculateLockerRevenue,
   calculateMarginMarkup,
@@ -15,7 +18,8 @@ import {
   calculateStudycafeBreakEven,
   calculateStudycafeSeatOccupancy,
   calculateStudyRoomScheduleRevenue,
-  calculateUnattendedLaborSavings
+  calculateUnattendedLaborSavings,
+  calculateWorkHours
 } from '../src/calculator-engine/index';
 import type { CalculatorErrorCode } from '../src/calculator-engine/index';
 
@@ -34,7 +38,11 @@ interface ConformanceCase {
     | 'unattended-labor-savings'
     | 'locker-revenue'
     | 'study-room-schedule-revenue'
-    | 'security-cost-break-even';
+    | 'security-cost-break-even'
+    | 'discount'
+    | 'age'
+    | 'work-hours'
+    | 'fuel-cost';
   readonly input: Readonly<Record<string, unknown>>;
   readonly decimalPlaces: number | undefined;
   readonly expected:
@@ -381,6 +389,366 @@ describe('calculator engine', () => {
       error: { code: 'incompatible_units' }
     });
   });
+
+  it('keeps discount rates invariant under equal monetary scaling', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 2
+    } as const;
+    const base = calculateDiscount(
+      {
+        originalPrice: { value: '80', unit: 'USD' },
+        discountRate1: '10',
+        discountRate2: '5',
+        mode: 'final-price'
+      },
+      options
+    );
+    const scaled = calculateDiscount(
+      {
+        originalPrice: { value: '800000', unit: 'USD' },
+        discountRate1: '10',
+        discountRate2: '5',
+        mode: 'final-price'
+      },
+      options
+    );
+
+    expect(base.ok).toBe(true);
+    expect(scaled.ok).toBe(true);
+    if (!base.ok || !scaled.ok) {
+      throw new Error('Expected scaled discount inputs to succeed.');
+    }
+    expect(base.value.totalDiscountPercent).toEqual(
+      scaled.value.totalDiscountPercent
+    );
+    expect(base.value.totalDiscountPercent.value).toBe('14.50');
+    expect(base.value.finalPrice.value).toBe('68.40');
+    expect(scaled.value.finalPrice.value).toBe('684000.00');
+  });
+
+  it('round-trips discount reverse mode with consecutive rates', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 4
+    } as const;
+    const forward = calculateDiscount(
+      {
+        originalPrice: { value: '100', unit: 'USD' },
+        discountRate1: '20',
+        discountRate2: '10',
+        mode: 'final-price'
+      },
+      options
+    );
+    if (!forward.ok) {
+      throw new Error('Expected forward discount to succeed.');
+    }
+    const reverse = calculateDiscount(
+      {
+        originalPrice: {
+          value: forward.value.finalPrice.value,
+          unit: 'USD'
+        },
+        discountRate1: '20',
+        discountRate2: '10',
+        mode: 'original-price'
+      },
+      options
+    );
+
+    expect(reverse.ok).toBe(true);
+    if (!reverse.ok) {
+      throw new Error('Expected reverse discount to succeed.');
+    }
+    expect(reverse.value.originalPrice.value).toBe('100.0000');
+  });
+
+  it('rejects full discount and negative discount rates in both modes', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 2
+    } as const;
+
+    expect(
+      calculateDiscount(
+        {
+          originalPrice: { value: '80', unit: 'USD' },
+          discountRate1: '100',
+          discountRate2: '0',
+          mode: 'final-price'
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'domain_error', field: 'discount_rate_1' }
+    });
+    expect(
+      calculateDiscount(
+        {
+          originalPrice: { value: '80', unit: 'USD' },
+          discountRate1: '-1',
+          discountRate2: '0',
+          mode: 'original-price'
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'domain_error', field: 'discount_rate_1' }
+    });
+  });
+
+  it('borrows days from the previous month for month-end birthdays', () => {
+    const result = calculateAge(
+      { birthDate: '2020-01-31', referenceDate: '2020-03-01' },
+      { contractVersion: CALCULATOR_CONTRACT_VERSION }
+    );
+
+    expect(result).toEqual({
+      ok: true,
+      value: {
+        ageYears: { value: 0, unit: 'years' },
+        ageMonths: { value: 1, unit: 'months' },
+        ageDays: { value: 1, unit: 'days' },
+        daysLived: { value: 30, unit: 'days' },
+        daysUntilNextBirthday: { value: 336, unit: 'days' }
+      }
+    });
+  });
+
+  it('does not report twelve months for a leap-day birthday in a leap year', () => {
+    const result = calculateAge(
+      { birthDate: '1996-02-29', referenceDate: '2024-02-28' },
+      { contractVersion: CALCULATOR_CONTRACT_VERSION }
+    );
+
+    expect(result).toEqual({
+      ok: true,
+      value: {
+        ageYears: { value: 27, unit: 'years' },
+        ageMonths: { value: 11, unit: 'months' },
+        ageDays: { value: 30, unit: 'days' },
+        daysLived: { value: 10226, unit: 'days' },
+        daysUntilNextBirthday: { value: 1, unit: 'days' }
+      }
+    });
+  });
+
+  it('rejects timestamp strings and zero year for age inputs', () => {
+    expect(
+      calculateAge(
+        { birthDate: '2020-01-01T00:00', referenceDate: '2021-01-01' },
+        { contractVersion: CALCULATOR_CONTRACT_VERSION }
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'invalid_input', field: 'birth_date' }
+    });
+    expect(
+      calculateAge(
+        { birthDate: '0000-01-01', referenceDate: '0001-01-01' },
+        { contractVersion: CALCULATOR_CONTRACT_VERSION }
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'limit_exceeded', field: 'birth_date' }
+    });
+  });
+
+  it('handles midnight rollover and equal clock times for work hours', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 2
+    } as const;
+
+    expect(
+      calculateWorkHours(
+        {
+          startMinutes: { value: '1320', unit: 'minutes' },
+          endMinutes: { value: '360', unit: 'minutes' },
+          overnight: 'yes',
+          breakMinutes: { value: '0', unit: 'minutes' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        totalMinutes: { value: 480, unit: 'minutes' },
+        decimalHours: { value: '8.00', unit: 'hours' }
+      }
+    });
+    expect(
+      calculateWorkHours(
+        {
+          startMinutes: { value: '540', unit: 'minutes' },
+          endMinutes: { value: '540', unit: 'minutes' },
+          overnight: 'no',
+          breakMinutes: { value: '0', unit: 'minutes' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: true,
+      value: {
+        totalMinutes: { value: 0, unit: 'minutes' },
+        decimalHours: { value: '0.00', unit: 'hours' }
+      }
+    });
+  });
+
+  it('rejects breaks over the interval and clock minutes over 1439', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 2
+    } as const;
+
+    expect(
+      calculateWorkHours(
+        {
+          startMinutes: { value: '540', unit: 'minutes' },
+          endMinutes: { value: '1020', unit: 'minutes' },
+          overnight: 'no',
+          breakMinutes: { value: '500', unit: 'minutes' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'domain_error', field: 'break_minutes' }
+    });
+    expect(
+      calculateWorkHours(
+        {
+          startMinutes: { value: '1440', unit: 'minutes' },
+          endMinutes: { value: '1020', unit: 'minutes' },
+          overnight: 'no',
+          breakMinutes: { value: '0', unit: 'minutes' }
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'domain_error', field: 'start_minutes' }
+    });
+  });
+
+  it('keeps fuel consumption equivalent across ratio economy units', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 4
+    } as const;
+    const perLiter = calculateFuelCost(
+      {
+        distance: '100',
+        economy: '12.5',
+        fuelPrice: { value: '1.50', unit: 'USD' },
+        peopleCount: { value: '1', unit: 'people' },
+        economyUnit: 'km_per_liter',
+        trip: 'one-way'
+      },
+      options
+    );
+    const per100km = calculateFuelCost(
+      {
+        distance: '100',
+        economy: '8',
+        fuelPrice: { value: '1.50', unit: 'USD' },
+        peopleCount: { value: '1', unit: 'people' },
+        economyUnit: 'liters_per_100km',
+        trip: 'one-way'
+      },
+      options
+    );
+
+    expect(perLiter.ok).toBe(true);
+    expect(per100km.ok).toBe(true);
+    if (!perLiter.ok || !per100km.ok) {
+      throw new Error('Expected equivalent fuel economy inputs to succeed.');
+    }
+    expect(perLiter.value.fuelUsed).toEqual(per100km.value.fuelUsed);
+    expect(perLiter.value.fuelUsed).toEqual({
+      value: '8.0000',
+      unit: 'liters'
+    });
+  });
+
+  it('rejects malformed, negative, zero economy, and zero people fuel inputs', () => {
+    const options = {
+      contractVersion: CALCULATOR_CONTRACT_VERSION,
+      decimalPlaces: 2
+    } as const;
+
+    expect(
+      calculateFuelCost(
+        {
+          distance: '1,000',
+          economy: '12.5',
+          fuelPrice: { value: '1.80', unit: 'USD' },
+          peopleCount: { value: '1', unit: 'people' },
+          economyUnit: 'km_per_liter',
+          trip: 'one-way'
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'invalid_input', field: 'distance' }
+    });
+    expect(
+      calculateFuelCost(
+        {
+          distance: '-1',
+          economy: '12.5',
+          fuelPrice: { value: '1.80', unit: 'USD' },
+          peopleCount: { value: '1', unit: 'people' },
+          economyUnit: 'km_per_liter',
+          trip: 'one-way'
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'domain_error', field: 'distance' }
+    });
+    expect(
+      calculateFuelCost(
+        {
+          distance: '100',
+          economy: '0',
+          fuelPrice: { value: '1.80', unit: 'USD' },
+          peopleCount: { value: '0', unit: 'people' },
+          economyUnit: 'liters_per_100km',
+          trip: 'one-way'
+        },
+        options
+      )
+    ).toEqual({
+      ok: false,
+      error: { code: 'domain_error', field: 'people_count' }
+    });
+  });
+
+  it('rejects fuel inputs over the declared digit limit', () => {
+    const result = calculateFuelCost(
+      {
+        distance: `1${'0'.repeat(1000)}`,
+        economy: '12.5',
+        fuelPrice: { value: '1.80', unit: 'USD' },
+        peopleCount: { value: '1', unit: 'people' },
+        economyUnit: 'km_per_liter',
+        trip: 'one-way'
+      },
+      { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+    );
+
+    expect(result).toEqual({
+      ok: false,
+      error: { code: 'limit_exceeded', field: 'distance' }
+    });
+  });
 });
 
 function runConformanceCase(testCase: ConformanceCase) {
@@ -518,6 +886,50 @@ function runConformanceCase(testCase: ConformanceCase) {
       options
     );
   }
+  if (testCase.calculatorId === 'discount') {
+    return calculateDiscount(
+      {
+        originalPrice: testCase.input.original_price,
+        discountRate1: testCase.input.discount_rate_1,
+        discountRate2: testCase.input.discount_rate_2,
+        mode: testCase.input.mode
+      },
+      options
+    );
+  }
+  if (testCase.calculatorId === 'age') {
+    return calculateAge(
+      {
+        birthDate: testCase.input.birth_date,
+        referenceDate: testCase.input.reference_date
+      },
+      { contractVersion }
+    );
+  }
+  if (testCase.calculatorId === 'work-hours') {
+    return calculateWorkHours(
+      {
+        startMinutes: testCase.input.start_minutes,
+        endMinutes: testCase.input.end_minutes,
+        overnight: testCase.input.overnight,
+        breakMinutes: testCase.input.break_minutes
+      },
+      options
+    );
+  }
+  if (testCase.calculatorId === 'fuel-cost') {
+    return calculateFuelCost(
+      {
+        distance: testCase.input.distance,
+        economy: testCase.input.economy,
+        fuelPrice: testCase.input.fuel_price,
+        peopleCount: testCase.input.people_count,
+        economyUnit: testCase.input.economy_unit,
+        trip: testCase.input.trip
+      },
+      options
+    );
+  }
   return calculateSecurityCostBreakEven(
     {
       monthlyBaseFixedCost: testCase.input.monthly_base_fixed_cost,
@@ -598,6 +1010,36 @@ function toContractOutput(value: unknown): Record<string, unknown> {
       interest_earned: value.interestEarned
     };
   }
+  if ('originalPrice' in value) {
+    return {
+      original_price: value.originalPrice,
+      final_price: value.finalPrice,
+      total_savings: value.totalSavings,
+      total_discount_percent: value.totalDiscountPercent
+    };
+  }
+  if ('ageYears' in value) {
+    return {
+      age_years: value.ageYears,
+      age_months: value.ageMonths,
+      age_days: value.ageDays,
+      days_lived: value.daysLived,
+      days_until_next_birthday: value.daysUntilNextBirthday
+    };
+  }
+  if ('totalMinutes' in value) {
+    return {
+      total_minutes: value.totalMinutes,
+      decimal_hours: value.decimalHours
+    };
+  }
+  if ('fuelUsed' in value) {
+    return {
+      fuel_used: value.fuelUsed,
+      total_cost: value.totalCost,
+      cost_per_person: value.costPerPerson
+    };
+  }
   return {
     margin_percentage: value.marginPercentage,
     markup_percentage: value.markupPercentage
@@ -645,7 +1087,11 @@ function parseConformanceCase(value: unknown, index: number): ConformanceCase {
     calculatorId !== 'unattended-labor-savings' &&
     calculatorId !== 'locker-revenue' &&
     calculatorId !== 'study-room-schedule-revenue' &&
-    calculatorId !== 'security-cost-break-even'
+    calculatorId !== 'security-cost-break-even' &&
+    calculatorId !== 'discount' &&
+    calculatorId !== 'age' &&
+    calculatorId !== 'work-hours' &&
+    calculatorId !== 'fuel-cost'
   ) {
     throw new Error(`Unsupported conformance calculator ${calculatorId}.`);
   }

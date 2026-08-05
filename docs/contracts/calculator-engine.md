@@ -17,6 +17,10 @@
 - `calculateLockerRevenue`
 - `calculateStudyRoomScheduleRevenue`
 - `calculateSecurityCostBreakEven`
+- `calculateDiscount`
+- `calculateAge`
+- `calculateWorkHours`
+- `calculateFuelCost`
 
 입력 숫자는 로케일 구분자가 없는 canonical ASCII decimal string이다. 내부 계산은 `BigInt` 정수 비율로 수행하고 결과 문자열을 만들 때만 호출자가 지정한 0-100 소수 자리에서 half-away-from-zero 반올림한다. 엔진은 `number` 부동소수점이나 화면용 `toLocaleString`을 계산 경계에 사용하지 않는다.
 
@@ -39,6 +43,14 @@
 사물함 매출은 사물함 수, 개당 월 가격, 이용률을 곱한 총매출과 월 운영비를 뺀 순매출을 반환한다. 스터디룸 예약 매출도 예약 가능 시간, 예약률, 평균 시간당 가격을 곱하고 월 운영비를 차감한다. 두 비율은 0 이상 1 이하여야 한다.
 
 보안비 포함 손익분기는 기존 월 고정비와 월 보안비를 합치고 단가에서 단위당 변동비를 뺀 기여이익으로 나눈다. 기여이익이 0 이하이면 기존 손익분기 계산과 같은 `non_positive_contribution_margin`을 반환한다.
+
+할인은 정가 입력(`final-price`)과 최종가 역산(`original-price`) 모드를 가진다. 1차·2차 할인율을 남은 비율에 연속 적용하고 최종가, 절약액, 실효 총 할인율을 정확한 유리수로 계산한 뒤 마지막에만 반올림한다. 할인율은 0 이상 100 미만이며, 100% 이상이나 음수는 `domain_error`다. 세금·부가세 규칙은 적용하지 않는다.
+
+나이는 시간대 없는 `YYYY-MM-DD` 생년월일·기준일을 받아 연·월·일 나이, 살아온 일수, 다음 생일까지 남은 일수를 정수로 반환한다. 날짜 차이와 같은 역산 그레고리력 일수와 2월 29일 생일의 평년 2월 28일 관측을 사용하고 JavaScript `Date`나 현지 시간대를 사용하지 않는다. 기준일이 생년월일보다 이르면 `invalid_date_range`다.
+
+근무시간은 자정 이후 분(`0`–`1439`)으로 정규화된 시작·종료와 명시적 자정 넘김 여부, 휴게시간 분을 받아 총 분과 소수 시간을 반환한다. `HH:MM` 표시는 제품이 `total_minutes`에서 파생하며 엔진 출력에 포함하지 않는다. 종료가 시작보다 이른데 자정 넘김이 아니면 `domain_error`, 휴게시간이 전체 구간보다 크면 `domain_error`다. 임금·야근수당·노동법은 적용하지 않는다.
+
+연료비는 거리, 연비, 사용자 입력 연료 단가, 인원 수를 받아 사용 연료량, 총비용, 인당 비용을 반환한다. `km_per_liter`와 `liters_per_100km`는 liters 단위, `miles_per_gallon`은 US gallon 단위로 계산하며 왕복은 거리를 두 배로 하고 인원 수로 총비용을 나눈다. 자동 연료 가격 조회나 통화 환율은 적용하지 않는다.
 
 ## 오류
 

@@ -1,5 +1,5 @@
 import { isRecord } from '../internal/record.js';
-export const CALCULATOR_ENGINE_VERSION = '0.5.0';
+export const CALCULATOR_ENGINE_VERSION = '0.6.0';
 export const CALCULATOR_CONTRACT_VERSION = '1.0.0';
 export const CALCULATOR_ROUNDING_MODE = 'half_away_from_zero';
 export const CALCULATOR_MAX_INPUT_DIGITS = 1000;
@@ -27,6 +27,14 @@ export const DATA_RATE_UNITS = [
     'gigabits_per_second'
 ];
 export const DATE_BOUNDARY_MODES = ['exclusive', 'inclusive'];
+export const DISCOUNT_MODES = ['final-price', 'original-price'];
+export const OVERNIGHT_MODES = ['no', 'yes'];
+export const FUEL_ECONOMY_UNITS = [
+    'km_per_liter',
+    'liters_per_100km',
+    'miles_per_gallon'
+];
+export const TRIP_MODES = ['one-way', 'round-trip'];
 export const COMPOUNDING_FREQUENCIES = [
     '1_per_year',
     '2_per_year',
@@ -587,6 +595,265 @@ export function calculateSecurityCostBreakEven(input, options) {
             breakEvenQuantity: { value: formatRational(quantity, places), unit: 'items' }
         } };
 }
+export function calculateDiscount(input, options) {
+    const parsedOptions = parseOptions(options);
+    if (!parsedOptions.ok) {
+        return parsedOptions;
+    }
+    if (!isRecord(input)) {
+        return failure('invalid_input');
+    }
+    const originalPrice = parseNamedUnitDecimal(input.originalPrice, 'original_price');
+    if (!originalPrice.ok) {
+        return originalPrice;
+    }
+    const rate1 = parseNamedDecimal(input.discountRate1, 'discount_rate_1');
+    if (!rate1.ok) {
+        return rate1;
+    }
+    const rate2 = parseNamedDecimal(input.discountRate2, 'discount_rate_2');
+    if (!rate2.ok) {
+        return rate2;
+    }
+    if (input.mode !== 'final-price' && input.mode !== 'original-price') {
+        return failure('invalid_input', 'mode');
+    }
+    if (originalPrice.decimal.coefficient < 0n) {
+        return failure('domain_error', 'original_price.value');
+    }
+    const rate1Rational = decimalToRational(rate1.value);
+    const rate2Rational = decimalToRational(rate2.value);
+    const hundred = { numerator: 100n, denominator: 1n };
+    if (isNegativeRational(rate1Rational)) {
+        return failure('domain_error', 'discount_rate_1');
+    }
+    if (isNegativeRational(rate2Rational)) {
+        return failure('domain_error', 'discount_rate_2');
+    }
+    if (compareRationals(rate1Rational, hundred) >= 0) {
+        return failure('domain_error', 'discount_rate_1');
+    }
+    if (compareRationals(rate2Rational, hundred) >= 0) {
+        return failure('domain_error', 'discount_rate_2');
+    }
+    const remaining = multiplyRationals(subtractRationals(hundred, rate1Rational), subtractRationals(hundred, rate2Rational));
+    const hundredSquared = { numerator: 10000n, denominator: 1n };
+    const remainingRatio = divideRationals(remaining, hundredSquared);
+    const price = decimalToRational(originalPrice.decimal);
+    let original;
+    let final;
+    if (input.mode === 'final-price') {
+        original = price;
+        final = multiplyRationals(price, remainingRatio);
+    }
+    else {
+        original = divideRationals(price, remainingRatio);
+        final = price;
+    }
+    const totalSavings = subtractRationals(original, final);
+    const places = parsedOptions.value.decimalPlaces;
+    return {
+        ok: true,
+        value: {
+            originalPrice: {
+                value: formatRational(original, places),
+                unit: originalPrice.unit
+            },
+            finalPrice: {
+                value: formatRational(final, places),
+                unit: originalPrice.unit
+            },
+            totalSavings: {
+                value: formatRational(totalSavings, places),
+                unit: originalPrice.unit
+            },
+            totalDiscountPercent: {
+                value: isZeroRational(original)
+                    ? formatRational({ numerator: 0n, denominator: 1n }, places)
+                    : percentOfRational(totalSavings, original, places),
+                unit: 'percent'
+            }
+        }
+    };
+}
+export function calculateAge(input, options) {
+    const parsedOptions = parseExactIntegerOptions(options);
+    if (!parsedOptions.ok) {
+        return parsedOptions;
+    }
+    if (!isRecord(input)) {
+        return failure('invalid_input');
+    }
+    const birth = parseCivilDateRecord(input.birthDate, 'birth_date');
+    if (!birth.ok) {
+        return birth;
+    }
+    const reference = parseCivilDateRecord(input.referenceDate, 'reference_date');
+    if (!reference.ok) {
+        return reference;
+    }
+    if (reference.value.dayNumber < birth.value.dayNumber) {
+        return failure('invalid_date_range');
+    }
+    const components = ageComponents(birth.value, reference.value);
+    const nextBirthdayYear = clampedBirthday(birth.value, reference.value.year).dayNumber >=
+        reference.value.dayNumber
+        ? reference.value.year
+        : reference.value.year + 1;
+    const nextBirthday = clampedBirthday(birth.value, nextBirthdayYear);
+    const daysUntilNextBirthday = nextBirthday.dayNumber - reference.value.dayNumber;
+    return {
+        ok: true,
+        value: {
+            ageYears: { value: components.years, unit: 'years' },
+            ageMonths: { value: components.months, unit: 'months' },
+            ageDays: { value: components.days, unit: 'days' },
+            daysLived: {
+                value: reference.value.dayNumber - birth.value.dayNumber,
+                unit: 'days'
+            },
+            daysUntilNextBirthday: {
+                value: daysUntilNextBirthday,
+                unit: 'days'
+            }
+        }
+    };
+}
+export function calculateWorkHours(input, options) {
+    const parsedOptions = parseOptions(options);
+    if (!parsedOptions.ok) {
+        return parsedOptions;
+    }
+    if (!isRecord(input)) {
+        return failure('invalid_input');
+    }
+    if (input.overnight !== 'no' && input.overnight !== 'yes') {
+        return failure('invalid_input', 'overnight');
+    }
+    const start = parseClockUnitMinutes(input.startMinutes, 'start_minutes');
+    if (!start.ok) {
+        return start;
+    }
+    const end = parseClockUnitMinutes(input.endMinutes, 'end_minutes');
+    if (!end.ok) {
+        return end;
+    }
+    const breakMinutes = parseFixedUnitInteger(input.breakMinutes, 'break_minutes', 'minutes', true);
+    if (!breakMinutes.ok) {
+        return breakMinutes;
+    }
+    let gross = end.value - start.value;
+    if (gross <= 0n) {
+        if (input.overnight === 'yes') {
+            gross += 1440n;
+        }
+        else if (gross < 0n) {
+            return failure('domain_error', 'end_minutes');
+        }
+    }
+    if (breakMinutes.value > gross) {
+        return failure('domain_error', 'break_minutes');
+    }
+    const totalMinutes = Number(gross - breakMinutes.value);
+    return {
+        ok: true,
+        value: {
+            totalMinutes: { value: totalMinutes, unit: 'minutes' },
+            decimalHours: {
+                value: formatRational({ numerator: BigInt(totalMinutes), denominator: 60n }, parsedOptions.value.decimalPlaces),
+                unit: 'hours'
+            }
+        }
+    };
+}
+export function calculateFuelCost(input, options) {
+    const parsedOptions = parseOptions(options);
+    if (!parsedOptions.ok) {
+        return parsedOptions;
+    }
+    if (!isRecord(input)) {
+        return failure('invalid_input');
+    }
+    const economyUnit = input.economyUnit;
+    const trip = input.trip;
+    if (economyUnit !== 'km_per_liter' &&
+        economyUnit !== 'liters_per_100km' &&
+        economyUnit !== 'miles_per_gallon') {
+        return failure('invalid_input', 'economy_unit');
+    }
+    if (trip !== 'one-way' && trip !== 'round-trip') {
+        return failure('invalid_input', 'trip');
+    }
+    const distance = parseNamedDecimal(input.distance, 'distance');
+    if (!distance.ok) {
+        return distance;
+    }
+    if (distance.value.coefficient < 0n) {
+        return failure('domain_error', 'distance');
+    }
+    const economy = parseNamedDecimal(input.economy, 'economy');
+    if (!economy.ok) {
+        return economy;
+    }
+    if (economyUnit !== 'liters_per_100km' && economy.value.coefficient <= 0n) {
+        return failure('domain_error', 'economy');
+    }
+    const fuelPrice = parseNamedUnitDecimal(input.fuelPrice, 'fuel_price');
+    if (!fuelPrice.ok) {
+        return fuelPrice;
+    }
+    if (fuelPrice.decimal.coefficient < 0n) {
+        return failure('domain_error', 'fuel_price.value');
+    }
+    const peopleCount = parseFixedUnitInteger(input.peopleCount, 'people_count', 'people', false);
+    if (!peopleCount.ok) {
+        return peopleCount;
+    }
+    const distanceValue = decimalToRational(distance.value);
+    const economyValue = decimalToRational(economy.value);
+    const price = decimalToRational(fuelPrice.decimal);
+    const hundred = { numerator: 100n, denominator: 1n };
+    const traveled = trip === 'round-trip'
+        ? multiplyRationals(distanceValue, { numerator: 2n, denominator: 1n })
+        : distanceValue;
+    let fuelUsed;
+    let fuelUnit;
+    if (economyUnit === 'km_per_liter') {
+        fuelUsed = divideRationals(traveled, economyValue);
+        fuelUnit = 'liters';
+    }
+    else if (economyUnit === 'liters_per_100km') {
+        fuelUsed = divideRationals(multiplyRationals(traveled, economyValue), hundred);
+        fuelUnit = 'liters';
+    }
+    else {
+        fuelUsed = divideRationals(traveled, economyValue);
+        fuelUnit = 'gallons';
+    }
+    const totalCost = multiplyRationals(fuelUsed, price);
+    const costPerPerson = divideRationals(totalCost, {
+        numerator: peopleCount.value,
+        denominator: 1n
+    });
+    const places = parsedOptions.value.decimalPlaces;
+    return {
+        ok: true,
+        value: {
+            fuelUsed: {
+                value: formatRational(fuelUsed, places),
+                unit: fuelUnit
+            },
+            totalCost: {
+                value: formatRational(totalCost, places),
+                unit: fuelPrice.unit
+            },
+            costPerPerson: {
+                value: formatRational(costPerPerson, places),
+                unit: fuelPrice.unit
+            }
+        }
+    };
+}
 function parseOptions(options) {
     if (!isRecord(options)) {
         return failure('precision_policy_required');
@@ -617,7 +884,7 @@ function parseExactIntegerOptions(options) {
     }
     return { ok: true, value: { contractVersion: options.contractVersion } };
 }
-function parseCivilDate(value, field) {
+function parseCivilDateRecord(value, field) {
     if (typeof value !== 'string') {
         return failure('invalid_input', field);
     }
@@ -638,6 +905,23 @@ function parseCivilDate(value, field) {
     if (day < 1 || day > monthLengths[month - 1]) {
         return failure('domain_error', field);
     }
+    return {
+        ok: true,
+        value: {
+            year,
+            month,
+            day,
+            dayNumber: civilDayNumber(year, month, day)
+        }
+    };
+}
+function parseCivilDate(value, field) {
+    const parsed = parseCivilDateRecord(value, field);
+    return parsed.ok
+        ? { ok: true, value: parsed.value.dayNumber }
+        : parsed;
+}
+function civilDayNumber(year, month, day) {
     const yearsBefore = year - 1;
     const daysBeforeYear = 365 * yearsBefore +
         Math.floor(yearsBefore / 4) -
@@ -645,12 +929,53 @@ function parseCivilDate(value, field) {
         Math.floor(yearsBefore / 400);
     let daysBeforeMonth = 0;
     for (let index = 0; index < month - 1; index += 1) {
-        daysBeforeMonth += monthLengths[index];
+        daysBeforeMonth += daysInMonth(year, index + 1);
     }
-    return { ok: true, value: daysBeforeYear + daysBeforeMonth + day - 1 };
+    return daysBeforeYear + daysBeforeMonth + day - 1;
 }
 function isLeapYear(year) {
     return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+}
+function daysInMonth(year, month) {
+    if (month === 2) {
+        return isLeapYear(year) ? 29 : 28;
+    }
+    return [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1];
+}
+function clampedBirthday(birth, year) {
+    const day = Math.min(birth.day, daysInMonth(year, birth.month));
+    return {
+        year,
+        month: birth.month,
+        day,
+        dayNumber: civilDayNumber(year, birth.month, day)
+    };
+}
+function addMonthsForAge(value, months, birthdayDay) {
+    const totalMonths = value.year * 12 + value.month - 1 + months;
+    const year = Math.floor(totalMonths / 12);
+    const month = (totalMonths % 12) + 1;
+    return clampedBirthday({ ...value, month, day: birthdayDay }, year);
+}
+function ageComponents(birth, reference) {
+    const anchor = clampedBirthday(birth, reference.year);
+    let years = reference.year - birth.year;
+    if (reference.dayNumber < anchor.dayNumber) {
+        years -= 1;
+    }
+    const yearAnchor = clampedBirthday(birth, birth.year + years);
+    let months = (reference.year - yearAnchor.year) * 12 +
+        (reference.month - yearAnchor.month);
+    const monthCandidate = addMonthsForAge(yearAnchor, months, birth.day);
+    if (monthCandidate.dayNumber > reference.dayNumber) {
+        months -= 1;
+    }
+    const monthAnchor = addMonthsForAge(yearAnchor, months, birth.day);
+    return {
+        years,
+        months,
+        days: reference.dayNumber - monthAnchor.dayNumber
+    };
 }
 function parseCompoundingPeriods(value, frequency) {
     if (typeof value !== 'string' || !CANONICAL_UNSIGNED_INTEGER_PATTERN.test(value)) {
@@ -708,6 +1033,16 @@ function parseFixedUnitInteger(value, field, expectedUnit, allowZero) {
         return failure('domain_error', field);
     }
     return { ok: true, value: parsed };
+}
+function parseClockUnitMinutes(value, field) {
+    const parsed = parseFixedUnitInteger(value, field, 'minutes', true);
+    if (!parsed.ok) {
+        return parsed;
+    }
+    if (parsed.value > 1439n) {
+        return failure('domain_error', field);
+    }
+    return parsed;
 }
 function parseRatio(value, field, upperInclusive) {
     const parsed = parseNamedDecimal(value, field);
@@ -819,6 +1154,12 @@ function compareRationals(left, right) {
     const difference = left.numerator * right.denominator - right.numerator * left.denominator;
     return difference < 0n ? -1 : difference > 0n ? 1 : 0;
 }
+function isZeroRational(value) {
+    return value.numerator === 0n;
+}
+function isNegativeRational(value) {
+    return value.numerator < 0n;
+}
 function subtractRationals(left, right) {
     return normalizeRational({
         numerator: left.numerator * right.denominator - right.numerator * left.denominator,
@@ -846,6 +1187,9 @@ function decimalDigitCount(value) {
 }
 function formatRational(value, decimalPlaces) {
     return formatScaledInteger(divideHalfAwayFromZero(value.numerator * powerOfTen(decimalPlaces), value.denominator), decimalPlaces);
+}
+function percentOfRational(numerator, denominator, decimalPlaces) {
+    return formatRational(multiplyRationals(divideRationals(numerator, denominator), { numerator: 100n, denominator: 1n }), decimalPlaces);
 }
 function divideAsPercent(numerator, denominator, decimalPlaces) {
     let scaledNumerator = numerator.coefficient * 100n;

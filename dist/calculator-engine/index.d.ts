@@ -1,4 +1,4 @@
-export declare const CALCULATOR_ENGINE_VERSION: "0.5.0";
+export declare const CALCULATOR_ENGINE_VERSION: "0.6.0";
 export declare const CALCULATOR_CONTRACT_VERSION: "1.0.0";
 export declare const CALCULATOR_ROUNDING_MODE: "half_away_from_zero";
 export declare const CALCULATOR_MAX_INPUT_DIGITS: 1000;
@@ -6,12 +6,20 @@ export declare const CALCULATOR_MAX_DECIMAL_PLACES: 100;
 export declare const DATA_SIZE_UNITS: readonly ["bit", "byte", "kilobit", "kilobyte", "megabit", "megabyte", "gigabit", "gigabyte", "terabit", "terabyte", "kibibyte", "mebibyte", "gibibyte", "tebibyte"];
 export declare const DATA_RATE_UNITS: readonly ["bits_per_second", "kilobits_per_second", "megabits_per_second", "gigabits_per_second"];
 export declare const DATE_BOUNDARY_MODES: readonly ["exclusive", "inclusive"];
+export declare const DISCOUNT_MODES: readonly ["final-price", "original-price"];
+export declare const OVERNIGHT_MODES: readonly ["no", "yes"];
+export declare const FUEL_ECONOMY_UNITS: readonly ["km_per_liter", "liters_per_100km", "miles_per_gallon"];
+export declare const TRIP_MODES: readonly ["one-way", "round-trip"];
 export declare const COMPOUNDING_FREQUENCIES: readonly ["1_per_year", "2_per_year", "4_per_year", "12_per_year", "365_per_year"];
 export declare const COMPOUND_INTEREST_MAX_YEARS: 100;
 export declare const COMPOUND_INTEREST_MAX_POWER_DIGITS: 250000;
 export type DataSizeUnit = (typeof DATA_SIZE_UNITS)[number];
 export type DataRateUnit = (typeof DATA_RATE_UNITS)[number];
 export type DateBoundaryMode = (typeof DATE_BOUNDARY_MODES)[number];
+export type DiscountMode = (typeof DISCOUNT_MODES)[number];
+export type OvernightMode = (typeof OVERNIGHT_MODES)[number];
+export type FuelEconomyUnit = (typeof FUEL_ECONOMY_UNITS)[number];
+export type TripMode = (typeof TRIP_MODES)[number];
 export type CompoundingFrequency = (typeof COMPOUNDING_FREQUENCIES)[number];
 export type CalculatorErrorCode = 'invalid_input' | 'domain_error' | 'limit_exceeded' | 'contract_mismatch' | 'denominator_zero' | 'non_positive_contribution_margin' | 'unsupported_unit' | 'incompatible_units' | 'precision_policy_required' | 'rounding_policy_required' | 'invalid_date_range';
 export interface CalculatorExecutionOptions {
@@ -150,6 +158,73 @@ export interface SecurityCostBreakEvenOutput {
     readonly contributionMarginPerUnit: UnitDecimalOutput;
     readonly breakEvenQuantity: UnitDecimalOutput;
 }
+export interface DiscountInput {
+    readonly originalPrice: UnitDecimalInput;
+    readonly discountRate1: string;
+    readonly discountRate2: string;
+    readonly mode: DiscountMode;
+}
+export interface DiscountOutput {
+    readonly originalPrice: UnitDecimalOutput;
+    readonly finalPrice: UnitDecimalOutput;
+    readonly totalSavings: UnitDecimalOutput;
+    readonly totalDiscountPercent: UnitDecimalOutput;
+}
+export interface AgeInput {
+    readonly birthDate: string;
+    readonly referenceDate: string;
+}
+export interface AgeOutput {
+    readonly ageYears: {
+        readonly value: number;
+        readonly unit: 'years';
+    };
+    readonly ageMonths: {
+        readonly value: number;
+        readonly unit: 'months';
+    };
+    readonly ageDays: {
+        readonly value: number;
+        readonly unit: 'days';
+    };
+    readonly daysLived: {
+        readonly value: number;
+        readonly unit: 'days';
+    };
+    readonly daysUntilNextBirthday: {
+        readonly value: number;
+        readonly unit: 'days';
+    };
+}
+export interface WorkHoursInput {
+    readonly startMinutes: UnitDecimalInput;
+    readonly endMinutes: UnitDecimalInput;
+    readonly overnight: OvernightMode;
+    readonly breakMinutes: UnitDecimalInput;
+}
+export interface WorkHoursOutput {
+    readonly totalMinutes: {
+        readonly value: number;
+        readonly unit: 'minutes';
+    };
+    readonly decimalHours: {
+        readonly value: string;
+        readonly unit: 'hours';
+    };
+}
+export interface FuelCostInput {
+    readonly distance: string;
+    readonly economy: string;
+    readonly fuelPrice: UnitDecimalInput;
+    readonly peopleCount: UnitDecimalInput;
+    readonly economyUnit: FuelEconomyUnit;
+    readonly trip: TripMode;
+}
+export interface FuelCostOutput {
+    readonly fuelUsed: UnitDecimalOutput;
+    readonly totalCost: UnitDecimalOutput;
+    readonly costPerPerson: UnitDecimalOutput;
+}
 export interface UnitDecimalOutput {
     readonly value: string;
     readonly unit: string;
@@ -190,4 +265,12 @@ export declare function calculateStudyRoomScheduleRevenue(input: StudyRoomSchedu
 export declare function calculateStudyRoomScheduleRevenue(input: unknown, options: unknown): CalculatorResult<StudyRoomScheduleRevenueOutput>;
 export declare function calculateSecurityCostBreakEven(input: SecurityCostBreakEvenInput, options: CalculatorExecutionOptions): CalculatorResult<SecurityCostBreakEvenOutput>;
 export declare function calculateSecurityCostBreakEven(input: unknown, options: unknown): CalculatorResult<SecurityCostBreakEvenOutput>;
+export declare function calculateDiscount(input: DiscountInput, options: CalculatorExecutionOptions): CalculatorResult<DiscountOutput>;
+export declare function calculateDiscount(input: unknown, options: unknown): CalculatorResult<DiscountOutput>;
+export declare function calculateAge(input: AgeInput, options: ExactIntegerExecutionOptions): CalculatorResult<AgeOutput>;
+export declare function calculateAge(input: unknown, options: unknown): CalculatorResult<AgeOutput>;
+export declare function calculateWorkHours(input: WorkHoursInput, options: CalculatorExecutionOptions): CalculatorResult<WorkHoursOutput>;
+export declare function calculateWorkHours(input: unknown, options: unknown): CalculatorResult<WorkHoursOutput>;
+export declare function calculateFuelCost(input: FuelCostInput, options: CalculatorExecutionOptions): CalculatorResult<FuelCostOutput>;
+export declare function calculateFuelCost(input: unknown, options: unknown): CalculatorResult<FuelCostOutput>;
 //# sourceMappingURL=index.d.ts.map

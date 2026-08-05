@@ -69,7 +69,11 @@ const REVIEWED_CALCULATOR_IDS = [
     'unattended-labor-savings',
     'locker-revenue',
     'study-room-schedule-revenue',
-    'security-cost-break-even'
+    'security-cost-break-even',
+    'discount',
+    'age',
+    'work-hours',
+    'fuel-cost'
 ];
 const CALCULATOR_REQUIRED_ENGINE_VERSION = {
     'percentage-change': '0.x',
@@ -84,7 +88,11 @@ const CALCULATOR_REQUIRED_ENGINE_VERSION = {
     'unattended-labor-savings': '0.5.0',
     'locker-revenue': '0.5.0',
     'study-room-schedule-revenue': '0.5.0',
-    'security-cost-break-even': '0.5.0'
+    'security-cost-break-even': '0.5.0',
+    'discount': '0.x',
+    'age': '0.x',
+    'work-hours': '0.x',
+    'fuel-cost': '0.x'
 };
 const CALCULATOR_REQUIRED_ERROR_CODES = {
     'percentage-change': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'denominator_zero'],
@@ -99,7 +107,11 @@ const CALCULATOR_REQUIRED_ERROR_CODES = {
     'unattended-labor-savings': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'incompatible_units'],
     'locker-revenue': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'incompatible_units'],
     'study-room-schedule-revenue': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'incompatible_units'],
-    'security-cost-break-even': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'non_positive_contribution_margin', 'incompatible_units']
+    'security-cost-break-even': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'non_positive_contribution_margin', 'incompatible_units'],
+    'discount': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'precision_policy_required', 'rounding_policy_required'],
+    'age': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'invalid_date_range'],
+    'work-hours': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'precision_policy_required', 'rounding_policy_required'],
+    'fuel-cost': ['invalid_input', 'domain_error', 'limit_exceeded', 'contract_mismatch', 'precision_policy_required', 'rounding_policy_required']
 };
 const CALCULATOR_PRECISION_POLICY = 'canonical_ascii_decimal_string_max_1000_digits';
 const CALCULATOR_ROUNDING_POLICY = 'caller_decimal_places_0_to_100_half_away_from_zero';
@@ -507,10 +519,10 @@ function validateCalculatorInputHandoff(catalog, conformance, diagnostics) {
             continue;
         }
         const requiredEngineVersion = CALCULATOR_REQUIRED_ENGINE_VERSION[calculatorId];
-        const requiredPrecisionPolicy = calculatorId === 'date-difference'
+        const requiredPrecisionPolicy = calculatorId === 'date-difference' || calculatorId === 'age'
             ? 'exact_integer_calendar_days_years_0001_to_9999'
             : CALCULATOR_PRECISION_POLICY;
-        const requiredRoundingPolicy = calculatorId === 'date-difference'
+        const requiredRoundingPolicy = calculatorId === 'date-difference' || calculatorId === 'age'
             ? 'not_applicable_exact_integer'
             : CALCULATOR_ROUNDING_POLICY;
         if (definition.lifecycleStatus !== 'reviewed' ||

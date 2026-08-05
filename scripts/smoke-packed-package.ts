@@ -36,10 +36,12 @@ await writeFile(
   join(consumerRoot, 'smoke.mjs'),
   `import {
   CALCULATOR_CONTRACT_VERSION,
+  calculateAge,
   calculateBreakEvenPoint,
   calculateCompoundInterest,
   calculateDataTransferTime,
   calculateDateDifference,
+  calculateDiscount,
   calculatePercentageChange,
   calculateStudycafeSeatOccupancy
 } from 'zdp-libs-ts/calculator-engine';
@@ -90,6 +92,19 @@ const seatOccupancy = calculateStudycafeSeatOccupancy(
   },
   { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
 );
+const discount = calculateDiscount(
+  {
+    originalPrice: { value: '80', unit: 'USD' },
+    discountRate1: '25',
+    discountRate2: '0',
+    mode: 'final-price'
+  },
+  { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+);
+const age = calculateAge(
+  { birthDate: '2000-02-29', referenceDate: '2025-02-28' },
+  { contractVersion: CALCULATOR_CONTRACT_VERSION }
+);
 if (
   !result.ok ||
   result.value.percentageChange.value !== '25.00' ||
@@ -103,7 +118,11 @@ if (
   compoundInterest.value.futureValue.value !== '110.25' ||
   !seatOccupancy.ok ||
   seatOccupancy.value.occupancyPercentage.value !== '50.00' ||
-  CALCULATOR_ENGINE_VERSION !== '0.5.0'
+  !discount.ok ||
+  discount.value.finalPrice.value !== '60.00' ||
+  !age.ok ||
+  age.value.ageYears.value !== 25 ||
+  CALCULATOR_ENGINE_VERSION !== '0.6.0'
 ) {
   throw new Error('Calculator engine tarball result was invalid.');
 }
