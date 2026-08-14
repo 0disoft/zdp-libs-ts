@@ -14,7 +14,7 @@ long: |-
 
   Bonus Lemons may follow a different usage order from paid Lemons. Bonus Lemons are consumed starting with the earliest expiry. Expired Lemons are automatically removed and not restored. Overall issuance, expiry, and restoration rules for Lemons follow the credits policy.
 example: null
-translation_status: machine
+translation_status: reviewed
 source_locale: ko
 aliases:
   - Lemon

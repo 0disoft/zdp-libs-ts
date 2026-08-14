@@ -14,7 +14,7 @@ long: |-
 
   When withdrawal is recognized, Lemons and benefits granted by that payment become subject to recollection. If some Lemons have already been used, settlement excludes the used portion. The final refund amount and recollection details can be checked before confirming the request. Overall withdrawal steps and handling deadlines are governed together by law, the terms, and the refund policy.
 example: null
-translation_status: machine
+translation_status: reviewed
 source_locale: ko
 aliases:
   - withdrawal

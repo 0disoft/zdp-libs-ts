@@ -14,7 +14,7 @@ long: |-
 
   Some entitlements are further restricted by age, country, payment method, or product characteristics. A restricted entitlement can be granted again when conditions are met. Whether conditions are met is judged by the criteria shown in the service. Overall grant and restriction criteria for entitlements are set by the terms and each product guide.
 example: null
-translation_status: machine
+translation_status: reviewed
 source_locale: ko
 aliases:
   - entitlement
