@@ -1,0 +1,27 @@
+id: account.entitlement
+label: Entitlement
+slug: entitlement
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: meta/muse-spark-1.2-contributor
+  human_review_status: pending
+short: "Entitlement는 계정이 특정 제품이나 유료 기능을 이용할 수 있는 권한이다. 계정 생성만으로는 모든 권한이 자동으로 부여되지 않는다. 실제 권한은 연령과 거주 국가, 결제 수단, 제품 조건에 따라 달라진다."
+long: |-
+  Entitlement는 하나의 계정이 여러 제품에 로그인한 뒤에도 각 서비스마다 다르게 적용되는 이용 권한이다. 계정을 만들었다는 사실만으로 모든 제품이나 유료 기능에 대한 권한이 생기지는 않는다. 실제 권한은 제품별 정책과 제공 상태에 따라 정해진다. 권한 여부는 로그인 후 각 제품 화면에서 확인할 수 있다.
+
+  Entitlement는 계정의 상태와 로그인 수단에 따라 함께 관리된다. 계정 정보를 최신으로 유지해야 권한 판단이 정확하게 이루어진다. 계정이나 로그인 수단을 타인에게 빌려주거나 판매하는 행위는 허용되지 않는다. 권한이 없는 상태에서 기능을 시도하면 접근이 제한될 수 있다.
+
+  일부 권한은 연령이나 거주 국가, 결제 수단, 제품 특성에 따라 추가로 제한된다. 제한된 권한은 조건을 충족하면 다시 부여될 수 있다. 조건 충족 여부는 서비스 화면에서 안내된 기준으로 판단한다. 전체적인 권한의 부여와 제한 기준은 이용약관과 각 제품의 안내에서 정한다.
+example: null
+translation_status: reviewed
+aliases:
+  - 이용 권한
+  - 권한
+match_phrases:
+  - phrase: 이용 권한
+    auto_match: true
+    priority: 100
+  - phrase: 권한
+    auto_match: true
+    priority: 70

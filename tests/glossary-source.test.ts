@@ -70,6 +70,9 @@ const COMMON_GLOSSARY_PRODUCT_COPY_PATTERNS: readonly RegExp[] = [
   /이\s*(저장소|사이트|서비스|시스템|제품|앱|플랫폼)/u
 ];
 const EXPECTED_COMMON_GLOSSARY_TERM_IDS = [
+  'account.entitlement',
+  'commerce.lemon',
+  'legal.withdrawal',
   'operations.rate-limit',
   'security.vault'
 ] as const;

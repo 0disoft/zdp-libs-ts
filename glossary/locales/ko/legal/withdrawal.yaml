@@ -1,0 +1,27 @@
+id: legal.withdrawal
+label: Withdrawal
+slug: withdrawal
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: meta/muse-spark-1.2-contributor
+  human_review_status: pending
+short: "청약철회는 계약 체결 후 일정 기간 안에 계약을 철회할 수 있는 제도이다. 서비스에서는 유상 레몬의 지급 조건이 계약과 다르게 이행된 경우 그 근거가 된다. 구체적인 기간과 절차는 환불 정책에서 정한 기준을 따른다."
+long: |-
+  청약철회는 소비자가 계약을 체결한 뒤에도 일정 기간 안에 계약을 없던 것으로 되돌릴 수 있는 권리이다. 표시나 광고, 계약 내용이 실제 제공된 내용과 다를 때 그 판단 기준으로 사용된다. 법령과 약관에서 정한 기간 안에 철회를 신청하면 그 효력이 인정된다. 철회가 인정되면 해당 계약에 따른 대금의 반환이 이루어진다.
+
+  서비스에서는 레몬의 지급이나 서비스의 제공이 계약 내용과 다를 때 청약철회가 문제 된다. 중복 결제나 회사 오류로 인한 잘못된 지급도 함께 정정 대상이 된다. 철회 사유가 인정되는지는 결제 시점의 계약과 실제 이행 내용을 비교해 판단한다. 판단 기준과 필요한 증빙은 환불 정책에서 구체적으로 안내한다.
+
+  청약철회가 인정되면 해당 결제로 지급된 레몬과 혜택은 회수 대상이 된다. 이미 사용한 레몬이 있는 경우에는 사용 분량을 제외하고 정산이 이루어진다. 최종 환불 금액과 회수 내역은 신청 확정 전에 미리 확인할 수 있다. 전체적인 철회 절차와 처리 기한은 관련 법령과 약관, 환불 정책이 함께 정한다.
+example: null
+translation_status: reviewed
+aliases:
+  - 청약철회
+  - 계약 철회
+match_phrases:
+  - phrase: 청약철회
+    auto_match: true
+    priority: 100
+  - phrase: 청약 철회
+    auto_match: true
+    priority: 90

@@ -1,0 +1,28 @@
+id: commerce.lemon
+label: Lemon
+slug: lemon
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: meta/muse-spark-1.2-contributor
+  human_review_status: pending
+short: "Lemon is the unified credit unit used across multiple products. It is split into paid Lemons granted on purchase and bonus Lemons granted as rewards. Paid Lemons can be eligible for refunds."
+long: |-
+  Lemon is the common credit unit used across multiple products. It is divided into paid Lemons granted through purchase and free Lemons granted through events or rewards. Each Lemon follows the validity and refundability set at grant time. The balance screen shows source and expiry for each Lemon.
+
+  Lemons are deducted as the unit required to use a service. Actual deduction applies only to the completed scope of a task. If a task never started or no valid result was received due to company fault, reserved Lemons are restored. Deduction history can be checked in payment and usage records.
+
+  Bonus Lemons may follow a different usage order from paid Lemons. Bonus Lemons are consumed starting with the earliest expiry. Expired Lemons are automatically removed and not restored. Overall issuance, expiry, and restoration rules for Lemons follow the credits policy.
+example: null
+translation_status: machine
+source_locale: ko
+aliases:
+  - Lemon
+  - Lemons
+match_phrases:
+  - phrase: Lemon
+    auto_match: true
+    priority: 100
+  - phrase: Lemons
+    auto_match: true
+    priority: 90

@@ -1,0 +1,28 @@
+id: legal.withdrawal
+label: Withdrawal
+slug: withdrawal
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  model: meta/muse-spark-1.2-contributor
+  human_review_status: pending
+short: "Withdrawal is the right to cancel a contract within a set period after formation. In our service it serves as the basis when paid Lemons are granted differently from the contract. The exact period and steps follow the refund policy."
+long: |-
+  Withdrawal is the right for a consumer to unwind a contract within a set period after it is formed. It is used as the criterion when the display, advertisement, or contract differs from what was actually delivered. If a request is filed within the period set by law and the terms, its effect is recognized. When recognized, the payment for that contract is returned.
+
+  In our service, withdrawal becomes relevant when Lemon issuance or service delivery differs from the contract. Duplicate payments or incorrect grants due to company error are also subject to correction. Whether a withdrawal reason is recognized is judged by comparing the contract at payment time with actual performance. Criteria and required evidence are detailed in the refund policy.
+
+  When withdrawal is recognized, Lemons and benefits granted by that payment become subject to recollection. If some Lemons have already been used, settlement excludes the used portion. The final refund amount and recollection details can be checked before confirming the request. Overall withdrawal steps and handling deadlines are governed together by law, the terms, and the refund policy.
+example: null
+translation_status: machine
+source_locale: ko
+aliases:
+  - withdrawal
+  - cooling-off
+match_phrases:
+  - phrase: Withdrawal
+    auto_match: true
+    priority: 100
+  - phrase: withdrawal
+    auto_match: true
+    priority: 90
