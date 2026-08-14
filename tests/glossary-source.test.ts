@@ -82,7 +82,7 @@ describe('public glossary source data', () => {
     expect(parsed.glossary_contract?.copy_contract).toEqual({
       current_version: 2,
       legacy_default_version: 1,
-      llm_authoring_model: 'umans/umans-kimi-k2.7',
+      llm_authoring_model: 'meta/muse-spark-1.2-contributor',
       human_review_required: true,
       model_update_policy: 'contract-revision',
       copy_provenance: {
