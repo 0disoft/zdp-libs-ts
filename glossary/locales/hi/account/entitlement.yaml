@@ -4,24 +4,24 @@ slug: entitlement
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Entitlement is the permission for an account to use a specific product or paid feature. Creating an account alone does not automatically grant all entitlements. Actual entitlements depend on age, country, payment method, and product conditions."
+short: "उपयोग अधिकार खाते की वह अनुमति है जिससे कोई विशिष्ट उत्पाद या सशुल्क सुविधा उपयोग की जा सकती है. केवल खाता बनाने से सभी अधिकार स्वतः नहीं मिलते. वास्तविक अधिकार आयु, निवास देश, भुगतान माध्यम और उत्पाद की शर्तों के अनुसार भिन्न होते हैं."
 long: |-
-  Entitlement is the permission that applies differently to each service even when one account signs in to multiple products. Creating an account alone does not grant access to every product or paid feature. Actual entitlements are determined by product policy and availability. Whether you have an entitlement can be checked on each product screen after sign-in.
+  उपयोग अधिकार वह अनुमति है जो एक खाता कई उत्पादों में लॉग इन करने पर भी प्रत्येक सेवा पर अलग-अलग लागू होती है. केवल खाता बनाने का तथ्य सभी उत्पादों या सशुल्क सुविधाओं पर अधिकार नहीं देता. वास्तविक अधिकार प्रत्येक उत्पाद की नीति और उपलब्धता के अनुसार तय होते हैं. अधिकार है या नहीं यह लॉग इन के बाद प्रत्येक उत्पाद की स्क्रीन पर देखा जा सकता है.
 
-  Entitlement is managed together with account status and sign-in method. Keeping account information up to date keeps entitlement decisions accurate. Lending or selling an account or sign-in method to others is not allowed. Attempting a feature without the required entitlement may be blocked.
+  उपयोग अधिकार खाते की स्थिति और लॉग इन माध्यम के साथ मिलकर प्रबंधित होता है. खाते की जानकारी अद्यतन रखने से अधिकार का निर्णय सटीक होता है. खाता या लॉग इन माध्यम दूसरों को उधार देना या बेचना स्वीकार्य नहीं है. आवश्यक अधिकार के बिना सुविधा उपयोग करने का प्रयास करने पर पहुंच सीमित हो सकती है.
 
-  Some entitlements are further restricted by age, country, payment method, or product characteristics. A restricted entitlement can be granted again when conditions are met. Whether conditions are met is judged by the criteria shown in the service. Overall grant and restriction criteria for entitlements are set by the terms and each product guide.
+  कुछ अधिकार आयु, निवास देश, भुगतान माध्यम या उत्पाद की विशेषताओं के अनुसार अतिरिक्त रूप से सीमित होते हैं. सीमित अधिकार शर्तें पूरी होने पर फिर से दिए जा सकते हैं. शर्तें पूरी हुईं या नहीं यह सेवा स्क्रीन पर बताए गए मानदंडों से तय होता है. अधिकार देने और सीमित करने के समग्र मानदंड सेवा नियम और प्रत्येक उत्पाद के मार्गदर्शन में तय होते हैं.
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - entitlement
+  - उपयोग अधिकार
+  - अधिकार
 match_phrases:
-  - phrase: Entitlement
+  - phrase: उपयोग अधिकार
     auto_match: true
     priority: 100
-  - phrase: entitlement
+  - phrase: अधिकार
     auto_match: true
     priority: 70

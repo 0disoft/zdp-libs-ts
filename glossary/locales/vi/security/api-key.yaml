@@ -1,0 +1,23 @@
+id: security.api-key
+label: Khóa API
+slug: api-key
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "API key là thông tin xác thực mà chương trình dùng để gọi các tính năng của dịch vụ. Nó phải được xử lý như mật khẩu và không bao giờ chia sẻ công khai. Gửi API key cho bộ phận hỗ trợ có thể khiến người khác lạm dụng tài khoản của bạn."
+long: |-
+  API key là chuỗi bí mật mà chương trình hoặc công cụ dùng để gọi an toàn các tính năng của dịch vụ. Nó chứng minh người gọi được ủy quyền chạy tác vụ thay mặt người dùng. Nếu API key bị lộ, người khác có thể dùng dịch vụ với quyền đó. Vì vậy, nó phải được bảo vệ ở mức tương đương mật khẩu.
+
+  Không đưa API key vào các câu hỏi hỗ trợ. Nội dung câu hỏi có thể qua nhiều nhân viên nên khó kiểm soát phạm vi chia sẻ. Các thông tin xác thực khác như token OAuth, mã khôi phục và khóa riêng cũng không được gửi kèm. Khi cần, một kênh thu thập an toàn riêng sẽ được thông báo.
+
+  Nếu bạn nghi ngờ API key đã bị lộ, hãy thay bằng khóa mới ngay lập tức. Bạn có thể cấp lại hoặc hủy khóa bất cứ lúc nào. Công ty không bao giờ yêu cầu khóa qua kênh hỗ trợ. Tiêu chuẩn quản lý khóa có trong hướng dẫn bảo mật của từng sản phẩm.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Khóa API
+match_phrases:
+  - phrase: Khóa API
+    auto_match: true
+    priority: 100

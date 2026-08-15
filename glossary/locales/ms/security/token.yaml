@@ -1,0 +1,24 @@
+id: security.token
+label: Token
+slug: token
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Token ialah kelayakan akses yang mewakili sambungan ke akaun luaran. Ia hanya membenarkan skop terhad dan bukannya akses penuh seperti kata laluan. Token yang disimpan dipadam apabila sambungan ditarik balik."
+long: |-
+  Token ialah kelayakan akses yang dikeluarkan apabila anda membenarkan sambungan perkhidmatan luaran. Daripada memberi akses penuh seperti kata laluan, ia hanya membenarkan skop yang dibenarkan. Perkhidmatan luaran menggunakan token ini untuk menjalankan tugasan terhad bagi pihak anda. Token bukan kata laluan dan boleh diterbitkan semula apabila perlu.
+
+  Token yang disimpan hanya digunakan untuk menjalankan ciri yang disambungkan. Situasi yang memerlukan akses token direkodkan dengan sebab dan skop. Apabila anda memutuskan sambungan, akses baharu dihentikan serta-merta. Selepas pemutusan, token yang disimpan dan data cache dipadam.
+
+  Dasar privasi mendedahkan secara telus cara token dikumpul, disimpan dan dipadam. Token disimpan secara berasingan dan selamat daripada data biasa. Token boleh dibatalkan dan diterbitkan semula apabila akses mencurigakan dikesan. Anda boleh menyemak dan menarik balik kebenaran pada bila-bila masa daripada senarai sambungan.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Token
+  - token
+match_phrases:
+  - phrase: token
+    auto_match: true
+    priority: 100

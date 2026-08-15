@@ -1,0 +1,23 @@
+id: security.masking
+label: 脱敏
+slug: masking
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "脱敏是指隐藏个人信息的一部分后展示的处理方式。 运营人员默认只能看到脱敏后的信息。 只有需要确认原文时，才会记录原因和范围后访问。"
+long: |-
+  脱敏是将姓名、账户信息等个人信息的某一部分用星号等方式隐藏后展示的方法。 它确保只显示工作中所需的最少信息。 处理个人信息的系统中，脱敏作为基本原则适用。 运营人员和客户支持人员默认也只看到脱敏后的信息。
+
+  有些任务需要原始用户内容或外部账户令牌，无法脱敏处理。 这种例外情况会记录原因、访问范围和过期时间。 访问记录作为审计日志留存，供事后确认。 例外访问只允许给所需的最少人员。
+
+  脱敏是限制展示方式，而不是删除数据。 存储的原始信息会按照所需的安全标准保管。 用户可以随时询问自己信息的处理情况。 脱敏标准按照隐私政策运营。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - 脱敏
+match_phrases:
+  - phrase: 脱敏
+    auto_match: true
+    priority: 100

@@ -4,25 +4,24 @@ slug: withdrawal
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Withdrawal is the right to cancel a contract within a set period after formation. In our service it serves as the basis when paid Lemons are granted differently from the contract. The exact period and steps follow the refund policy."
+short: "契約の撤回は、契約締結後、一定期間内に契約を撤回できる制度です。 サービスでは、有料レモンの付与条件が契約と異なる形で履行された場合にその根拠となります。 具体的な期間と手続きは、返金ポリシーで定められた基準に従います。"
 long: |-
-  Withdrawal is the right for a consumer to unwind a contract within a set period after it is formed. It is used as the criterion when the display, advertisement, or contract differs from what was actually delivered. If a request is filed within the period set by law and the terms, its effect is recognized. When recognized, the payment for that contract is returned.
+  契約の撤回は、消費者が契約を締結した後も一定期間内に契約をなかったことにできる権利です。 表示や広告、契約内容が実際に提供された内容と異なる場合の判断基準として使用されます。 法令と規約で定められた期間内に撤回を申請すれば、その効力が認められます。 撤回が認められると、その契約に応じた代金の返還が行われます。
 
-  In our service, withdrawal becomes relevant when Lemon issuance or service delivery differs from the contract. Duplicate payments or incorrect grants due to company error are also subject to correction. Whether a withdrawal reason is recognized is judged by comparing the contract at payment time with actual performance. Criteria and required evidence are detailed in the refund policy.
+  サービスでは、レモンの付与やサービスの提供が契約内容と異なる場合に、契約の撤回が問題になります。 重複決済や当社のエラーによる誤った付与も、修正の対象になります。 撤回事由が認められるかは、決済時点の契約と実際の履行内容を比較して判断します。 判断基準と必要な証拠は、返金ポリシーで具体的に案内します。
 
-  When withdrawal is recognized, Lemons and benefits granted by that payment become subject to recollection. If some Lemons have already been used, settlement excludes the used portion. The final refund amount and recollection details can be checked before confirming the request. Overall withdrawal steps and handling deadlines are governed together by law, the terms, and the refund policy.
+  契約の撤回が認められると、その決済で付与されたレモンと特典は回収の対象になります。 すでに使用したレモンがある場合は、使用分を除いて精算が行われます。 最終的な返金額と回収内容は、申請確定前にあらかじめ確認できます。 全体的な撤回手続きと処理期限は、関連法令と規約、返金ポリシーがともに定めます。
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - withdrawal
-  - cooling-off
+  - 契約の撤回
+  - クーリングオフ
 match_phrases:
-  - phrase: Withdrawal
+  - phrase: 契約の撤回
     auto_match: true
     priority: 100
-  - phrase: withdrawal
+  - phrase: クーリングオフ
     auto_match: true
     priority: 90

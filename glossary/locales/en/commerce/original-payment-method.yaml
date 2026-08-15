@@ -1,0 +1,27 @@
+id: commerce.original-payment-method
+label: Original Payment Method
+slug: original-payment-method
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "The original payment method is the payment instrument actually used at checkout. Refunds are returned to this method in principle. Actual timing can vary depending on the payment provider."
+long: |-
+  The original payment method means the card or account the user actually paid with. Once a refund request is confirmed, the remaining amount is returned through this method in principle. Additional time may be needed depending on the payment provider's processing schedule. Reflection status can be checked in payment and usage records.
+
+  If a partial refund is structurally impossible through the original method, an alternative is offered. The alternative method and final amount are announced before confirmation. Replacement refunds proceed only after the user consents. Without consent, the original method criteria remain in effect.
+
+  Refund amounts and methods are shown transparently during the request process. Reclaimed bonus Lemons and benefits are also displayed on the same screen. Final settlement details are disclosed again before confirmation. Related criteria are set by the refund and credits policies.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Original Payment Method
+  - original method
+match_phrases:
+  - phrase: original payment method
+    auto_match: true
+    priority: 100
+  - phrase: original method
+    auto_match: true
+    priority: 80

@@ -1,0 +1,23 @@
+id: security.api-key
+label: Clé API
+slug: api-key
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Une clé API est une autorisation d'authentification que les programmes utilisent pour appeler les fonctions d'un service. Elle doit être traitée comme un mot de passe et jamais partagée publiquement. Envoyer une clé API au support peut permettre à d'autres d'utiliser votre compte."
+long: |-
+  Une clé API est une chaîne secrète que les programmes ou outils utilisent pour appeler en toute sécurité les fonctions d'un service. Elle prouve que l'appelant est autorisé à exécuter des tâches au nom de l'utilisateur. Si une clé API est exposée, d'autres peuvent utiliser le service avec cette autorité. Elle doit donc être protégée au même niveau qu'un mot de passe.
+
+  N'incluez pas de clés API dans les demandes de support. Le contenu d'une demande peut passer par plusieurs membres du personnel, donc la portée du partage est difficile à contrôler. D'autres identifiants comme les jetons OAuth, les codes de récupération ou les clés privées ne doivent pas non plus être envoyés. Quand c'est nécessaire, un chemin de collecte sécurisé séparé est annoncé.
+
+  Si vous pensez qu'une clé API a été exposée, remplacez-la immédiatement par une nouvelle clé. Vous pouvez réémettre ou révoquer des clés à tout moment. L'entreprise ne demande jamais de clés via les canaux de support. Les normes de gestion des clés figurent dans le guide de sécurité de chaque produit.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Clés API
+match_phrases:
+  - phrase: Clés API
+    auto_match: true
+    priority: 100

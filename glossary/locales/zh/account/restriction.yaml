@@ -1,0 +1,30 @@
+id: account.restriction
+label: Restriction
+slug: restriction
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "使用限制是在违反条款或存在安全风险等情况下阻止服务使用的措施。限制范围从限制部分功能到限制整个账户不等。紧急的安全或法律风险可能成为立即限制的理由。"
+long: |-
+  使用限制是在确认违反条款或存在安全、支付欺诈风险时限制服务使用的措施。 根据违规的程度和范围，可能只限制部分功能。 在更严重的情况下，整个账户都可能受到限制。 限制的理由和范围会在限制前或实施时告知。
+
+  如果没有紧急的安全或法律理由，会事先告知限制原因并提供申诉机会。 即使账户受到限制，查看原因和支付记录的路径仍然保留。 申诉可以通过客户支持渠道在规定期限内提出。 是否解除限制取决于复审结果和支付状态。
+
+  账户限制不同于合同终止。 暂时性限制在条件消除后可以解除。 合同终止会导致账户关闭或服务退出。 剩余的已购柠檬和付费权益会根据相关法律和政策进行结算或退款，不会在未通知的情况下批量作废。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - 使用限制
+  - 账户限制
+match_phrases:
+  - phrase: 使用限制
+    auto_match: true
+    priority: 100
+  - phrase: 使用被限制
+    auto_match: true
+    priority: 90
+  - phrase: 账户被限制
+    auto_match: true
+    priority: 90

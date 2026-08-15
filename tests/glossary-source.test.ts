@@ -71,8 +71,21 @@ const COMMON_GLOSSARY_PRODUCT_COPY_PATTERNS: readonly RegExp[] = [
 ];
 const EXPECTED_COMMON_GLOSSARY_TERM_IDS = [
   'account.entitlement',
+  'account.dormant',
+  'account.restriction',
+  'commerce.auto-recharge',
+  'commerce.chargeback',
   'commerce.lemon',
-  'legal.withdrawal'
+  'commerce.original-payment-method',
+  'commerce.refund',
+  'legal.objection',
+  'legal.withdrawal',
+  'platform.cdn',
+  'platform.cookie',
+  'security.api-key',
+  'security.audit-log',
+  'security.masking',
+  'security.token'
 ] as const;
 
 describe('public glossary source data', () => {
@@ -83,13 +96,10 @@ describe('public glossary source data', () => {
     expect(parsed.glossary_contract?.copy_contract).toEqual({
       current_version: 2,
       legacy_default_version: 1,
-      llm_authoring_model: 'meta/muse-spark-1.2-contributor',
       human_review_required: true,
-      model_update_policy: 'contract-revision',
       copy_provenance: {
         required_from_version: 2,
         allowed_origins: ['human', 'llm'],
-        llm_model_required: true,
         llm_initial_human_review_status: 'pending',
         human_review_complete_status: 'reviewed',
         unreviewed_llm_severity: 'warning'

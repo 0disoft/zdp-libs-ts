@@ -1,0 +1,23 @@
+id: commerce.original-payment-method
+label: Phương thức thanh toán ban đầu
+slug: original-payment-method
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Phương thức thanh toán ban đầu là phương tiện thực sự được dùng khi thanh toán. Tiền hoàn trả nguyên tắc được trả về đúng phương thức này. Thời gian phản ánh có thể khác nhau tùy nhà cung cấp thanh toán."
+long: |-
+  Phương thức thanh toán ban đầu là thẻ hoặc tài khoản mà người dùng thực sự đã thanh toán. Khi yêu cầu hoàn tiền được xác nhận, số tiền còn lại được trả về qua phương thức này theo nguyên tắc. Có thể mất thêm thời gian tùy theo lịch xử lý của nhà cung cấp thanh toán. Trạng thái phản ánh được kiểm tra trong bản ghi thanh toán và sử dụng.
+
+  Nếu không thể hoàn tiền một phần qua phương thức ban đầu do cấu trúc, một phương án thay thế sẽ được đề xuất. Phương thức thay thế và số tiền cuối cùng được thông báo trước khi xác nhận. Hoàn tiền thay thế chỉ tiến hành sau khi người dùng đồng ý. Nếu không đồng ý, tiêu chí phương thức ban đầu vẫn được giữ.
+
+  Số tiền và phương thức hoàn tiền được hiển thị minh bạch trong quá trình yêu cầu. Lemon thưởng và lợi ích bị thu hồi cũng được hiển thị trên cùng một màn hình. Chi tiết quyết toán cuối cùng được công bố lại trước khi xác nhận. Tiêu chí liên quan do chính sách hoàn tiền và tín dụng quy định.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Phương thức thanh toán ban đầu
+match_phrases:
+  - phrase: phương thức thanh toán ban đầu
+    auto_match: true
+    priority: 100

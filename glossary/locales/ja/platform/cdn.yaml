@@ -1,0 +1,23 @@
+id: platform.cdn
+label: CDN
+slug: cdn
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "CDNは、ファイルを複数のサーバーに分散して保存し、近い場所から高速に配信するネットワークです。 サイトのフォントやスクリプトなどの共用ファイルを安定して提供するために使います。 リクエストの過程でアクセスIPアドレスがCDN事業者に送信されることがあります。"
+long: |-
+  CDNはContent Delivery Networkの略で、ファイルを複数の地域のサーバーに複製し、利用者に最も近いサーバーから配信する方式です。 フォントやスクリプト、画像などの共用ファイルを速く安定して届けるために使います。 特定のサーバーに負荷が集中する代わりに、地域ごとのサーバーがリクエストを分担します。 利用者が感じるページの読み込み速度も改善されます。
+
+  現在のサイトはフォント配信のためにjsDelivr CDNを使用しています。 利用者がページを開くと、CDNサーバーにファイルを要求する過程が発生します。 この過程でアクセスIPアドレスとブラウザの基本情報がCDN事業者に送信されることがあります。 送信される情報はファイル配信に必要な最小限の範囲です。
+
+  プライバシーポリシーはCDNの利用実態と処理される情報を透明に公開します。 CDN事業者の下位処理者案内でも詳細な状況を確認できます。 CDNはコンテンツを保存・分析するツールではなく、配信経路を速くするインフラです。 サービスが拡大すれば追加のCDNやホスティング事業者が増える可能性があり、事前に案内します。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - CDN
+match_phrases:
+  - phrase: CDN
+    auto_match: true
+    priority: 100

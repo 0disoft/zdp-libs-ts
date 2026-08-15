@@ -1,0 +1,23 @@
+id: platform.cdn
+label: CDN
+slug: cdn
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "CDN là mạng lưới lưu trữ tệp trên nhiều máy chủ và phân phối nhanh từ vị trí gần nhất. Nó cung cấp các tệp dùng chung như phông chữ và tập lệnh của một trang web. Địa chỉ IP truy cập có thể được truyền cho nhà cung cấp CDN trong quá trình yêu cầu."
+long: |-
+  CDN là viết tắt của Content Delivery Network, hoạt động bằng cách sao chép tệp lên máy chủ ở nhiều khu vực và phân phối từ máy chủ gần bạn nhất. Nó dùng để phân phối nhanh và ổn định các tệp dùng chung như phông chữ, tập lệnh và hình ảnh. Yêu cầu được xử lý trên các máy chủ khu vực thay vì làm quá tải một máy chủ. Tốc độ tải trang cảm nhận được cũng được cải thiện.
+
+  Trang web này sử dụng jsDelivr CDN để phân phối phông chữ. Khi mở trang, trình duyệt tạo yêu cầu đến máy chủ CDN để lấy tệp. Yêu cầu có thể truyền địa chỉ IP truy cập và thông tin trình duyệt cơ bản của bạn cho nhà cung cấp CDN. Thông tin truyền đi chỉ ở mức tối thiểu cần để phân phối tệp.
+
+  Chính sách quyền riêng tư công khai minh bạch việc sử dụng CDN và thông tin được xử lý. Chi tiết cũng có trong thông báo đơn vị xử lý cấp dưới của nhà cung cấp CDN. CDN là hạ tầng giúp đường phân phối nhanh hơn, không phải công cụ lưu trữ hay phân tích nội dung. Khi dịch vụ mở rộng, có thể thêm CDN hoặc nhà cung cấp lưu trữ khác và sẽ được thông báo trước.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - CDN
+match_phrases:
+  - phrase: CDN
+    auto_match: true
+    priority: 100

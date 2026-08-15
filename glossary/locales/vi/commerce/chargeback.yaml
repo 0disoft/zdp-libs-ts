@@ -1,0 +1,23 @@
+id: commerce.chargeback
+label: Chargeback
+slug: chargeback
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Chargeback là quy trình tiền thanh toán được hoàn lại qua nhà cung cấp thanh toán sau khi có tranh chấp. Khi tiền bị thu hồi vì lý do khác ngoài trùng lặp hoặc lỗi, các lợi ích liên quan cũng được thanh quyết. Việc sử dụng khoản thanh toán đó và tính năng trả phí có thể bị giới hạn cho đến khi vấn đề được giải quyết."
+long: |-
+  Chargeback là quy trình trong đó tổ chức phát hành thẻ hoặc nhà cung cấp thanh toán thu hồi khoản thanh toán vì tranh chấp. Quy trình này có thể bắt đầu khi người thanh toán khẳng định không duyệt khoản thanh toán hoặc khi phát sinh tranh chấp dịch vụ. Công ty xem xét lý do và gửi bằng chứng cần thiết để phản hồi. Kết quả chargeback được phản ánh trong trạng thái thanh toán và bản ghi giao dịch.
+
+  Khi tiền bị thu hồi qua chargeback, Lemon đã mua và Lemon thưởng do khoản thanh toán đó cấp trở thành đối tượng thu hồi. Nếu một phần Lemon đã được dùng, phần thanh quyết chỉ bao gồm phần đã dùng. Khoản thanh toán và tính năng trả phí đó có thể bị giới hạn cho đến khi vấn đề được giải quyết. Lý do và tiến độ được thông báo rõ ràng cho người dùng.
+
+  Chargeback khác với hoàn tiền thông thường về quy trình. Hoàn tiền do dịch vụ xử lý trước, còn chargeback có sự tham gia của nhà cung cấp thanh toán. Nếu phản đối không được chấp nhận, khoản thanh toán vẫn giữ và lịch sử khấu trừ vẫn nguyên. Tiêu chuẩn chi tiết có thể xem trong chính sách hoàn tiền và chính sách tín dụng.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Chargeback
+match_phrases:
+  - phrase: chargeback
+    auto_match: true
+    priority: 100

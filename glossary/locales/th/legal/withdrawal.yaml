@@ -4,25 +4,24 @@ slug: withdrawal
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Withdrawal is the right to cancel a contract within a set period after formation. In our service it serves as the basis when paid Lemons are granted differently from the contract. The exact period and steps follow the refund policy."
+short: "การถอน คือ ระบบที่อนุญาตให้ถอนสัญญา ภายในระยะเวลาที่กำหนด หลังจากทำสัญญา. ในบริการ การถอนเป็นพื้นฐาน เมื่อเงื่อนไขการให้ Lemon แบบชำระเงิน ถูกดำเนินการแตกต่างจากสัญญา. ระยะเวลา และขั้นตอนที่ชัดเจน เป็นไปตามเกณฑ์ที่กำหนดในนโยบายการคืนเงิน."
 long: |-
-  Withdrawal is the right for a consumer to unwind a contract within a set period after it is formed. It is used as the criterion when the display, advertisement, or contract differs from what was actually delivered. If a request is filed within the period set by law and the terms, its effect is recognized. When recognized, the payment for that contract is returned.
+  การถอน คือ สิทธิ์ของผู้บริโภค ในการทำให้สัญญาไม่มีผล ภายในระยะเวลาที่กำหนด หลังจากทำสัญญา. ใช้เป็นเกณฑ์การประเมิน เมื่อเนื้อหาที่แสดง โฆษณา หรือสัญญา แตกต่างจากสิ่งที่ให้จริง. หากยื่นคำขอ ภายในระยะเวลาที่กฎหมาย และข้อกำหนดกำหนด ผลจะมีผลบังคับ. เมื่อการถอนได้รับการยอมรับ จำนวนเงินของสัญญานั้น จะถูกคืน.
 
-  In our service, withdrawal becomes relevant when Lemon issuance or service delivery differs from the contract. Duplicate payments or incorrect grants due to company error are also subject to correction. Whether a withdrawal reason is recognized is judged by comparing the contract at payment time with actual performance. Criteria and required evidence are detailed in the refund policy.
+  ในบริการ การถอนกลายเป็นประเด็น เมื่อการให้ Lemon หรือการให้บริการ แตกต่างจากเนื้อหาของสัญญา. การชำระเงินซ้ำซ้อน หรือการให้ที่ผิดพลาดจากความผิดของบริษัท ก็เป็นวัตถุของการแก้ไข. การยอมรับเหตุผลการถอน หรือไม่ ถูกประเมินโดยเปรียบเทียบสัญญา ณ เวลาชำระเงิน กับการดำเนินการจริง. เกณฑ์การประเมิน และหลักฐานที่จำเป็น แจ้งอย่างชัดเจนในนโยบายการคืนเงิน.
 
-  When withdrawal is recognized, Lemons and benefits granted by that payment become subject to recollection. If some Lemons have already been used, settlement excludes the used portion. The final refund amount and recollection details can be checked before confirming the request. Overall withdrawal steps and handling deadlines are governed together by law, the terms, and the refund policy.
+  เมื่อการถอนได้รับการยอมรับ Lemon และสิทธิประโยชน์ ที่ให้จากการชำระเงินนั้น จะเป็นวัตถุของการเรียกคืน. หากมี Lemon ที่ใช้แล้ว ส่วนที่ใช้แล้ว จะถูกแยกออกจากการชำระบัญชี. จำนวนเงินคืนสุดท้าย และรายละเอียดการเรียกคืน สามารถตรวจสอบได้ก่อนยืนยันคำขอ. ขั้นตอนการถอนโดยรวม และระยะเวลาการดำเนินการ กำหนดร่วมกันโดยกฎหมายที่เกี่ยวข้อง ข้อกำหนด และนโยบายการคืนเงิน.
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - withdrawal
-  - cooling-off
+  - การถอน
+  - การถอนสัญญา
 match_phrases:
-  - phrase: Withdrawal
+  - phrase: การถอน
     auto_match: true
     priority: 100
-  - phrase: withdrawal
+  - phrase: การเพิกถอน
     auto_match: true
     priority: 90

@@ -1,0 +1,23 @@
+id: commerce.chargeback
+label: Chargeback
+slug: chargeback
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Chargeback 是发生支付争议时通过支付服务商退回款项的流程。 当款项因重复支付或错误以外的原因被收回时，相关权益也会一并处理。 问题解决前，该笔支付和相关付费功能的使用可能会受到限制。"
+long: |-
+  Chargeback 是发卡机构或支付服务商因争议而收回支付款项的流程。 当付款方声称未授权该笔支付或发生服务争议时，可能会启动这一流程。 公司会确认 Chargeback 原因并提交所需凭证进行应对。 Chargeback 结果会反映在支付状态和交易记录中。
+
+  款项通过 Chargeback 被收回时，该笔支付发放的付费柠檬和奖励柠檬将成为收回对象。 如果已有部分柠檬被使用，则只按已使用部分进行结算。 问题解决前，该笔支付和相关付费功能的使用可能会受到限制。 限制原因和进展状态会明确告知用户。
+
+  Chargeback 与一般退款在流程上不同。 退款由服务方先行处理，而 Chargeback 有支付服务商介入。 如果异议未被接受，款项会保留，扣减记录也保持不变。 详细标准可在退款政策和积分政策中确认。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Chargeback
+match_phrases:
+  - phrase: Chargeback
+    auto_match: true
+    priority: 100

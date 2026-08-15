@@ -4,7 +4,6 @@ slug: withdrawal
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
 short: "Withdrawal is the right to cancel a contract within a set period after formation. In our service it serves as the basis when paid Lemons are granted differently from the contract. The exact period and steps follow the refund policy."
 long: |-

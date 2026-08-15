@@ -1,0 +1,23 @@
+id: commerce.chargeback
+label: Chargeback
+slug: chargeback
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Chargeback ialah proses pembayaran dipulangkan melalui penyedia pembayaran selepas pertikaian. Apabila dana dipulihkan atas sebab selain pendua atau ralat, manfaat berkaitan juga diselesaikan. Penggunaan pembayaran tersebut dan ciri berbayarnya mungkin dihadkan sehingga isu diselesaikan."
+long: |-
+  Chargeback ialah proses di mana penerbit kad atau penyedia pembayaran memulihkan pembayaran kerana pertikaian. Ia boleh bermula apabila pembayar mendakwa tidak meluluskan pembayaran atau apabila pertikaian perkhidmatan timbul. Syarikat menyemak sebab dan mengemukakan bukti yang diperlukan sebagai tindak balas. Hasil chargeback ditunjukkan dalam status pembayaran dan rekod transaksi.
+
+  Apabila dana dipulihkan melalui chargeback, Lemon yang dibeli dan bonus yang diberikan oleh pembayaran tersebut menjadi tertakluk kepada pemulihan. Jika sebahagian Lemon telah digunakan, penyelesaian hanya meliputi bahagian yang digunakan. Pembayaran dan ciri berbayar tersebut mungkin kekal dihadkan sehingga isu diselesaikan. Sebab dan kemajuan diumumkan dengan jelas kepada pengguna.
+
+  Chargeback berbeza daripada bayaran balik biasa dari segi prosedur. Bayaran balik dikendalikan oleh perkhidmatan dahulu, manakala chargeback melibatkan penyedia pembayaran. Jika bantahan tidak diterima, pembayaran kekal dan sejarah potongan kekal sama. Piawaian terperinci boleh didapati dalam dasar bayaran balik dan dasar kredit.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Chargeback
+match_phrases:
+  - phrase: chargeback
+    auto_match: true
+    priority: 100

@@ -1,0 +1,27 @@
+id: security.token
+label: Jeton
+slug: token
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Un jeton est une autorisation d'accès qui représente une connexion à un compte externe. Il n'autorise qu'un périmètre limité au lieu d'un accès complet par mot de passe. Les jetons stockés sont supprimés lorsque la connexion est retirée."
+long: |-
+  Un jeton est une autorisation d'accès émise lorsque vous autorisez une connexion à un service externe. Au lieu d'octroyer un accès complet comme un mot de passe, il ne permet que le périmètre autorisé. Le service externe utilise le jeton pour effectuer des tâches limitées en votre nom. Un jeton n'est pas un mot de passe et peut être réémis si nécessaire.
+
+  Les jetons stockés ne sont utilisés que pour exécuter la fonction connectée. Les situations nécessitant un accès au jeton sont enregistrées avec le motif et le périmètre. Lorsque vous vous déconnectez, le nouvel accès est arrêté immédiatement. Après la déconnexion, les jetons stockés et les données en cache sont supprimés.
+
+  La politique de confidentialité divulgue de façon transparente comment les jetons sont collectés, stockés et supprimés. Les jetons sont conservés séparément et en sécurité par rapport aux données ordinaires. Les jetons peuvent être révoqués et réémis lorsqu'un accès suspect est détecté. Vous pouvez vérifier et retirer les autorisations à tout moment depuis la liste des connexions.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Jeton
+  - jeton
+match_phrases:
+  - phrase: jeton
+    auto_match: true
+    priority: 100
+  - phrase: jetons
+    auto_match: true
+    priority: 90

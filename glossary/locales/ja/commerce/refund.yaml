@@ -1,0 +1,34 @@
+id: commerce.refund
+label: Refund
+slug: refund
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "返金は、サービスの履行が契約と異なる場合や重複決済が確認された場合に代金を返還する処理です。 有料レモンは使用分を除いて精算されます。 残りの金額は返金ポリシーに従って返還されます。"
+long: |-
+  返金は、決済時点で案内された契約と実際に提供された内容が異なる場合に代金を返還する処理です。 重複決済やシステムエラーによる誤った決済も返金の対象になります。 決済時点の契約と実際に付与されたレモン・特典を比較して返金事由を判断します。 返金事由が認められるかと必要な証拠は、返金ポリシーで具体的に定めます。
+
+  返金が認められると、その決済で付与された有料レモンとボーナス特典は回収の対象になります。 すでに一部のレモンを使用している場合は、使用分を除いて精算します。 ボーナスレモンは、有効期間と付与条件に応じて別途処理されることがあります。 最終的な精算内容と返金額は、申請確定前にあらかじめ確認できます。
+
+  重複決済や当社の責めに帰すべき事由により有効な結果を提供できなかった場合は、予約されたレモンが復元されるか全額返金されます。 処理期限と返還方法は、決済手段と関係法令に従います。 全体的な返金手続きは、利用規約、クレジットポリシー、返金ポリシーがともに定めます。 返金状況は、決済および利用記録で確認できます。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - 返金
+  - 払い戻し
+  - 精算
+match_phrases:
+  - phrase: 返金
+    auto_match: true
+    priority: 100
+  - phrase: 払い戻し
+    auto_match: true
+    priority: 95
+  - phrase: 精算
+    auto_match: true
+    priority: 90
+  - phrase: 返金ポリシー
+    auto_match: true
+    priority: 85

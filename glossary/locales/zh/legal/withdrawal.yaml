@@ -4,25 +4,24 @@ slug: withdrawal
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Withdrawal is the right to cancel a contract within a set period after formation. In our service it serves as the basis when paid Lemons are granted differently from the contract. The exact period and steps follow the refund policy."
+short: "撤回是在合同订立后一定期限内撤销合同的制度。在服务中，当付费柠檬的发放条件与合同不符时，它成为依据。具体期限和流程遵循退款政策确定的标准。"
 long: |-
-  Withdrawal is the right for a consumer to unwind a contract within a set period after it is formed. It is used as the criterion when the display, advertisement, or contract differs from what was actually delivered. If a request is filed within the period set by law and the terms, its effect is recognized. When recognized, the payment for that contract is returned.
+  撤回是消费者在订立合同后仍可在一定期限内将合同恢复原状的权利。 当标示、广告或合同内容与实际提供的内容不符时，作为判断标准使用。 在法律和条款规定的期限内申请撤回，其效力得到认可。 撤回被认可后，将返还该合同的款项。
 
-  In our service, withdrawal becomes relevant when Lemon issuance or service delivery differs from the contract. Duplicate payments or incorrect grants due to company error are also subject to correction. Whether a withdrawal reason is recognized is judged by comparing the contract at payment time with actual performance. Criteria and required evidence are detailed in the refund policy.
+  在服务中，当柠檬的发放或服务的提供与合同内容不符时，撤回会成为问题。 重复支付或因公司错误导致的不当发放也属于更正对象。 是否认可撤回事由，通过比较支付时的合同与实际履行内容来判断。 判断标准和所需证据由退款政策具体告知。
 
-  When withdrawal is recognized, Lemons and benefits granted by that payment become subject to recollection. If some Lemons have already been used, settlement excludes the used portion. The final refund amount and recollection details can be checked before confirming the request. Overall withdrawal steps and handling deadlines are governed together by law, the terms, and the refund policy.
+  撤回被认可后，该笔支付发放的柠檬和权益成为回收对象。 如果已有使用的柠檬，扣除已使用部分进行结算。 最终退款金额和回收明细可以在确认申请前预先查看。 整体撤回流程和处理期限由相关法律、条款和退款政策共同规定。
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - withdrawal
-  - cooling-off
+  - 撤回
+  - 撤销合同
 match_phrases:
-  - phrase: Withdrawal
+  - phrase: 撤回
     auto_match: true
     priority: 100
-  - phrase: withdrawal
+  - phrase: 撤销
     auto_match: true
     priority: 90

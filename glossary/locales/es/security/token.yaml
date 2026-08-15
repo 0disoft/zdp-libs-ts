@@ -1,0 +1,27 @@
+id: security.token
+label: Token
+slug: token
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Un token es una credencial de acceso que representa una conexión a una cuenta externa. Permite solo un alcance limitado en lugar de acceso completo con contraseña. Los tokens almacenados se eliminan cuando se retira la conexión."
+long: |-
+  Un token es una credencial de acceso emitida cuando permites una conexión de servicio externo. En lugar de otorgar acceso completo como una contraseña, permite solo el alcance permitido. El servicio externo usa el token para realizar tareas limitadas en tu nombre. Un token no es una contraseña y puede volver a emitirse cuando sea necesario.
+
+  Los tokens almacenados se usan solo para ejecutar la función conectada. Las situaciones que requieren acceso al token se registran con el motivo y el alcance. Cuando te desconectas, el nuevo acceso se detiene de inmediato. Tras la desconexión, se eliminan los tokens almacenados y los datos en caché.
+
+  La política de privacidad divulga de forma transparente cómo se recogen, almacenan y eliminan los tokens. Los tokens se guardan por separado y de forma segura respecto a los datos ordinarios. Los tokens pueden revocarse y volver a emitirse cuando se detecta un acceso sospechoso. Puedes revisar y retirar permisos en cualquier momento desde la lista de conexiones.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Token
+  - token
+match_phrases:
+  - phrase: token
+    auto_match: true
+    priority: 100
+  - phrase: tokens
+    auto_match: true
+    priority: 90

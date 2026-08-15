@@ -1,0 +1,23 @@
+id: commerce.original-payment-method
+label: Método de pago original
+slug: original-payment-method
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "El método de pago original es el instrumento que se usó realmente al pagar. Los reembolsos vuelven a este método en principio. El tiempo de aplicación puede variar según el proveedor de pago."
+long: |-
+  El método de pago original es la tarjeta o cuenta con la que el usuario pagó realmente. Una vez confirmada la solicitud de reembolso, el monto restante se devuelve por este método en principio. Puede tomar más tiempo según el calendario de procesamiento del proveedor de pago. El estado de aplicación se consulta en los registros de pago y uso.
+
+  Si un reembolso parcial es estructuralmente imposible por el método original, se ofrece una alternativa. El método alternativo y el monto final se anuncian antes de confirmar. El reembolso sustituto solo avanza con el consentimiento del usuario. Sin consentimiento, se mantienen los criterios del método original.
+
+  Los montos y métodos de reembolso se muestran de forma transparente durante la solicitud. Los limones de bonificación y beneficios recuperados también se muestran en la misma pantalla. El detalle final del ajuste se publica otra vez antes de confirmar. Los criterios relacionados los fijan las políticas de reembolso y créditos.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Método de pago original
+match_phrases:
+  - phrase: método de pago original
+    auto_match: true
+    priority: 100

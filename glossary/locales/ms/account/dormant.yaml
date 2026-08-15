@@ -1,0 +1,23 @@
+id: account.dormant
+label: Status tidak aktif
+slug: dormant
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Status tidak aktif ialah keadaan akaun tanpa log masuk atau penggunaan perkhidmatan dalam tempoh tertentu. Lemon yang dibeli tidak dipadam hanya kerana akaun tidak aktif. Apabila akaun digunakan semula, hak ke atas Lemon yang dibeli kekal."
+long: |-
+  Status tidak aktif bermaksud akaun menjadi terbiar kerana tidak log masuk atau tidak menggunakan perkhidmatan dalam tempoh tertentu. Walaupun tidak aktif, maklumat akaun dan Lemon yang dibeli tetap disimpan. Tempoh sah Lemon yang dibeli terpakai sama tanpa mengira status tidak aktif. Log masuk semula akan menamatkan status tidak aktif.
+
+  Status tidak aktif berbeza daripada penutupan akaun atau penamatan perkhidmatan. Semasa penutupan atau penamatan, langkah bayaran balik dan pemindahan Lemon yang tinggal diumumkan lebih awal. Ketidakaktifan itu sendiri tidak pernah memadam Lemon yang dibeli tanpa notis. Tempoh tidak aktif yang tepat dipaparkan dalam panduan setiap produk.
+
+  Pemilikan Lemon yang dibeli dikekalkan walaupun selepas tempoh tidak aktif yang lama. Hanya Lemon dengan tempoh sah boleh luput semasa tidak aktif. Status dan jadual luput dapat dilihat pada skrin baki. Soalan boleh diajukan melalui saluran sokongan.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Status tidak aktif
+match_phrases:
+  - phrase: status tidak aktif
+    auto_match: true
+    priority: 100

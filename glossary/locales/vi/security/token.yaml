@@ -1,0 +1,24 @@
+id: security.token
+label: Token
+slug: token
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Token là giấy chứng nhận truy cập thể hiện trạng thái kết nối với tài khoản bên ngoài. Nó chỉ cho phép phạm vi giới hạn thay vì truy cập toàn bộ bằng mật khẩu. Token đã lưu sẽ bị xóa khi rút kết nối."
+long: |-
+  Token là giấy chứng nhận truy cập được cấp khi bạn cho phép kết nối dịch vụ bên ngoài. Thay vì cấp toàn quyền như mật khẩu, nó chỉ cho phép phạm vi đã được cho phép. Dịch vụ bên ngoài dùng token này để thực hiện các tác vụ giới hạn thay bạn. Token không phải mật khẩu và có thể được cấp lại khi cần.
+
+  Token đã lưu chỉ được dùng để chạy tính năng đã kết nối. Các tình huống cần xem token được ghi lại kèm lý do và phạm vi truy cập. Khi bạn rút kết nối, quyền truy cập mới bị dừng ngay lập tức. Sau khi rút, quy trình xóa token đã lưu và dữ liệu cache được tiến hành.
+
+  Chính sách quyền riêng tư công khai minh bạch tiêu chuẩn thu thập, lưu trữ và xóa token. Token được lưu riêng và an toàn khỏi dữ liệu thông thường. Token có thể bị hủy và cấp lại khi phát hiện truy cập đáng ngờ. Bạn có thể xem và rút quyền bất cứ lúc nào trong danh sách kết nối.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Token
+  - token
+match_phrases:
+  - phrase: token
+    auto_match: true
+    priority: 100

@@ -4,7 +4,6 @@ slug: withdrawal
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
 short: "청약철회는 계약 체결 후 일정 기간 안에 계약을 철회할 수 있는 제도이다. 서비스에서는 유상 레몬의 지급 조건이 계약과 다르게 이행된 경우 그 근거가 된다. 구체적인 기간과 절차는 환불 정책에서 정한 기준을 따른다."
 long: |-

@@ -1,0 +1,23 @@
+id: security.audit-log
+label: Journal d'audit
+slug: audit-log
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Un journal d'audit est un historique de sécurité indiquant qui a accédé à quelles informations et quand. L'accès exceptionnel est enregistré avec le motif, le périmètre et l'expiration. Les incidents de sécurité sont étudiés à travers ces enregistrements."
+long: |-
+  Un journal d'audit est un historique chronologique des accès et changements majeurs dans un système. Il permet de vérifier qui a accédé à quelles informations, quand et dans quel but. Les enregistrements de travail normaux sont inclus et ne se produisent que dans le cadre de l'autorité permise. Les enregistrements sont protégés pour être difficiles à falsifier ou à supprimer.
+
+  L'accès exceptionnel au contenu personnel brut ou aux jetons de comptes externes est toujours consigné dans le journal d'audit. Le motif, le périmètre et l'expiration sont enregistrés ensemble pour garantir la transparence. Quand un incident de sécurité ou un usage frauduleux est suspecté, ces enregistrements servent à tracer la cause. L'accès aux journaux eux-mêmes est aussi restreint séparément.
+
+  Un journal d'audit est un garde-fou de base pour traiter les informations personnelles en toute sécurité. La politique de confidentialité divulgue comment les journaux d'audit sont gérés. L'accès aux données utilisateur reste minimal et toujours enregistré. Les enregistrements devenus inutiles sont supprimés selon la durée de conservation prévue.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - piste d'audit
+match_phrases:
+  - phrase: piste d'audit
+    auto_match: true
+    priority: 100

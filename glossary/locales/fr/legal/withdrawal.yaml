@@ -4,25 +4,24 @@ slug: withdrawal
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Withdrawal is the right to cancel a contract within a set period after formation. In our service it serves as the basis when paid Lemons are granted differently from the contract. The exact period and steps follow the refund policy."
+short: "La rétractation est un dispositif permettant de retirer le contrat dans un délai déterminé après sa conclusion. Dans le service, elle sert de fondement lorsque les conditions d'attribution des Lemons payants sont exécutées différemment du contrat. Le délai et la procédure concrets suivent les critères définis dans la politique de remboursement."
 long: |-
-  Withdrawal is the right for a consumer to unwind a contract within a set period after it is formed. It is used as the criterion when the display, advertisement, or contract differs from what was actually delivered. If a request is filed within the period set by law and the terms, its effect is recognized. When recognized, the payment for that contract is returned.
+  La rétractation est le droit du consommateur de rendre le contrat sans effet dans un délai déterminé après sa conclusion. Elle est utilisée comme critère de jugement lorsque l'affichage, la publicité ou le contenu du contrat diffèrent de ce qui a réellement été fourni. Si la demande est présentée dans le délai fixé par la loi et les conditions, son effet est reconnu. Lorsque la rétractation est reconnue, le montant de ce contrat est restitué.
 
-  In our service, withdrawal becomes relevant when Lemon issuance or service delivery differs from the contract. Duplicate payments or incorrect grants due to company error are also subject to correction. Whether a withdrawal reason is recognized is judged by comparing the contract at payment time with actual performance. Criteria and required evidence are detailed in the refund policy.
+  Dans le service, la rétractation se pose lorsque l'attribution de Lemons ou la fourniture du service diffèrent du contenu du contrat. Les paiements en double ou les attributions incorrectes dues à une erreur de l'entreprise font également l'objet d'une correction. La reconnaissance du motif de rétractation est jugée en comparant le contrat du moment du paiement avec l'exécution réelle. Les critères de jugement et les justificatifs requis sont précisés dans la politique de remboursement.
 
-  When withdrawal is recognized, Lemons and benefits granted by that payment become subject to recollection. If some Lemons have already been used, settlement excludes the used portion. The final refund amount and recollection details can be checked before confirming the request. Overall withdrawal steps and handling deadlines are governed together by law, the terms, and the refund policy.
+  Lorsque la rétractation est reconnue, les Lemons et avantages attribués par ce paiement font l'objet d'une reprise. Si des Lemons ont déjà été utilisés, la part utilisée est exclue du solde. Le montant final du remboursement et le détail de la reprise peuvent être consultés avant la confirmation de la demande. La procédure globale de rétractation et les délais de traitement sont fixés conjointement par la législation applicable, les conditions et la politique de remboursement.
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - withdrawal
-  - cooling-off
+  - rétractation
+  - retrait du contrat
 match_phrases:
-  - phrase: Withdrawal
+  - phrase: rétractation
     auto_match: true
     priority: 100
-  - phrase: withdrawal
+  - phrase: retrait
     auto_match: true
     priority: 90

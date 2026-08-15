@@ -4,25 +4,24 @@ slug: withdrawal
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Withdrawal is the right to cancel a contract within a set period after formation. In our service it serves as the basis when paid Lemons are granted differently from the contract. The exact period and steps follow the refund policy."
+short: "Отказ от договора — это институт, позволяющий отказаться от договора в течение определенного срока после его заключения. В сервисе он служит основанием, когда условия выдачи оплаченных Lemons исполнены иначе, чем по договору. Конкретные срок и процедура следуют критериям, установленным в политике возвратов."
 long: |-
-  Withdrawal is the right for a consumer to unwind a contract within a set period after it is formed. It is used as the criterion when the display, advertisement, or contract differs from what was actually delivered. If a request is filed within the period set by law and the terms, its effect is recognized. When recognized, the payment for that contract is returned.
+  Отказ от договора — это право потребителя сделать договор недействительным в течение определенного срока после его заключения. Он используется как критерий оценки, когда содержание показа, рекламы или договора отличается от фактически предоставленного. Если запрос подан в срок, установленный законом и условиями, его действие признается. При признании отказа сумма по этому договору возвращается.
 
-  In our service, withdrawal becomes relevant when Lemon issuance or service delivery differs from the contract. Duplicate payments or incorrect grants due to company error are also subject to correction. Whether a withdrawal reason is recognized is judged by comparing the contract at payment time with actual performance. Criteria and required evidence are detailed in the refund policy.
+  В сервисе отказ от договора возникает, когда выдача Lemons или предоставление сервиса отличается от содержания договора. Повторные платежи или ошибочные выдачи по вине компании также подлежат исправлению. Признание причины отказа оценивается путем сравнения договора на момент платежа с фактическим исполнением. Критерии оценки и необходимые доказательства подробно описываются в политике возвратов.
 
-  When withdrawal is recognized, Lemons and benefits granted by that payment become subject to recollection. If some Lemons have already been used, settlement excludes the used portion. The final refund amount and recollection details can be checked before confirming the request. Overall withdrawal steps and handling deadlines are governed together by law, the terms, and the refund policy.
+  При признании отказа выданные этим платежом Lemons и преимущества подлежат отзыву. Если использованные Lemons уже есть, использованная часть исключается из урегулирования. Итоговая сумма возврата и детали отзыва могут быть проверены до подтверждения запроса. Общая процедура отказа и сроки обработки определяются совместно применимым законодательством, условиями и политикой возвратов.
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - withdrawal
-  - cooling-off
+  - отказ от договора
+  - отзыв
 match_phrases:
-  - phrase: Withdrawal
+  - phrase: отказ от договора
     auto_match: true
     priority: 100
-  - phrase: withdrawal
+  - phrase: отзыв
     auto_match: true
     priority: 90

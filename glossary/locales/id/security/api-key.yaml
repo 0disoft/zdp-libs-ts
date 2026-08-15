@@ -1,0 +1,23 @@
+id: security.api-key
+label: Kunci API
+slug: api-key
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Kunci API adalah kredensial autentikasi yang digunakan program untuk memanggil fitur layanan. Kunci API harus diperlakukan seperti kata sandi dan tidak pernah dibagikan secara publik. Mengirim kunci API ke dukungan dapat membuat orang lain menyalahgunakan akun Anda."
+long: |-
+  Kunci API adalah string rahasia yang digunakan program atau alat untuk memanggil fitur layanan secara aman. Kunci ini membuktikan bahwa pemanggil berwenang menjalankan tugas atas nama pengguna. Jika kunci API terekspos, orang lain dapat menggunakan layanan dengan wewenang itu. Karena itu, kunci API harus dilindungi pada tingkat yang sama dengan kata sandi.
+
+  Jangan sertakan kunci API dalam pertanyaan dukungan. Konten pertanyaan dapat melewati beberapa staf, sehingga cakupan pembagian sulit dikendalikan. Kredensial lain seperti token OAuth, kode pemulihan, dan kunci privat juga tidak boleh dikirim. Saat diperlukan, jalur pengumpulan aman terpisah diumumkan.
+
+  Jika Anda yakin kunci API telah terekspos, segera ganti dengan kunci baru. Anda dapat menerbitkan ulang atau mencabut kunci kapan saja. Perusahaan tidak pernah meminta kunci melalui saluran dukungan. Standar pengelolaan kunci dapat ditemukan di panduan keamanan setiap produk.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Kunci API
+match_phrases:
+  - phrase: Kunci API
+    auto_match: true
+    priority: 100

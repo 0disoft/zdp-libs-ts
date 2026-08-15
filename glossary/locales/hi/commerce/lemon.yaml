@@ -4,15 +4,14 @@ slug: lemon
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Lemon is the unified credit unit used across multiple products. It is split into paid Lemons granted on purchase and bonus Lemons granted as rewards. Paid Lemons can be eligible for refunds."
+short: "Lemon एक एकीकृत क्रेडिट इकाई है जिसका उपयोग कई उत्पादों में साझा रूप से किया जाता है. यह खरीद पर दिए जाने वाले सशुल्क Lemons और बोनस के रूप में दिए जाने वाले मुफ्त Lemons में विभाजित होता है. सशुल्क Lemons धनवापसी के दायरे में आ सकते हैं."
 long: |-
-  Lemon is the common credit unit used across multiple products. It is divided into paid Lemons granted through purchase and free Lemons granted through events or rewards. Each Lemon follows the validity and refundability set at grant time. The balance screen shows source and expiry for each Lemon.
+  Lemon एक क्रेडिट इकाई है जिसका उपयोग कई उत्पादों में साझा रूप से किया जाता है. यह खरीद के माध्यम से दिए जाने वाले सशुल्क Lemons और इवेंट या पुरस्कार के माध्यम से दिए जाने वाले मुफ्त Lemons में विभाजित होता है. प्रत्येक Lemon देने के समय तय की गई वैधता अवधि और धनवापसी की शर्तों का पालन करता है. शेष राशि स्क्रीन पर प्रत्येक Lemon के स्रोत और समाप्ति तिथि को देखा जा सकता है.
 
-  Lemons are deducted as the unit required to use a service. Actual deduction applies only to the completed scope of a task. If a task never started or no valid result was received due to company fault, reserved Lemons are restored. Deduction history can be checked in payment and usage records.
+  Lemons सेवा उपयोग के लिए आवश्यक इकाई के रूप में काटे जाते हैं. वास्तविक कटौती केवल पूर्ण हुए कार्य के दायरे पर लागू होती है. यदि कार्य शुरू नहीं हुआ है या कंपनी की गलती के कारण वैध परिणाम नहीं मिला है तो आरक्षित Lemons बहाल किए जाते हैं. कटौती का इतिहास भुगतान और उपयोग रिकॉर्ड में देखा जा सकता है.
 
-  Bonus Lemons may follow a different usage order from paid Lemons. Bonus Lemons are consumed starting with the earliest expiry. Expired Lemons are automatically removed and not restored. Overall issuance, expiry, and restoration rules for Lemons follow the credits policy.
+  बोनस Lemons का उपयोग क्रम सशुल्क Lemons से भिन्न हो सकता है. बोनस Lemons सबसे कम वैधता अवधि वाले से पहले उपयोग किए जाते हैं. समाप्त हो चुके Lemons स्वतः हटा दिए जाते हैं और बहाल नहीं होते. कुल मिलाकर Lemons के देने, समाप्ति और बहाली के नियम क्रेडिट नीति में तय किए गए मानदंडों का पालन करते हैं.
 example: null
 translation_status: reviewed
 source_locale: ko
@@ -23,6 +22,12 @@ match_phrases:
   - phrase: Lemon
     auto_match: true
     priority: 100
-  - phrase: Lemons
+  - phrase: खरीदे गए Lemons
+    auto_match: true
+    priority: 95
+  - phrase: बोनस Lemons
     auto_match: true
     priority: 90
+  - phrase: Lemons
+    auto_match: true
+    priority: 80

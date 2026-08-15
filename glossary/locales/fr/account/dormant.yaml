@@ -1,0 +1,23 @@
+id: account.dormant
+label: Compte inactif
+slug: dormant
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Un compte inactif est un compte sans connexion ni utilisation du service pendant une période. Les citrons achetés ne sont pas supprimés uniquement parce que le compte est inactif. En réutilisant le compte, les droits sur les citrons achetés sont conservés."
+long: |-
+  L'état inactif signifie qu'un compte est en attente faute de connexion ou d'utilisation du service pendant une période. Même inactif, les informations du compte et les citrons achetés restent conservés. La validité des citrons achetés s'applique de la même façon quel que soit l'état inactif. Se reconnecter lève l'état inactif.
+
+  L'état inactif diffère de la fermeture du compte ou de la fin du service. En cas de fermeture ou de fin, les étapes de remboursement et de transfert des citrons restants sont annoncées à l'avance. L'inactivité seule ne supprime jamais les citrons achetés sans préavis. La durée exacte d'inactivité figure dans chaque guide produit.
+
+  La propriété des citrons achetés est conservée même après une longue inactivité. Seuls les citrons avec une durée de validité peuvent expirer pendant l'inactivité. L'état et le calendrier d'expiration sont visibles sur l'écran de solde. Les questions peuvent être posées via le canal d'assistance.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Compte inactif
+match_phrases:
+  - phrase: Compte inactif
+    auto_match: true
+    priority: 100

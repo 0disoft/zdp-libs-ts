@@ -1,0 +1,27 @@
+id: legal.objection
+label: Objection
+slug: objection
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Khiếu nại là quy trình tranh chấp căn cứ của việc hạn chế và yêu cầu xem xét lại. Sau khi lý do hạn chế được thông báo, khiếu nại có thể được gửi qua kênh hỗ trợ khách hàng. Dựa trên kết quả xem xét lý do và bằng chứng đã gửi, biện pháp được giữ nguyên hoặc gỡ bỏ."
+long: |-
+  Khiếu nại là quy trình tranh chấp lý do của việc hạn chế hoặc biện pháp thanh toán và yêu cầu quyết định mới. Sau khi lý do và căn cứ hạn chế được thông báo, khiếu nại có thể được gửi trong thời hạn quy định. Khiếu nại đã gửi được lưu lại như hồ sơ. Giữ hay gỡ bỏ biện pháp phụ thuộc vào kết quả xem xét.
+
+  Ngay cả khi khiếu nại, các kênh kiểm tra lý do và lịch sử thanh toán vẫn được duy trì. Nếu không có lý do bảo mật hoặc pháp lý khẩn cấp, lý do được thông báo trước khi hạn chế. Trong quá trình khiếu nại, có thể yêu cầu xác minh danh tính và bằng chứng cần thiết. Phạm vi yêu cầu được xác định trong giới hạn cho phép về pháp lý và bảo mật.
+
+  Nếu khiếu nại được chấp nhận, hạn chế có thể được gỡ bỏ hoặc nới lỏng. Nếu không được chấp nhận, biện pháp hiện có vẫn được giữ nguyên. Kết quả được thông báo qua màn hình dịch vụ, thông báo hoặc email. Toàn bộ quy trình và thời hạn xử lý do điều khoản dịch vụ, hướng dẫn hỗ trợ khách hàng và pháp luật liên quan cùng quy định.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - khiếu nại
+  - kháng nghị
+match_phrases:
+  - phrase: khiếu nại
+    auto_match: true
+    priority: 100
+  - phrase: kháng nghị
+    auto_match: true
+    priority: 90

@@ -1,0 +1,34 @@
+id: commerce.refund
+label: Refund
+slug: refund
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Bayaran balik ialah proses memulangkan wang apabila pelaksanaan perkhidmatan berbeza daripada kontrak atau pembayaran berganda disahkan. Lemon berbayar diselesaikan dengan mengecualikan bahagian yang digunakan. Baki jumlah dipulangkan mengikut dasar bayaran balik."
+long: |-
+  Bayaran balik ialah proses memulangkan wang apabila kontrak yang dimaklumkan pada masa pembayaran berbeza daripada kandungan yang benar-benar diberikan. Pembayaran berganda atau caj yang salah akibat ralat sistem juga menjadi objek bayaran balik. Sebab bayaran balik dinilai dengan membandingkan kontrak pada masa pembayaran dengan Lemon dan manfaat yang benar-benar diberikan. Sama ada sebab bayaran balik diiktiraf dan bukti yang diperlukan ditetapkan secara terperinci dalam dasar bayaran balik.
+
+  Apabila bayaran balik diiktiraf, Lemon berbayar dan manfaat bonus yang diberikan oleh pembayaran tersebut menjadi objek penarikan semula. Jika sebahagian Lemon telah digunakan, bahagian yang digunakan dikecualikan daripada penyelesaian. Lemon bonus boleh diproses secara berasingan mengikut tempoh sah dan syarat pemberiannya. Butiran penyelesaian akhir dan jumlah bayaran balik boleh disemak sebelum permintaan disahkan.
+
+  Dalam kes pembayaran berganda atau kegagalan memberikan hasil yang sah disebabkan kesalahan syarikat, Lemon yang ditempah akan dipulihkan atau dibayar balik sepenuhnya. Had masa pemprosesan dan kaedah pemulangan mengikut kaedah pembayaran dan undang-undang yang terpakai. Prosedur bayaran balik secara keseluruhan ditetapkan bersama oleh terma perkhidmatan, dasar kredit, dan dasar bayaran balik. Status bayaran balik boleh disemak dalam rekod pembayaran dan penggunaan.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - bayaran balik
+  - pemulangan
+  - penyelesaian
+match_phrases:
+  - phrase: bayaran balik
+    auto_match: true
+    priority: 100
+  - phrase: pemulangan
+    auto_match: true
+    priority: 95
+  - phrase: penyelesaian
+    auto_match: true
+    priority: 90
+  - phrase: dasar bayaran balik
+    auto_match: true
+    priority: 85

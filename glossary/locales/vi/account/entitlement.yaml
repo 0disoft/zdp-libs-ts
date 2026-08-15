@@ -4,24 +4,24 @@ slug: entitlement
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Entitlement is the permission for an account to use a specific product or paid feature. Creating an account alone does not automatically grant all entitlements. Actual entitlements depend on age, country, payment method, and product conditions."
+short: "Quyền sử dụng là sự cho phép của tài khoản để sử dụng sản phẩm cụ thể hoặc tính năng trả phí. Chỉ tạo tài khoản không tự động cấp mọi quyền. Quyền thực tế khác nhau tùy theo độ tuổi, quốc gia cư trú, phương thức thanh toán và điều kiện sản phẩm."
 long: |-
-  Entitlement is the permission that applies differently to each service even when one account signs in to multiple products. Creating an account alone does not grant access to every product or paid feature. Actual entitlements are determined by product policy and availability. Whether you have an entitlement can be checked on each product screen after sign-in.
+  Quyền sử dụng là quyền được áp dụng khác nhau cho từng dịch vụ ngay cả khi một tài khoản đăng nhập vào nhiều sản phẩm. Việc tạo tài khoản không tạo ra quyền đối với mọi sản phẩm hoặc tính năng trả phí. Quyền thực tế được xác định theo chính sách và trạng thái cung cấp của từng sản phẩm. Có hay không có quyền có thể được kiểm tra trên màn hình từng sản phẩm sau khi đăng nhập.
 
-  Entitlement is managed together with account status and sign-in method. Keeping account information up to date keeps entitlement decisions accurate. Lending or selling an account or sign-in method to others is not allowed. Attempting a feature without the required entitlement may be blocked.
+  Quyền sử dụng được quản lý cùng với trạng thái tài khoản và phương thức đăng nhập. Duy trì thông tin tài khoản cập nhật giúp việc đánh giá quyền chính xác. Việc cho mượn hoặc bán tài khoản hoặc phương thức đăng nhập cho người khác không được phép. Cố gắng sử dụng tính năng mà không có quyền cần thiết có thể dẫn đến hạn chế truy cập.
 
-  Some entitlements are further restricted by age, country, payment method, or product characteristics. A restricted entitlement can be granted again when conditions are met. Whether conditions are met is judged by the criteria shown in the service. Overall grant and restriction criteria for entitlements are set by the terms and each product guide.
+  Một số quyền bị hạn chế thêm bởi độ tuổi, quốc gia cư trú, phương thức thanh toán hoặc đặc điểm sản phẩm. Quyền bị hạn chế có thể được cấp lại khi đáp ứng điều kiện. Việc có đáp ứng điều kiện hay không được đánh giá theo tiêu chí thông báo trên màn hình dịch vụ. Tiêu chí chung về cấp và hạn chế quyền được quy định bởi điều khoản dịch vụ và hướng dẫn từng sản phẩm.
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - entitlement
+  - quyền sử dụng
+  - quyền
 match_phrases:
-  - phrase: Entitlement
+  - phrase: quyền sử dụng
     auto_match: true
     priority: 100
-  - phrase: entitlement
+  - phrase: quyền
     auto_match: true
     priority: 70

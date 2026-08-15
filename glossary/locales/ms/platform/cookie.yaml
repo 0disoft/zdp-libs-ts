@@ -1,0 +1,23 @@
+id: platform.cookie
+label: Cookie
+slug: cookie
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Kuki ialah fail kecil yang disimpan oleh tapak dalam pelayar anda. Ia mengingati tetapan paparan seperti bahasa, tema dan saiz fon. Kuki penting menyokong perkhidmatan dan kuki pilihan boleh ditolak."
+long: |-
+  Kuki ialah fail maklumat kecil yang ditinggalkan oleh tapak yang anda lawati dalam pelayar. Ia mengingati keutamaan paparan supaya persekitaran yang sama muncul pada lawatan seterusnya. Ia adalah rekod pilihan dalam pelayar, bukan dokumen pengenalan. Anda boleh menyemak dan memadam tetapan ini dalam pelayar pada bila-bila masa.
+
+  Kuki penting mengendalikan fungsi minimum yang diperlukan untuk perkhidmatan berfungsi dengan betul. Kuki pilihan boleh digunakan untuk tambahan seperti iklan atau analitik. Kuki pilihan boleh ditolak melalui pengurusan persetujuan atau tetapan pelayar. Menolaknya tidak mengehadkan penggunaan asas perkhidmatan.
+
+  Dasar privasi mendedahkan secara telus kuki yang digunakan dan tujuannya. Apabila alat pihak ketiga menggunakan kuki, pembekal dan tujuannya diumumkan bersama. Anda boleh menukar tetapan kuki pada bila-bila masa selepas lawatan. Memadam semua kuki dalam pelayar tidak memadam akaun anda.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - kuki
+match_phrases:
+  - phrase: kuki
+    auto_match: true
+    priority: 100

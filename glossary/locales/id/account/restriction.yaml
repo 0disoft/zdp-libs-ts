@@ -1,0 +1,30 @@
+id: account.restriction
+label: Restriction
+slug: restriction
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Pembatasan adalah tindakan yang mencegah penggunaan layanan ketika syarat dilanggar atau ada risiko keamanan. Cakupannya dapat bervariasi dari membatasi sebagian fitur hingga membatasi seluruh akun. Risiko keamanan atau hukum yang mendesak dapat menjadi alasan pembatasan segera."
+long: |-
+  Pembatasan adalah tindakan yang membatasi penggunaan layanan ketika pelanggaran syarat atau risiko penipuan keamanan dan pembayaran terkonfirmasi. Tergantung pada tingkat dan cakupan pelanggaran, hanya sebagian fitur yang dapat dibatasi. Dalam kasus yang lebih serius, seluruh akun dapat dibatasi. Alasan dan cakupan pembatasan diberitahukan sebelum atau saat pembatasan diberlakukan.
+
+  Jika tidak ada alasan keamanan atau hukum yang mendesak, alasan pembatasan diberitahukan terlebih dahulu dan kesempatan untuk mengajukan keberatan diberikan. Meskipun akun dibatasi, jalur untuk memeriksa alasan dan riwayat pembayaran tetap tersedia. Keberatan dapat diajukan melalui kanal dukungan pelanggan dalam jangka waktu yang ditentukan. Apakah pembatasan dicabut diputuskan berdasarkan hasil peninjauan ulang dan status pembayaran.
+
+  Pembatasan akun berbeda dari penghentian kontrak. Pembatasan sementara dapat dicabut kembali ketika kondisinya teratasi. Penghentian kontrak mengarah pada penutupan akun atau keluarnya layanan. Lemon berbayar yang tersisa dan hak berbayar diselesaikan atau dikembalikan sesuai hukum dan kebijakan, dan tidak dihapus sekaligus tanpa pemberitahuan.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - pembatasan
+  - pembatasan akun
+match_phrases:
+  - phrase: pembatasan
+    auto_match: true
+    priority: 100
+  - phrase: penggunaan dibatasi
+    auto_match: true
+    priority: 90
+  - phrase: akun dibatasi
+    auto_match: true
+    priority: 90

@@ -1,0 +1,24 @@
+id: security.token
+label: Token
+slug: token
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Token adalah kredensial akses yang mewakili koneksi ke akun eksternal. Token hanya mengizinkan cakupan terbatas, bukan akses penuh seperti kata sandi. Token yang tersimpan dihapus saat koneksi ditarik."
+long: |-
+  Token adalah kredensial akses yang diterbitkan saat Anda mengizinkan koneksi layanan eksternal. Alih-alih memberi akses penuh seperti kata sandi, token hanya mengizinkan cakupan yang diizinkan. Layanan eksternal menggunakan token untuk melakukan tugas terbatas atas nama Anda. Token bukan kata sandi dan dapat diterbitkan ulang saat diperlukan.
+
+  Token yang tersimpan hanya digunakan untuk menjalankan fitur yang terhubung. Situasi yang memerlukan akses token dicatat dengan alasan dan cakupan. Saat Anda memutuskan koneksi, akses baru dihentikan segera. Setelah pemutusan, token yang tersimpan dan data cache dihapus.
+
+  Kebijakan privasi mengungkapkan secara transparan bagaimana token dikumpulkan, disimpan, dan dihapus. Token disimpan terpisah dan aman dari data biasa. Token dapat dicabut dan diterbitkan ulang saat akses mencurigakan terdeteksi. Anda dapat memeriksa dan menarik izin kapan saja dari daftar koneksi.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Token
+  - token
+match_phrases:
+  - phrase: token
+    auto_match: true
+    priority: 100

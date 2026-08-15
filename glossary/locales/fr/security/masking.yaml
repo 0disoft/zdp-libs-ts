@@ -1,0 +1,23 @@
+id: security.masking
+label: Masquage
+slug: masking
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Le masquage est une méthode de traitement qui affiche les informations personnelles avec des parties cachées. Les opérateurs ne peuvent voir que des informations masquées par défaut. L'accès au contenu brut n'est accordé qu'avec un motif et un périmètre enregistrés."
+long: |-
+  Le masquage est une méthode d'affichage d'informations personnelles telles que des noms ou des données de compte avec des parties remplacées par des marqueurs. Il garantit que seule l'information minimale nécessaire au travail est visible. Le masquage est appliqué par défaut dans les systèmes qui traitent des informations personnelles. Les opérateurs et le personnel de support voient aussi des informations masquées par défaut.
+
+  Certaines tâches exigent du contenu utilisateur brut ou des jetons de compte externes qui ne peuvent pas être masqués. Dans ces cas exceptionnels, le motif, le périmètre et l'expiration sont enregistrés. La trace d'accès reste dans un journal d'audit pour vérification ultérieure. L'accès exceptionnel est limité au personnel minimum nécessaire.
+
+  Le masquage est une façon de restreindre l'affichage, pas de supprimer des données. Les informations sources stockées sont conservées selon les normes de sécurité requises. Les utilisateurs peuvent s'informer à tout moment sur le traitement de leurs données. Les normes de masquage suivent la politique de confidentialité.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - masquée
+match_phrases:
+  - phrase: masquée
+    auto_match: true
+    priority: 100

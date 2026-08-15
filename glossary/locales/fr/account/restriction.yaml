@@ -1,0 +1,30 @@
+id: account.restriction
+label: Restriction
+slug: restriction
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "La restriction est une mesure qui empêche l'utilisation du service en cas de violation des conditions ou de risque de sécurité. Son périmètre peut aller de la limitation de certaines fonctions à la restriction de l'ensemble du compte. Un risque urgent de sécurité ou juridique peut justifier une restriction immédiate."
+long: |-
+  La restriction est une mesure qui limite l'utilisation du service lorsqu'une violation des conditions ou un risque de fraude de sécurité ou de paiement est confirmé. Selon la gravité et l'étendue de la violation, seules certaines fonctions peuvent être limitées. Dans les cas plus graves, l'ensemble du compte peut être restreint. Le motif et le périmètre de la restriction sont communiqués avant ou au moment de son application.
+
+  S'il n'existe aucun motif urgent de sécurité ou juridique, le motif de la restriction est communiqué à l'avance et une possibilité de contestation est offerte. Même si le compte est restreint, les voies de consultation du motif et de l'historique des paiements restent disponibles. La contestation peut être présentée via le canal d'assistance client dans le délai prévu. Le maintien ou la levée de la restriction est décidé selon le résultat du réexamen et l'état du paiement.
+
+  La restriction du compte est différente de la résiliation du contrat. Une restriction temporaire peut être levée lorsque les conditions sont remplies. La résiliation du contrat entraîne la fermeture du compte ou la sortie du service. Les Lemons achetés restants et les droits payants sont soldés ou remboursés conformément à la loi et aux politiques, et ne sont pas supprimés en bloc sans préavis.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - restriction
+  - restriction du compte
+match_phrases:
+  - phrase: restriction
+    auto_match: true
+    priority: 100
+  - phrase: restriction d'utilisation
+    auto_match: true
+    priority: 90
+  - phrase: compte restreint
+    auto_match: true
+    priority: 90

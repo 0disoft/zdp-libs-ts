@@ -1,0 +1,23 @@
+id: security.api-key
+label: Kunci API
+slug: api-key
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Kunci API ialah kelayakan pengesahan yang digunakan program untuk memanggil ciri perkhidmatan. Ia mesti dilayan seperti kata laluan dan tidak pernah dikongsi secara terbuka. Menghantar kunci API kepada sokongan boleh menyebabkan orang lain menyalahgunakan akaun anda."
+long: |-
+  Kunci API ialah rentetan rahsia yang digunakan program atau alat untuk memanggil ciri perkhidmatan dengan selamat. Ia membuktikan pemanggil diberi kuasa untuk menjalankan tugasan bagi pihak pengguna. Jika kunci API terdedah, orang lain boleh menggunakan perkhidmatan dengan kuasa itu. Oleh itu, ia mesti dilindungi pada tahap yang sama dengan kata laluan.
+
+  Jangan sertakan kunci API dalam pertanyaan sokongan. Kandungan pertanyaan boleh melalui beberapa kakitangan, jadi skop perkongsian sukar dikawal. Kelayakan lain seperti token OAuth, kod pemulihan dan kunci peribadi juga tidak boleh dihantar. Apabila perlu, laluan pengumpulan selamat yang berasingan diumumkan.
+
+  Jika anda percaya kunci API telah terdedah, gantikan dengan kunci baharu dengan segera. Anda boleh menerbitkan semula atau membatalkan kunci pada bila-bila masa. Syarikat tidak pernah meminta kunci melalui saluran sokongan. Piawaian pengurusan kunci boleh didapati dalam panduan keselamatan setiap produk.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Kunci API
+match_phrases:
+  - phrase: Kunci API
+    auto_match: true
+    priority: 100

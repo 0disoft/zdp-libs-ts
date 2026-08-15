@@ -4,15 +4,14 @@ slug: lemon
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Lemon is the unified credit unit used across multiple products. It is split into paid Lemons granted on purchase and bonus Lemons granted as rewards. Paid Lemons can be eligible for refunds."
+short: "Lemon ialah unit kredit bersepadu yang digunakan secara bersama dalam pelbagai produk. Ia terbahagi kepada Lemon berbayar yang diberikan semasa pembelian dan Lemon percuma yang diberikan sebagai bonus. Lemon berbayar boleh menjadi objek bayaran balik."
 long: |-
-  Lemon is the common credit unit used across multiple products. It is divided into paid Lemons granted through purchase and free Lemons granted through events or rewards. Each Lemon follows the validity and refundability set at grant time. The balance screen shows source and expiry for each Lemon.
+  Lemon ialah unit kredit yang digunakan secara bersama dalam pelbagai produk. Ia terbahagi kepada Lemon berbayar yang diberikan melalui pembelian dan Lemon percuma yang diberikan melalui acara atau ganjaran. Setiap Lemon mengikut syarat tempoh sah dan bayaran balik yang ditetapkan semasa pemberian. Pada skrin baki, sumber dan tarikh luput setiap Lemon boleh disemak.
 
-  Lemons are deducted as the unit required to use a service. Actual deduction applies only to the completed scope of a task. If a task never started or no valid result was received due to company fault, reserved Lemons are restored. Deduction history can be checked in payment and usage records.
+  Lemon ditolak sebagai unit yang diperlukan untuk menggunakan perkhidmatan. Potongan sebenar hanya digunakan pada skop tugasan yang selesai. Jika tugasan belum bermula atau hasil yang sah tidak diterima disebabkan kesalahan syarikat, Lemon yang ditempah akan dipulihkan. Sejarah potongan boleh disemak dalam rekod pembayaran dan penggunaan.
 
-  Bonus Lemons may follow a different usage order from paid Lemons. Bonus Lemons are consumed starting with the earliest expiry. Expired Lemons are automatically removed and not restored. Overall issuance, expiry, and restoration rules for Lemons follow the credits policy.
+  Lemon bonus mungkin mempunyai susunan penggunaan yang berbeza daripada Lemon berbayar. Lemon bonus digunakan dahulu bermula daripada yang tempoh sahnya paling pendek. Lemon yang luput dipadam secara automatik dan tidak dipulihkan. Secara keseluruhan, peraturan pemberian, luput, dan pemulihan Lemon mengikut kriteria yang ditetapkan dalam dasar kredit.
 example: null
 translation_status: reviewed
 source_locale: ko
@@ -23,6 +22,12 @@ match_phrases:
   - phrase: Lemon
     auto_match: true
     priority: 100
-  - phrase: Lemons
+  - phrase: Lemon yang dibeli
+    auto_match: true
+    priority: 95
+  - phrase: Lemon bonus
     auto_match: true
     priority: 90
+  - phrase: Lemons
+    auto_match: true
+    priority: 80

@@ -1,0 +1,23 @@
+id: security.api-key
+label: Clave API
+slug: api-key
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Una clave API es una credencial de autenticación que los programas usan para llamar a funciones del servicio. Debe tratarse como una contraseña y nunca compartirse públicamente. Enviar una clave API a soporte puede permitir que otros usen tu cuenta."
+long: |-
+  Una clave API es una cadena secreta que los programas o herramientas usan para llamar de forma segura a funciones del servicio. Prueba que el llamador está autorizado para ejecutar tareas en nombre del usuario. Si una clave API queda expuesta, otros pueden usar el servicio con esa autoridad. Por eso debe protegerse al mismo nivel que una contraseña.
+
+  No incluyas claves API en las consultas de soporte. El contenido de una consulta puede pasar por varios miembros del personal, por lo que el alcance del uso compartido es difícil de controlar. Tampoco deben enviarse otras credenciales como tokens OAuth, códigos de recuperación o claves privadas. Cuando sea necesario, se anuncia una vía de recogida segura por separado.
+
+  Si crees que una clave API quedó expuesta, sustitúyela por una clave nueva de inmediato. Puedes reemitir o revocar claves en cualquier momento. La empresa nunca pide claves por los canales de soporte. Los estándares de gestión de claves se encuentran en la guía de seguridad de cada producto.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Claves API
+match_phrases:
+  - phrase: Claves API
+    auto_match: true
+    priority: 100

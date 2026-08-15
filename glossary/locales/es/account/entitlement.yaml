@@ -4,24 +4,24 @@ slug: entitlement
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Entitlement is the permission for an account to use a specific product or paid feature. Creating an account alone does not automatically grant all entitlements. Actual entitlements depend on age, country, payment method, and product conditions."
+short: "El derecho de uso es la autorización de una cuenta para utilizar un producto específico o una función de pago. Solo crear una cuenta no otorga automáticamente todos los derechos. Los derechos reales varían según la edad, el país de residencia, el medio de pago y las condiciones del producto."
 long: |-
-  Entitlement is the permission that applies differently to each service even when one account signs in to multiple products. Creating an account alone does not grant access to every product or paid feature. Actual entitlements are determined by product policy and availability. Whether you have an entitlement can be checked on each product screen after sign-in.
+  El derecho de uso es una autorización que se aplica de forma diferente a cada servicio aunque una cuenta inicie sesión en varios productos. El simple hecho de crear una cuenta no genera derechos sobre todos los productos o funciones de pago. Los derechos reales se determinan según la política y el estado de disponibilidad de cada producto. Si se tiene o no un derecho puede consultarse en la pantalla de cada producto después de iniciar sesión.
 
-  Entitlement is managed together with account status and sign-in method. Keeping account information up to date keeps entitlement decisions accurate. Lending or selling an account or sign-in method to others is not allowed. Attempting a feature without the required entitlement may be blocked.
+  El derecho de uso se gestiona junto con el estado de la cuenta y el método de inicio de sesión. Mantener actualizada la información de la cuenta permite juzgar los derechos con precisión. No se permite prestar ni vender la cuenta o el método de inicio de sesión a otras personas. Intentar usar una función sin el derecho requerido puede dar lugar a una restricción de acceso.
 
-  Some entitlements are further restricted by age, country, payment method, or product characteristics. A restricted entitlement can be granted again when conditions are met. Whether conditions are met is judged by the criteria shown in the service. Overall grant and restriction criteria for entitlements are set by the terms and each product guide.
+  Algunos derechos están adicionalmente limitados por la edad, el país de residencia, el medio de pago o las características del producto. Un derecho restringido puede volver a otorgarse cuando se cumplen las condiciones. Si se cumplen o no las condiciones se juzga según los criterios indicados en la pantalla del servicio. Los criterios generales de concesión y restricción de derechos se establecen en los términos del servicio y en la guía de cada producto.
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - entitlement
+  - derecho de uso
+  - derechos
 match_phrases:
-  - phrase: Entitlement
+  - phrase: derecho de uso
     auto_match: true
     priority: 100
-  - phrase: entitlement
+  - phrase: derechos
     auto_match: true
     priority: 70

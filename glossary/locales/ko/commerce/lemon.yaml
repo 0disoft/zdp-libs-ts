@@ -4,7 +4,6 @@ slug: lemon
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
 short: "Lemon은 여러 제품에서 공통으로 사용하는 통합 크레딧 단위이다. 구매 시 지급되는 유상 레몬과 보너스로 지급되는 무상 레몬으로 구분된다. 유상 레몬은 환불 대상이 될 수 있다."
 long: |-

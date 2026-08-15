@@ -1,0 +1,24 @@
+id: commerce.chargeback
+label: Chargeback
+slug: chargeback
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "A chargeback is a process where payment is returned through the payment provider after a payment dispute. When funds are recovered for reasons other than duplication or error, related benefits are also settled. Use of that payment and its paid features may be restricted until the issue is resolved."
+long: |-
+  A chargeback is a process in which a card issuer or payment provider recovers payment because of a dispute. It can start when a payer claims they did not approve a payment or when a service dispute arises. The company reviews the reason and submits required evidence in response. The chargeback result is reflected in payment status and transaction records.
+
+  When funds are recovered through a chargeback, purchased and bonus Lemons granted by that payment become subject to recovery. If some Lemons were already used, settlement covers only the used portion. Payments and that paid feature may remain restricted until the issue is resolved. The reason and progress are clearly announced to the user.
+
+  A chargeback differs from a normal refund in procedure. A refund is handled by the service first, while a chargeback involves the payment provider. If the objection is not accepted, the payment stays and the deduction history remains. Detailed standards can be found in the refund policy and credits policy.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Chargeback
+  - chargeback
+match_phrases:
+  - phrase: chargeback
+    auto_match: true
+    priority: 100

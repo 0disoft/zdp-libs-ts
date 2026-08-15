@@ -1,0 +1,33 @@
+id: commerce.refund
+label: Refund
+slug: refund
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Refund is the return of payment when service delivery differs from the contract or a duplicate payment is confirmed. Paid Lemons are settled excluding the used portion. The remaining amount is returned according to the refund policy."
+long: |-
+  Refund is the handling that returns payment when delivery is shown to differ from the contract at payment time. It also covers duplicate payments and system errors that create incorrect charges. The contract shown at checkout is compared with the Lemons and benefits actually granted. Criteria and required evidence are detailed in the refund policy.
+
+  When a refund is recognized, paid Lemons and bonus benefits granted by that payment become subject to recollection. If some Lemons have already been used, settlement excludes the used portion. Bonus Lemons may be handled separately according to their validity and grant terms. The final settlement and refund amount can be checked before confirming the request.
+
+  For duplicate payments or cases where no valid result was delivered due to company fault, reserved Lemons are restored or fully refunded. Handling deadlines and return methods follow the payment method and applicable law. Overall refund steps are governed by the terms, credits policy, and refund policy. The refund status is tracked in the payment and usage records.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - refund
+  - settlement
+match_phrases:
+  - phrase: Refund
+    auto_match: true
+    priority: 100
+  - phrase: refund
+    auto_match: true
+    priority: 80
+  - phrase: Settlement
+    auto_match: true
+    priority: 90
+  - phrase: settlement
+    auto_match: true
+    priority: 70

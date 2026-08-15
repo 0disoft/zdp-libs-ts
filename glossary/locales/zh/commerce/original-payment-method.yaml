@@ -1,0 +1,23 @@
+id: commerce.original-payment-method
+label: 原支付方式
+slug: original-payment-method
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "原支付方式是结算时用户实际使用的支付手段。 退款原则上会退回至该原支付方式。 实际到账时间可能因支付服务商而不同。"
+long: |-
+  原支付方式是指用户结算时实际支付的卡或账户等手段。 退款申请确定后，剩余金额原则上通过该方式退回。 根据卡公司等支付服务商的处理日程，实际到账可能需要额外时间。 到账状态可在结算和使用记录中确认。
+
+  如果原支付方式在结构上无法进行部分退款，会提供替代方案。 替代的退款方法和最终金额会在申请确定前预先告知。 只有在用户同意后才会进行替代退款。 不同意时维持原有支付方式的标准。
+
+  退款金额和方式会在申请过程中透明显示。 被收回的奖励柠檬或优惠也会在同一画面中一起告知。 最终结算明细会在确定前再次公开。 相关标准可在退款政策和柠檬政策中确认。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - 原支付方式
+match_phrases:
+  - phrase: 原支付方式
+    auto_match: true
+    priority: 100

@@ -1,0 +1,22 @@
+id: security.api-key
+label: API 키
+slug: api-key
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "API 키는 프로그램이 기능을 호출할 때 쓰는 인증 자격 증명이다. 비밀번호처럼 취급해야 하며 외부에 공개하면 안 된다. 고객 지원에 API 키를 보내면 계정이 오용될 수 있다."
+long: |-
+  API 키는 프로그램이나 도구가 서비스의 기능을 안전하게 호출하기 위해 사용하는 비밀 문자열이다. 사용자를 대신해 작업을 실행하는 자격을 증명하는 역할을 한다. API 키가 노출되면 다른 사람이 그 자격으로 서비스를 이용할 수 있다. 그래서 비밀번호와 같은 수준으로 보호해야 한다.
+
+  고객 지원 문의에는 API 키를 포함하지 말아야 한다. 문의 내용은 여러 담당자를 거칠 수 있어 공유 범위를 통제하기 어렵다. OAuth 토큰, 복구 코드, 개인키 같은 다른 자격 증명도 함께 보내면 안 된다. 필요한 경우에는 별도의 안전한 수집 경로를 안내한다.
+
+  API 키가 노출되었다고 판단되면 즉시 새 키로 교체해야 한다. 사용자는 언제든 키를 재발급하거나 폐기할 수 있다. 회사는 지원 채널을 통해 키를 요구하지 않는다. 키 관리 기준은 각 제품의 보안 안내에서 확인할 수 있다.
+example: null
+translation_status: reviewed
+aliases:
+  - API 키
+match_phrases:
+  - phrase: API 키
+    auto_match: true
+    priority: 100

@@ -4,15 +4,12 @@ glossary_contract:
   copy_contract:
     current_version: 2
     legacy_default_version: 1
-    llm_authoring_model: meta/muse-spark-1.2-contributor
     human_review_required: true
-    model_update_policy: contract-revision
     copy_provenance:
       required_from_version: 2
       allowed_origins:
         - human
         - llm
-      llm_model_required: true
       llm_initial_human_review_status: pending
       human_review_complete_status: reviewed
       unreviewed_llm_severity: warning

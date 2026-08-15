@@ -1,0 +1,30 @@
+id: account.restriction
+label: Restriction
+slug: restriction
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "La restricción es una medida que impide el uso del servicio cuando se violan los términos o existe un riesgo de seguridad. El alcance puede ir desde limitar algunas funciones hasta restringir toda la cuenta. Un riesgo urgente de seguridad o legal puede ser motivo de restricción inmediata."
+long: |-
+  La restricción es una medida que limita el uso del servicio cuando se confirma una violación de los términos o un riesgo de fraude de seguridad o de pago. Según la gravedad y el alcance de la infracción, solo pueden limitarse algunas funciones. En casos más graves, puede restringirse toda la cuenta. El motivo y el alcance de la restricción se comunican antes de aplicarla o en el momento de aplicarla.
+
+  Si no existe un motivo urgente de seguridad o legal, se informa el motivo de la restricción de antemano y se ofrece la oportunidad de presentar una apelación. Aunque la cuenta esté restringida, se mantienen las vías para consultar el motivo y revisar el historial de pagos. La apelación puede presentarse a través del canal de atención al cliente dentro del plazo establecido. Si se levanta o no la restricción se decide según el resultado de la revisión y el estado del pago.
+
+  La restricción de la cuenta es diferente de la terminación del contrato. Una restricción temporal puede levantarse cuando se resuelven las condiciones. La terminación del contrato conduce al cierre de la cuenta o a la salida del servicio. Los Lemons comprados restantes y los derechos de pago se liquidan o reembolsan conforme a la ley y las políticas, y no se eliminan en bloque sin previo aviso.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - restricción
+  - restricción de la cuenta
+match_phrases:
+  - phrase: restricción
+    auto_match: true
+    priority: 100
+  - phrase: restricción de uso
+    auto_match: true
+    priority: 90
+  - phrase: cuenta restringida
+    auto_match: true
+    priority: 90

@@ -4,25 +4,24 @@ slug: withdrawal
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Withdrawal is the right to cancel a contract within a set period after formation. In our service it serves as the basis when paid Lemons are granted differently from the contract. The exact period and steps follow the refund policy."
+short: "Rút lại là chế độ cho phép rút lại hợp đồng trong một khoảng thời gian nhất định sau khi ký kết. Trong dịch vụ, rút lại trở thành căn cứ khi điều kiện cấp Lemon trả phí được thực hiện khác với hợp đồng. Thời hạn và quy trình cụ thể tuân theo tiêu chí được quy định trong chính sách hoàn tiền."
 long: |-
-  Withdrawal is the right for a consumer to unwind a contract within a set period after it is formed. It is used as the criterion when the display, advertisement, or contract differs from what was actually delivered. If a request is filed within the period set by law and the terms, its effect is recognized. When recognized, the payment for that contract is returned.
+  Rút lại là quyền của người tiêu dùng để làm cho hợp đồng không còn hiệu lực trong một khoảng thời gian nhất định sau khi ký kết. Nó được sử dụng làm tiêu chí đánh giá khi nội dung hiển thị, quảng cáo hoặc hợp đồng khác với những gì thực tế được cung cấp. Nếu yêu cầu được gửi trong thời hạn do pháp luật và điều khoản quy định, hiệu lực của nó được công nhận. Khi rút lại được công nhận, số tiền của hợp đồng đó được hoàn trả.
 
-  In our service, withdrawal becomes relevant when Lemon issuance or service delivery differs from the contract. Duplicate payments or incorrect grants due to company error are also subject to correction. Whether a withdrawal reason is recognized is judged by comparing the contract at payment time with actual performance. Criteria and required evidence are detailed in the refund policy.
+  Trong dịch vụ, rút lại trở thành vấn đề khi việc cấp Lemon hoặc cung cấp dịch vụ khác với nội dung hợp đồng. Thanh toán trùng lặp hoặc cấp sai do lỗi của công ty cũng thuộc đối tượng hiệu chỉnh. Việc lý do rút lại có được công nhận hay không được đánh giá bằng cách so sánh hợp đồng tại thời điểm thanh toán với việc thực hiện thực tế. Tiêu chí đánh giá và bằng chứng cần thiết được thông báo cụ thể trong chính sách hoàn tiền.
 
-  When withdrawal is recognized, Lemons and benefits granted by that payment become subject to recollection. If some Lemons have already been used, settlement excludes the used portion. The final refund amount and recollection details can be checked before confirming the request. Overall withdrawal steps and handling deadlines are governed together by law, the terms, and the refund policy.
+  Khi rút lại được công nhận, Lemon và lợi ích được cấp bởi khoản thanh toán đó trở thành đối tượng thu hồi. Nếu có Lemon đã sử dụng, phần đã sử dụng được loại trừ khỏi thanh toán. Số tiền hoàn lại cuối cùng và chi tiết thu hồi có thể được kiểm tra trước khi xác nhận yêu cầu. Toàn bộ quy trình rút lại và thời hạn xử lý do pháp luật liên quan, điều khoản và chính sách hoàn tiền cùng quy định.
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - withdrawal
-  - cooling-off
+  - rút lại
+  - hủy hợp đồng
 match_phrases:
-  - phrase: Withdrawal
+  - phrase: rút lại
     auto_match: true
     priority: 100
-  - phrase: withdrawal
+  - phrase: hủy hợp đồng
     auto_match: true
     priority: 90

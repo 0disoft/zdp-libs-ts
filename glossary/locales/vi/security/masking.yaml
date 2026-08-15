@@ -1,0 +1,23 @@
+id: security.masking
+label: Che thông tin
+slug: masking
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Che là phương pháp xử lý hiển thị thông tin cá nhân với một phần bị ẩn. Nhân viên vận hành mặc định chỉ thấy thông tin đã che. Truy cập nội dung gốc chỉ được cấp khi có ghi lại lý do và phạm vi."
+long: |-
+  Che là phương pháp hiển thị thông tin cá nhân như tên hoặc thông tin tài khoản với một phần được thay bằng ký hiệu. Phương pháp này đảm bảo chỉ hiện thông tin tối thiểu cần cho công việc. Trong các hệ thống xử lý thông tin cá nhân, che được áp dụng như nguyên tắc cơ bản. Nhân viên vận hành và hỗ trợ cũng mặc định chỉ thấy thông tin đã che.
+
+  Một số tác vụ cần nội dung người dùng gốc hoặc token tài khoản ngoài mà không thể che. Trong các trường hợp ngoại lệ này, lý do, phạm vi và thời gian hết hạn được ghi lại. Bản ghi truy cập được giữ như nhật ký kiểm toán để xem lại sau. Truy cập ngoại lệ chỉ giới hạn ở số nhân viên tối thiểu cần thiết.
+
+  Che là cách giới hạn hiển thị chứ không phải xóa dữ liệu. Thông tin gốc được lưu trữ theo tiêu chuẩn bảo mật cần thiết. Người dùng có thể hỏi về cách thông tin của mình được xử lý bất cứ lúc nào. Tiêu chuẩn che được vận hành theo chính sách quyền riêng tư.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - đã che
+match_phrases:
+  - phrase: đã che
+    auto_match: true
+    priority: 100

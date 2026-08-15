@@ -4,25 +4,30 @@ slug: lemon
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Lemon is the unified credit unit used across multiple products. It is split into paid Lemons granted on purchase and bonus Lemons granted as rewards. Paid Lemons can be eligible for refunds."
+short: "柠檬是多个产品共同使用的统一积分单位。分为购买时发放的付费柠檬和作为奖励发放的免费柠檬。付费柠檬可能成为退款对象。"
 long: |-
-  Lemon is the common credit unit used across multiple products. It is divided into paid Lemons granted through purchase and free Lemons granted through events or rewards. Each Lemon follows the validity and refundability set at grant time. The balance screen shows source and expiry for each Lemon.
+  柠檬是多个产品共同使用的积分单位。 分为通过购买发放的付费柠檬和通过活动或奖励发放的免费柠檬。 每个柠檬的有效期和退款可能性遵循发放时确定的条件。 在余额页面可以查看柠檬的来源和到期日。
 
-  Lemons are deducted as the unit required to use a service. Actual deduction applies only to the completed scope of a task. If a task never started or no valid result was received due to company fault, reserved Lemons are restored. Deduction history can be checked in payment and usage records.
+  柠檬是使用服务时所需的扣除单位。 实际扣除仅针对已完成的任务范围。 如果任务尚未开始，或因公司责任未能获得有效结果，预留的柠檬将被恢复。 扣除记录可以在支付和使用记录中查看。
 
-  Bonus Lemons may follow a different usage order from paid Lemons. Bonus Lemons are consumed starting with the earliest expiry. Expired Lemons are automatically removed and not restored. Overall issuance, expiry, and restoration rules for Lemons follow the credits policy.
+  奖励柠檬可能与付费柠檬的使用顺序不同。 奖励柠檬从有效期较短的部分开始使用。 超过有效期的柠檬会自动失效且不会恢复。 整体上，柠檬的发放、过期和恢复规则遵循积分政策确定的标准。
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - Lemon
-  - Lemons
+  - 柠檬
+  - 柠檬余额
 match_phrases:
-  - phrase: Lemon
+  - phrase: 柠檬
     auto_match: true
     priority: 100
-  - phrase: Lemons
+  - phrase: 购买柠檬
+    auto_match: true
+    priority: 95
+  - phrase: 奖励柠檬
     auto_match: true
     priority: 90
+  - phrase: Lemon
+    auto_match: true
+    priority: 80

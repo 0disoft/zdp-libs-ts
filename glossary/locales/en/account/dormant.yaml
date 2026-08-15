@@ -1,0 +1,27 @@
+id: account.dormant
+label: Dormancy
+slug: dormant
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Dormancy is an account state in which the user has not signed in or used the service for a certain period. Purchased Lemons are not deleted solely because an account is dormant. Returning to the account keeps the rights to purchased Lemons intact."
+long: |-
+  Dormancy means an account has become idle because the user has not signed in or used the service for a certain period. Even in a dormant state, account information and purchased Lemons remain stored. The validity of purchased Lemons applies the same regardless of dormancy. Signing back in lifts the dormant state.
+
+  Dormancy differs from account closure or service termination. On closure or termination, refund and transfer steps for remaining Lemons are announced in advance. Dormancy itself never removes purchased Lemons without notice. The exact dormant period is shown in each product guide.
+
+  Purchased Lemon ownership is preserved even after long dormancy. Only Lemons with a validity period can expire while dormant. Expiry status and schedules are visible on the balance screen. Questions can be raised through the support channel.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Dormancy
+  - dormant state
+match_phrases:
+  - phrase: Dormancy
+    auto_match: true
+    priority: 100
+  - phrase: dormant state
+    auto_match: true
+    priority: 90

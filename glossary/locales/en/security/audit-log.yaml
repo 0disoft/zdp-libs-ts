@@ -1,0 +1,30 @@
+id: security.audit-log
+label: Audit Log
+slug: audit-log
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "An audit log is a security record of who accessed what information and when. Exceptional access is recorded with reason, scope, and expiration. Security incidents are investigated through these records."
+long: |-
+  An audit log is a chronological record of major accesses and changes in a system. It makes it possible to verify who accessed what information, when, and for what purpose. Normal work records are included and occur only within permitted authority. The records are protected so they are difficult to forge or delete.
+
+  Exceptional access to raw personal content or external account tokens is always recorded in the audit log. The reason, scope, and expiration time are recorded together to ensure transparency. When a security incident or fraudulent use is suspected, these records are used to trace the cause. Access to the logs themselves is also separately restricted.
+
+  An audit log is a basic safeguard for handling personal information safely. The privacy policy discloses how audit logs are operated. Access to user data is kept to a minimum and is always recorded. Records that are no longer needed are deleted according to the stated retention period.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Audit Log
+  - audit trail
+match_phrases:
+  - phrase: audit trail
+    auto_match: true
+    priority: 100
+  - phrase: audit log
+    auto_match: true
+    priority: 90
+  - phrase: audit logs
+    auto_match: true
+    priority: 80

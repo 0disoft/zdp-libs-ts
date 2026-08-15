@@ -1,0 +1,34 @@
+id: commerce.refund
+label: Refund
+slug: refund
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Le remboursement est le traitement qui restitue le montant lorsque l'exécution du service diffère du contrat ou qu'un paiement en double est confirmé. Les Lemons payants sont soldés en excluant la part utilisée. Le montant restant est restitué selon la politique de remboursement."
+long: |-
+  Le remboursement est le traitement qui restitue le montant lorsque le contrat présenté au moment du paiement diffère du contenu réellement fourni. Les paiements en double ou les prélèvements incorrects dus à une erreur système sont également éligibles au remboursement. Le motif du remboursement est déterminé en comparant le contrat du moment du paiement avec les Lemons et avantages réellement accordés. La reconnaissance du motif du remboursement et les justificatifs requis sont précisés dans la politique de remboursement.
+
+  Lorsque le remboursement est reconnu, les Lemons payants et les avantages de bonus accordés par ce paiement font l'objet d'une reprise. Si une partie des Lemons a déjà été utilisée, la part utilisée est exclue du solde. Les Lemons de bonus peuvent être traités séparément selon leur validité et leurs conditions d'attribution. Le détail final du solde et le montant du remboursement peuvent être consultés avant la confirmation de la demande.
+
+  En cas de paiement en double ou d'absence de résultat valable fourni du fait de l'entreprise, les Lemons réservés sont restaurés ou intégralement remboursés. Les délais de traitement et le mode de restitution suivent le moyen de paiement et la législation applicable. La procédure globale de remboursement est fixée conjointement par les conditions d'utilisation, la politique de crédits et la politique de remboursement. L'état du remboursement peut être consulté dans les enregistrements de paiement et d'utilisation.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - remboursement
+  - restitution
+  - solde
+match_phrases:
+  - phrase: remboursement
+    auto_match: true
+    priority: 100
+  - phrase: restitution
+    auto_match: true
+    priority: 95
+  - phrase: solde
+    auto_match: true
+    priority: 90
+  - phrase: politique de remboursement
+    auto_match: true
+    priority: 85

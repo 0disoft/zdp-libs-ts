@@ -4,15 +4,14 @@ slug: lemon
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Lemon is the unified credit unit used across multiple products. It is split into paid Lemons granted on purchase and bonus Lemons granted as rewards. Paid Lemons can be eligible for refunds."
+short: "Lemon là đơn vị tín dụng tích hợp được sử dụng chung trên nhiều sản phẩm. Lemon được chia thành Lemon trả phí cấp khi mua và Lemon miễn phí cấp như phần thưởng. Lemon trả phí có thể thuộc đối tượng hoàn tiền."
 long: |-
-  Lemon is the common credit unit used across multiple products. It is divided into paid Lemons granted through purchase and free Lemons granted through events or rewards. Each Lemon follows the validity and refundability set at grant time. The balance screen shows source and expiry for each Lemon.
+  Lemon là đơn vị tín dụng được sử dụng chung trên nhiều sản phẩm. Lemon được chia thành Lemon trả phí cấp qua việc mua và Lemon miễn phí cấp qua sự kiện hoặc phần thưởng. Mỗi Lemon tuân theo điều kiện thời hạn hiệu lực và khả năng hoàn tiền được xác định tại thời điểm cấp. Trên màn hình số dư, có thể kiểm tra nguồn gốc và ngày hết hạn của từng Lemon.
 
-  Lemons are deducted as the unit required to use a service. Actual deduction applies only to the completed scope of a task. If a task never started or no valid result was received due to company fault, reserved Lemons are restored. Deduction history can be checked in payment and usage records.
+  Lemon được trừ như đơn vị cần thiết để sử dụng dịch vụ. Việc trừ thực tế chỉ áp dụng cho phạm vi công việc đã hoàn thành. Nếu công việc chưa bắt đầu hoặc không nhận được kết quả hợp lệ do lỗi của công ty, Lemon đã đặt trước sẽ được khôi phục. Lịch sử trừ có thể được kiểm tra trong hồ sơ thanh toán và sử dụng.
 
-  Bonus Lemons may follow a different usage order from paid Lemons. Bonus Lemons are consumed starting with the earliest expiry. Expired Lemons are automatically removed and not restored. Overall issuance, expiry, and restoration rules for Lemons follow the credits policy.
+  Lemon thưởng có thể có thứ tự sử dụng khác với Lemon trả phí. Lemon thưởng được sử dụng trước bắt đầu từ loại có thời hạn ngắn nhất. Lemon hết hạn bị xóa tự động và không được khôi phục. Nhìn chung, các quy tắc cấp, hết hạn và khôi phục Lemon tuân theo tiêu chí được quy định trong chính sách tín dụng.
 example: null
 translation_status: reviewed
 source_locale: ko
@@ -23,6 +22,12 @@ match_phrases:
   - phrase: Lemon
     auto_match: true
     priority: 100
-  - phrase: Lemons
+  - phrase: Lemon đã mua
+    auto_match: true
+    priority: 95
+  - phrase: Lemon thưởng
     auto_match: true
     priority: 90
+  - phrase: Lemons
+    auto_match: true
+    priority: 80

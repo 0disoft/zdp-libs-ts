@@ -4,15 +4,14 @@ slug: lemon
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Lemon is the unified credit unit used across multiple products. It is split into paid Lemons granted on purchase and bonus Lemons granted as rewards. Paid Lemons can be eligible for refunds."
+short: "Lemon — это единая кредитная единица, используемая совместно в нескольких продуктах. Она делится на оплаченные Lemons, выдаваемые при покупке, и бесплатные Lemons, выдаваемые в качестве бонуса. Оплаченные Lemons могут подлежать возврату."
 long: |-
-  Lemon is the common credit unit used across multiple products. It is divided into paid Lemons granted through purchase and free Lemons granted through events or rewards. Each Lemon follows the validity and refundability set at grant time. The balance screen shows source and expiry for each Lemon.
+  Lemon — это кредитная единица, используемая совместно в нескольких продуктах. Она делится на оплаченные Lemons, выдаваемые при покупке, и бесплатные Lemons, выдаваемые через события или вознаграждения. Каждый Lemon следует условиям срока действия и возможности возврата, установленным при выдаче. На экране баланса можно проверить источник и дату истечения каждого Lemon.
 
-  Lemons are deducted as the unit required to use a service. Actual deduction applies only to the completed scope of a task. If a task never started or no valid result was received due to company fault, reserved Lemons are restored. Deduction history can be checked in payment and usage records.
+  Lemons списываются как единица, необходимая для использования сервиса. Фактическое списание применяется только к завершенной части задачи. Если задача не началась или действительный результат не получен по вине компании, зарезервированные Lemons восстанавливаются. Историю списаний можно проверить в записях платежей и использования.
 
-  Bonus Lemons may follow a different usage order from paid Lemons. Bonus Lemons are consumed starting with the earliest expiry. Expired Lemons are automatically removed and not restored. Overall issuance, expiry, and restoration rules for Lemons follow the credits policy.
+  Бонусные Lemons могут иметь иной порядок использования, чем оплаченные Lemons. Бонусные Lemons расходуются в первую очередь начиная с самых ранних по сроку действия. Истекшие Lemons автоматически удаляются и не восстанавливаются. В целом правила выдачи, истечения и восстановления Lemons следуют критериям, установленным в политике кредитов.
 example: null
 translation_status: reviewed
 source_locale: ko
@@ -23,6 +22,12 @@ match_phrases:
   - phrase: Lemon
     auto_match: true
     priority: 100
-  - phrase: Lemons
+  - phrase: оплаченные Lemons
+    auto_match: true
+    priority: 95
+  - phrase: бонусные Lemons
     auto_match: true
     priority: 90
+  - phrase: Lemons
+    auto_match: true
+    priority: 80

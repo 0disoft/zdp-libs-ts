@@ -1,0 +1,23 @@
+id: security.audit-log
+label: Jejak audit
+slug: audit-log
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Jejak audit adalah catatan keamanan tentang siapa yang mengakses informasi apa dan kapan. Akses luar biasa dicatat dengan alasan, cakupan, dan kedaluwarsa. Insiden keamanan diselidiki melalui catatan ini."
+long: |-
+  Jejak audit adalah catatan kronologis akses dan perubahan utama dalam sebuah sistem. Catatan ini memungkinkan verifikasi siapa yang mengakses informasi apa, kapan, dan untuk tujuan apa. Catatan kerja normal juga disertakan dan hanya terjadi dalam batas wewenang yang diizinkan. Catatan dilindungi sehingga sulit dipalsukan atau dihapus.
+
+  Akses luar biasa ke konten pribadi mentah atau token akun eksternal selalu tercatat dalam jejak audit. Alasan, cakupan, dan waktu kedaluwarsa dicatat bersama untuk memastikan transparansi. Saat insiden keamanan atau penggunaan curang dicurigai, catatan ini digunakan untuk menelusuri penyebab. Akses ke log itu sendiri juga dibatasi secara terpisah.
+
+  Jejak audit adalah pengaman dasar untuk menangani informasi pribadi dengan aman. Kebijakan privasi mengungkapkan bagaimana jejak audit dijalankan. Akses ke data pengguna dijaga seminimal mungkin dan selalu dicatat. Catatan yang tidak lagi diperlukan dihapus sesuai periode retensi yang ditentukan.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - jejak audit
+match_phrases:
+  - phrase: jejak audit
+    auto_match: true
+    priority: 100

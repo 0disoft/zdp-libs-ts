@@ -1,0 +1,27 @@
+id: legal.objection
+label: Objection
+slug: objection
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "La contestation est une procédure permettant de contester les motifs d'une restriction et de demander un nouvel examen. Une fois le motif de la restriction notifié, la contestation peut être présentée via le canal d'assistance client. Le maintien ou la levée de la mesure est décidé selon le résultat de l'examen des motifs et des preuves présentés."
+long: |-
+  La contestation est une procédure permettant de contester les motifs d'une restriction ou d'une mesure de paiement et de demander une nouvelle décision. Lorsque le motif et le fondement de la restriction sont notifiés, une contestation peut être présentée dans le délai prévu. La contestation présentée est conservée comme trace. Le maintien ou la levée de la mesure dépend du résultat de l'examen.
+
+  Même en cas de contestation, les voies de consultation du motif et de l'historique des paiements restent disponibles. S'il n'existe aucun motif urgent de sécurité ou juridique, le motif est communiqué avant la restriction. Au cours de la contestation, une vérification d'identité et des justificatifs nécessaires peuvent être demandés. Le périmètre de la demande est déterminé dans la limite autorisée par la loi et la sécurité.
+
+  Si la contestation est acceptée, la restriction peut être levée ou allégée. Si elle n'est pas acceptée, la mesure existante est maintenue. Le résultat est communiqué via l'écran du service, une notification ou un courriel. La procédure globale et les délais de traitement sont fixés conjointement par les conditions d'utilisation, le guide d'assistance client et la législation applicable.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - contestation
+  - recours
+match_phrases:
+  - phrase: contestation
+    auto_match: true
+    priority: 100
+  - phrase: recours
+    auto_match: true
+    priority: 90

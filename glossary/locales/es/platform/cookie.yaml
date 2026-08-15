@@ -1,0 +1,27 @@
+id: platform.cookie
+label: Cookie
+slug: cookie
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Una cookie es un archivo pequeño que un sitio guarda en tu navegador. Recuerda ajustes de visualización como el idioma, el tema y el tamaño de letra. Las cookies esenciales sostienen el servicio y las opcionales pueden rechazarse."
+long: |-
+  Una cookie es un pequeño archivo de información que deja en tu navegador el sitio que visitas. Recuerda las preferencias de visualización para que el mismo entorno aparezca en tu próxima visita. Es un registro de elecciones dentro del navegador, no un documento de identidad. Puedes revisar y borrar estos ajustes en el navegador en cualquier momento.
+
+  Las cookies esenciales gestionan las funciones mínimas necesarias para que el servicio funcione correctamente. Las cookies opcionales pueden usarse para extras como publicidad o análisis. Las cookies opcionales pueden rechazarse mediante la gestión de consentimiento o los ajustes del navegador. Rechazarlas no limita el uso básico del servicio.
+
+  La política de privacidad divulga de forma transparente qué cookies se usan y con qué fin. Cuando herramientas de terceros usan cookies, se anuncia también el proveedor y el propósito. Puedes cambiar los ajustes de cookies en cualquier momento después de tu visita. Borrar todas las cookies del navegador no elimina tu cuenta.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Cookie
+  - cookies
+match_phrases:
+  - phrase: cookie
+    auto_match: true
+    priority: 100
+  - phrase: cookies
+    auto_match: true
+    priority: 90

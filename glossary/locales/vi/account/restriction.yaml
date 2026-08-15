@@ -1,0 +1,30 @@
+id: account.restriction
+label: Restriction
+slug: restriction
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Hạn chế là biện pháp ngăn chặn việc sử dụng dịch vụ khi vi phạm điều khoản hoặc có rủi ro bảo mật. Phạm vi có thể từ hạn chế một số chức năng đến hạn chế toàn bộ tài khoản. Rủi ro bảo mật hoặc pháp lý khẩn cấp có thể là lý do hạn chế ngay lập tức."
+long: |-
+  Hạn chế là biện pháp giới hạn việc sử dụng dịch vụ khi xác nhận vi phạm điều khoản hoặc rủi ro gian lận bảo mật và thanh toán. Tùy theo mức độ và phạm vi vi phạm, chỉ một số chức năng có thể bị giới hạn. Trong trường hợp nghiêm trọng hơn, toàn bộ tài khoản có thể bị hạn chế. Lý do và phạm vi hạn chế được thông báo trước hoặc tại thời điểm áp dụng.
+
+  Nếu không có lý do bảo mật hoặc pháp lý khẩn cấp, lý do hạn chế được thông báo trước và tạo cơ hội khiếu nại. Ngay cả khi tài khoản bị hạn chế, các kênh kiểm tra lý do và lịch sử thanh toán vẫn được duy trì. Khiếu nại có thể được gửi qua kênh hỗ trợ khách hàng trong thời hạn quy định. Việc gỡ bỏ hạn chế hay không được quyết định dựa trên kết quả xem xét lại và trạng thái thanh toán.
+
+  Hạn chế tài khoản khác với chấm dứt hợp đồng. Hạn chế tạm thời có thể được gỡ bỏ khi các điều kiện được giải quyết. Chấm dứt hợp đồng dẫn đến việc đóng tài khoản hoặc rời khỏi dịch vụ. Lemon trả phí còn lại và quyền trả phí được thanh toán hoặc hoàn trả theo pháp luật và chính sách, không bị xóa hàng loạt mà không thông báo.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - hạn chế
+  - hạn chế tài khoản
+match_phrases:
+  - phrase: hạn chế
+    auto_match: true
+    priority: 100
+  - phrase: sử dụng bị hạn chế
+    auto_match: true
+    priority: 90
+  - phrase: tài khoản bị hạn chế
+    auto_match: true
+    priority: 90

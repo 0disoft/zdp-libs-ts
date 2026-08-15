@@ -1,0 +1,23 @@
+id: security.audit-log
+label: 审计日志
+slug: audit-log
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "审计日志是记录谁在何时访问了哪些信息的安防记录。 例外访问会连同原因、范围和过期时间一起记录。 发生安全事件时，通过这些记录确认原因。"
+long: |-
+  审计日志是按时序记录系统中主要访问和变更的记录。 它可以确认谁在何时出于何种目的访问了哪些信息。 正常的业务处理记录也包括在内，且仅在权限范围内进行。 记录本身受到保护，难以伪造或删除。
+
+  访问个人隐私原文或外部账户令牌的例外情况必定会留在审计日志中。 访问原因、范围和过期时间一起记录，确保透明度。 怀疑发生安全事故或非法使用时，通过这些记录追踪原因。 查看日志的权限也另行受限。
+
+  审计日志是安全处理个人信息的基本装置。 隐私政策会公开审计日志的运营标准。 确认用户数据的操作保持在最低限度，并且始终留下记录。 不再需要的记录会按照规定的保存期限删除。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - 审计日志
+match_phrases:
+  - phrase: 审计日志
+    auto_match: true
+    priority: 100

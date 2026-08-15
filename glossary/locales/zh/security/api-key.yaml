@@ -1,0 +1,23 @@
+id: security.api-key
+label: API 密钥
+slug: api-key
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "API 密钥是程序调用服务功能时使用的身份验证凭证。 它需要像密码一样对待，绝不能对外公开。 把 API 密钥发给客服，账户可能被他人滥用。"
+long: |-
+  API 密钥是程序或工具为安全调用服务功能而使用的秘密字符串。 它用于证明调用方获得授权，可以代替用户执行任务。 API 密钥一旦泄露，其他人就能用该权限使用服务。 因此需要以与密码同等的水平保护它。
+
+  客服咨询中不应包含 API 密钥。 咨询内容可能经过多名工作人员，共享范围难以控制。 OAuth 令牌、恢复代码、私钥等其他凭证也不应一并发送。 需要时，我们会另行告知安全的收集路径。
+
+  如果判断 API 密钥已经泄露，应立即更换为新密钥。 用户可以随时重新签发或废弃密钥。 公司不会通过客服渠道索要密钥。 密钥管理标准可在各产品的安全指南中确认。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - API 密钥
+match_phrases:
+  - phrase: API 密钥
+    auto_match: true
+    priority: 100

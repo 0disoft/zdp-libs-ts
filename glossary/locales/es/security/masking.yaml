@@ -1,0 +1,23 @@
+id: security.masking
+label: Enmascarado
+slug: masking
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "El enmascarado es un método de procesamiento que muestra información personal con partes ocultas. Los operadores solo pueden ver información enmascarada por defecto. El acceso al contenido original se concede solo con un motivo y un alcance registrados."
+long: |-
+  El enmascarado es un método de mostrar información personal como nombres o datos de cuenta con partes reemplazadas por marcadores. Garantiza que solo sea visible la información mínima necesaria para el trabajo. El enmascarado se aplica como principio predeterminado en los sistemas que manejan información personal. Los operadores y el personal de soporte también ven información enmascarada por defecto.
+
+  Algunas tareas requieren contenido de usuario original o tokens de cuenta externos que no pueden enmascararse. En estos casos excepcionales se registran el motivo, el alcance y el tiempo de expiración. El registro de acceso permanece como un registro de auditoría para revisión posterior. El acceso excepcional se limita al mínimo personal necesario.
+
+  El enmascarado es una forma de restringir la visualización, no de eliminar datos. La información original almacenada se mantiene bajo los estándares de seguridad requeridos. Los usuarios pueden preguntar en cualquier momento cómo se procesa su información. Los estándares de enmascarado se operan según la política de privacidad.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - enmascarada
+match_phrases:
+  - phrase: enmascarada
+    auto_match: true
+    priority: 100

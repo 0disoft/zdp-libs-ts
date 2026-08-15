@@ -1,0 +1,23 @@
+id: platform.cdn
+label: CDN
+slug: cdn
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Un CDN est un réseau qui stocke des fichiers sur de nombreux serveurs et les livre rapidement depuis un emplacement proche. Il fournit des fichiers partagés comme des polices et des scripts d'un site. Les adresses IP d'accès peuvent être transmises au fournisseur de CDN lors des requêtes."
+long: |-
+  CDN signifie Content Delivery Network et fonctionne en copiant des fichiers sur des serveurs de plusieurs régions et en les livrant depuis le serveur le plus proche de vous. Il sert à livrer rapidement et de façon fiable des fichiers partagés comme des polices, des scripts et des images. Les requêtes sont réparties entre des serveurs régionaux au lieu de surcharger un seul serveur. La vitesse de chargement perçue s'améliore aussi.
+
+  Ce site utilise jsDelivr CDN pour livrer les polices. Ouvrir une page crée une requête vers un serveur CDN pour des fichiers. La requête peut transmettre votre adresse IP d'accès et des informations de base sur le navigateur au fournisseur de CDN. Les informations transmises sont le minimum nécessaire pour livrer les fichiers.
+
+  La politique de confidentialité divulgue de façon transparente l'utilisation du CDN et les informations traitées. Le détail est aussi disponible dans l'avis de sous-traitants du fournisseur. Un CDN est une infrastructure qui accélère les chemins de livraison, pas un outil qui stocke ou analyse le contenu. D'autres CDN ou hébergeurs peuvent être ajoutés à mesure que le service grandit, avec un préavis.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - CDN
+match_phrases:
+  - phrase: CDN
+    auto_match: true
+    priority: 100

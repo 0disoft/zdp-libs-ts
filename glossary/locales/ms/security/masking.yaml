@@ -1,0 +1,23 @@
+id: security.masking
+label: Penyamaran
+slug: masking
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Penyamaran ialah kaedah pemprosesan yang memaparkan maklumat peribadi dengan sebahagian bahagian disembunyikan. Operator hanya boleh melihat maklumat bertopeng secara lalai. Akses kepada kandungan mentah hanya diberikan dengan sebab dan skop yang direkodkan."
+long: |-
+  Penyamaran ialah kaedah memaparkan maklumat peribadi seperti nama atau butiran akaun dengan sebahagian bahagian digantikan penanda. Ia memastikan hanya maklumat minimum yang diperlukan untuk kerja kelihatan. Dalam sistem yang mengendalikan maklumat peribadi, penyamaran digunakan sebagai prinsip asas. Operator dan kakitangan sokongan juga melihat maklumat bertopeng secara lalai.
+
+  Sesetengah tugas memerlukan kandungan pengguna mentah atau token akaun luaran yang tidak boleh disamarkan. Dalam kes luar biasa ini, sebab, skop dan masa tamat direkodkan. Rekod akses kekal sebagai jejak audit untuk semakan kemudian. Akses luar biasa dihadkan kepada kakitangan minimum yang diperlukan.
+
+  Penyamaran ialah cara mengehadkan paparan, bukan memadam data. Maklumat sumber yang disimpan dijaga dengan piawaian keselamatan yang diperlukan. Pengguna boleh bertanya tentang cara maklumat mereka diproses pada bila-bila masa. Piawaian penyamaran dikendalikan mengikut dasar privasi.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - bertopeng
+match_phrases:
+  - phrase: bertopeng
+    auto_match: true
+    priority: 100

@@ -1,0 +1,23 @@
+id: platform.cdn
+label: CDN
+slug: cdn
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "A CDN is a network that stores files across many servers and delivers them quickly from a nearby location. It provides shared files such as fonts and scripts for a site. Access IP addresses may be transmitted to the CDN provider during requests."
+long: |-
+  CDN stands for Content Delivery Network and works by copying files to servers in multiple regions and delivering them from the server closest to you. It is used to deliver shared files such as fonts, scripts, and images quickly and reliably. Requests are handled across regional servers instead of overloading one server. Perceived page loading speed also improves.
+
+  This site uses jsDelivr CDN to deliver fonts. Opening a page creates a request to a CDN server for files. The request may transmit your access IP address and basic browser information to the CDN provider. The transmitted information is the minimum needed to deliver the files.
+
+  The privacy policy transparently discloses CDN use and the information processed. Detailed status is also available in the CDN provider's sub-processor notice. A CDN is infrastructure that speeds up delivery paths rather than a tool that stores or analyzes content. Additional CDNs or hosting providers may be introduced as the service grows and will be announced in advance.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - CDN
+match_phrases:
+  - phrase: CDN
+    auto_match: true
+    priority: 100

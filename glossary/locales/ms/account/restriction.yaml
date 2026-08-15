@@ -1,0 +1,30 @@
+id: account.restriction
+label: Restriction
+slug: restriction
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Sekatan ialah tindakan yang menghalang penggunaan perkhidmatan apabila terma dilanggar atau terdapat risiko keselamatan. Skopnya boleh berbeza daripada menyekat sebahagian fungsi hingga menyekat keseluruhan akaun. Risiko keselamatan atau undang-undang yang mendesak boleh menjadi sebab sekatan serta-merta."
+long: |-
+  Sekatan ialah tindakan yang menyekat penggunaan perkhidmatan apabila pelanggaran terma atau risiko penipuan keselamatan dan pembayaran disahkan. Bergantung pada tahap dan skop pelanggaran, hanya sebahagian fungsi yang boleh disekat. Dalam kes yang lebih serius, keseluruhan akaun boleh disekat. Sebab dan skop sekatan dimaklumkan sebelum atau semasa sekatan dikuatkuasakan.
+
+  Jika tiada sebab keselamatan atau undang-undang yang mendesak, sebab sekatan dimaklumkan terlebih dahulu dan peluang untuk mengemukakan rayuan diberikan. Walaupun akaun disekat, laluan untuk menyemak sebab dan sejarah pembayaran tetap tersedia. Rayuan boleh dikemukakan melalui saluran sokongan pelanggan dalam tempoh yang ditetapkan. Sama ada sekatan ditarik balik diputuskan berdasarkan hasil semakan semula dan status pembayaran.
+
+  Sekatan akaun berbeza daripada penamatan kontrak. Sekatan sementara boleh ditarik balik apabila keadaan selesai. Penamatan kontrak membawa kepada penutupan akaun atau penamatan perkhidmatan. Lemon berbayar yang tinggal dan hak berbayar diselesaikan atau dibayar balik mengikut undang-undang dan dasar, dan tidak dihapuskan sekaligus tanpa notis.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - sekatan
+  - sekatan akaun
+match_phrases:
+  - phrase: sekatan
+    auto_match: true
+    priority: 100
+  - phrase: penggunaan disekat
+    auto_match: true
+    priority: 90
+  - phrase: akaun disekat
+    auto_match: true
+    priority: 90

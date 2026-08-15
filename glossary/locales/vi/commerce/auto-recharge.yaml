@@ -1,0 +1,23 @@
+id: commerce.auto-recharge
+label: Nạp tự động
+slug: auto-recharge
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Nạp tự động là tính năng tự động nạp số tiền đã cài đặt khi số dư Lemon xuống dưới mức quy định. Người dùng có thể hủy nạp tự động bất cứ lúc nào. Sau khi hủy sẽ không phát sinh nạp thêm."
+long: |-
+  Nạp tự động giúp người dùng duy trì số dư mà không cần nạp thủ công. Khi số dư xuống dưới mức đã cài đặt, số tiền cấu hình được tự động nạp. Lịch sử và số tiền nạp được hiển thị trong bản ghi thanh toán. Việc có dùng nạp tự động hay không là lựa chọn của người dùng.
+
+  Nạp tự động có thể hủy bất cứ lúc nào, chỉ dừng các lần nạp sau đó. Các khoản thanh toán đã hoàn tất trước khi hủy tuân theo tiêu chí hoàn tiền hiện có. Số tiền nạp qua tính năng tự động cũng có thể được hoàn tiền như thanh toán thông thường. Sau khi hủy, người dùng có thể nạp thủ công khi cần.
+
+  Màn hình cài đặt nạp tự động cho phép chọn số dư mức và số tiền nạp. Thay đổi cài đặt và lịch sử hủy được hiển thị trong dịch vụ. Lỗi do nạp tự động gây ra có thể được khắc phục qua kênh hỗ trợ. Tiêu chí tổng thể do chính sách tín dụng và hoàn tiền cùng quy định.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Nạp tự động
+match_phrases:
+  - phrase: nạp tự động
+    auto_match: true
+    priority: 100

@@ -1,0 +1,27 @@
+id: security.api-key
+label: API Key
+slug: api-key
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "An API key is an authentication credential that programs use to call service features. It must be treated like a password and never shared publicly. Sending an API key to support can let others misuse your account."
+long: |-
+  An API key is a secret string that programs or tools use to call service features securely. It proves that the caller is authorized to run tasks on behalf of the user. If an API key is exposed, others can use the service with that authority. It must therefore be protected at the same level as a password.
+
+  Do not include API keys in support inquiries. Inquiry content can pass through several staff members, so sharing scope is hard to control. Other credentials such as OAuth tokens, recovery codes, and private keys must not be sent either. When needed, a separate secure collection path is announced.
+
+  If you believe an API key was exposed, replace it with a new key immediately. You can reissue or revoke keys at any time. The company never asks for keys through support channels. Key management standards can be found in each product's security guidance.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - API Key
+  - API key
+match_phrases:
+  - phrase: API key
+    auto_match: true
+    priority: 100
+  - phrase: API keys
+    auto_match: true
+    priority: 90

@@ -1,0 +1,23 @@
+id: commerce.auto-recharge
+label: Tambah nilai automatik
+slug: auto-recharge
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Tambah nilai automatik menambah jumlah yang ditetapkan apabila baki Lemon turun di bawah ambang. Pengguna boleh membatalkannya pada bila-bila masa. Selepas pembatalan, tiada tambah nilai tambahan berlaku."
+long: |-
+  Tambah nilai automatik membolehkan pengguna mengekalkan baki tanpa menambah nilai secara manual. Apabila baki turun di bawah ambang yang ditetapkan, jumlah yang dikonfigurasi dicaj secara automatik. Sejarah dan jumlah tambah nilai dapat dilihat dalam rekod pembayaran. Sama ada menggunakan tambah nilai automatik adalah pilihan pengguna sendiri.
+
+  Tambah nilai automatik boleh dibatalkan pada bila-bila masa, yang hanya menghentikan tambah nilai masa hadapan. Pembayaran yang telah diselesaikan sebelum pembatalan mengikut kriteria bayaran balik sedia ada. Jumlah yang dicaj melalui tambah nilai automatik juga boleh dibayar balik seperti pembayaran biasa. Selepas pembatalan, pengguna boleh menambah nilai secara manual mengikut keperluan.
+
+  Skrin tetapan tambah nilai automatik membolehkan pengguna memilih baki ambang dan jumlah tambah nilai. Perubahan tetapan dan sejarah pembatalan dipaparkan dalam perkhidmatan. Ralat yang disebabkan tambah nilai automatik boleh diperbetulkan melalui saluran sokongan. Kriteria keseluruhan ditetapkan bersama oleh dasar kredit dan bayaran balik.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Tambah nilai automatik
+match_phrases:
+  - phrase: tambah nilai automatik
+    auto_match: true
+    priority: 100

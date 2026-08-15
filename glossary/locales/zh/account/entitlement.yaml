@@ -4,24 +4,24 @@ slug: entitlement
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Entitlement is the permission for an account to use a specific product or paid feature. Creating an account alone does not automatically grant all entitlements. Actual entitlements depend on age, country, payment method, and product conditions."
+short: "使用权限是账户使用特定产品或付费功能的权限。仅创建账户不会自动获得所有权限。实际权限因年龄、居住国家、支付方式和产品条件而异。"
 long: |-
-  Entitlement is the permission that applies differently to each service even when one account signs in to multiple products. Creating an account alone does not grant access to every product or paid feature. Actual entitlements are determined by product policy and availability. Whether you have an entitlement can be checked on each product screen after sign-in.
+  使用权限是一个账户登录多个产品后，也按各服务不同适用的使用权限。 仅创建账户这一事实不会带来所有产品或付费功能的权限。 实际权限根据各产品的政策与提供状态确定。 是否拥有权限可在登录后各产品页面查看。
 
-  Entitlement is managed together with account status and sign-in method. Keeping account information up to date keeps entitlement decisions accurate. Lending or selling an account or sign-in method to others is not allowed. Attempting a feature without the required entitlement may be blocked.
+  使用权限与账户状态和登录方式一同管理。 保持账户信息最新才能准确判断权限。 不得将账户或登录方式出借或出售给他人。 在无权限状态下尝试功能时，访问可能会受到限制。
 
-  Some entitlements are further restricted by age, country, payment method, or product characteristics. A restricted entitlement can be granted again when conditions are met. Whether conditions are met is judged by the criteria shown in the service. Overall grant and restriction criteria for entitlements are set by the terms and each product guide.
+  部分权限会因年龄、居住国家、支付方式或产品特性而受到额外限制。 受限权限在满足条件后可以重新授予。 是否满足条件以服务页面告知的标准判断。 整体权限的授予与限制标准由服务条款和各产品指南规定。
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - entitlement
+  - 使用权限
+  - 权限
 match_phrases:
-  - phrase: Entitlement
+  - phrase: 使用权限
     auto_match: true
     priority: 100
-  - phrase: entitlement
+  - phrase: 权限
     auto_match: true
     priority: 70

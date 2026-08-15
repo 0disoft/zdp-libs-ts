@@ -1,0 +1,27 @@
+id: security.token
+label: Token
+slug: token
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Token 是表示外部账户连接状态的访问凭证。 它不是密码，只允许在授权的范围内确认权限。 解除连接后，已存储的 Token 会被删除。"
+long: |-
+  Token 是用户允许外部服务连接时签发的访问凭证。 它不是像密码那样授予全部权限，而是只允许使用已授权的范围。 外部服务借助此 Token 代替用户执行受限任务。 Token 本身不是密码，需要时可以重新签发。
+
+  已存储的 Token 仅在执行已连接功能时使用。 需要确认 Token 的情况会记录原因和访问范围。 用户解除连接时，新的访问权限会立即停止。 解除后，会执行删除已存储 Token 和缓存数据的流程。
+
+  隐私政策会透明公开 Token 的收集、保管和删除标准。 Token 会与一般数据分离并安全保管。 检测到安全事件或可疑访问时，可以废弃 Token 并重新签发。 用户可以随时在连接列表中确认和撤回权限。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Token
+  - 令牌
+match_phrases:
+  - phrase: 令牌
+    auto_match: true
+    priority: 100
+  - phrase: Token
+    auto_match: true
+    priority: 80

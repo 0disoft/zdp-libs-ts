@@ -1,0 +1,27 @@
+id: security.token
+label: Token
+slug: token
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "A token is an access credential that represents a connection to an external account. It allows only a limited scope instead of full password access. Stored tokens are deleted when the connection is withdrawn."
+long: |-
+  A token is an access credential issued when you allow an external service connection. Instead of granting full access like a password, it allows only the permitted scope. The external service uses the token to perform limited tasks on your behalf. A token is not a password and can be reissued when needed.
+
+  Stored tokens are used only to run the connected feature. Situations requiring token access are recorded with the reason and scope. When you disconnect, new access is stopped immediately. After disconnection, stored tokens and cached data are deleted.
+
+  The privacy policy transparently discloses how tokens are collected, stored, and deleted. Tokens are kept separately and securely from ordinary data. Tokens can be revoked and reissued when suspicious access is detected. You can review and withdraw permissions at any time from the connection list.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Token
+  - token
+match_phrases:
+  - phrase: token
+    auto_match: true
+    priority: 100
+  - phrase: tokens
+    auto_match: true
+    priority: 90

@@ -1,0 +1,23 @@
+id: account.dormant
+label: Trạng thái không hoạt động
+slug: dormant
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Trạng thái không hoạt động là trạng thái tài khoản không đăng nhập hoặc không sử dụng dịch vụ trong một khoảng thời gian. Lemon đã mua không bị xóa chỉ vì tài khoản không hoạt động. Khi dùng lại tài khoản, quyền đối với Lemon đã mua vẫn được giữ nguyên."
+long: |-
+  Trạng thái không hoạt động nghĩa là tài khoản bị bỏ trống do không đăng nhập hoặc không sử dụng dịch vụ trong một khoảng thời gian. Dù tài khoản không hoạt động, thông tin tài khoản và Lemon đã mua vẫn được lưu giữ. Hiệu lực của Lemon đã mua được áp dụng như nhau dù có không hoạt động hay không. Đăng nhập lại sẽ gỡ bỏ trạng thái không hoạt động.
+
+  Trạng thái không hoạt động khác với việc đóng tài khoản hoặc chấm dứt dịch vụ. Khi đóng tài khoản hoặc chấm dứt dịch vụ, các bước hoàn tiền và chuyển giao Lemon còn lại được thông báo trước. Bản thân việc không hoạt động không bao giờ xóa Lemon đã mua mà không báo trước. Khoảng thời gian không hoạt động chính xác được nêu trong hướng dẫn từng sản phẩm.
+
+  Quyền sở hữu Lemon đã mua được giữ ngay cả sau thời gian không hoạt động dài. Chỉ những Lemon có thời hạn hiệu lực mới có thể hết hạn trong lúc không hoạt động. Trạng thái và lịch hết hạn được hiển thị trên màn hình số dư. Có thể đặt câu hỏi qua kênh hỗ trợ.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Trạng thái không hoạt động
+match_phrases:
+  - phrase: trạng thái không hoạt động
+    auto_match: true
+    priority: 100

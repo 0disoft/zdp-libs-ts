@@ -4,25 +4,24 @@ slug: withdrawal
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Withdrawal is the right to cancel a contract within a set period after formation. In our service it serves as the basis when paid Lemons are granted differently from the contract. The exact period and steps follow the refund policy."
+short: "Penarikan adalah sistem yang memungkinkan penarikan kontrak dalam jangka waktu tertentu setelah kontrak dibuat. Dalam layanan, penarikan menjadi dasar ketika ketentuan pemberian Lemon berbayar dilaksanakan berbeda dari kontrak. Jangka waktu dan prosedur yang konkret mengikuti kriteria yang ditetapkan dalam kebijakan pengembalian dana."
 long: |-
-  Withdrawal is the right for a consumer to unwind a contract within a set period after it is formed. It is used as the criterion when the display, advertisement, or contract differs from what was actually delivered. If a request is filed within the period set by law and the terms, its effect is recognized. When recognized, the payment for that contract is returned.
+  Penarikan adalah hak konsumen untuk menjadikan kontrak tidak berlaku dalam jangka waktu tertentu setelah membuat kontrak. Penarikan digunakan sebagai kriteria penilaian ketika tampilan, iklan, atau isi kontrak berbeda dari apa yang benar-benar diberikan. Jika permintaan diajukan dalam jangka waktu yang ditetapkan hukum dan ketentuan, efeknya diakui. Ketika penarikan diakui, uang untuk kontrak tersebut dikembalikan.
 
-  In our service, withdrawal becomes relevant when Lemon issuance or service delivery differs from the contract. Duplicate payments or incorrect grants due to company error are also subject to correction. Whether a withdrawal reason is recognized is judged by comparing the contract at payment time with actual performance. Criteria and required evidence are detailed in the refund policy.
+  Dalam layanan, penarikan menjadi persoalan ketika pemberian Lemon atau penyediaan layanan berbeda dari isi kontrak. Pembayaran ganda atau pemberian yang salah akibat kesalahan perusahaan juga menjadi objek koreksi. Diakui tidaknya alasan penarikan dinilai dengan membandingkan kontrak saat pembayaran dengan pelaksanaan yang sebenarnya. Kriteria penilaian dan bukti yang diperlukan diberitahukan secara rinci dalam kebijakan pengembalian dana.
 
-  When withdrawal is recognized, Lemons and benefits granted by that payment become subject to recollection. If some Lemons have already been used, settlement excludes the used portion. The final refund amount and recollection details can be checked before confirming the request. Overall withdrawal steps and handling deadlines are governed together by law, the terms, and the refund policy.
+  Ketika penarikan diakui, Lemon dan manfaat yang diberikan oleh pembayaran tersebut menjadi objek penarikan kembali. Jika ada Lemon yang sudah digunakan, bagian yang digunakan dikecualikan dari penyelesaian. Jumlah pengembalian dana akhir dan rincian penarikan kembali dapat diperiksa sebelum permintaan dikonfirmasi. Prosedur penarikan secara keseluruhan dan tenggat pemrosesan ditetapkan bersama oleh hukum yang berlaku, ketentuan, dan kebijakan pengembalian dana.
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - withdrawal
-  - cooling-off
+  - penarikan
+  - pembatalan kontrak
 match_phrases:
-  - phrase: Withdrawal
+  - phrase: penarikan
     auto_match: true
     priority: 100
-  - phrase: withdrawal
+  - phrase: pembatalan
     auto_match: true
     priority: 90

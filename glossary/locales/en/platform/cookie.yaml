@@ -1,0 +1,27 @@
+id: platform.cookie
+label: Cookie
+slug: cookie
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "A cookie is a small file that a site stores in your browser. It remembers display settings such as language, theme, and font size. Essential cookies support the service and optional cookies can be refused."
+long: |-
+  A cookie is a small information file that a site you visit leaves in your browser. It remembers display preferences so the same environment appears on your next visit. It is a record of choices inside the browser rather than an identity document. You can review and clear these settings in the browser at any time.
+
+  Essential cookies handle the minimum functions needed for the service to work correctly. Optional cookies may be used for extras such as advertising or analytics. Optional cookies can be refused through consent management or browser settings. Refusing them does not limit basic service use.
+
+  The privacy policy transparently discloses which cookies are used for which purpose. When third-party tools use cookies, the provider and purpose are announced together. You can change cookie settings at any time after your visit. Clearing all cookies in the browser does not remove your account itself.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Cookie
+  - Cookies
+match_phrases:
+  - phrase: Cookie
+    auto_match: true
+    priority: 100
+  - phrase: cookies
+    auto_match: true
+    priority: 90

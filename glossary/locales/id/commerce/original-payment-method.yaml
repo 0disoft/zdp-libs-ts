@@ -1,0 +1,23 @@
+id: commerce.original-payment-method
+label: Metode pembayaran asli
+slug: original-payment-method
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Metode pembayaran asli adalah sarana yang benar-benar digunakan saat membayar. Pengembalian dana pada prinsipnya dikembalikan ke metode ini. Waktu penerapan dapat berbeda tergantung penyedia pembayaran."
+long: |-
+  Metode pembayaran asli berarti kartu atau rekening yang benar-benar digunakan pengguna untuk membayar. Setelah permintaan pengembalian dikonfirmasi, sisa jumlah dikembalikan melalui metode ini pada prinsipnya. Waktu tambahan mungkin diperlukan sesuai jadwal pemrosesan penyedia pembayaran. Status penerapan dapat dicek di catatan pembayaran dan penggunaan.
+
+  Jika pengembalian sebagian tidak mungkin dilakukan secara struktural melalui metode asli, alternatif ditawarkan. Metode alternatif dan jumlah akhir diumumkan sebelum konfirmasi. Pengembalian pengganti hanya berjalan setelah pengguna menyetujui. Tanpa persetujuan, kriteria metode asli tetap berlaku.
+
+  Jumlah dan metode pengembalian ditampilkan secara transparan selama proses permintaan. Lemon bonus dan manfaat yang ditarik kembali juga ditampilkan di layar yang sama. Rincian penyelesaian akhir dipublikasikan lagi sebelum konfirmasi. Kriteria terkait ditetapkan oleh kebijakan pengembalian dan kredit.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Metode pembayaran asli
+match_phrases:
+  - phrase: metode pembayaran asli
+    auto_match: true
+    priority: 100

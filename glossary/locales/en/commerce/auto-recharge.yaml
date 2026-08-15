@@ -1,0 +1,27 @@
+id: commerce.auto-recharge
+label: Auto-recharge
+slug: auto-recharge
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Auto-recharge automatically tops up a configured amount when the Lemon balance drops below a threshold. Users can cancel auto-recharge at any time. No further recharges occur after cancellation."
+long: |-
+  Auto-recharge lets users maintain their balance without manually recharging. When the balance falls below a set threshold, the configured amount is charged automatically. Recharge history and amounts are visible in payment records. Whether to use auto-recharge is the user's own choice.
+
+  Auto-recharge can be canceled at any time, which stops only future recharges. Payments already completed before cancellation follow the existing refund criteria. Amounts charged through auto-recharge can also be refunded like ordinary payments. After cancellation, users can recharge manually as needed.
+
+  The auto-recharge settings screen lets users choose a threshold balance and recharge amount. Setting changes and cancellation history are shown in the service. Errors caused by auto-recharge can be corrected through the support channel. Overall criteria are set by the credits and refund policies.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Auto-recharge
+  - auto recharge
+match_phrases:
+  - phrase: auto-recharge
+    auto_match: true
+    priority: 100
+  - phrase: auto recharge
+    auto_match: true
+    priority: 90

@@ -1,0 +1,34 @@
+id: commerce.refund
+label: Refund
+slug: refund
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Hoàn tiền là quy trình trả lại tiền khi việc cung cấp dịch vụ khác với hợp đồng hoặc xác nhận thanh toán trùng lặp. Lemon trả phí được thanh toán loại trừ phần đã sử dụng. Số tiền còn lại được hoàn trả theo chính sách hoàn tiền."
+long: |-
+  Hoàn tiền là quy trình trả lại tiền khi hợp đồng được thông báo tại thời điểm thanh toán khác với nội dung thực tế được cung cấp. Thanh toán trùng lặp hoặc khoản thu sai do lỗi hệ thống cũng thuộc đối tượng hoàn tiền. Lý do hoàn tiền được xác định bằng cách so sánh hợp đồng tại thời điểm thanh toán với Lemon và lợi ích thực tế được cấp. Việc lý do hoàn tiền có được công nhận hay không và bằng chứng cần thiết được quy định cụ thể trong chính sách hoàn tiền.
+
+  Khi hoàn tiền được công nhận, Lemon trả phí và lợi ích thưởng được cấp bởi khoản thanh toán đó trở thành đối tượng thu hồi. Nếu một phần Lemon đã được sử dụng, phần đã sử dụng được loại trừ khỏi thanh toán. Lemon thưởng có thể được xử lý riêng theo thời hạn hiệu lực và điều kiện cấp. Chi tiết thanh toán cuối cùng và số tiền hoàn lại có thể được kiểm tra trước khi xác nhận yêu cầu.
+
+  Trong trường hợp thanh toán trùng lặp hoặc không cung cấp được kết quả hợp lệ do lỗi của công ty, Lemon đã đặt trước sẽ được khôi phục hoặc hoàn tiền toàn bộ. Thời hạn xử lý và phương thức hoàn trả tuân theo phương thức thanh toán và pháp luật liên quan. Toàn bộ quy trình hoàn tiền do điều khoản dịch vụ, chính sách tín dụng và chính sách hoàn tiền cùng quy định. Trạng thái hoàn tiền có thể được kiểm tra trong hồ sơ thanh toán và sử dụng.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - hoàn tiền
+  - hoàn trả
+  - quyết toán
+match_phrases:
+  - phrase: hoàn tiền
+    auto_match: true
+    priority: 100
+  - phrase: hoàn trả
+    auto_match: true
+    priority: 95
+  - phrase: quyết toán
+    auto_match: true
+    priority: 90
+  - phrase: chính sách hoàn tiền
+    auto_match: true
+    priority: 85

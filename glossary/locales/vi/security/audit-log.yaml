@@ -1,0 +1,23 @@
+id: security.audit-log
+label: Nhật ký kiểm toán
+slug: audit-log
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Nhật ký kiểm toán là bản ghi bảo mật về việc ai đã truy cập thông tin nào vào lúc nào. Truy cập ngoại lệ được ghi lại kèm lý do, phạm vi và thời gian hết hạn. Sự cố bảo mật được điều tra qua các bản ghi này."
+long: |-
+  Nhật ký kiểm toán là bản ghi theo trình tự thời gian về các truy cập và thay đổi chính trong hệ thống. Nó giúp xác minh ai đã truy cập thông tin nào, khi nào và vì mục đích gì. Các bản ghi công việc bình thường cũng được bao gồm và chỉ xảy ra trong phạm vi quyền được phép. Bản ghi được bảo vệ để khó giả mạo hoặc xóa.
+
+  Truy cập ngoại lệ vào nội dung cá nhân gốc hoặc token tài khoản ngoài luôn được ghi trong nhật ký kiểm toán. Lý do, phạm vi và thời gian hết hạn được ghi cùng nhau để đảm bảo minh bạch. Khi nghi ngờ sự cố bảo mật hoặc sử dụng gian lận, các bản ghi này dùng để truy tìm nguyên nhân. Quyền xem nhật ký cũng bị giới hạn riêng.
+
+  Nhật ký kiểm toán là thiết bị cơ bản để xử lý thông tin cá nhân an toàn. Chính sách quyền riêng tư công khai tiêu chuẩn vận hành nhật ký kiểm toán. Việc xem dữ liệu người dùng được giữ ở mức tối thiểu và luôn được ghi lại. Bản ghi không còn cần thiết sẽ bị xóa theo thời gian lưu giữ quy định.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - kiểm toán
+match_phrases:
+  - phrase: kiểm toán
+    auto_match: true
+    priority: 100

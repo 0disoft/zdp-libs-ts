@@ -1,0 +1,23 @@
+id: platform.cookie
+label: Cookie
+slug: cookie
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Cookie 是网站存储在浏览器中的小型信息文件。 它用于记住语言、主题、字号等显示设置。 必要 Cookie 用于提供服务，可选 Cookie 可以拒绝。"
+long: |-
+  Cookie 是您访问过的网站留在浏览器中的小型信息文件。 它记住显示偏好，以便下次访问时呈现相同的环境。 它是浏览器内选择记录的保存，而不是识别个人身份的证件。 您可以随时在浏览器中查看并清除这些设置。
+
+  必要 Cookie 负责服务正常运行所需的最少功能。 可选 Cookie 可能用于广告或分析等附加功能。 可选 Cookie 可以通过同意管理或浏览器设置拒绝。 拒绝它们不会限制基本服务的使用。
+
+  隐私政策会透明地公开每种 Cookie 的使用目的。 第三方工具使用 Cookie 时，会同时告知相关服务商和用途。 访问后您也可以随时更改 Cookie 设置。 在浏览器中清除所有 Cookie 不会删除您的账户本身。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Cookie
+match_phrases:
+  - phrase: Cookie
+    auto_match: true
+    priority: 100

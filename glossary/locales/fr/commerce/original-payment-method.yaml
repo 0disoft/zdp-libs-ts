@@ -1,0 +1,23 @@
+id: commerce.original-payment-method
+label: Moyen de paiement d'origine
+slug: original-payment-method
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Le moyen de paiement d'origine est l'instrument réellement utilisé lors du paiement. Les remboursements reviennent en principe sur ce moyen. Le délai d'application peut varier selon le prestataire de paiement."
+long: |-
+  Le moyen de paiement d'origine désigne la carte ou le compte avec lequel l'utilisateur a réellement payé. Une fois la demande de remboursement confirmée, le montant restant est retourné par ce moyen en principe. Un délai supplémentaire peut être nécessaire selon le traitement du prestataire. L'état de l'application se consulte dans les historiques de paiement et d'utilisation.
+
+  Si un remboursement partiel est structurellement impossible par le moyen d'origine, une alternative est proposée. La méthode alternative et le montant final sont annoncés avant confirmation. Le remboursement de remplacement ne se fait qu'avec le consentement de l'utilisateur. Sans consentement, les critères du moyen d'origine restent en vigueur.
+
+  Les montants et méthodes de remboursement sont affichés de façon transparente pendant la demande. Les citrons bonus et avantages récupérés sont aussi affichés sur le même écran. Le détail final de règlement est publié à nouveau avant confirmation. Les critères associés sont fixés par les politiques de remboursement et de crédits.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Moyen de paiement d'origine
+match_phrases:
+  - phrase: moyen de paiement d'origine
+    auto_match: true
+    priority: 100

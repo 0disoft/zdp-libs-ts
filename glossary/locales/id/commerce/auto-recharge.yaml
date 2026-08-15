@@ -1,0 +1,23 @@
+id: commerce.auto-recharge
+label: Isi ulang otomatis
+slug: auto-recharge
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Isi ulang otomatis menambahkan jumlah yang dikonfigurasi saat saldo Lemon turun di bawah ambang batas. Pengguna dapat membatalkannya kapan saja. Setelah pembatalan, tidak ada pengisian tambahan yang terjadi."
+long: |-
+  Isi ulang otomatis membantu pengguna menjaga saldo tanpa mengisi ulang secara manual. Saat saldo turun di bawah ambang yang ditetapkan, jumlah yang dikonfigurasi ditagih secara otomatis. Riwayat dan jumlah pengisian terlihat di catatan pembayaran. Menggunakan isi ulang otomatis atau tidak adalah pilihan pengguna.
+
+  Isi ulang otomatis dapat dibatalkan kapan saja, yang hanya menghentikan pengisian berikutnya. Pembayaran yang sudah selesai sebelum pembatalan mengikuti kriteria pengembalian yang ada. Jumlah yang ditagih melalui isi ulang otomatis juga dapat dikembalikan seperti pembayaran biasa. Setelah pembatalan, pengguna dapat mengisi ulang secara manual sesuai kebutuhan.
+
+  Layar pengaturan isi ulang otomatis memungkinkan memilih saldo ambang dan jumlah pengisian. Perubahan pengaturan dan riwayat pembatalan ditampilkan di layanan. Kesalahan yang disebabkan isi ulang otomatis dapat diperbaiki melalui kanal dukungan. Kriteria keseluruhan ditetapkan bersama oleh kebijakan kredit dan pengembalian.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Isi ulang otomatis
+match_phrases:
+  - phrase: isi ulang otomatis
+    auto_match: true
+    priority: 100

@@ -1,0 +1,23 @@
+id: platform.cdn
+label: CDN
+slug: cdn
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "CDN 是一种将文件分布存储在多个服务器上、从最近的服务器快速交付的网络。 它用于稳定提供网站字体、脚本等公共文件。 请求过程中，访问 IP 地址可能会传递给 CDN 服务商。"
+long: |-
+  CDN 是 Content Delivery Network 的缩写，它把文件复制到多个地区的服务器，并从离用户最近的服务器提供。 它用于快速、稳定地交付字体、脚本、图片等公共文件。 请求由各地区服务器分担，而不是集中在单一服务器上。 用户感受到的页面加载速度也会一起改善。
+
+  当前网站使用 jsDelivr CDN 来交付字体。 用户打开页面时，会产生向 CDN 服务器请求文件的过程。 这一过程中，访问 IP 地址和浏览器基本信息可能会传递给 CDN 服务商。 传递的信息是交付文件所需的最小范围。
+
+  隐私政策会透明公开 CDN 的使用情况和被处理的信息。 CDN 服务商的子处理方公告中也可以确认详细情况。 CDN 是让传输路径变快的设施，而不是存储或分析内容的工具。 服务扩大时可能增加新的 CDN 或托管服务商，并会提前告知。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - CDN
+match_phrases:
+  - phrase: CDN
+    auto_match: true
+    priority: 100

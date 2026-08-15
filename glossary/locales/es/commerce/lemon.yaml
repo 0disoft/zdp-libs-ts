@@ -4,15 +4,14 @@ slug: lemon
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Lemon is the unified credit unit used across multiple products. It is split into paid Lemons granted on purchase and bonus Lemons granted as rewards. Paid Lemons can be eligible for refunds."
+short: "Lemon es la unidad de crédito integrada que se utiliza de forma común en varios productos. Se divide en Lemons de pago, concedidos al comprar, y Lemons gratuitos, concedidos como bonificación. Los Lemons de pago pueden ser objeto de reembolso."
 long: |-
-  Lemon is the common credit unit used across multiple products. It is divided into paid Lemons granted through purchase and free Lemons granted through events or rewards. Each Lemon follows the validity and refundability set at grant time. The balance screen shows source and expiry for each Lemon.
+  Lemon es la unidad de crédito que se utiliza de forma común en varios productos. Se divide en Lemons de pago, concedidos mediante la compra, y Lemons gratuitos, concedidos mediante eventos o recompensas. Cada Lemon sigue las condiciones de validez y reembolsabilidad establecidas en el momento de la concesión. En la pantalla de saldo pueden consultarse el origen y la fecha de caducidad de cada Lemon.
 
-  Lemons are deducted as the unit required to use a service. Actual deduction applies only to the completed scope of a task. If a task never started or no valid result was received due to company fault, reserved Lemons are restored. Deduction history can be checked in payment and usage records.
+  Los Lemons se deducen como la unidad necesaria para utilizar el servicio. La deducción real se aplica solo al alcance completado de la tarea. Si la tarea no ha comenzado o no se recibió un resultado válido por responsabilidad de la empresa, los Lemons reservados se restablecen. El historial de deducciones puede consultarse en los registros de pago y uso.
 
-  Bonus Lemons may follow a different usage order from paid Lemons. Bonus Lemons are consumed starting with the earliest expiry. Expired Lemons are automatically removed and not restored. Overall issuance, expiry, and restoration rules for Lemons follow the credits policy.
+  Los Lemons de bonificación pueden tener un orden de uso diferente al de los Lemons de pago. Los Lemons de bonificación se consumen primero desde la fecha de caducidad más próxima. Los Lemons caducados se eliminan automáticamente y no se restablecen. En general, las reglas de concesión, caducidad y restablecimiento de los Lemons siguen los criterios establecidos en la política de créditos.
 example: null
 translation_status: reviewed
 source_locale: ko
@@ -20,9 +19,15 @@ aliases:
   - Lemon
   - Lemons
 match_phrases:
-  - phrase: Lemon
-    auto_match: true
-    priority: 100
   - phrase: Lemons
     auto_match: true
+    priority: 100
+  - phrase: Lemon
+    auto_match: true
     priority: 90
+  - phrase: Lemons comprados
+    auto_match: true
+    priority: 85
+  - phrase: Lemons de bonificación
+    auto_match: true
+    priority: 80

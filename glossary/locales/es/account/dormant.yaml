@@ -1,0 +1,23 @@
+id: account.dormant
+label: Estado inactivo
+slug: dormant
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "El estado inactivo es la condición de una cuenta sin inicio de sesión ni uso del servicio durante un período. Los limones comprados no se eliminan solo por estar inactivo. Al volver a usar la cuenta, los derechos sobre los limones comprados se mantienen."
+long: |-
+  El estado inactivo significa que la cuenta ha quedado en espera por no iniciar sesión ni usar el servicio durante un período. Aunque la cuenta esté inactiva, la información de la cuenta y los limones comprados se conservan. La validez de los limones comprados se aplica igual sin importar la inactividad. Volver a iniciar sesión levanta el estado inactivo.
+
+  El estado inactivo es distinto del cierre de cuenta o la terminación del servicio. En el cierre o la terminación se informan por adelantado los pasos de reembolso y transferencia de los limones restantes. La inactividad por sí sola nunca elimina limones comprados sin aviso. El período exacto de inactividad se muestra en cada guía de producto.
+
+  La propiedad de los limones comprados se conserva incluso después de una inactividad prolongada. Solo los limones con período de validez pueden vencer mientras la cuenta está inactiva. El estado y las fechas de vencimiento se ven en la pantalla de saldo. Las dudas pueden plantearse por el canal de soporte.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Estado inactivo
+match_phrases:
+  - phrase: Estado inactivo
+    auto_match: true
+    priority: 100

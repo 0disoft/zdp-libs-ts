@@ -1,0 +1,23 @@
+id: security.masking
+label: Penyamaran
+slug: masking
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Penyamaran adalah metode pemrosesan yang menampilkan informasi pribadi dengan sebagian bagian disembunyikan. Operator hanya dapat melihat informasi yang disamarkan secara default. Akses ke konten mentah hanya diberikan dengan alasan dan cakupan yang dicatat."
+long: |-
+  Penyamaran adalah metode menampilkan informasi pribadi seperti nama atau detail akun dengan sebagian bagian diganti penanda. Metode ini memastikan hanya informasi minimum yang diperlukan untuk pekerjaan yang terlihat. Dalam sistem yang menangani informasi pribadi, penyamaran diterapkan sebagai prinsip dasar. Operator dan staf dukungan juga melihat informasi yang disamarkan secara default.
+
+  Beberapa tugas memerlukan konten pengguna mentah atau token akun eksternal yang tidak dapat disamarkan. Dalam kasus luar biasa ini, alasan, cakupan, dan waktu kedaluwarsa dicatat. Rekaman akses tetap ada sebagai jejak audit untuk peninjauan nanti. Akses luar biasa dibatasi pada staf minimum yang diperlukan.
+
+  Penyamaran adalah cara membatasi tampilan, bukan menghapus data. Informasi sumber yang tersimpan dijaga dengan standar keamanan yang diperlukan. Pengguna dapat bertanya tentang bagaimana informasi mereka diproses kapan saja. Standar penyamaran dijalankan sesuai kebijakan privasi.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - disamarkan
+match_phrases:
+  - phrase: disamarkan
+    auto_match: true
+    priority: 100

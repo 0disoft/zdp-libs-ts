@@ -1,0 +1,23 @@
+id: commerce.chargeback
+label: Chargeback
+slug: chargeback
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Un chargeback es un proceso por el que el pago se devuelve a través del proveedor de pago tras una disputa. Cuando los fondos se recuperan por motivos distintos de la duplicación o el error, también se liquidan los beneficios relacionados. El uso de ese pago y de sus funciones de pago puede restringirse hasta que se resuelva el problema."
+long: |-
+  Un chargeback es un proceso en el que un emisor de tarjeta o proveedor de pago recupera un pago debido a una disputa. Puede iniciarse cuando el pagador afirma que no aprobó un pago o cuando surge una disputa de servicio. La empresa revisa el motivo y presenta las pruebas necesarias. El resultado del chargeback se refleja en el estado del pago y los registros de la transacción.
+
+  Cuando los fondos se recuperan mediante un chargeback, los Lemons comprados y de bonificación concedidos por ese pago pasan a ser objeto de recuperación. Si algunos Lemons ya se usaron, la liquidación cubre solo la parte usada. El pago y esa función de pago pueden permanecer restringidos hasta que se resuelva el problema. El motivo y el progreso se comunican claramente al usuario.
+
+  Un chargeback difiere de un reembolso normal en su procedimiento. Un reembolso lo gestiona primero el servicio, mientras que un chargeback implica al proveedor de pago. Si la objeción no se acepta, el pago se mantiene y el historial de deducciones permanece. Los estándares detallados pueden consultarse en la política de reembolsos y la política de créditos.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Chargeback
+match_phrases:
+  - phrase: chargeback
+    auto_match: true
+    priority: 100

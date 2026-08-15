@@ -1,0 +1,33 @@
+id: legal.objection
+label: Objection
+slug: objection
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Objection is a process to dispute the grounds for a restriction and request a re-review. After the reason is notified, the objection can be raised through the support channel. The result is decided based on a review of the stated grounds and evidence."
+long: |-
+  Objection is a process to dispute the grounds for a restriction or payment action and request a new decision. After the reason and its basis are notified, an objection can be raised within the stated period. The raised objection is kept as a record. The decision to keep or lift the measure follows the review result.
+
+  Even while an objection is pending, paths to check the reason and review payment history remain available. If there is no urgent security or legal ground, the reason is shared in advance. Identity verification and supporting evidence may be requested. The request is limited to what is allowed for legal and security purposes.
+
+  If the objection is accepted, the restriction may be lifted or eased. If not, the existing measure stays in place. The result is notified via the service screen, notification, or email. Overall steps and handling deadlines are governed by the terms, support guide, and applicable law.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - objection
+  - appeal
+match_phrases:
+  - phrase: Objection
+    auto_match: true
+    priority: 100
+  - phrase: objection
+    auto_match: true
+    priority: 80
+  - phrase: appeal
+    auto_match: true
+    priority: 90
+  - phrase: appealing
+    auto_match: true
+    priority: 85

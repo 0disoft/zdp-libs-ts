@@ -1,0 +1,27 @@
+id: security.masking
+label: Masking
+slug: masking
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Masking is a processing method that shows personal information with parts hidden. Operators can only see masked information by default. Access to raw content is granted only with a recorded reason and scope."
+long: |-
+  Masking is a method of displaying personal information such as names or account details with parts replaced by placeholders. It ensures only the minimum information needed for work is visible. Masking is applied as a default principle in systems that handle personal information. Operators and support staff also see masked information by default.
+
+  Some tasks require raw user content or external account tokens that cannot be masked. In these exceptional cases, the reason, scope, and expiration time are recorded. The access record remains as an audit log for later review. Exceptional access is limited to the minimum staff needed.
+
+  Masking is a way of restricting display rather than deleting data. Stored source information is kept under the required security standards. Users can ask about how their information is processed at any time. Masking standards are operated according to the privacy policy.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Masking
+  - masked
+match_phrases:
+  - phrase: masked
+    auto_match: true
+    priority: 100
+  - phrase: masking
+    auto_match: true
+    priority: 90

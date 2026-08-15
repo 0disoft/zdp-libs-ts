@@ -1,0 +1,27 @@
+id: security.api-key
+label: API キー
+slug: api-key
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "APIキーは、プログラムがサービスの機能を呼び出すときに使う認証情報です。 パスワードと同じように扱い、外部に公開してはいけません。 サポートにAPIキーを送ると、アカウントが悪用される恐れがあります。"
+long: |-
+  APIキーは、プログラムやツールがサービスの機能を安全に呼び出すために使う秘密の文字列です。 利用者に代わって作業を実行する資格を証明する役割を持ちます。 APIキーが漏れると、他の人がその資格でサービスを利用できます。 そのため、パスワードと同じ水準で保護する必要があります。
+
+  サポートへの問い合わせにはAPIキーを含めないでください。 問い合わせ内容は複数の担当者を経由するため、共有範囲を管理しにくくなります。 OAuthトークンや復旧コード、秘密鍵などの他の認証情報も一緒に送ってはいけません。 必要な場合は、別の安全な収集経路を案内します。
+
+  APIキーが漏れたと判断したら、すぐに新しいキーへ交換してください。 利用者はいつでもキーを再発行または破棄できます。 会社はサポート経由でキーを求めることはありません。 キー管理の基準は各製品のセキュリティ案内で確認できます。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - API キー
+  - APIキー
+match_phrases:
+  - phrase: API キー
+    auto_match: true
+    priority: 100
+  - phrase: APIキー
+    auto_match: true
+    priority: 95

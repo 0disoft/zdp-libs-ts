@@ -1,0 +1,29 @@
+id: account.restriction
+label: Restriction
+slug: restriction
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "이용 제한은 약관 위반이나 보안 위험 등으로 서비스 이용을 막는 조치이다. 제한 범위는 일부 기능 제한부터 계정 전체 제한까지 다양하다. 긴급한 보안·법적 위험은 즉시 제한의 사유가 될 수 있다."
+long: |-
+  이용 제한은 약관을 어기거나 보안·결제 사기 위험이 확인될 때 서비스 이용을 제한하는 조치이다. 위반의 정도와 범위에 따라 일부 기능만 제한될 수 있다. 더 심각한 경우 계정 전체가 제한될 수 있다. 제한 사유와 범위는 제한 전이나 시행 시점에 안내한다.
+
+  긴급한 보안·법적 사유가 없다면 제한 이유를 사전에 알리고 이의제기 기회를 제공한다. 계정이 제한되어도 사유 확인과 결제 내역 조회 경로는 계속 유지된다. 이의제기는 고객 지원 채널을 통해 정해진 기간 안에 제기할 수 있다. 제한 해제 여부는 재검토 결과와 결제 상태에 따라 결정된다.
+
+  계정 제한은 계약 종료와 다르다. 일시 제한은 조건이 해소되면 다시 풀릴 수 있다. 계약 종료는 계정 폐쇄나 서비스 종료로 이어진다. 남은 구매 레몬과 유료 이용권은 관계 법령과 정책에 따라 정산·환불되며 안내 없이 일괄 소멸시키지 않는다.
+example: null
+translation_status: reviewed
+aliases:
+  - 이용 제한
+  - 계정 제한
+match_phrases:
+  - phrase: 이용 제한
+    auto_match: true
+    priority: 100
+  - phrase: 이용이 제한
+    auto_match: true
+    priority: 90
+  - phrase: 계정이 제한
+    auto_match: true
+    priority: 90

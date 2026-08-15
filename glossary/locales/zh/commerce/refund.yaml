@@ -1,0 +1,34 @@
+id: commerce.refund
+label: Refund
+slug: refund
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "退款是在服务履行与合同不符或确认重复支付时退还款项的处理。付费柠檬扣除已使用部分后进行结算。剩余金额按照退款政策返还。"
+long: |-
+  退款是在支付时告知的合同与实际提供的内容不符时退还款项的处理。 重复支付或系统错误导致的不当支付也属于退款范围。 通过比较支付时的合同与实际发放的柠檬和权益来判断退款理由。 退款理由是否成立以及所需证据由退款政策具体规定。
+
+  退款被确认后，该笔支付发放的付费柠檬和奖励权益成为回收对象。 如果已经使用部分柠檬，则扣除已使用部分进行结算。 奖励柠檬可能根据有效期和发放条件另行处理。 最终结算明细和退款金额可以在确认申请前预先查看。
+
+  因重复支付或公司责任未能提供有效结果时，预留的柠檬将被恢复或全额退款。 处理期限和返还方式遵循支付方式及相关法律。 整体退款流程由服务条款、积分政策和退款政策共同规定。 退款状态可以在支付和使用记录中查看。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - 退款
+  - 返还
+  - 结算
+match_phrases:
+  - phrase: 退款
+    auto_match: true
+    priority: 100
+  - phrase: 返还
+    auto_match: true
+    priority: 95
+  - phrase: 结算
+    auto_match: true
+    priority: 90
+  - phrase: 退款政策
+    auto_match: true
+    priority: 85

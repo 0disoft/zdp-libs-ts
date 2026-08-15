@@ -1,0 +1,26 @@
+id: account.restriction
+label: Restriction
+slug: restriction
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Restriction is a measure that blocks service use when terms are violated or security is at risk. The scope can range from limiting some features to restricting the whole account. Urgent security or legal risks can be grounds for immediate restriction."
+long: |-
+  Restriction limits service use when terms are violated or when security or payment risks are confirmed. Depending on severity and scope, only some features may be limited. In more serious cases, the whole account can be restricted. The reason and scope are shared before or at enforcement.
+
+  If there is no urgent security or legal ground, the reason is shared in advance and an opportunity to object is given. Even when restricted, paths to check the reason and review payment history remain available. An objection can be raised through the support channel within the stated period. Whether restriction is lifted is decided after re-review and based on payment status.
+
+  Account restriction is different from contract termination. A temporary restriction can be lifted when conditions are cleared. Termination leads to account closure or service exit. Remaining paid Lemons and paid entitlements are settled or refunded under law and policy and are not wiped out without notice.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - restriction
+match_phrases:
+  - phrase: Restriction
+    auto_match: true
+    priority: 100
+  - phrase: restriction
+    auto_match: true
+    priority: 80

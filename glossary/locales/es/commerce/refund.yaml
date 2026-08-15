@@ -1,0 +1,34 @@
+id: commerce.refund
+label: Refund
+slug: refund
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "El reembolso es el proceso de devolver el importe cuando la prestación del servicio difiere del contrato o se confirma un pago duplicado. Los Lemons de pago se liquidan excluyendo la parte utilizada. El importe restante se devuelve según la política de reembolso."
+long: |-
+  El reembolso es el proceso de devolver el importe cuando el contrato informado en el momento del pago difiere del contenido realmente proporcionado. Los pagos duplicados o los cobros incorrectos debidos a errores del sistema también son objeto de reembolso. El motivo del reembolso se determina comparando el contrato del momento del pago con los Lemons y beneficios realmente concedidos. Si el motivo del reembolso se reconoce y qué pruebas se requieren se establecen de forma concreta en la política de reembolso.
+
+  Cuando se reconoce el reembolso, los Lemons de pago y los beneficios de bonificación concedidos por ese pago pasan a ser objeto de recuperación. Si ya se han utilizado algunos Lemons, la liquidación excluye la parte utilizada. Los Lemons de bonificación pueden tratarse por separado según su periodo de validez y sus condiciones de concesión. El detalle final de la liquidación y el importe del reembolso pueden consultarse antes de confirmar la solicitud.
+
+  En caso de pagos duplicados o de no haber podido ofrecer un resultado válido por responsabilidad de la empresa, los Lemons reservados se restablecen o se reembolsan en su totalidad. Los plazos de tramitación y el método de devolución siguen el medio de pago y la legislación aplicable. El procedimiento general de reembolso lo establecen conjuntamente los términos del servicio, la política de créditos y la política de reembolso. El estado del reembolso puede consultarse en los registros de pago y uso.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - reembolso
+  - devolución
+  - liquidación
+match_phrases:
+  - phrase: reembolso
+    auto_match: true
+    priority: 100
+  - phrase: devolución
+    auto_match: true
+    priority: 95
+  - phrase: liquidación
+    auto_match: true
+    priority: 90
+  - phrase: política de reembolso
+    auto_match: true
+    priority: 85

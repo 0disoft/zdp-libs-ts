@@ -1,0 +1,23 @@
+id: platform.cdn
+label: CDN
+slug: cdn
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "CDN ialah rangkaian yang menyimpan fail pada banyak pelayan dan menghantarnya dengan pantas dari lokasi berdekatan. Ia menyediakan fail kongsi seperti fon dan skrip untuk sesebuah tapak. Alamat IP akses boleh dihantar kepada pembekal CDN semasa permintaan."
+long: |-
+  CDN bermaksud Content Delivery Network dan berfungsi dengan menyalin fail ke pelayan di beberapa wilayah serta menghantarnya dari pelayan yang paling hampir dengan anda. Ia digunakan untuk menghantar fail kongsi seperti fon, skrip dan imej dengan pantas dan boleh dipercayai. Permintaan dikendalikan merentas pelayan wilayah dan bukannya membebankan satu pelayan. Kelajuan pemuatan halaman yang dirasai juga bertambah baik.
+
+  Tapak ini menggunakan jsDelivr CDN untuk menghantar fon. Membuka halaman mencipta permintaan ke pelayan CDN untuk fail. Permintaan boleh menghantar alamat IP akses dan maklumat asas pelayar anda kepada pembekal CDN. Maklumat yang dihantar ialah minimum yang diperlukan untuk menghantar fail.
+
+  Dasar privasi mendedahkan secara telus penggunaan CDN dan maklumat yang diproses. Butiran juga tersedia dalam notis sub-pemproses pembekal CDN. CDN ialah infrastruktur yang mempercepat laluan penghantaran, bukan alat yang menyimpan atau menganalisis kandungan. CDN atau pembekal pengehosan tambahan boleh ditambah apabila perkhidmatan berkembang dan akan diumumkan terlebih dahulu.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - CDN
+match_phrases:
+  - phrase: CDN
+    auto_match: true
+    priority: 100

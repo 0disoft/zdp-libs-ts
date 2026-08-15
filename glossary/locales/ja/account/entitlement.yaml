@@ -4,24 +4,24 @@ slug: entitlement
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Entitlement is the permission for an account to use a specific product or paid feature. Creating an account alone does not automatically grant all entitlements. Actual entitlements depend on age, country, payment method, and product conditions."
+short: "利用権限は、アカウントが特定の製品や有料機能を利用できる権限です。 アカウントを作成しただけでは、すべての権限が自動的に付与されるわけではありません。 実際の権限は、年齢や居住国、決済手段、製品条件に応じて異なります。"
 long: |-
-  Entitlement is the permission that applies differently to each service even when one account signs in to multiple products. Creating an account alone does not grant access to every product or paid feature. Actual entitlements are determined by product policy and availability. Whether you have an entitlement can be checked on each product screen after sign-in.
+  利用権限は、1つのアカウントが複数の製品にログインした後も、各サービスごとに異なる形で適用される利用権限です。 アカウントを作成したという事実だけでは、すべての製品や有料機能への権限が生じるわけではありません。 実際の権限は、製品ごとのポリシーと提供状況に応じて決まります。 権限の有無は、ログイン後、各製品の画面で確認できます。
 
-  Entitlement is managed together with account status and sign-in method. Keeping account information up to date keeps entitlement decisions accurate. Lending or selling an account or sign-in method to others is not allowed. Attempting a feature without the required entitlement may be blocked.
+  利用権限は、アカウントの状態とログイン手段に応じてともに管理されます。 アカウント情報を最新に保つことで、権限の判断が正確に行われます。 アカウントやログイン手段を他人に貸したり販売したりする行為は許可されません。 権限がない状態で機能を試すと、アクセスが制限されることがあります。
 
-  Some entitlements are further restricted by age, country, payment method, or product characteristics. A restricted entitlement can be granted again when conditions are met. Whether conditions are met is judged by the criteria shown in the service. Overall grant and restriction criteria for entitlements are set by the terms and each product guide.
+  一部の権限は、年齢や居住国、決済手段、製品特性に応じて追加で制限されます。 制限された権限は、条件を満たせば再度付与されることがあります。 条件を満たすかは、サービス画面で案内された基準で判断します。 全体的な権限の付与・制限の基準は、利用規約と各製品の案内で定めます。
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - entitlement
+  - 利用権限
+  - 権限
 match_phrases:
-  - phrase: Entitlement
+  - phrase: 利用権限
     auto_match: true
     priority: 100
-  - phrase: entitlement
+  - phrase: 権限
     auto_match: true
     priority: 70

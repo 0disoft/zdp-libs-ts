@@ -1,0 +1,23 @@
+id: commerce.auto-recharge
+label: Recarga automática
+slug: auto-recharge
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "La recarga automática repone el monto configurado cuando el saldo de limones baja del umbral. El usuario puede cancelarla en cualquier momento. Después de cancelar, no se producen más recargas."
+long: |-
+  La recarga automática permite mantener el saldo sin recargar manualmente. Cuando el saldo baja del umbral fijado, se cobra automáticamente el monto configurado. El historial y los montos de recarga se ven en los registros de pago. Usar o no la recarga automática es una decisión del usuario.
+
+  La recarga automática puede cancelarse en cualquier momento y solo detiene recargas futuras. Los pagos ya completados antes de la cancelación siguen los criterios de reembolso vigentes. Los montos cobrados por recarga automática también pueden reembolsarse como pagos ordinarios. Después de cancelar, el usuario puede recargar manualmente cuando quiera.
+
+  La pantalla de configuración permite elegir el saldo umbral y el monto de recarga. Los cambios de configuración y el historial de cancelación se muestran en el servicio. Los errores causados por la recarga automática pueden corregirse por el canal de soporte. Los criterios generales los fijan las políticas de créditos y reembolso.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Recarga automática
+match_phrases:
+  - phrase: recarga automática
+    auto_match: true
+    priority: 100

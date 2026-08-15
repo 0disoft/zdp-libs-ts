@@ -1,0 +1,23 @@
+id: commerce.original-payment-method
+label: Kaedah pembayaran asal
+slug: original-payment-method
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Kaedah pembayaran asal ialah instrumen yang benar-benar digunakan semasa pembayaran. Bayaran balik pada prinsipnya dikembalikan melalui kaedah ini. Masa sebenar mungkin berbeza bergantung pada penyedia pembayaran."
+long: |-
+  Kaedah pembayaran asal bermaksud kad atau akaun yang benar-benar digunakan pengguna untuk membayar. Setelah permintaan bayaran balik disahkan, jumlah selebihnya dikembalikan melalui kaedah ini pada prinsipnya. Masa tambahan mungkin diperlukan bergantung pada jadual pemprosesan penyedia pembayaran. Status pemprosesan boleh disemak dalam rekod pembayaran dan penggunaan.
+
+  Jika bayaran balik separa mustahil secara struktur melalui kaedah asal, alternatif ditawarkan. Kaedah alternatif dan jumlah akhir diumumkan sebelum pengesahan. Bayaran balik pengganti hanya diteruskan selepas persetujuan pengguna. Tanpa persetujuan, kriteria kaedah asal kekal berkuat kuasa.
+
+  Jumlah dan kaedah bayaran balik dipaparkan secara telus semasa proses permintaan. Lemon bonus dan manfaat yang ditarik balik juga dipaparkan pada skrin yang sama. Butiran penyelesaian akhir diterbitkan semula sebelum pengesahan. Kriteria berkaitan ditetapkan oleh dasar bayaran balik dan kredit.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Kaedah pembayaran asal
+match_phrases:
+  - phrase: kaedah pembayaran asal
+    auto_match: true
+    priority: 100

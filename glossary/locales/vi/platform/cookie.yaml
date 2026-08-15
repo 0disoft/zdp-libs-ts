@@ -1,0 +1,24 @@
+id: platform.cookie
+label: Cookie
+slug: cookie
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Cookie là tệp thông tin nhỏ mà một trang web lưu trong trình duyệt của bạn. Nó ghi nhớ các thiết lập hiển thị như ngôn ngữ, giao diện và cỡ chữ. Cookie thiết yếu hỗ trợ dịch vụ và cookie tùy chọn có thể bị từ chối."
+long: |-
+  Cookie là một tệp thông tin nhỏ mà trang web bạn truy cập để lại trong trình duyệt. Nó ghi nhớ các tùy chọn hiển thị để lần truy cập sau vẫn hiện cùng môi trường. Đây là bản ghi lựa chọn trong trình duyệt chứ không phải giấy tờ nhận dạng. Bạn có thể xem và xóa các thiết lập này trong trình duyệt bất cứ lúc nào.
+
+  Cookie thiết yếu đảm nhiệm các chức năng tối thiểu để dịch vụ hoạt động đúng. Cookie tùy chọn có thể được dùng cho các tiện ích như quảng cáo hoặc phân tích. Cookie tùy chọn có thể bị từ chối qua quản lý đồng ý hoặc thiết lập trình duyệt. Từ chối chúng không giới hạn việc sử dụng dịch vụ cơ bản.
+
+  Chính sách quyền riêng tư công khai minh bạch loại cookie nào được dùng cho mục đích nào. Khi công cụ bên thứ ba dùng cookie, nhà cung cấp và mục đích được thông báo cùng nhau. Bạn có thể thay đổi thiết lập cookie bất cứ lúc nào sau khi truy cập. Xóa toàn bộ cookie trong trình duyệt không xóa chính tài khoản của bạn.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Cookie
+  - cookie
+match_phrases:
+  - phrase: cookie
+    auto_match: true
+    priority: 100

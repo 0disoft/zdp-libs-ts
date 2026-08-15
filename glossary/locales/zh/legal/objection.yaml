@@ -1,0 +1,27 @@
+id: legal.objection
+label: Objection
+slug: objection
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "申诉是对使用限制等依据提出异议并要求复审的流程。限制理由通知后，可以通过客户支持渠道提出申诉。根据对提出的理由和证据的审查结果，决定维持或解除措施。"
+long: |-
+  申诉是对使用限制或支付措施等理由提出异议并要求重新判断的流程。 限制理由和依据通知后，可以在规定期限内提出申诉。 提出的申诉会作为记录保留。 维持还是解除措施取决于审查结果。
+
+  即使提出申诉，查看原因和支付记录的路径仍然保留。 如果没有紧急的安全或法律理由，会在限制前事先告知原因。 申诉过程中可能会要求身份验证和必要的证据。 请求范围在法律和安全允许的范围内确定。
+
+  如果申诉被接受，限制可能会被解除或减轻。 如果未被接受，现有措施保持不变。 结果会通过服务页面、通知或邮件告知。 整体流程和处理期限由服务条款、客户支持指南和相关法律共同规定。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - 申诉
+  - 异议申诉
+match_phrases:
+  - phrase: 申诉
+    auto_match: true
+    priority: 100
+  - phrase: 提出申诉
+    auto_match: true
+    priority: 90

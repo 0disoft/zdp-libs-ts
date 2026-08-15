@@ -1,5 +1,12 @@
 # CHANGELOG.md
 
+## 0.16.0
+
+### Changed
+
+- glossary copy provenance에서 특정 LLM 모델 ID를 제거하고, 작성 주체와 사람 검수 상태만 검증하도록 단순화했다.
+- 공용 glossary에 계정 제한·휴면 상태, 차지백·자동 충전·원 결제수단·환불, 이의 제기·청약철회, CDN·쿠키, API 키·감사 로그·마스킹·토큰 용어와 12개 locale 설명을 추가했다.
+
 ## 0.15.0
 
 ### Changed

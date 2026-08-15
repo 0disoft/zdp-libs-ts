@@ -1,0 +1,23 @@
+id: platform.cdn
+label: CDN
+slug: cdn
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "CDN adalah jaringan yang menyimpan file di banyak server dan mengirimkannya cepat dari lokasi terdekat. CDN menyediakan file bersama seperti font dan skrip untuk sebuah situs. Alamat IP akses dapat dikirimkan ke penyedia CDN selama permintaan."
+long: |-
+  CDN adalah singkatan dari Content Delivery Network dan bekerja dengan menyalin file ke server di banyak wilayah serta mengirimkannya dari server terdekat dengan Anda. Ini digunakan untuk mengirim file bersama seperti font, skrip, dan gambar secara cepat dan andal. Permintaan ditangani di server regional alih-alih membebani satu server. Kecepatan pemuatan halaman yang dirasakan juga meningkat.
+
+  Situs ini menggunakan jsDelivr CDN untuk mengirim font. Membuka halaman menciptakan permintaan ke server CDN untuk file. Permintaan dapat mengirimkan alamat IP akses dan informasi dasar browser Anda ke penyedia CDN. Informasi yang dikirim adalah jumlah minimum yang diperlukan untuk mengirim file.
+
+  Kebijakan privasi mengungkapkan secara transparan penggunaan CDN dan informasi yang diproses. Rincian juga tersedia di pemberitahuan sub-pemroses penyedia CDN. CDN adalah infrastruktur yang mempercepat jalur pengiriman, bukan alat yang menyimpan atau menganalisis konten. CDN atau penyedia hosting tambahan dapat ditambahkan seiring pertumbuhan layanan dan akan diumumkan sebelumnya.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - CDN
+match_phrases:
+  - phrase: CDN
+    auto_match: true
+    priority: 100

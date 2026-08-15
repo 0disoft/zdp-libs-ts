@@ -1,0 +1,23 @@
+id: commerce.chargeback
+label: Chargeback
+slug: chargeback
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Chargeback adalah proses pengembalian pembayaran melalui penyedia pembayaran setelah terjadi sengketa. Saat dana ditarik kembali karena alasan selain duplikasi atau kesalahan, manfaat terkait juga diselesaikan. Penggunaan pembayaran tersebut dan fitur berbayarnya dapat dibatasi sampai masalah selesai."
+long: |-
+  Chargeback adalah proses di mana penerbit kartu atau penyedia pembayaran menarik kembali pembayaran karena sengketa. Ini dapat dimulai ketika pembayar menyatakan tidak menyetujui pembayaran atau ketika sengketa layanan muncul. Perusahaan meninjau alasan dan menyerahkan bukti yang diperlukan sebagai tanggapan. Hasil chargeback tercermin dalam status pembayaran dan catatan transaksi.
+
+  Saat dana ditarik kembali melalui chargeback, Lemon yang dibeli dan bonus yang diberikan oleh pembayaran tersebut menjadi subjek penarikan. Jika sebagian Lemon sudah digunakan, penyelesaian hanya mencakup bagian yang digunakan. Pembayaran dan fitur berbayar tersebut dapat tetap dibatasi sampai masalah selesai. Alasan dan kemajuan diumumkan dengan jelas kepada pengguna.
+
+  Chargeback berbeda dari pengembalian dana biasa dalam prosedurnya. Pengembalian dana ditangani layanan terlebih dahulu, sedangkan chargeback melibatkan penyedia pembayaran. Jika keberatan tidak diterima, pembayaran tetap dan riwayat pemotongan tetap ada. Standar terperinci dapat ditemukan di kebijakan pengembalian dana dan kebijakan kredit.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Chargeback
+match_phrases:
+  - phrase: chargeback
+    auto_match: true
+    priority: 100

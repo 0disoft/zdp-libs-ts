@@ -1,0 +1,27 @@
+id: legal.objection
+label: Objection
+slug: objection
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Rayuan ialah proses untuk mempertikaikan asas sekatan dan meminta semakan semula. Selepas sebab sekatan dimaklumkan, rayuan boleh dikemukakan melalui saluran sokongan pelanggan. Berdasarkan hasil semakan terhadap sebab dan bukti yang dikemukakan, tindakan dikekalkan atau ditarik balik."
+long: |-
+  Rayuan ialah proses untuk mempertikaikan sebab sekatan atau tindakan pembayaran dan meminta keputusan baharu. Selepas sebab dan asas sekatan dimaklumkan, rayuan boleh dikemukakan dalam tempoh yang ditetapkan. Rayuan yang dikemukakan direkodkan sebagai rekod. Sama ada tindakan dikekalkan atau ditarik balik bergantung pada hasil semakan.
+
+  Walaupun mengemukakan rayuan, laluan untuk menyemak sebab dan sejarah pembayaran tetap tersedia. Jika tiada sebab keselamatan atau undang-undang yang mendesak, sebab dimaklumkan sebelum sekatan. Semasa proses rayuan, pengesahan identiti dan bukti yang diperlukan boleh diminta. Skop permintaan ditentukan dalam had yang dibenarkan oleh undang-undang dan keselamatan.
+
+  Jika rayuan diterima, sekatan boleh ditarik balik atau dilonggarkan. Jika tidak diterima, tindakan sedia ada dikekalkan. Hasilnya dimaklumkan melalui skrin perkhidmatan, notifikasi, atau e-mel. Prosedur keseluruhan dan had masa pemprosesan ditetapkan bersama oleh terma perkhidmatan, panduan sokongan pelanggan, dan undang-undang yang terpakai.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - rayuan
+  - bantahan
+match_phrases:
+  - phrase: rayuan
+    auto_match: true
+    priority: 100
+  - phrase: bantahan
+    auto_match: true
+    priority: 90

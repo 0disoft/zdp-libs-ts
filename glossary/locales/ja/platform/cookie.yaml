@@ -1,0 +1,23 @@
+id: platform.cookie
+label: Cookie
+slug: cookie
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Cookieはサイトがブラウザに保存する小さな情報ファイルです。 言語、テーマ、文字サイズなどの表示設定を記憶するために使います。 必須Cookieはサービス提供に必要で、任意のCookieは拒否できます。"
+long: |-
+  Cookieは、訪問したサイトがブラウザに残す小さな情報ファイルです。 表示設定を記憶し、次回訪問時に同じ環境を表示します。 個人を特定する証明書ではなく、ブラウザ内の選択記録です。 設定はいつでもブラウザで確認して削除できます。
+
+  必須Cookieはサービスが正常に動作するために必要な最小限の機能を担当します。 任意のCookieは広告や分析などの付加機能に使われることがあります。 任意のCookieは同意管理やブラウザ設定で拒否できます。 拒否しても基本サービスの利用は制限されません。
+
+  プライバシーポリシーは、どのCookieをどの目的で使うかを透明に公開します。 第三者ツールがCookieを使う場合は事業者と目的を併せて案内します。 訪問後もいつでもCookie設定を変更できます。 ブラウザで全Cookieを削除してもアカウント自体は維持されます。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Cookie
+match_phrases:
+  - phrase: Cookie
+    auto_match: true
+    priority: 100

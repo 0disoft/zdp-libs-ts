@@ -1,0 +1,34 @@
+id: commerce.refund
+label: Refund
+slug: refund
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Pengembalian dana adalah proses mengembalikan uang ketika pelaksanaan layanan berbeda dari kontrak atau pembayaran ganda terkonfirmasi. Lemon berbayar diselesaikan dengan mengecualikan bagian yang digunakan. Sisa jumlah dikembalikan sesuai kebijakan pengembalian dana."
+long: |-
+  Pengembalian dana adalah proses mengembalikan uang ketika kontrak yang diberitahukan pada saat pembayaran berbeda dari konten yang benar-benar diberikan. Pembayaran ganda atau tagihan yang salah akibat kesalahan sistem juga menjadi objek pengembalian dana. Alasan pengembalian dana dinilai dengan membandingkan kontrak saat pembayaran dengan Lemon dan manfaat yang benar-benar diberikan. Apakah alasan pengembalian dana diakui dan bukti yang diperlukan ditetapkan secara rinci dalam kebijakan pengembalian dana.
+
+  Ketika pengembalian dana diakui, Lemon berbayar dan manfaat bonus yang diberikan oleh pembayaran tersebut menjadi objek penarikan kembali. Jika sebagian Lemon telah digunakan, bagian yang digunakan dikecualikan dari penyelesaian. Lemon bonus dapat diproses secara terpisah sesuai masa berlaku dan ketentuan pemberiannya. Rincian penyelesaian akhir dan jumlah pengembalian dana dapat diperiksa sebelum permintaan dikonfirmasi.
+
+  Dalam kasus pembayaran ganda atau kegagalan memberikan hasil yang sah karena kesalahan perusahaan, Lemon yang dipesan akan dipulihkan atau dikembalikan sepenuhnya. Tenggat pemrosesan dan metode pengembalian mengikuti alat pembayaran dan hukum yang berlaku. Prosedur pengembalian dana secara keseluruhan ditetapkan bersama oleh ketentuan layanan, kebijakan kredit, dan kebijakan pengembalian dana. Status pengembalian dana dapat diperiksa dalam catatan pembayaran dan penggunaan.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - pengembalian dana
+  - pengembalian
+  - penyelesaian
+match_phrases:
+  - phrase: pengembalian dana
+    auto_match: true
+    priority: 100
+  - phrase: pengembalian
+    auto_match: true
+    priority: 95
+  - phrase: penyelesaian
+    auto_match: true
+    priority: 90
+  - phrase: kebijakan pengembalian dana
+    auto_match: true
+    priority: 85

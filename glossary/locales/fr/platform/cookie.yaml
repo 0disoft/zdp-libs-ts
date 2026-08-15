@@ -1,0 +1,27 @@
+id: platform.cookie
+label: Cookie
+slug: cookie
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Un cookie est un petit fichier qu'un site stocke dans votre navigateur. Il mémorise les réglages d'affichage comme la langue, le thème et la taille du texte. Les cookies essentiels soutiennent le service et les cookies facultatifs peuvent être refusés."
+long: |-
+  Un cookie est un petit fichier d'information qu'un site visité laisse dans votre navigateur. Il mémorise les préférences d'affichage pour que le même environnement apparaisse lors de votre prochaine visite. C'est un enregistrement de choix dans le navigateur plutôt qu'un document d'identité. Vous pouvez consulter et effacer ces réglages dans le navigateur à tout moment.
+
+  Les cookies essentiels assurent les fonctions minimales nécessaires au bon fonctionnement du service. Les cookies facultatifs peuvent servir à des extras comme la publicité ou l'analyse. Les cookies facultatifs peuvent être refusés via la gestion du consentement ou les réglages du navigateur. Les refuser ne limite pas l'utilisation de base du service.
+
+  La politique de confidentialité divulgue de façon transparente quels cookies sont utilisés et pour quel objectif. Quand des outils tiers utilisent des cookies, le fournisseur et la finalité sont annoncés ensemble. Vous pouvez modifier les réglages de cookies à tout moment après votre visite. Effacer tous les cookies du navigateur ne supprime pas votre compte.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Cookie
+  - cookies
+match_phrases:
+  - phrase: cookie
+    auto_match: true
+    priority: 100
+  - phrase: cookies
+    auto_match: true
+    priority: 90

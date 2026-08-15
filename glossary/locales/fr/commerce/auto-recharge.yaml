@@ -1,0 +1,23 @@
+id: commerce.auto-recharge
+label: Recharge automatique
+slug: auto-recharge
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "La recharge automatique ajoute le montant configuré quand le solde de citrons passe sous le seuil. L'utilisateur peut l'annuler à tout moment. Après l'annulation, aucune recharge supplémentaire n'est effectuée."
+long: |-
+  La recharge automatique permet de maintenir le solde sans recharger manuellement. Quand le solde passe sous un seuil défini, le montant configuré est débité automatiquement. L'historique et les montants de recharge sont visibles dans les registres de paiement. L'utilisation de la recharge automatique est un choix de l'utilisateur.
+
+  La recharge automatique peut être annulée à tout moment, ce qui arrête seulement les recharges futures. Les paiements déjà effectués avant l'annulation suivent les critères de remboursement existants. Les montants débités par recharge automatique peuvent aussi être remboursés comme des paiements ordinaires. Après l'annulation, l'utilisateur peut recharger manuellement si besoin.
+
+  L'écran de configuration permet de choisir le solde seuil et le montant de recharge. Les changements de configuration et l'historique d'annulation sont visibles dans le service. Les erreurs dues à la recharge automatique peuvent être corrigées via le canal d'assistance. Les critères généraux sont fixés par les politiques de crédits et de remboursement.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Recharge automatique
+match_phrases:
+  - phrase: recharge automatique
+    auto_match: true
+    priority: 100

@@ -1,0 +1,23 @@
+id: commerce.original-payment-method
+label: 元の支払い方法
+slug: original-payment-method
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "元の支払い方法とは、決済時に実際に使った支払い手段のことです。 返金は原則としてこの元の支払い方法に戻ります。 反映時期は決済事業者の都合により変わることがあります。"
+long: |-
+  元の支払い方法とは、決済を行うときに利用者が実際に支払ったカードや口座などの手段を指します。 返金申請が確定すると、残額は原則としてこの手段に戻されます。 カード会社などの処理日程によっては、実際の反映までに追加期間がかかることがあります。 反映状況は決済および利用記録で確認できます。
+
+  部分返金が元の支払い方法の構造上できない場合は、代替案を案内します。 代替となる返金方法と最終金額は、申請確定前にあらかじめ知らせます。 利用者が同意した場合にのみ代替返金が進められます。 同意しない場合は元の支払い方法の基準を維持します。
+
+  返金額と方法は申請過程で透明に表示されます。 回収されるボーナスレモンや特典も同じ画面で一緒に案内します。 最終精算内容は確定前に再度公開します。 関連基準は返金ポリシーとクレジットポリシーで確認できます。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - 元の支払い方法
+match_phrases:
+  - phrase: 元の支払い方法
+    auto_match: true
+    priority: 100

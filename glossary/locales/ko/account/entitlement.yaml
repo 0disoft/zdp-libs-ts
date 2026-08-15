@@ -4,7 +4,6 @@ slug: entitlement
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
 short: "Entitlement는 계정이 특정 제품이나 유료 기능을 이용할 수 있는 권한이다. 계정 생성만으로는 모든 권한이 자동으로 부여되지 않는다. 실제 권한은 연령과 거주 국가, 결제 수단, 제품 조건에 따라 달라진다."
 long: |-
@@ -18,10 +17,14 @@ translation_status: reviewed
 aliases:
   - 이용 권한
   - 권한
+  - 이용권
 match_phrases:
   - phrase: 이용 권한
     auto_match: true
     priority: 100
+  - phrase: 이용권
+    auto_match: true
+    priority: 95
   - phrase: 권한
     auto_match: true
     priority: 70

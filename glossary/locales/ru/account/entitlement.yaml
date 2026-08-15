@@ -4,24 +4,24 @@ slug: entitlement
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Entitlement is the permission for an account to use a specific product or paid feature. Creating an account alone does not automatically grant all entitlements. Actual entitlements depend on age, country, payment method, and product conditions."
+short: "Право использования — это разрешение аккаунта использовать конкретный продукт или платную функцию. Только создание аккаунта не дает автоматически всех прав. Фактические права различаются в зависимости от возраста, страны проживания, способа оплаты и условий продукта."
 long: |-
-  Entitlement is the permission that applies differently to each service even when one account signs in to multiple products. Creating an account alone does not grant access to every product or paid feature. Actual entitlements are determined by product policy and availability. Whether you have an entitlement can be checked on each product screen after sign-in.
+  Право использования — это разрешение, которое применяется по-разному к каждому сервису, даже когда один аккаунт входит в несколько продуктов. Сам факт создания аккаунта не создает прав на все продукты или платные функции. Фактические права определяются политикой и доступностью каждого продукта. Наличие права можно проверить на экране каждого продукта после входа.
 
-  Entitlement is managed together with account status and sign-in method. Keeping account information up to date keeps entitlement decisions accurate. Lending or selling an account or sign-in method to others is not allowed. Attempting a feature without the required entitlement may be blocked.
+  Право использования управляется вместе со статусом аккаунта и способом входа. Поддержание актуальности информации аккаунта обеспечивает точное определение прав. Передача или продажа аккаунта или способа входа другим лицам не допускается. Попытка использовать функцию без необходимого права может привести к ограничению доступа.
 
-  Some entitlements are further restricted by age, country, payment method, or product characteristics. A restricted entitlement can be granted again when conditions are met. Whether conditions are met is judged by the criteria shown in the service. Overall grant and restriction criteria for entitlements are set by the terms and each product guide.
+  Некоторые права дополнительно ограничены возрастом, страной проживания, способом оплаты или характеристиками продукта. Ограниченное право может быть снова предоставлено при выполнении условий. Выполнение условий определяется по критериям, указанным на экране сервиса. Общие критерии предоставления и ограничения прав устанавливаются условиями сервиса и руководством каждого продукта.
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - entitlement
+  - право использования
+  - права
 match_phrases:
-  - phrase: Entitlement
+  - phrase: право использования
     auto_match: true
     priority: 100
-  - phrase: entitlement
+  - phrase: права
     auto_match: true
     priority: 70

@@ -1,0 +1,23 @@
+id: security.audit-log
+label: Jejak audit
+slug: audit-log
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Jejak audit ialah rekod keselamatan tentang siapa yang mengakses maklumat apa dan bila. Akses luar biasa direkodkan dengan sebab, skop dan tamat tempoh. Insiden keselamatan disiasat melalui rekod ini."
+long: |-
+  Jejak audit ialah rekod kronologi akses dan perubahan utama dalam sesebuah sistem. Ia membolehkan pengesahan siapa yang mengakses maklumat apa, bila dan untuk tujuan apa. Rekod kerja biasa turut disertakan dan hanya berlaku dalam lingkungan kuasa yang dibenarkan. Rekod dilindungi supaya sukar dipalsukan atau dipadam.
+
+  Akses luar biasa ke kandungan peribadi mentah atau token akaun luaran sentiasa direkodkan dalam jejak audit. Sebab, skop dan masa tamat direkodkan bersama untuk memastikan ketelusan. Apabila insiden keselamatan atau penggunaan penipuan disyaki, rekod ini digunakan untuk mengesan punca. Akses ke log itu sendiri juga dihadkan secara berasingan.
+
+  Jejak audit ialah perlindungan asas untuk mengendalikan maklumat peribadi dengan selamat. Dasar privasi mendedahkan cara jejak audit dikendalikan. Akses ke data pengguna dikekalkan minimum dan sentiasa direkodkan. Rekod yang tidak diperlukan lagi dipadam mengikut tempoh penyimpanan yang ditetapkan.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - jejak audit
+match_phrases:
+  - phrase: jejak audit
+    auto_match: true
+    priority: 100

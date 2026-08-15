@@ -4,24 +4,24 @@ slug: entitlement
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Entitlement is the permission for an account to use a specific product or paid feature. Creating an account alone does not automatically grant all entitlements. Actual entitlements depend on age, country, payment method, and product conditions."
+short: "Hak penggunaan adalah wewenang akun untuk menggunakan produk tertentu atau fitur berbayar. Membuat akun saja tidak otomatis memberikan semua hak. Hak yang sebenarnya berbeda-beda tergantung usia, negara tempat tinggal, alat pembayaran, dan ketentuan produk."
 long: |-
-  Entitlement is the permission that applies differently to each service even when one account signs in to multiple products. Creating an account alone does not grant access to every product or paid feature. Actual entitlements are determined by product policy and availability. Whether you have an entitlement can be checked on each product screen after sign-in.
+  Hak penggunaan adalah wewenang yang diterapkan berbeda pada setiap layanan meskipun satu akun masuk ke berbagai produk. Fakta membuat akun saja tidak menimbulkan hak atas semua produk atau fitur berbayar. Hak yang sebenarnya ditentukan berdasarkan kebijakan dan ketersediaan setiap produk. Ada tidaknya hak dapat diperiksa di layar setiap produk setelah masuk.
 
-  Entitlement is managed together with account status and sign-in method. Keeping account information up to date keeps entitlement decisions accurate. Lending or selling an account or sign-in method to others is not allowed. Attempting a feature without the required entitlement may be blocked.
+  Hak penggunaan dikelola bersama dengan status akun dan cara masuk. Menjaga informasi akun tetap terbaru membuat penilaian hak menjadi akurat. Meminjamkan atau menjual akun atau cara masuk kepada orang lain tidak diperbolehkan. Mencoba menggunakan fitur tanpa hak yang diperlukan dapat mengakibatkan pembatasan akses.
 
-  Some entitlements are further restricted by age, country, payment method, or product characteristics. A restricted entitlement can be granted again when conditions are met. Whether conditions are met is judged by the criteria shown in the service. Overall grant and restriction criteria for entitlements are set by the terms and each product guide.
+  Sebagian hak dibatasi lebih lanjut oleh usia, negara tempat tinggal, alat pembayaran, atau karakteristik produk. Hak yang dibatasi dapat diberikan kembali ketika kondisinya terpenuhi. Terpenuhi tidaknya kondisi dinilai berdasarkan kriteria yang diberitahukan di layar layanan. Kriteria keseluruhan pemberian dan pembatasan hak ditetapkan oleh ketentuan layanan dan panduan setiap produk.
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - entitlement
+  - hak penggunaan
+  - hak
 match_phrases:
-  - phrase: Entitlement
+  - phrase: hak penggunaan
     auto_match: true
     priority: 100
-  - phrase: entitlement
+  - phrase: hak
     auto_match: true
     priority: 70

@@ -1,0 +1,27 @@
+id: legal.objection
+label: Objection
+slug: objection
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "La apelación es un proceso para impugnar los motivos de una restricción y solicitar una nueva revisión. Cuando se notifica el motivo de la restricción, la apelación puede presentarse a través del canal de atención al cliente. Según el resultado de la revisión de los motivos y las pruebas presentadas, se decide mantener o levantar la medida."
+long: |-
+  La apelación es un proceso para impugnar los motivos de una restricción o de una medida de pago y solicitar un nuevo juicio. Cuando se notifican el motivo y la base de la restricción, puede presentarse una apelación dentro del plazo establecido. La apelación presentada queda registrada. Si se mantiene o se levanta la medida depende del resultado de la revisión.
+
+  Aunque se presente una apelación, se mantienen las vías para consultar el motivo y revisar el historial de pagos. Si no existe un motivo urgente de seguridad o legal, el motivo se comunica antes de la restricción. Durante el proceso de apelación puede solicitarse la verificación de identidad y las pruebas necesarias. El alcance de la solicitud se determina dentro de lo permitido por la ley y la seguridad.
+
+  Si la apelación se acepta, la restricción puede levantarse o aliviarse. Si no se acepta, se mantiene la medida existente. El resultado se comunica mediante la pantalla del servicio, una notificación o un correo electrónico. El procedimiento general y los plazos de tramitación los establecen conjuntamente los términos del servicio, la guía de atención al cliente y la legislación aplicable.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - apelación
+  - impugnación
+match_phrases:
+  - phrase: apelación
+    auto_match: true
+    priority: 100
+  - phrase: impugnación
+    auto_match: true
+    priority: 90

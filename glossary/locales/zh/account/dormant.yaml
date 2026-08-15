@@ -1,0 +1,23 @@
+id: account.dormant
+label: 休眠状态
+slug: dormant
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "休眠状态是指账户在一定期间内未登录或未使用服务。 仅凭休眠状态不会删除已购买的柠檬。 重新使用账户后，已购柠檬的权利会保持不变。"
+long: |-
+  休眠状态是指账户因一定期间未登录或未使用服务而进入待机状态。 即使处于休眠状态，账户信息和已购柠檬也会照常保管。 已购柠檬的有效期不受休眠与否影响，适用相同规则。 重新登录后，休眠状态即被解除。
+
+  休眠状态不同于账户关闭或服务终止。 账户关闭或服务终止时，会事先告知剩余柠檬的退款和转移流程。 休眠状态本身不会在未通知的情况下删除已购柠檬。 休眠判定期限可在各产品指南中确认。
+
+  即使休眠持续较久，已购柠檬的所有权也会保留。 休眠期间只有设有有效期的柠檬可能到期。 是否到期及日程可在余额画面中确认。 如有疑问，可通过客服渠道咨询。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - 休眠状态
+match_phrases:
+  - phrase: 休眠状态
+    auto_match: true
+    priority: 100

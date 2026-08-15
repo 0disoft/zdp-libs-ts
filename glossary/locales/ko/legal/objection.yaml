@@ -1,0 +1,26 @@
+id: legal.objection
+label: Objection
+slug: objection
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "이의제기는 이용 제한 등의 근거에 대해 다투고 재검토를 요청하는 절차이다. 제한 사유가 통지되면 고객 지원 채널을 통해 이의를 제기할 수 있다. 제기된 사유와 증빙을 검토한 결과에 따라 조치 유지나 해제가 결정된다."
+long: |-
+  이의제기는 이용 제한이나 결제 조치 등에 대해 사유가 부당하다고 다투고 다시 판단을 요청하는 절차이다. 제한 사유와 근거가 통지되면 정해진 기간 안에 이의를 제기할 수 있다. 제기된 이의는 기록으로 남는다. 조치를 유지할지 해제할지는 검토 결과에 따라 정해진다.
+
+  이의제기를 하더라도 사유 확인과 결제 내역 조회 경로는 계속 유지된다. 긴급한 보안·법적 사유가 없다면 제한 전에 사유를 사전에 알린다. 이의제기 과정에서는 본인 확인과 필요한 증빙을 요청할 수 있다. 요청 범위는 법적·보안상 허용되는 선에서 정해진다.
+
+  이의가 받아들여지면 제한은 해제되거나 완화될 수 있다. 받아들여지지 않으면 기존 조치가 유지된다. 결과는 서비스 화면, 알림 또는 이메일로 안내한다. 전체적인 절차와 처리 기한은 이용약관, 고객 지원 안내와 관련 법령이 함께 정한다.
+example: null
+translation_status: reviewed
+aliases:
+  - 이의제기
+  - 이의 제기
+match_phrases:
+  - phrase: 이의제기
+    auto_match: true
+    priority: 100
+  - phrase: 이의 제기
+    auto_match: true
+    priority: 90

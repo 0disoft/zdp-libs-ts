@@ -1,0 +1,23 @@
+id: commerce.auto-recharge
+label: 自动充值
+slug: auto-recharge
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "自动充值是指柠檬余额低于标准时按设定金额自动充值的功能。 用户可以随时取消自动充值。 取消后不会再产生额外充值。"
+long: |-
+  自动充值是可以让用户不手动充值也能维持余额的功能。 余额低于设定标准时，会按设定金额自动完成充值。 充值明细和金额可在结算记录中确认。 是否使用自动充值由用户自行选择。
+
+  自动充值可随时取消，取消后只会停止之后的额外充值。 取消前已完成的结算按照原有退款标准处理。 通过自动充值支付的金额也与普通结算一样可以成为退款对象。 取消后需要时可自行充值。
+
+  在自动充值设置画面中可以设定标准余额和充值金额。 设置变更和取消记录可在服务画面中确认。 因自动充值产生的错误可通过客服渠道更正。 整体标准由柠檬政策和退款政策共同确定。
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - 自动充值
+match_phrases:
+  - phrase: 自动充值
+    auto_match: true
+    priority: 100

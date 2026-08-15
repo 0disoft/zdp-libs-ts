@@ -1,0 +1,27 @@
+id: legal.objection
+label: Objection
+slug: objection
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Keberatan adalah proses untuk mempermasalahkan dasar pembatasan dan meminta peninjauan ulang. Setelah alasan pembatasan diberitahukan, keberatan dapat diajukan melalui kanal dukungan pelanggan. Berdasarkan hasil peninjauan atas alasan dan bukti yang diajukan, tindakan dipertahankan atau dicabut."
+long: |-
+  Keberatan adalah proses untuk mempermasalahkan alasan pembatasan atau tindakan pembayaran dan meminta keputusan baru. Setelah alasan dan dasar pembatasan diberitahukan, keberatan dapat diajukan dalam jangka waktu yang ditentukan. Keberatan yang diajukan dicatat sebagai riwayat. Tindakan dipertahankan atau dicabut tergantung pada hasil peninjauan.
+
+  Meskipun mengajukan keberatan, jalur untuk memeriksa alasan dan riwayat pembayaran tetap tersedia. Jika tidak ada alasan keamanan atau hukum yang mendesak, alasan diberitahukan sebelum pembatasan. Selama proses keberatan, verifikasi identitas dan bukti yang diperlukan dapat diminta. Cakupan permintaan ditentukan dalam batas yang diizinkan secara hukum dan keamanan.
+
+  Jika keberatan diterima, pembatasan dapat dicabut atau dilonggarkan. Jika tidak diterima, tindakan yang ada tetap dipertahankan. Hasilnya diberitahukan melalui layar layanan, notifikasi, atau email. Prosedur keseluruhan dan tenggat pemrosesan ditetapkan bersama oleh ketentuan layanan, panduan dukungan pelanggan, dan hukum yang berlaku.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - keberatan
+  - banding
+match_phrases:
+  - phrase: keberatan
+    auto_match: true
+    priority: 100
+  - phrase: banding
+    auto_match: true
+    priority: 90

@@ -1,0 +1,24 @@
+id: platform.cookie
+label: Cookie
+slug: cookie
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Cookie adalah file kecil yang disimpan situs di browser Anda. Cookie mengingat pengaturan tampilan seperti bahasa, tema, dan ukuran font. Cookie esensial mendukung layanan dan cookie opsional dapat ditolak."
+long: |-
+  Cookie adalah file informasi kecil yang ditinggalkan situs yang Anda kunjungi di browser. Cookie mengingat preferensi tampilan sehingga lingkungan yang sama muncul pada kunjungan berikutnya. Ini adalah catatan pilihan di dalam browser, bukan dokumen identitas. Anda dapat memeriksa dan menghapus pengaturan ini di browser kapan saja.
+
+  Cookie esensial menangani fungsi minimum yang diperlukan agar layanan berjalan benar. Cookie opsional dapat digunakan untuk tambahan seperti iklan atau analitik. Cookie opsional dapat ditolak melalui pengelolaan persetujuan atau pengaturan browser. Menolaknya tidak membatasi penggunaan dasar layanan.
+
+  Kebijakan privasi mengungkapkan secara transparan cookie apa yang digunakan untuk tujuan apa. Saat alat pihak ketiga menggunakan cookie, penyedia dan tujuannya diumumkan bersama. Anda dapat mengubah pengaturan cookie kapan saja setelah kunjungan. Menghapus semua cookie di browser tidak menghapus akun Anda.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - Cookie
+  - cookie
+match_phrases:
+  - phrase: cookie
+    auto_match: true
+    priority: 100

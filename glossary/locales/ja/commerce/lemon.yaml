@@ -4,25 +4,30 @@ slug: lemon
 copy_contract_version: 2
 copy_provenance:
   origin: llm
-  model: meta/muse-spark-1.2-contributor
   human_review_status: pending
-short: "Lemon is the unified credit unit used across multiple products. It is split into paid Lemons granted on purchase and bonus Lemons granted as rewards. Paid Lemons can be eligible for refunds."
+short: "レモンは、複数の製品で共通に使用する統合クレジットの単位です。 購入時に付与される有料レモンと、ボーナスとして付与される無料レモンに区分されます。 有料レモンは返金の対象となることがあります。"
 long: |-
-  Lemon is the common credit unit used across multiple products. It is divided into paid Lemons granted through purchase and free Lemons granted through events or rewards. Each Lemon follows the validity and refundability set at grant time. The balance screen shows source and expiry for each Lemon.
+  レモンは、複数の製品で共通に使用するクレジットの単位です。 購入を通じて付与される有料レモンと、イベントや報酬として付与される無料レモンに分かれます。 各レモンの有効期間と返金の可否は、付与時点で定められた条件に従います。 残高画面では、レモンの出所と有効期限を確認できます。
 
-  Lemons are deducted as the unit required to use a service. Actual deduction applies only to the completed scope of a task. If a task never started or no valid result was received due to company fault, reserved Lemons are restored. Deduction history can be checked in payment and usage records.
+  レモンは、サービス利用時に必要な単位として差し引かれます。 実際の差引は、作業が完了した範囲のみ行われます。 作業が開始されていない場合や、当社の責めに帰すべき事由により有効な結果を受け取れなかった場合は、予約されたレモンが復元されます。 差引履歴は、決済および利用記録で確認できます。
 
-  Bonus Lemons may follow a different usage order from paid Lemons. Bonus Lemons are consumed starting with the earliest expiry. Expired Lemons are automatically removed and not restored. Overall issuance, expiry, and restoration rules for Lemons follow the credits policy.
+  ボーナスレモンは、有料レモンと使用順序が異なる場合があります。 ボーナスレモンは、有効期間が短いものから先に使用されます。 有効期間が過ぎたレモンは自動的に失効し、復元されません。 全体として、レモンの付与・失効・復元のルールは、クレジットポリシーで定められた基準に従います。
 example: null
 translation_status: reviewed
 source_locale: ko
 aliases:
-  - Lemon
-  - Lemons
+  - レモン
+  - レモン残高
 match_phrases:
-  - phrase: Lemon
+  - phrase: レモン
     auto_match: true
     priority: 100
-  - phrase: Lemons
+  - phrase: 購入レモン
+    auto_match: true
+    priority: 95
+  - phrase: ボーナスレモン
     auto_match: true
     priority: 90
+  - phrase: Lemon
+    auto_match: true
+    priority: 80
