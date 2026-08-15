@@ -72,9 +72,7 @@ const COMMON_GLOSSARY_PRODUCT_COPY_PATTERNS: readonly RegExp[] = [
 const EXPECTED_COMMON_GLOSSARY_TERM_IDS = [
   'account.entitlement',
   'commerce.lemon',
-  'legal.withdrawal',
-  'operations.rate-limit',
-  'security.vault'
+  'legal.withdrawal'
 ] as const;
 
 describe('public glossary source data', () => {

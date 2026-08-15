@@ -1,5 +1,11 @@
 # CHANGELOG.md
 
+## 0.15.0
+
+### Changed
+
+- 사용하지 않는 초기 공용 glossary 용어 `security.vault`, `operations.rate-limit`과 12개 locale 문구를 제거하고, 실제 소비 중인 `account.entitlement`, `commerce.lemon`, `legal.withdrawal`만 유지한다.
+
 ## 0.14.1
 
 ### Fixed
