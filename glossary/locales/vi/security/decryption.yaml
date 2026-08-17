@@ -1,0 +1,23 @@
+id: security.decryption
+label: Decryption
+slug: decryption
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Decryption is the process of restoring encrypted information to its original readable form. Information designed to be undecryptable cannot be opened even by the company. Data not held or not decryptable is not provided in response to requests."
+long: |-
+  Decryption is the process by which an authorized party restores unreadable encrypted information to a readable state. For protection, content is stored encrypted rather than in plain form. Proper authority and tools are required to reveal the original. Without them, the data remains unreadable.
+
+  The company applies encryption, access controls, and separation together where technically feasible. Information not held or already lawfully deleted is not restored for disclosure. Information designed without holding decryption keys is made technically unopenable even by the company. These standards are set at the design stage.
+
+  Requests from authorities or third parties do not lead to creating new decryptable copies of unopenable data. Only the minimum necessary within held scope and technical limits is considered. The absence of deleted data is not used to justify broader demands. Data minimization and technical protection should be read together to understand the policy.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - decryption
+match_phrases:
+  - phrase: decryption
+    auto_match: true
+    priority: 100

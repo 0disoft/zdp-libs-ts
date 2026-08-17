@@ -1,0 +1,23 @@
+id: legal.lawful-order
+label: Lawful Order
+slug: lawful-order
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "A lawful order is an enforceable decision or order issued by a competent court through proper legal process. Public demands without that process are not lawful orders. When disclosure is legally required, the company provides only the minimum necessary information."
+long: |-
+  A lawful order is a decision or order issued by a court with authority through proper procedures under applicable law. Warrants and judgments with enforcement power qualify. Demands from public bodies based solely on internal approval without judicial review do not qualify. Determining lawful order status involves checking jurisdiction and procedural legality together.
+
+  Upon receiving a request, the company assesses whether it creates a legal duty and whether a lawful basis is confirmed. Requests without a duty or clear basis are generally not honored. Even when a duty exists, only the minimum information needed for execution is provided. No additional information beyond the demanded scope is volunteered.
+
+  Requests linked to political persecution or expression suppression but supported by a confirmed lawful order are handled under legal judgment with continued safeguards. Scope narrowing and challenges are still considered where the law allows. Emergency life or safety exceptions are evaluated against statutory requirements and minimum scope first. Procedures are set in the government request policy and the terms.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - lawful order
+match_phrases:
+  - phrase: lawful order
+    auto_match: true
+    priority: 100

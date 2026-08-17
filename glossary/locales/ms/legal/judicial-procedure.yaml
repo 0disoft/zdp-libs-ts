@@ -1,0 +1,23 @@
+id: legal.judicial-procedure
+label: Judicial Procedure
+slug: judicial-procedure
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Judicial procedure is the court process for adjudicating disputes under lawful authority and procedures. A single political factor does not determine the assessment of all procedures. Each request is judged on its specific procedures and circumstances."
+long: |-
+  Judicial procedure is the process by which a competent court hears a dispute and issues a decision under applicable law. It includes jurisdiction, hearing, evidence review, and enforcement. Even within one state, courts and procedures vary by case type and stage. Politically charged cases are still judged on legal requirements and evidence in this process.
+
+  The company does not judge an entire judicial system from one factor such as political structure or how judges are appointed. Each request is assessed on its specific legal procedures and facts. Whether mutual legal assistance applies is checked separately. The same individual review applies when assessing political persecution risks.
+
+  When a lawful order is confirmed through proper judicial procedure, disclosure scope is reassessed. Unsubstantiated requests are generally not honored and procedural cure is requested. Necessary disclosures are limited to the minimum needed for execution. Remaining criteria are set in the political persecution and foreign request policies.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - judicial procedure
+match_phrases:
+  - phrase: judicial procedure
+    auto_match: true
+    priority: 100

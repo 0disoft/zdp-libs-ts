@@ -1,0 +1,23 @@
+id: legal.mutual-legal-assistance
+label: Mutual Legal Assistance
+slug: mutual-legal-assistance
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Mutual legal assistance is a formal legal process for states to cooperate on investigations and enforcement. Even direct foreign demands are checked for enforceability in Korea. Requests without a lawful basis are generally not honored."
+long: |-
+  Mutual legal assistance is a treaty and statutory process for sharing information and cooperating on criminal investigations and trials. Requests from foreign authorities still need to pass through a path recognized in Korean law to be enforceable. Treaty-based or domestic assistance procedures qualify. Checking that path is the starting point for reviewing foreign requests.
+
+  The company reviews whether a direct foreign demand satisfies applicable law and assistance procedures. Requests lacking a recognized lawful process in Korea are generally not honored. Where needed, the requester is guided to resubmit through the proper cooperation channel. Only minimal exceptions for imminent life or safety risks allowed by law are separately considered.
+
+  Requests that appear to track or punish political views or lawful expression receive stricter scrutiny. Challenges and scope minimization are pursued within the law. Data minimization and technical safeguards remain in place at this stage. Remaining criteria are set in the foreign government request policy.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - mutual legal assistance
+match_phrases:
+  - phrase: mutual legal assistance
+    auto_match: true
+    priority: 100

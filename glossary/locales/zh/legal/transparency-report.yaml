@@ -1,0 +1,23 @@
+id: legal.transparency-report
+label: Transparency Report
+slug: transparency-report
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "A transparency report aggregates government data requests, disclosures, and refusals for public release. It is published when scale and volume become meaningful. Users can see overall trends at a glance."
+long: |-
+  A transparency report aggregates the status of user data requests from government and investigative authorities for public disclosure. It includes counts such as requests received, disclosures made, and full or partial refusals. Totals are compiled quarterly or annually and updated regularly. The report shows trends rather than details of individual cases.
+
+  The report complements user notice as a transparency tool. Even when immediate notice is legally restricted, aggregate statistics are published separately from post-notification. Statistics are aggregated to avoid identifying individuals. Users can assess the scale and principles of government request handling through the report.
+
+  The company plans to publish the report when scale and request volume become significant. Timing and scope reflect legal advice and operational conditions. Independent verification may precede publication. Operating standards for the report are described in the privacy policy and the relevant terms sections.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - transparency report
+match_phrases:
+  - phrase: transparency report
+    auto_match: true
+    priority: 100

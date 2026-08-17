@@ -1,0 +1,27 @@
+id: security.data-minimization
+label: Data Minimization
+slug: data-minimization
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Data minimization means collecting only what is necessary and deleting it when no longer needed. Policy alone cannot fully protect privacy. Not collecting unnecessary data in the first place is the safest safeguard."
+long: |-
+  Data minimization is the principle of not creating personal data beyond what is needed to provide the service. Necessary data is deleted after its purpose is fulfilled unless retention is legally required. Fewer collected items mean less exposure through government requests or security incidents. The principle serves as the starting point for privacy alongside technical safeguards.
+
+  Services connected to 8ailors avoid collecting information not needed for functionality. Data whose necessity has ended is purged when its retention period expires. Periodic reviews reassess necessity per item and remove what is not needed. Legally required retentions are managed separately as exceptions.
+
+  Where technically feasible, encryption, access controls, and data separation are applied together. Information not held or already lawfully deleted is not restored for disclosure. Information designed to be undecryptable is made technically unopenable. Data minimization and technical protection are effective when operated together.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - data minimization
+  - minimum collection
+match_phrases:
+  - phrase: data minimization
+    auto_match: true
+    priority: 100
+  - phrase: minimum collection
+    auto_match: true
+    priority: 90

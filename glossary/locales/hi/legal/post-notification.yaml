@@ -1,0 +1,27 @@
+id: legal.post-notification
+label: Post Notification
+slug: post-notification
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Post-notification is delayed notice of a data request that was legally barred or stayed. It applies when a gag order prevents immediate notice. Once the restriction lifts, the user is informed without delay to preserve transparency."
+long: |-
+  Post-notification is the procedure for informing a user after an immediate disclosure notice was legally prohibited or stayed. Investigative secrecy may require a bar or delay under law. During that period, the requesting body, nature of the request, and scope sought cannot be promptly shared. Immediate notice where allowed is the principle, with narrow exceptions for lawful stays.
+
+  When the restriction lifts, the company notifies the user without delay as a principle. Information that could not be shared during the stay is supplemented. If less was disclosed than requested, that limitation is made explicit. Available follow-up steps such as objection are described alongside the notice.
+
+  The fact of a barred notice is not used as leverage for broader demands. One gag order is not stretched to delay notice in unrelated matters. Scope of each gag order is assessed separately and its lifting is tracked. Operating standards are set in the user notice and transparency policy.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - post-notification
+  - post notification
+match_phrases:
+  - phrase: post notification
+    auto_match: true
+    priority: 100
+  - phrase: post-notification
+    auto_match: true
+    priority: 90

@@ -1,0 +1,23 @@
+id: legal.jurisdiction
+label: Jurisdiction
+slug: jurisdiction
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Jurisdiction is the lawful authority and scope for an agency or court to handle a case. Reviews of government requests assess that authority. Dispute resolution follows the competent court under applicable law."
+long: |-
+  Jurisdiction is the proper domain for an administrative, investigative, or judicial body to handle a specific matter. It includes institutional authority, geographic scope, and stage-specific competence. Upon receiving a data request, the company first checks whether the requesting body has authority over the matter. Lack of or unclear jurisdiction calls the legality of the request into question.
+
+  Government request review examines authority and jurisdiction, procedural legality, specificity of the target, and relevance. Requests lacking confirmed jurisdiction are asked to cure formal requirements. Properly authorized bodies are guided to resubmit through correct channels. Scope narrowing may be requested alongside that correction.
+
+  Jurisdiction also governs dispute resolution. Contract disputes follow the competent court under applicable law. Procedural conditions for contesting venue are set in the relevant rules. Users are encouraged to seek support first, then proceed to jurisdictional procedures if needed.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - jurisdiction
+match_phrases:
+  - phrase: jurisdiction
+    auto_match: true
+    priority: 100

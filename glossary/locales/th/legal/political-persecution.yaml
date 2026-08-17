@@ -1,0 +1,23 @@
+id: legal.political-persecution
+label: Political Persecution
+slug: political-persecution
+copy_contract_version: 2
+copy_provenance:
+  origin: llm
+  human_review_status: pending
+short: "Political persecution is the risk of punishment or retaliation for political views or status. It covers state tracking or suppression of dissent, press, research, and civic activity. When a request appears to serve that purpose, the company refuses or disputes it within lawful limits."
+long: |-
+  Political persecution means the risk of punishment, retaliation, or criminal disadvantage for specific political views, social status, or activity history. It arises when lawful expression such as criticism of government, journalism, research, creation, or civic engagement is targeted. An independent assessment is needed when reasonable grounds suggest the user faces that risk. The outcome of that assessment guides whether information is disclosed.
+
+  The company does not comply with requests that aim to track or suppress lawful expression. Requests with reasonable grounds to be seen as political persecution or expression suppression are refused within the law. Unjust demands are challenged and their scope is narrowed. Protective measures remain even within the narrowed scope to safeguard user rights.
+
+  The company does not judge all judicial procedures of a state uniformly from a single factor like its political system or the presence of an official. Each request is assessed on its specific legal procedures and circumstances. Cases with persecution concerns receive stricter review. Results are communicated transparently and protective measures are maintained.
+example: null
+translation_status: reviewed
+source_locale: ko
+aliases:
+  - political persecution
+match_phrases:
+  - phrase: political persecution
+    auto_match: true
+    priority: 100
