@@ -71,12 +71,14 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "bun scripts/build-package.ts",
+    "build": "bun run calculator-catalog:check && bun scripts/build-package.ts",
     "build:emit": "tsc -p tsconfig.build.json",
-    "check": "tsc --noEmit && bun test && bun run contracts:check",
+    "check": "bun run calculator-catalog:check && tsc --noEmit && bun test && bun run contracts:check",
     "check:tsgo": "tsgo --noEmit",
     "test": "bun test",
     "contracts:check": "bun scripts/check-libs-contracts.ts --api-contracts-root ../zdp-api-contracts",
+    "calculator-catalog:generate": "bun scripts/generate-calculator-catalog.ts --api-contracts-root ../zdp-api-contracts",
+    "calculator-catalog:check": "bun scripts/generate-calculator-catalog.ts --check --api-contracts-root ../zdp-api-contracts",
     "prepack": "bun run build",
     "smoke:package": "bun scripts/smoke-packed-package.ts"
   },
