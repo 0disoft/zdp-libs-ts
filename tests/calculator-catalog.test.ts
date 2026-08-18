@@ -16,7 +16,7 @@ describe('generated calculator catalog', () => {
   it('keeps registry, version ledger, and generated docs aligned', () => {
     expect(CALCULATOR_IDS).toHaveLength(17);
     expect(new Set(CALCULATOR_IDS).size).toBe(CALCULATOR_IDS.length);
-    expect(Object.keys(CALCULATORS)).toEqual(CALCULATOR_IDS);
+    expect(Object.keys(CALCULATORS)).toEqual([...CALCULATOR_IDS]);
 
     const document = readFileSync(
       join(process.cwd(), 'docs/generated/calculator-catalog.md'),
