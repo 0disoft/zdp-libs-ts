@@ -597,7 +597,6 @@ export function calculateDataTransferTime(
   if (!isRecord(input)) {
     return failure('invalid_input');
   }
-
   const dataSize = parseNamedUnitDecimal(input.dataSize, 'data_size');
   if (!dataSize.ok) {
     return dataSize;
@@ -1309,7 +1308,10 @@ export function calculateFuelCost(
   if (!economy.ok) {
     return economy;
   }
-  if (economyUnit !== 'liters_per_100km' && economy.value.coefficient <= 0n) {
+  if (
+    economy.value.coefficient < 0n ||
+    (economyUnit !== 'liters_per_100km' && economy.value.coefficient === 0n)
+  ) {
     return failure('domain_error', 'economy');
   }
   const fuelPrice = parseNamedUnitDecimal(input.fuelPrice, 'fuel_price');
@@ -1797,7 +1799,6 @@ function subtractRationals(left: Rational, right: Rational): Rational {
     denominator: left.denominator * right.denominator
   });
 }
-
 function powerRational(value: Rational, exponent: number): Rational {
   let remaining = exponent;
   let base = value;
