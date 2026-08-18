@@ -48,3 +48,6 @@ jobs:
 
       - name: Check
         run: bun run check
+
+      - name: Smoke packed package
+        run: bun run smoke:package
