@@ -45,9 +45,18 @@ await writeFile(
   calculatePercentageChange,
   calculateStudycafeSeatOccupancy
 } from 'zdp-libs-ts/calculator-engine';
-import { CALCULATOR_ENGINE_VERSION } from 'zdp-libs-ts';
+import {
+  CALCULATOR_ENGINE_VERSION,
+  CALCULATOR_IDS,
+  calculateById
+} from 'zdp-libs-ts';
 
 const result = calculatePercentageChange(
+  { initialValue: '100', finalValue: '125' },
+  { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+);
+const dispatched = calculateById(
+  'percentage-change',
   { initialValue: '100', finalValue: '125' },
   { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
 );
@@ -108,6 +117,9 @@ const age = calculateAge(
 if (
   !result.ok ||
   result.value.percentageChange.value !== '25.00' ||
+  !dispatched.ok ||
+  dispatched.value.percentageChange.value !== '25.00' ||
+  CALCULATOR_IDS.length !== 17 ||
   !breakEven.ok ||
   breakEven.value.breakEvenQuantity.value !== '50.00' ||
   !transferTime.ok ||
