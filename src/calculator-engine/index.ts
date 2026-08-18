@@ -597,6 +597,7 @@ export function calculateDataTransferTime(
   if (!isRecord(input)) {
     return failure('invalid_input');
   }
+
   const dataSize = parseNamedUnitDecimal(input.dataSize, 'data_size');
   if (!dataSize.ok) {
     return dataSize;
@@ -1799,6 +1800,7 @@ function subtractRationals(left: Rational, right: Rational): Rational {
     denominator: left.denominator * right.denominator
   });
 }
+
 function powerRational(value: Rational, exponent: number): Rational {
   let remaining = exponent;
   let base = value;
