@@ -24,7 +24,7 @@
 - glossary sources: `glossary/terms/**`, `glossary/locales/**`
 - checker: `scripts/check-libs-contracts.ts`
 - public export sources: `src/index.ts`, `src/*/index.ts`; consumer output: generated `dist/`; coverage: `tests/public-exports.test.ts` and tarball smoke
-- calculator engine: `src/calculator-engine/index.ts`, sibling `../zdp-api-contracts/contracts/calculators/*.yaml`, `tests/calculator-engine.test.ts`
+- calculator engine: public surface in `src/calculator-engine/index.ts`, `constants.ts`, `types.ts`; shared internals in `src/calculator-engine/core/**`; calculator implementations in `src/calculator-engine/calculators/**`; sibling `../zdp-api-contracts/contracts/calculators/*.yaml`; coverage in `tests/calculator-engine/**`
 
 ## Drift Checks
 
@@ -35,6 +35,7 @@
 - Public export skeleton and `package.json` exports must stay synchronized.
 - Packed JavaScript and declarations must import from an empty Node consumer without relying on repository `src/` paths.
 - Calculator engine constants, reviewed API contract policies, common conformance cases, package export, tests, and docs must stay synchronized.
+- `src/calculator-engine/index.ts`는 public barrel로만 유지하고 각 reviewed calculator는 `src/calculator-engine/calculators/<calculator-id>.ts` 하나에 구현한다.
 
 ## Version Impact
 
