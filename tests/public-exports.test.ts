@@ -1,15 +1,8 @@
 import { describe, expect, it } from 'bun:test';
+import { readFileSync } from 'node:fs';
+import * as rootExports from '../src/index';
 import {
   SCHEMA_GENERATION_TARGETS,
-  CALCULATOR_CONTRACT_VERSION,
-  calculateBreakEvenPoint,
-  calculateCompoundInterest,
-  calculateDataTransferTime,
-  calculateDateDifference,
-  calculateDiscount,
-  calculatePercentageChange,
-  calculateSecurityCostBreakEven,
-  calculateStudycafeSeatOccupancy,
   defineEnvContractMetadata,
   defineEventContractMetadata,
   defineGlossaryTermContract,
@@ -19,13 +12,48 @@ import {
 } from '../src/index';
 import type { GlossaryTermId, I18nMessageKey } from '../src/index';
 import { defineSchemaMetadata as defineSchemaMetadataFromSubpath } from '../src/schema/index';
+import * as calculatorExports from '../src/calculator-engine/index';
 import {
-  calculateMarginMarkup as calculateMarginMarkupFromSubpath,
-  calculateStudyRoomScheduleRevenue as calculateStudyRoomScheduleRevenueFromSubpath,
-  calculateDiscount as calculateDiscountFromSubpath
+  CALCULATOR_CONTRACT_VERSION,
+  calculateBreakEvenPoint,
+  calculateCompoundInterest,
+  calculateDataTransferTime,
+  calculateDateDifference,
+  calculateDiscount,
+  calculateMarginMarkup,
+  calculatePercentageChange,
+  calculateSecurityCostBreakEven,
+  calculateStudycafeSeatOccupancy,
+  calculateStudyRoomScheduleRevenue
 } from '../src/calculator-engine/index';
 
+// @ts-expect-error Calculator types are available only from the calculator-engine subpath.
+type RootCalculatorResult = import('../src/index').CalculatorResult<unknown>;
+type SubpathCalculatorResult =
+  import('../src/calculator-engine/index').CalculatorResult<unknown>;
+
+const ROOT_FORBIDDEN_CALCULATOR_EXPORTS = [
+  'CALCULATOR_CONTRACT_VERSION',
+  'CALCULATOR_ENGINE_VERSION',
+  'calculatePercentageChange',
+  'calculateBreakEvenPoint'
+] as const;
+
 describe('public contract package exports', () => {
+  it('keeps the committed root build metadata-only', async () => {
+    const builtRoot = await import('../dist/index.js');
+    const builtDeclarations = readFileSync(
+      new URL('../dist/index.d.ts', import.meta.url),
+      'utf8'
+    );
+
+    for (const exportName of ROOT_FORBIDDEN_CALCULATOR_EXPORTS) {
+      expect(Object.hasOwn(builtRoot, exportName)).toBe(false);
+    }
+    expect(builtDeclarations.includes("from './calculator-engine")).toBe(false);
+    expect(builtDeclarations.includes('CalculatorResult')).toBe(false);
+  });
+
   it('exposes schema metadata without owning product models', () => {
     const metadata = defineSchemaMetadata({
       schemaId: 'public.example',
@@ -166,7 +194,18 @@ describe('public contract package exports', () => {
     expect(String(invalidTermId)).toBe('ledger');
   });
 
-  it('exposes calculator functions through root and calculator-engine subpath', () => {
+  it('keeps the root metadata-only and exposes calculators through the subpath', () => {
+    const typeCheck: SubpathCalculatorResult = {
+      ok: false,
+      error: { code: 'invalid_input' }
+    };
+    expect(typeCheck.ok).toBe(false);
+
+    for (const exportName of ROOT_FORBIDDEN_CALCULATOR_EXPORTS) {
+      expect(Object.hasOwn(rootExports, exportName)).toBe(false);
+      expect(Object.hasOwn(calculatorExports, exportName)).toBe(true);
+    }
+
     const options = {
       contractVersion: CALCULATOR_CONTRACT_VERSION,
       decimalPlaces: 2
@@ -184,7 +223,7 @@ describe('public contract package exports', () => {
       }
     });
     expect(
-      calculateMarginMarkupFromSubpath(
+      calculateMarginMarkup(
         {
           cost: { value: '80', unit: 'USD' },
           sellingPrice: { value: '100', unit: 'USD' }
@@ -229,7 +268,7 @@ describe('public contract package exports', () => {
       }
     });
     expect(
-      calculateDiscountFromSubpath(
+      calculateDiscount(
         {
           originalPrice: { value: '80', unit: 'USD' },
           discountRate1: '25',
@@ -247,7 +286,6 @@ describe('public contract package exports', () => {
         totalDiscountPercent: { value: '25.00', unit: 'percent' }
       }
     });
-    expect(calculateDiscount).toBe(calculateDiscountFromSubpath);
     expect(
       calculateDateDifference(
         {
@@ -298,7 +336,7 @@ describe('public contract package exports', () => {
       }
     });
     expect(
-      calculateStudyRoomScheduleRevenueFromSubpath(
+      calculateStudyRoomScheduleRevenue(
         {
           bookableRoomHours: { value: '200', unit: 'room_hours' },
           bookingRatio: '0.75',

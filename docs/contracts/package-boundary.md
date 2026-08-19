@@ -1,7 +1,16 @@
-# Package Boundary Contract
+# 패키지 경계 계약
 
-The package surface is intentionally thin. It exposes built ESM and declarations for root metadata plus schema, env contract, event contract, error, i18n contract, glossary contract, and calculator engine entrypoints. TypeScript source remains the implementation input rather than the consumer runtime surface.
+패키지 표면은 의도적으로 분리한다. 루트 `zdp-libs-ts` entry는 빌드된 ESM과 declaration 중 공통 계약 metadata만 노출한다. schema, env contract, event contract, error, i18n contract, glossary contract는 루트와 각각의 전용 subpath에서 사용할 수 있다. 계산기 타입, 상수, 함수는 `zdp-libs-ts/calculator-engine`에서만 제공하며 루트에서는 다시 export하지 않는다.
 
-It does not own product domain models, runtime validators, framework adapters, provider SDK wrappers, auth policy, payment policy, permission policy, ledger policy, or privacy policy.
+이 패키지는 제품별 domain model, runtime validator, framework adapter, provider SDK wrapper, 인증 정책, 결제 정책, 권한 정책, 원장 정책, privacy 정책을 소유하지 않는다.
 
-Packaged files require version impact review because downstream SDK and API contract work can depend on the public export contract. npm packaging rebuilds `dist/` in `prepack`; commit-SHA-pinned Git dependency installs consume the same reviewed and committed `dist/` without a consumer-side compiler. A tarball smoke must install the package into an empty Node consumer so source-layout or Bun-only runtime leakage cannot pass as a valid release.
+패키지에 포함되는 파일은 downstream SDK와 API contract가 public export 계약에 의존할 수 있으므로 version impact 검토가 필요하다. npm packaging은 `prepack`에서 `dist/`를 다시 생성한다. commit SHA로 고정한 Git dependency는 소비자 측 컴파일 없이 검증 후 커밋된 같은 `dist/`를 사용한다. Tarball smoke는 빈 Node 소비자에 패키지를 설치하고, 계산기 export가 루트로 새지 않는지 확인하며, 전용 subpath를 통해 계산기 API를 실행해야 한다. 이 검증을 통과하지 못한 source layout 의존이나 Bun 전용 runtime 누출은 유효한 release로 보지 않는다.
+
+계산기 소비자는 import를 다음과 같이 옮긴다.
+
+```ts
+import {
+  CALCULATOR_CONTRACT_VERSION,
+  calculatePercentageChange
+} from 'zdp-libs-ts/calculator-engine';
+```

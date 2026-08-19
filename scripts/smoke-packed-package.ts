@@ -34,8 +34,10 @@ await writeFile(
 );
 await writeFile(
   join(consumerRoot, 'smoke.mjs'),
-  `import {
+  `import * as rootPackage from 'zdp-libs-ts';
+import {
   CALCULATOR_CONTRACT_VERSION,
+  CALCULATOR_ENGINE_VERSION,
   calculateAge,
   calculateBreakEvenPoint,
   calculateCompoundInterest,
@@ -45,8 +47,26 @@ await writeFile(
   calculatePercentageChange,
   calculateStudycafeSeatOccupancy
 } from 'zdp-libs-ts/calculator-engine';
-import { CALCULATOR_ENGINE_VERSION } from 'zdp-libs-ts';
 
+const forbiddenRootExports = [
+  'CALCULATOR_CONTRACT_VERSION',
+  'CALCULATOR_ENGINE_VERSION',
+  'calculatePercentageChange',
+  'calculateBreakEvenPoint'
+];
+for (const exportName of forbiddenRootExports) {
+  if (Object.hasOwn(rootPackage, exportName)) {
+    throw new Error(\`Calculator export leaked through package root: \${exportName}.\`);
+  }
+}
+const schemaMetadata = rootPackage.defineSchemaMetadata({
+  schemaId: 'smoke.example',
+  version: '1.0.0',
+  owner: 'package-smoke',
+  jsonSchemaRef: 'schemas/smoke.example.json',
+  openapiRef: 'openapi/smoke.yaml#/components/schemas/SmokeExample',
+  sdkGenerationTargets: ['typescript']
+});
 const result = calculatePercentageChange(
   { initialValue: '100', finalValue: '125' },
   { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
@@ -106,6 +126,7 @@ const age = calculateAge(
   { contractVersion: CALCULATOR_CONTRACT_VERSION }
 );
 if (
+  schemaMetadata.schemaId !== 'smoke.example' ||
   !result.ok ||
   result.value.percentageChange.value !== '25.00' ||
   !breakEven.ok ||
@@ -124,7 +145,7 @@ if (
   age.value.ageYears.value !== 25 ||
   CALCULATOR_ENGINE_VERSION !== '0.6.0'
 ) {
-  throw new Error('Calculator engine tarball result was invalid.');
+  throw new Error('Package root boundary or calculator engine tarball result was invalid.');
 }
 console.log('zdp-libs-ts tarball smoke passed.');
 `,
