@@ -1,5 +1,17 @@
 # CHANGELOG.md
 
+## 0.17.0
+
+### Added
+
+- Node 22·24에서 실제 npm tarball을 설치해 root와 모든 public subpath를 실행하는 package 소비자 검증을 CI 필수 게이트로 추가했다.
+- tarball 경로 허용 목록, 압축·해제 크기, 파일 수와 단일 파일 크기 예산을 검사하는 `package:check`를 추가했다.
+- `main` 이력의 `v<package.json version>` tag만 npm trusted publishing으로 배포하고, `gitHead`, integrity, registry signature와 게시된 소비자를 검증하는 release workflow를 추가했다.
+
+### Changed
+
+- package file whitelist와 TypeScript build entry를 공개 runtime, declaration, 계산 엔진이 요구하는 `internal/record`로 제한하고 source-only `libs-contracts` 산출물을 tarball과 `dist/`에서 제거했다.
+
 ## 0.16.0
 
 ### Changed

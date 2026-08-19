@@ -1,6 +1,6 @@
 {
   "name": "zdp-libs-ts",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "private": false,
   "license": "MIT",
   "type": "module",
@@ -13,6 +13,9 @@
     "url": "https://github.com/0disoft/zdp-libs-ts/issues"
   },
   "homepage": "https://github.com/0disoft/zdp-libs-ts#readme",
+  "engines": {
+    "node": ">=22"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -57,7 +60,21 @@
   },
   "types": "./dist/index.d.ts",
   "files": [
-    "dist/",
+    "dist/index.js",
+    "dist/index.js.map",
+    "dist/index.d.ts",
+    "dist/index.d.ts.map",
+    "dist/schema/",
+    "dist/env-contract/",
+    "dist/event-contracts/",
+    "dist/error/",
+    "dist/i18n-contract/",
+    "dist/glossary-contract/",
+    "dist/calculator-engine/",
+    "dist/internal/record.js",
+    "dist/internal/record.js.map",
+    "dist/internal/record.d.ts",
+    "dist/internal/record.d.ts.map",
     "contracts/",
     "glossary/",
     "README.md",
@@ -77,8 +94,11 @@
     "check:tsgo": "tsgo --noEmit",
     "test": "bun test",
     "contracts:check": "bun scripts/check-libs-contracts.ts --api-contracts-root ../zdp-api-contracts",
+    "package:check": "bun run build && bun scripts/check-packed-package.ts",
     "prepack": "bun run build",
-    "smoke:package": "bun scripts/smoke-packed-package.ts"
+    "release:verify": "bun run check && bun run build && bun scripts/check-packed-package.ts && bun scripts/smoke-packed-package.ts",
+    "smoke:package": "bun run build && bun scripts/smoke-packed-package.ts",
+    "smoke:published": "bun scripts/smoke-published-package.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.3.14",

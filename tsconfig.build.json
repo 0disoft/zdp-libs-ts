@@ -10,6 +10,16 @@
     "sourceMap": true,
     "noEmit": false
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["scripts/**", "tests/**", "dist/**"]
+  "include": [
+    "src/index.ts",
+    "src/schema/**/*.ts",
+    "src/env-contract/**/*.ts",
+    "src/event-contracts/**/*.ts",
+    "src/error/**/*.ts",
+    "src/i18n-contract/**/*.ts",
+    "src/glossary-contract/**/*.ts",
+    "src/calculator-engine/**/*.ts",
+    "src/internal/record.ts"
+  ],
+  "exclude": ["scripts/**", "tests/**", "dist/**", "src/libs-contracts/**"]
 }
