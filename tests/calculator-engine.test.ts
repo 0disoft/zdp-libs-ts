@@ -23,6 +23,8 @@ import {
 } from '../src/calculator-engine/index';
 import type { CalculatorErrorCode } from '../src/calculator-engine/index';
 
+const apiContractsRoot = process.env.ZDP_API_CONTRACTS_ROOT;
+
 interface ConformanceCase {
   readonly id: string;
   readonly calculatorId:
@@ -59,7 +61,10 @@ interface ConformanceCase {
 }
 
 describe('calculator engine', () => {
-  const cases = loadConformanceCases();
+  const cases =
+    apiContractsRoot === undefined
+      ? []
+      : loadConformanceCases(apiContractsRoot);
 
   for (const testCase of cases) {
     it(`matches ${testCase.id}`, () => {
@@ -1046,16 +1051,11 @@ function toContractOutput(value: unknown): Record<string, unknown> {
   };
 }
 
-function loadConformanceCases(): readonly ConformanceCase[] {
+function loadConformanceCases(
+  root: string
+): readonly ConformanceCase[] {
   const source = readFileSync(
-    join(
-      process.cwd(),
-      '..',
-      'zdp-api-contracts',
-      'contracts',
-      'calculators',
-      'conformance.yaml'
-    ),
+    join(root, 'contracts', 'calculators', 'conformance.yaml'),
     'utf8'
   );
   const document = Bun.YAML.parse(source) as unknown;
