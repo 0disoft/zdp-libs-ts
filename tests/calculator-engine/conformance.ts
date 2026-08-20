@@ -34,7 +34,9 @@ type ConformanceRunner = (
 
 type OutputAdapter = (value: unknown) => Record<string, unknown>;
 
-const conformanceCases = loadConformanceCases();
+const apiContractsRoot = process.env.ZDP_API_CONTRACTS_ROOT;
+const conformanceCases =
+  apiContractsRoot === undefined ? [] : loadConformanceCases(apiContractsRoot);
 
 export function describeCalculatorConformance(
   calculatorId: CalculatorId,
@@ -91,12 +93,10 @@ function contractVersion(testCase: ConformanceCase): string {
     : CALCULATOR_CONTRACT_VERSION;
 }
 
-function loadConformanceCases(): readonly ConformanceCase[] {
+function loadConformanceCases(root: string): readonly ConformanceCase[] {
   const source = readFileSync(
     join(
-      process.cwd(),
-      '..',
-      'zdp-api-contracts',
+      root,
       'contracts',
       'calculators',
       'conformance.yaml'

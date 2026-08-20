@@ -23,3 +23,13 @@ it('keeps one implementation module per reviewed calculator', () => {
 
   expect(calculatorFiles).toEqual([...CALCULATOR_IDS].sort());
 });
+
+it('runs modular calculator conformance in API integration mode', () => {
+  const source = readFileSync(
+    join(process.cwd(), 'scripts', 'test-api-contract-integration.ts'),
+    'utf8'
+  );
+
+  expect(source).toContain("'tests/calculator-engine'");
+  expect(source).not.toContain("'tests/calculator-engine.test.ts'");
+});

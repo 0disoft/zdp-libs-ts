@@ -63,8 +63,8 @@ export function calculateFuelCost(
     return economy;
   }
   if (
-    economyUnit !== 'liters_per_100km' &&
-    economy.value.coefficient <= 0n
+    economy.value.coefficient < 0n ||
+    (economyUnit !== 'liters_per_100km' && economy.value.coefficient === 0n)
   ) {
     return failure('domain_error', 'economy');
   }

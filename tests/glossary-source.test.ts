@@ -160,7 +160,7 @@ describe('public glossary source data', () => {
       expect(term.visibility).toBeUndefined();
       expect(term.owner).toBeUndefined();
       expect(term.interaction).toBeUndefined();
-     expect(term.ad_policy).toBeUndefined();
+      expect(term.ad_policy).toBeUndefined();
       if (term.translation_status === 'reviewed') {
         expect(term.short).toBeString();
         expectGeneralPublicCopy(term.id ?? '<missing-id>', 'short', term.short ?? '');
@@ -168,7 +168,7 @@ describe('public glossary source data', () => {
         expect(readParagraphs(term.short ?? '')).toHaveLength(copyShape.shortParagraphs);
         expect(countSentences(term.short ?? '')).toBe(copyShape.shortSentences);
         expectKoreanPlainDeclarativeCopy(term.id ?? '<missing-id>', 'short', term.short ?? '', copyShape);
-       expect(term.long).toBeString();
+        expect(term.long).toBeString();
         expectGeneralPublicCopy(term.id ?? '<missing-id>', 'long', term.long ?? '');
         expectNoBoldMarkdown(term.id ?? '<missing-id>', 'long', term.long ?? '');
         const paragraphs = readParagraphs(term.long ?? '');

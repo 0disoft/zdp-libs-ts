@@ -143,3 +143,45 @@ it('rejects distance over the declared digit limit', () => {
     error: { code: 'limit_exceeded', field: 'distance' }
   });
 });
+
+it('rejects negative liters-per-100km consumption', () => {
+  expect(
+    calculateFuelCost(
+      {
+        distance: '100',
+        economy: '-8',
+        fuelPrice: { value: '1.50', unit: 'USD' },
+        peopleCount: { value: '1', unit: 'people' },
+        economyUnit: 'liters_per_100km',
+        trip: 'one-way'
+      },
+      { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+    )
+  ).toEqual({
+    ok: false,
+    error: { code: 'domain_error', field: 'economy' }
+  });
+});
+
+it('keeps zero liters-per-100km consumption valid', () => {
+  expect(
+    calculateFuelCost(
+      {
+        distance: '100',
+        economy: '0',
+        fuelPrice: { value: '1.50', unit: 'USD' },
+        peopleCount: { value: '1', unit: 'people' },
+        economyUnit: 'liters_per_100km',
+        trip: 'one-way'
+      },
+      { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+    )
+  ).toEqual({
+    ok: true,
+    value: {
+      fuelUsed: { value: '0.00', unit: 'liters' },
+      totalCost: { value: '0.00', unit: 'USD' },
+      costPerPerson: { value: '0.00', unit: 'USD' }
+    }
+  });
+});
