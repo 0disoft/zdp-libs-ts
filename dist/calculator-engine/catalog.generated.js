@@ -365,3 +365,4 @@ export const CALCULATORS = {
 };
 export const CALCULATOR_IDS = Object.freeze(Object.keys(CALCULATORS));
 export const CALCULATOR_REQUIRED_ENGINE_VERSION = Object.freeze(Object.fromEntries(CALCULATOR_IDS.map((id) => [id, CALCULATORS[id].requiredEngineVersion])));
+//# sourceMappingURL=catalog.generated.js.map

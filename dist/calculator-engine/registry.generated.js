@@ -30,3 +30,4 @@ export function calculateById(id, input, options) {
     }
     return CALCULATOR_EXECUTORS[id](input, options);
 }
+//# sourceMappingURL=registry.generated.js.map
