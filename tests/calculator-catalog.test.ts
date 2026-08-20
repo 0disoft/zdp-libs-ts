@@ -10,7 +10,7 @@ import {
   CALCULATOR_IDS,
   CALCULATOR_REQUIRED_ENGINE_VERSION,
   calculateById
-} from '../src/index';
+} from '../src/calculator-engine/index';
 
 const apiContractsRoot = process.env.ZDP_API_CONTRACTS_ROOT;
 

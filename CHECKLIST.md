@@ -11,9 +11,10 @@
 
 ## Package Exports
 
-- Public exports는 root, `./schema`, `./env-contract`, `./event-contracts`, `./error`, `./i18n-contract`, `./glossary-contract`, `./calculator-engine`이다.
+- Public entrypoint는 root, `./schema`, `./env-contract`, `./event-contracts`, `./error`, `./i18n-contract`, `./glossary-contract`, `./calculator-engine`이다.
+- Root는 공통 계약 metadata 타입과 함수만 export한다. 계산기 타입, 상수, 함수는 `./calculator-engine`에서만 export한다.
 - Export skeleton은 common metadata와 type entry를 고정하기 위한 것이며 runtime framework adapter가 아니다.
-- Package API 변경은 downstream SDK와 API contracts에 영향을 주므로 version impact와 changelog review가 필요하다.
+- Package API 변경은 downstream SDK와 API contracts에 영향을 주므로 version impact, migration note, changelog review가 필요하다.
 
 ## API Source Handoff
 

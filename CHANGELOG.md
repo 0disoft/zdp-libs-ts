@@ -1,5 +1,23 @@
 # CHANGELOG.md
 
+## 0.17.0
+
+### Changed
+
+- Package root `zdp-libs-ts`에서 계산기 타입, 상수, 함수를 제거하고 공통 계약 metadata 전용 entrypoint로 좁혔다.
+- 계산기 API는 `zdp-libs-ts/calculator-engine`에서만 제공하며 source export, generated `dist/`, 타입 검사, tarball smoke가 이 경계를 강제한다.
+
+### Migration
+
+기존 root import를 calculator-engine subpath import로 바꾼다.
+
+```ts
+import {
+  CALCULATOR_CONTRACT_VERSION,
+  calculatePercentageChange
+} from 'zdp-libs-ts/calculator-engine';
+```
+
 ## 0.16.0
 
 ### Changed
