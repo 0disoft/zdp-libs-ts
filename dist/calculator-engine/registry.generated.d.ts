@@ -1,6 +1,5 @@
 import type { CalculatorExecutionOptions, CalculatorResult, ExactIntegerExecutionOptions, PercentageChangeInput, PercentageChangeOutput, MarginMarkupInput, MarginMarkupOutput, BreakEvenPointInput, BreakEvenPointOutput, CompoundInterestInput, CompoundInterestOutput, DataTransferTimeInput, DataTransferTimeOutput, DateDifferenceInput, DateDifferenceOutput, StudycafeSeatOccupancyInput, StudycafeSeatOccupancyOutput, StudycafeBreakEvenInput, StudycafeBreakEvenOutput, KioskRoiInput, KioskRoiOutput, UnattendedLaborSavingsInput, UnattendedLaborSavingsOutput, LockerRevenueInput, LockerRevenueOutput, StudyRoomScheduleRevenueInput, StudyRoomScheduleRevenueOutput, SecurityCostBreakEvenInput, SecurityCostBreakEvenOutput, DiscountInput, DiscountOutput, AgeInput, AgeOutput, WorkHoursInput, WorkHoursOutput, FuelCostInput, FuelCostOutput } from './index.js';
 import type { CalculatorId } from './catalog.generated.js';
-
 export interface CalculatorInputById {
     readonly 'percentage-change': PercentageChangeInput;
     readonly 'margin-markup': MarginMarkupInput;
@@ -20,7 +19,6 @@ export interface CalculatorInputById {
     readonly 'work-hours': WorkHoursInput;
     readonly 'fuel-cost': FuelCostInput;
 }
-
 export interface CalculatorOutputById {
     readonly 'percentage-change': PercentageChangeOutput;
     readonly 'margin-markup': MarginMarkupOutput;
@@ -40,7 +38,6 @@ export interface CalculatorOutputById {
     readonly 'work-hours': WorkHoursOutput;
     readonly 'fuel-cost': FuelCostOutput;
 }
-
 export interface CalculatorOptionsById {
     readonly 'percentage-change': CalculatorExecutionOptions;
     readonly 'margin-markup': CalculatorExecutionOptions;
@@ -60,9 +57,5 @@ export interface CalculatorOptionsById {
     readonly 'work-hours': CalculatorExecutionOptions;
     readonly 'fuel-cost': CalculatorExecutionOptions;
 }
-
-export declare function calculateById<Id extends CalculatorId>(
-    id: Id,
-    input: CalculatorInputById[Id],
-    options: CalculatorOptionsById[Id]
-): CalculatorResult<CalculatorOutputById[Id]>;
+export declare function calculateById<Id extends CalculatorId>(id: Id, input: CalculatorInputById[Id], options: CalculatorOptionsById[Id]): CalculatorResult<CalculatorOutputById[Id]>;
+//# sourceMappingURL=registry.generated.d.ts.map

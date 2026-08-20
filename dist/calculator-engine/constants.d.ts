@@ -1,0 +1,24 @@
+export declare const CALCULATOR_ENGINE_VERSION: "0.6.0";
+export declare const CALCULATOR_CONTRACT_VERSION: "1.0.0";
+export declare const CALCULATOR_ROUNDING_MODE: "half_away_from_zero";
+export declare const CALCULATOR_MAX_INPUT_DIGITS: 1000;
+export declare const CALCULATOR_MAX_DECIMAL_PLACES: 100;
+export declare const DATA_SIZE_UNITS: readonly ["bit", "byte", "kilobit", "kilobyte", "megabit", "megabyte", "gigabit", "gigabyte", "terabit", "terabyte", "kibibyte", "mebibyte", "gibibyte", "tebibyte"];
+export declare const DATA_RATE_UNITS: readonly ["bits_per_second", "kilobits_per_second", "megabits_per_second", "gigabits_per_second"];
+export declare const DATE_BOUNDARY_MODES: readonly ["exclusive", "inclusive"];
+export declare const DISCOUNT_MODES: readonly ["final-price", "original-price"];
+export declare const OVERNIGHT_MODES: readonly ["no", "yes"];
+export declare const FUEL_ECONOMY_UNITS: readonly ["km_per_liter", "liters_per_100km", "miles_per_gallon"];
+export declare const TRIP_MODES: readonly ["one-way", "round-trip"];
+export declare const COMPOUNDING_FREQUENCIES: readonly ["1_per_year", "2_per_year", "4_per_year", "12_per_year", "365_per_year"];
+export declare const COMPOUND_INTEREST_MAX_YEARS: 100;
+export declare const COMPOUND_INTEREST_MAX_POWER_DIGITS: 250000;
+export type DataSizeUnit = (typeof DATA_SIZE_UNITS)[number];
+export type DataRateUnit = (typeof DATA_RATE_UNITS)[number];
+export type DateBoundaryMode = (typeof DATE_BOUNDARY_MODES)[number];
+export type DiscountMode = (typeof DISCOUNT_MODES)[number];
+export type OvernightMode = (typeof OVERNIGHT_MODES)[number];
+export type FuelEconomyUnit = (typeof FUEL_ECONOMY_UNITS)[number];
+export type TripMode = (typeof TRIP_MODES)[number];
+export type CompoundingFrequency = (typeof COMPOUNDING_FREQUENCIES)[number];
+//# sourceMappingURL=constants.d.ts.map
