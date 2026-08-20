@@ -54,7 +54,9 @@ package whitelist는 `dist/`, `contracts/`, `glossary/`와 README/CHANGELOG/CONT
 
 ## 검증
 
-`contracts:check`는 package boundary, API contract source, schema, env, event, error, i18n, glossary 계약을 읽고 공통 패키지가 다음 경계를 잃지 않았는지 확인한다. 또한 sibling `zdp-api-contracts`의 route, error envelope, webhook, SDK generation input, API catalog, auth session schema bundle, calculator catalog와 conformance 계약을 읽어 공통 TypeScript 패키지가 실제 API 원천과 다른 메타데이터를 믿지 않는지 확인한다.
+`bun run check`와 `contracts:check`는 이 저장소에 커밋된 package boundary, API source handoff 선언, schema, env, event, error, i18n, glossary 계약과 로컬 테스트만 읽는다. 따라서 `zdp-libs-ts`만 clone한 환경에서도 기본 검증이 실행된다.
+
+`bun run check:integration`은 sibling `zdp-api-contracts`의 route, error envelope, webhook, SDK generation input, API catalog, auth session schema bundle, calculator catalog와 conformance 계약을 추가로 읽는다. 이 모드는 공통 TypeScript 패키지가 실제 API 원천과 다른 메타데이터나 계산 결과를 믿지 않는지 검사한다. API 계약 파일을 이 저장소에 복사하지 않으므로 `zdp-api-contracts`는 계속 유일한 원천으로 남는다.
 
 `calculator-catalog:check`는 `zdp-api-contracts/contracts/calculators/catalog.yaml`에서 생성한 TypeScript registry, ID별 dispatcher 타입, 문서가 최신인지 byte 단위로 확인한다. reviewed 계산기 ID, 호환 엔진, 정밀도·반올림 정책이나 오류 코드가 바뀌었는데 생성 산출물을 갱신하지 않으면 기본 `check`와 `build`가 실패한다.
 
@@ -101,11 +103,22 @@ API source input drift 검사는 `idempotency`, `success_statuses`, `request_id`
 이렇게 해두면 공통 라이브러리가 편의 함수 창고로 변질되거나, 제품별 모델·비밀값·provider 원문 응답이 모든 저장소로 퍼지는 일을 checker 단계에서 먼저 막을 수 있다. 또한 `authorization_header`, `refresh_token_plaintext`, `stack_trace`, `raw_customer_payload`, `screen_component_payload` 같은 값이 공통 타입 재료로 굳어지는 것을 막아 SDK와 API 계약이 민감한 운영 데이터를 끌고 다니지 않게 한다.
 
 ```bash
-bun run calculator-catalog:generate
-bun run calculator-catalog:check
+# zdp-libs-ts 단독 clone
 bun run check
 bun run contracts:check
-bun scripts/check-libs-contracts.ts --api-contracts-root ../zdp-api-contracts
+
+# sibling ../zdp-api-contracts 연동
+bun run check:integration
+bun run contracts:check:integration
+bun run test:integration
+bun run calculator-catalog:check
+```
+
+다른 경로의 API 계약 checkout을 검사할 때는 명시적으로 전달한다.
+
+```bash
+bun scripts/check-libs-contracts.ts --api-contracts-root <path>
+bun scripts/test-api-contract-integration.ts --api-contracts-root <path>
 ```
 
 아키텍처 검증은 `zdp-architecture-linter`에서 이 저장소를 대상으로 실행한다.

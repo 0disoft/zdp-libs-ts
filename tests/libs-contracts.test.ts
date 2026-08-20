@@ -6,6 +6,7 @@ import {
   ApiContractLoadError,
   loadApiContractsInput
 } from '../src/libs-contracts/api-source';
+import { runLibsContractCheckCli } from '../src/libs-contracts/cli';
 import {
   LibsContractLoadError,
   loadLibsContracts,
@@ -25,14 +26,45 @@ import {
 import { CALCULATOR_ENGINE_VERSION } from '../src/calculator-engine/index';
 import type { LibsContracts } from '../src/libs-contracts/types';
 
+const apiContractsRoot = process.env.ZDP_API_CONTRACTS_ROOT;
+
+function integrationIt(
+  name: string,
+  callback: () => void | Promise<void>
+): void {
+  if (apiContractsRoot === undefined) {
+    it.skip(name, callback);
+    return;
+  }
+
+  it(name, callback);
+}
+
 describe('libs contract checker', () => {
-  it('validates the committed libs contracts', async () => {
+  it('validates the committed local libs contracts', () => {
+    const result = validateLibsContracts(loadCommittedContracts());
+
+    expect(result.ok).toBe(true);
+    expect(result.diagnostics).toEqual([]);
+  });
+
+  integrationIt('validates the committed API contract handoff', async () => {
     const result = validateLibsContracts(loadCommittedContracts(), {
       apiContractsInput: await loadCommittedApiContractsInput()
     });
 
     expect(result.ok).toBe(true);
     expect(result.diagnostics).toEqual([]);
+  });
+
+  it('runs the local CLI without an API contracts checkout', async () => {
+    expect(
+      await runLibsContractCheckCli(['--root', process.cwd()])
+    ).toBe(0);
+  });
+
+  it('rejects an integration option without a path', async () => {
+    expect(await runLibsContractCheckCli(['--api-contracts-root'])).toBe(1);
   });
 
   it('fails when a required package boundary disappears', () => {
@@ -87,157 +119,171 @@ describe('libs contract checker', () => {
     );
   });
 
-  it('fails when API source input no longer carries handoff metadata', async () => {
-    const contracts = loadCommittedContracts();
-    const apiContractsInput = await loadCommittedApiContractsInput();
-    const result = validateLibsContracts(contracts, {
-      apiContractsInput: {
-        ...apiContractsInput,
-        route: {
-          ...apiContractsInput.route,
-          forbiddenShapes: apiContractsInput.route.forbiddenShapes.filter(
-            (item) => item !== 'authorization_header'
-          )
-        },
-        errorEnvelope: {
-          ...apiContractsInput.errorEnvelope,
-          forbiddenFields: apiContractsInput.errorEnvelope.forbiddenFields.filter(
-            (item) => item !== 'authorization_header'
-          )
-        },
-        sdkGenerationInput: {
-          ...apiContractsInput.sdkGenerationInput,
-          requiredErrorMetadata:
-            apiContractsInput.sdkGenerationInput.requiredErrorMetadata.filter(
-              (item) => item !== 'trace_id'
-            ),
-          forbiddenValues: apiContractsInput.sdkGenerationInput.forbiddenValues.filter(
-            (item) => item !== 'authorization_header'
-          )
-        }
-      }
-    });
-
-    expect(result.ok).toBe(false);
-    expect(result.diagnostics.map((item) => item.code)).toContain(
-      'LIBS_API_INPUT_SDK_ERROR_METADATA_MISSING'
-    );
-    expect(result.diagnostics.map((item) => item.code)).toContain(
-      'LIBS_API_INPUT_FORBIDDEN_VALUE_MISSING'
-    );
-  });
-
-  it('fails when one API input drops a forbidden value covered elsewhere', async () => {
-    const contracts = loadCommittedContracts();
-    const apiContractsInput = await loadCommittedApiContractsInput();
-    const forbiddenValue = 'authorization_header';
-    const cases = [
-      {
-        code: 'LIBS_API_INPUT_ROUTE_FORBIDDEN_VALUE_MISSING',
-        input: {
+  integrationIt(
+    'fails when API source input no longer carries handoff metadata',
+    async () => {
+      const contracts = loadCommittedContracts();
+      const apiContractsInput = await loadCommittedApiContractsInput();
+      const result = validateLibsContracts(contracts, {
+        apiContractsInput: {
           ...apiContractsInput,
           route: {
             ...apiContractsInput.route,
             forbiddenShapes: apiContractsInput.route.forbiddenShapes.filter(
-              (item) => item !== forbiddenValue
+              (item) => item !== 'authorization_header'
             )
-          }
-        }
-      },
-      {
-        code: 'LIBS_API_INPUT_ERROR_FORBIDDEN_VALUE_MISSING',
-        input: {
-          ...apiContractsInput,
+          },
           errorEnvelope: {
             ...apiContractsInput.errorEnvelope,
             forbiddenFields:
               apiContractsInput.errorEnvelope.forbiddenFields.filter(
-                (item) => item !== forbiddenValue
+                (item) => item !== 'authorization_header'
               )
-          }
-        }
-      },
-      {
-        code: 'LIBS_API_INPUT_SDK_FORBIDDEN_VALUE_MISSING',
-        input: {
-          ...apiContractsInput,
+          },
           sdkGenerationInput: {
             ...apiContractsInput.sdkGenerationInput,
+            requiredErrorMetadata:
+              apiContractsInput.sdkGenerationInput.requiredErrorMetadata.filter(
+                (item) => item !== 'trace_id'
+              ),
             forbiddenValues:
               apiContractsInput.sdkGenerationInput.forbiddenValues.filter(
-                (item) => item !== forbiddenValue
+                (item) => item !== 'authorization_header'
               )
           }
         }
-      }
-    ] as const;
-
-    for (const testCase of cases) {
-      const result = validateLibsContracts(contracts, {
-        apiContractsInput: testCase.input
       });
 
       expect(result.ok).toBe(false);
       expect(result.diagnostics.map((item) => item.code)).toContain(
-        testCase.code
+        'LIBS_API_INPUT_SDK_ERROR_METADATA_MISSING'
+      );
+      expect(result.diagnostics.map((item) => item.code)).toContain(
+        'LIBS_API_INPUT_FORBIDDEN_VALUE_MISSING'
       );
     }
-  });
+  );
 
-  it('fails when API catalog input no longer mirrors route metadata', async () => {
-    const contracts = loadCommittedContracts();
-    const apiContractsInput = await loadCommittedApiContractsInput();
-    const result = validateLibsContracts(contracts, {
-      apiContractsInput: {
-        ...apiContractsInput,
-        apiCatalog: {
-          ...apiContractsInput.apiCatalog,
-          routeDefinitionRequiredFields:
-            apiContractsInput.apiCatalog.routeDefinitionRequiredFields.filter(
-              (item) => item !== 'success_statuses'
-            )
-        }
-      }
-    });
-
-    expect(result.ok).toBe(false);
-    expect(result.diagnostics.map((item) => item.code)).toContain(
-      'LIBS_API_INPUT_CATALOG_ROUTE_FIELD_MISSING'
-    );
-  });
-
-  it('fails when calculator contract precision or conformance rounding drifts', async () => {
-    const contracts = loadCommittedContracts();
-    const apiContractsInput = await loadCommittedApiContractsInput();
-    const firstDefinition = apiContractsInput.calculatorCatalog.definitions[0];
-    if (!firstDefinition) {
-      throw new Error('Expected a reviewed calculator definition.');
-    }
-    const result = validateLibsContracts(contracts, {
-      apiContractsInput: {
-        ...apiContractsInput,
-        calculatorCatalog: {
-          ...apiContractsInput.calculatorCatalog,
-          definitions: [
-            { ...firstDefinition, precisionPolicy: 'binary_float' },
-            ...apiContractsInput.calculatorCatalog.definitions.slice(1)
-          ]
+  integrationIt(
+    'fails when one API input drops a forbidden value covered elsewhere',
+    async () => {
+      const contracts = loadCommittedContracts();
+      const apiContractsInput = await loadCommittedApiContractsInput();
+      const forbiddenValue = 'authorization_header';
+      const cases = [
+        {
+          code: 'LIBS_API_INPUT_ROUTE_FORBIDDEN_VALUE_MISSING',
+          input: {
+            ...apiContractsInput,
+            route: {
+              ...apiContractsInput.route,
+              forbiddenShapes: apiContractsInput.route.forbiddenShapes.filter(
+                (item) => item !== forbiddenValue
+              )
+            }
+          }
         },
-        calculatorConformance: {
-          ...apiContractsInput.calculatorConformance,
-          roundingMode: 'half_even'
+        {
+          code: 'LIBS_API_INPUT_ERROR_FORBIDDEN_VALUE_MISSING',
+          input: {
+            ...apiContractsInput,
+            errorEnvelope: {
+              ...apiContractsInput.errorEnvelope,
+              forbiddenFields:
+                apiContractsInput.errorEnvelope.forbiddenFields.filter(
+                  (item) => item !== forbiddenValue
+                )
+            }
+          }
+        },
+        {
+          code: 'LIBS_API_INPUT_SDK_FORBIDDEN_VALUE_MISSING',
+          input: {
+            ...apiContractsInput,
+            sdkGenerationInput: {
+              ...apiContractsInput.sdkGenerationInput,
+              forbiddenValues:
+                apiContractsInput.sdkGenerationInput.forbiddenValues.filter(
+                  (item) => item !== forbiddenValue
+                )
+            }
+          }
         }
-      }
-    });
+      ] as const;
 
-    expect(result.ok).toBe(false);
-    expect(result.diagnostics.map((item) => item.code)).toContain(
-      'LIBS_CALCULATOR_DEFINITION_POLICY_DRIFT'
-    );
-    expect(result.diagnostics.map((item) => item.code)).toContain(
-      'LIBS_CALCULATOR_CONFORMANCE_POLICY_DRIFT'
-    );
-  });
+      for (const testCase of cases) {
+        const result = validateLibsContracts(contracts, {
+          apiContractsInput: testCase.input
+        });
+
+        expect(result.ok).toBe(false);
+        expect(result.diagnostics.map((item) => item.code)).toContain(
+          testCase.code
+        );
+      }
+    }
+  );
+
+  integrationIt(
+    'fails when API catalog input no longer mirrors route metadata',
+    async () => {
+      const contracts = loadCommittedContracts();
+      const apiContractsInput = await loadCommittedApiContractsInput();
+      const result = validateLibsContracts(contracts, {
+        apiContractsInput: {
+          ...apiContractsInput,
+          apiCatalog: {
+            ...apiContractsInput.apiCatalog,
+            routeDefinitionRequiredFields:
+              apiContractsInput.apiCatalog.routeDefinitionRequiredFields.filter(
+                (item) => item !== 'success_statuses'
+              )
+          }
+        }
+      });
+
+      expect(result.ok).toBe(false);
+      expect(result.diagnostics.map((item) => item.code)).toContain(
+        'LIBS_API_INPUT_CATALOG_ROUTE_FIELD_MISSING'
+      );
+    }
+  );
+
+  integrationIt(
+    'fails when calculator contract precision or conformance rounding drifts',
+    async () => {
+      const contracts = loadCommittedContracts();
+      const apiContractsInput = await loadCommittedApiContractsInput();
+      const firstDefinition = apiContractsInput.calculatorCatalog.definitions[0];
+      if (!firstDefinition) {
+        throw new Error('Expected a reviewed calculator definition.');
+      }
+      const result = validateLibsContracts(contracts, {
+        apiContractsInput: {
+          ...apiContractsInput,
+          calculatorCatalog: {
+            ...apiContractsInput.calculatorCatalog,
+            definitions: [
+              { ...firstDefinition, precisionPolicy: 'binary_float' },
+              ...apiContractsInput.calculatorCatalog.definitions.slice(1)
+            ]
+          },
+          calculatorConformance: {
+            ...apiContractsInput.calculatorConformance,
+            roundingMode: 'half_even'
+          }
+        }
+      });
+
+      expect(result.ok).toBe(false);
+      expect(result.diagnostics.map((item) => item.code)).toContain(
+        'LIBS_CALCULATOR_DEFINITION_POLICY_DRIFT'
+      );
+      expect(result.diagnostics.map((item) => item.code)).toContain(
+        'LIBS_CALCULATOR_CONFORMANCE_POLICY_DRIFT'
+      );
+    }
+  );
 
   it('keeps the current engine version in the calculator review ledger', () => {
     expect(CALCULATOR_REQUIRED_ENGINE_VERSION['compound-interest']).toBe(
@@ -251,39 +297,42 @@ describe('libs contract checker', () => {
     );
   });
 
-  it('fails when the reviewed catalog drops engine 0.6 compatibility', async () => {
-    const contracts = loadCommittedContracts();
-    const apiContractsInput = await loadCommittedApiContractsInput();
-    const definitions = apiContractsInput.calculatorCatalog.definitions.map(
-      (definition) =>
-        definition.id !== null &&
-        ['compound-interest', 'data-transfer-time', 'date-difference'].includes(
-          definition.id
-        )
-          ? {
-              ...definition,
-              compatibleEngineVersions:
-                definition.compatibleEngineVersions.filter(
-                  (version) => version !== '0.6.0'
-                )
-            }
-          : definition
-    );
-    const result = validateLibsContracts(contracts, {
-      apiContractsInput: {
-        ...apiContractsInput,
-        calculatorCatalog: {
-          ...apiContractsInput.calculatorCatalog,
-          definitions
+  integrationIt(
+    'fails when the reviewed catalog drops engine 0.6 compatibility',
+    async () => {
+      const contracts = loadCommittedContracts();
+      const apiContractsInput = await loadCommittedApiContractsInput();
+      const definitions = apiContractsInput.calculatorCatalog.definitions.map(
+        (definition) =>
+          definition.id !== null &&
+          ['compound-interest', 'data-transfer-time', 'date-difference'].includes(
+            definition.id
+          )
+            ? {
+                ...definition,
+                compatibleEngineVersions:
+                  definition.compatibleEngineVersions.filter(
+                    (version) => version !== '0.6.0'
+                  )
+              }
+            : definition
+      );
+      const result = validateLibsContracts(contracts, {
+        apiContractsInput: {
+          ...apiContractsInput,
+          calculatorCatalog: {
+            ...apiContractsInput.calculatorCatalog,
+            definitions
+          }
         }
-      }
-    });
+      });
 
-    expect(result.ok).toBe(false);
-    expect(result.diagnostics.map((item) => item.code)).toContain(
-      'LIBS_CALCULATOR_DEFINITION_POLICY_DRIFT'
-    );
-  });
+      expect(result.ok).toBe(false);
+      expect(result.diagnostics.map((item) => item.code)).toContain(
+        'LIBS_CALCULATOR_DEFINITION_POLICY_DRIFT'
+      );
+    }
+  );
 
   it('allows contracts to move through the reviewed lifecycle', () => {
     const contracts = loadCommittedContracts();
@@ -489,7 +538,9 @@ describe('libs contract checker', () => {
 
 function loadCommittedContracts(): LibsContracts {
   return {
-    packageBoundaries: parsePackageBoundariesContract(readContract('package-boundaries.yaml')),
+    packageBoundaries: parsePackageBoundariesContract(
+      readContract('package-boundaries.yaml')
+    ),
     apiContractSource: parseApiContractSourceContract(
       readContract('api-contract-source.yaml')
     ),
@@ -503,7 +554,13 @@ function loadCommittedContracts(): LibsContracts {
 }
 
 async function loadCommittedApiContractsInput() {
-  return loadApiContractsInput(join(process.cwd(), '..', 'zdp-api-contracts'));
+  if (apiContractsRoot === undefined) {
+    throw new Error(
+      'ZDP_API_CONTRACTS_ROOT is required for API contract integration tests.'
+    );
+  }
+
+  return loadApiContractsInput(apiContractsRoot);
 }
 
 function readContract(fileName: string): string {

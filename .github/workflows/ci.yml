@@ -14,9 +14,38 @@ concurrency:
 
 jobs:
   check:
-    name: check
+    name: standalone check
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
+
+    defaults:
+      run:
+        working-directory: projects/zdp-platforms/contracts/zdp-libs-ts
+
+    steps:
+      - name: Checkout libs
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          persist-credentials: false
+          path: projects/zdp-platforms/contracts/zdp-libs-ts
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+
+      - name: Install libs dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Check standalone repository
+        run: bun run check
+
+      - name: Smoke packed package
+        run: bun run smoke:package
+
+  api-contract-integration:
+    name: API contracts integration
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     defaults:
       run:
@@ -39,15 +68,8 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
 
-      - name: Install API contracts dependencies
-        working-directory: projects/zdp-platforms/contracts/zdp-api-contracts
-        run: bun install --frozen-lockfile
-
       - name: Install libs dependencies
         run: bun install --frozen-lockfile
 
-      - name: Check
-        run: bun run check
-
-      - name: Smoke packed package
-        run: bun run smoke:package
+      - name: Check API contract integration
+        run: bun run check:integration

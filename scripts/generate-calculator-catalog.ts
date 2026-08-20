@@ -105,7 +105,14 @@ function parseReviewedDefinitions(
   }
 
   const definitions = rawDefinitions
-    .filter(isRecord)
+    .map((definition, index) => {
+      if (!isRecord(definition)) {
+        throw new Error(
+          `${sourcePath}: definitions[${index}] must be an object.`
+        );
+      }
+      return definition;
+    })
     .filter((definition) => definition.lifecycle_status === 'reviewed')
     .map((definition, index) => parseDefinition(definition, index, sourcePath));
 
