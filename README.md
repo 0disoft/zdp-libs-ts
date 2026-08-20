@@ -14,6 +14,7 @@ ZDP TypeScript 공통 계약과 구현 중립 순수 계산 라이브러리 저�
 - 플랫폼 공통 public glossary term source
 - 계약 파일을 읽는 one-shot checker
 - `zdp-api-contracts` 실제 route/error/webhook/SDK input/API catalog 계약 드리프트 검사
+- API 계산기 카탈로그에서 생성한 타입 안전 registry, ID dispatcher, 문서
 - 최소 public export skeleton
 - public npm package 후보 메타데이터, MIT license, package file whitelist
 - 국가 정책과 로케일 표시에 의존하지 않는 reviewed 계산기 17개의 순수 계산 엔진
@@ -53,7 +54,11 @@ package whitelist는 `dist/`, `contracts/`, `glossary/`와 README/CHANGELOG/CONT
 
 ## 검증
 
-`contracts:check`는 package boundary, API contract source, schema, env, event, error, i18n, glossary 계약을 읽고 공통 패키지가 다음 경계를 잃지 않았는지 확인한다. 또한 sibling `zdp-api-contracts`의 route, error envelope, webhook, SDK generation input, API catalog, auth session schema bundle, calculator catalog와 conformance 계약을 읽어 공통 TypeScript 패키지가 실제 API 원천과 다른 메타데이터를 믿지 않는지 확인한다.
+`bun run check`와 `contracts:check`는 이 저장소에 커밋된 package boundary, API source handoff 선언, schema, env, event, error, i18n, glossary 계약과 로컬 테스트만 읽는다. 따라서 `zdp-libs-ts`만 clone한 환경에서도 기본 검증이 실행된다.
+
+`bun run check:integration`은 sibling `zdp-api-contracts`의 route, error envelope, webhook, SDK generation input, API catalog, auth session schema bundle, calculator catalog와 conformance 계약을 추가로 읽는다. 이 모드는 공통 TypeScript 패키지가 실제 API 원천과 다른 메타데이터나 계산 결과를 믿지 않는지 검사한다. API 계약 파일을 이 저장소에 복사하지 않으므로 `zdp-api-contracts`는 계속 유일한 원천으로 남는다.
+
+`calculator-catalog:check`는 `zdp-api-contracts/contracts/calculators/catalog.yaml`에서 생성한 TypeScript registry, ID별 dispatcher 타입, 문서가 최신인지 byte 단위로 확인한다. reviewed 계산기 ID, 호환 엔진, 정밀도·반올림 정책이나 오류 코드가 바뀌었는데 생성 산출물을 갱신하지 않으면 기본 `check`와 `build`가 실패한다.
 
 - `@zdp/schema`: 제품 domain model이나 DB row shape을 소유하지 않는다.
 - API contract source handoff는 `zdp-api-contracts`의 route/error/webhook/`contracts/sdk-generation-input.yaml`/`contracts/apis/catalog.yaml`/`contracts/apis/core-api/auth-session.yaml` 계약을 소비하지만, 원천을 다시 만들지 않는다.
@@ -67,7 +72,25 @@ package whitelist는 `dist/`, `contracts/`, `glossary/`와 README/CHANGELOG/CONT
 
 계산 엔진은 로케일 구분자가 없는 canonical ASCII decimal string을 받고 `BigInt` 기반 정수 비율로 계산한다. 결과는 호출자가 지정한 0-100 소수 자리에서 half-away-from-zero로 한 번만 반올림한다. 제품은 사용자 입력의 locale 표기를 표준 decimal string으로 정규화하고 결과를 다시 locale에 맞게 표시해야 한다.
 
-현재 구현 ID는 `percentage-change`, `margin-markup`, `break-even-point`, `data-transfer-time`, `date-difference`, `compound-interest`, `studycafe-seat-occupancy`, `studycafe-break-even`, `kiosk-roi`, `unattended-labor-savings`, `locker-revenue`, `study-room-schedule-revenue`, `security-cost-break-even`이다. 스터디카페·무인매장 계산도 세금, 법정 인건비, 감가상각, 금융비용 같은 국가별 정책을 추정하지 않고 호출자가 넣은 값만 계산한다.
+reviewed 계산기의 ID, 함수명, 호환 엔진, 정밀도·반올림 정책과 오류 코드는 [`docs/generated/calculator-catalog.md`](docs/generated/calculator-catalog.md)에 자동 생성한다. 이 목록을 README나 validator에 다시 수기로 적지 않는다. root export의 `CALCULATORS`, `CALCULATOR_IDS`, `CALCULATOR_REQUIRED_ENGINE_VERSION`과 `calculateById`도 같은 API 카탈로그에서 만들어진다.
+
+```ts
+import {
+  CALCULATOR_CONTRACT_VERSION,
+  calculateById
+} from 'zdp-libs-ts';
+
+const result = calculateById(
+  'percentage-change',
+  { initialValue: '100', finalValue: '125' },
+  {
+    contractVersion: CALCULATOR_CONTRACT_VERSION,
+    decimalPlaces: 2
+  }
+);
+```
+
+`calculateById`는 계산기 ID에 따라 입력, 출력, 옵션 타입을 연결한다. `age`와 `date-difference`에는 정수 결과 옵션만 허용하고 나머지 계산기에는 `decimalPlaces`를 요구한다. 스터디카페·무인매장 계산도 세금, 법정 인건비, 감가상각, 금융비용 같은 국가별 정책을 추정하지 않고 호출자가 넣은 값만 계산한다.
 
 `glossary/terms/*.yaml`은 여러 공개 사이트에서 반복되는 플랫폼 공통 용어 계약을 namespace별로 소유한다. Base term의 `canonical_label`은 AI 작업 지시, 리뷰, cross-locale 정렬에 쓰는 locale-neutral 기준 이름이며 영어권에서 널리 쓰이는 표기를 우선한다. `glossary/locales/<locale>/*.yaml`은 같은 namespace의 locale별 표시 문구, alias, match phrase, 번역 검수 상태를 소유한다. 실제 표시 표현은 locale 파일의 `aliases`와 `match_phrases`에만 두고, base term과 공통 예시에서는 canonical label과 stable term id를 쓴다. 공통 term 파일에는 사이트별 route나 관련 화면 경로를 넣지 않고, 소비 앱이 manifest 생성 단계에서 붙인다. 공통 파일에 `products`, `sites`, `canonical_path`를 넣지 않는 이유는 새 public site가 같은 용어를 다시 쓰면서도 자기 화면 구조를 따로 결정하게 하기 위해서다.
 
@@ -80,9 +103,22 @@ API source input drift 검사는 `idempotency`, `success_statuses`, `request_id`
 이렇게 해두면 공통 라이브러리가 편의 함수 창고로 변질되거나, 제품별 모델·비밀값·provider 원문 응답이 모든 저장소로 퍼지는 일을 checker 단계에서 먼저 막을 수 있다. 또한 `authorization_header`, `refresh_token_plaintext`, `stack_trace`, `raw_customer_payload`, `screen_component_payload` 같은 값이 공통 타입 재료로 굳어지는 것을 막아 SDK와 API 계약이 민감한 운영 데이터를 끌고 다니지 않게 한다.
 
 ```bash
+# zdp-libs-ts 단독 clone
 bun run check
 bun run contracts:check
-bun scripts/check-libs-contracts.ts --api-contracts-root ../zdp-api-contracts
+
+# sibling ../zdp-api-contracts 연동
+bun run check:integration
+bun run contracts:check:integration
+bun run test:integration
+bun run calculator-catalog:check
+```
+
+다른 경로의 API 계약 checkout을 검사할 때는 명시적으로 전달한다.
+
+```bash
+bun scripts/check-libs-contracts.ts --api-contracts-root <path>
+bun scripts/test-api-contract-integration.ts --api-contracts-root <path>
 ```
 
 아키텍처 검증은 `zdp-architecture-linter`에서 이 저장소를 대상으로 실행한다.

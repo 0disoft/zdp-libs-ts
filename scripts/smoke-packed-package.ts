@@ -38,7 +38,9 @@ await writeFile(
 import {
   CALCULATOR_CONTRACT_VERSION,
   CALCULATOR_ENGINE_VERSION,
+  CALCULATOR_IDS,
   calculateAge,
+  calculateById,
   calculateBreakEvenPoint,
   calculateCompoundInterest,
   calculateDataTransferTime,
@@ -51,6 +53,8 @@ import {
 const forbiddenRootExports = [
   'CALCULATOR_CONTRACT_VERSION',
   'CALCULATOR_ENGINE_VERSION',
+  'CALCULATOR_IDS',
+  'calculateById',
   'calculatePercentageChange',
   'calculateBreakEvenPoint'
 ];
@@ -68,6 +72,11 @@ const schemaMetadata = rootPackage.defineSchemaMetadata({
   sdkGenerationTargets: ['typescript']
 });
 const result = calculatePercentageChange(
+  { initialValue: '100', finalValue: '125' },
+  { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
+);
+const dispatched = calculateById(
+  'percentage-change',
   { initialValue: '100', finalValue: '125' },
   { contractVersion: CALCULATOR_CONTRACT_VERSION, decimalPlaces: 2 }
 );
@@ -129,6 +138,10 @@ if (
   schemaMetadata.schemaId !== 'smoke.example' ||
   !result.ok ||
   result.value.percentageChange.value !== '25.00' ||
+  !dispatched.ok ||
+  dispatched.value.percentageChange.value !== '25.00' ||
+  CALCULATOR_IDS.length === 0 ||
+  !CALCULATOR_IDS.includes('percentage-change') ||
   !breakEven.ok ||
   breakEven.value.breakEvenQuantity.value !== '50.00' ||
   !transferTime.ok ||

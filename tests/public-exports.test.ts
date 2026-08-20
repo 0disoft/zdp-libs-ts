@@ -35,6 +35,9 @@ type SubpathCalculatorResult =
 const ROOT_FORBIDDEN_CALCULATOR_EXPORTS = [
   'CALCULATOR_CONTRACT_VERSION',
   'CALCULATOR_ENGINE_VERSION',
+  'CALCULATOR_IDS',
+  'CALCULATORS',
+  'calculateById',
   'calculatePercentageChange',
   'calculateBreakEvenPoint'
 ] as const;

@@ -1,7 +1,11 @@
-import { join } from 'node:path';
 import { loadApiContractsInput } from './api-source.js';
 import { loadLibsContracts } from './parser.js';
 import { validateLibsContracts } from './validator.js';
+
+interface CliOptions {
+  readonly root: string;
+  readonly apiContractsRoot: string | null;
+}
 
 export async function runLibsContractCheckCli(
   argv: readonly string[]
@@ -14,12 +18,21 @@ export async function runLibsContractCheckCli(
   try {
     const options = readOptions(argv);
     const contracts = await loadLibsContracts(options.root);
-    const result = validateLibsContracts(contracts, {
-      apiContractsInput: await loadApiContractsInput(options.apiContractsRoot)
-    });
+    const apiContractsInput =
+      options.apiContractsRoot === null
+        ? undefined
+        : await loadApiContractsInput(options.apiContractsRoot);
+    const result = validateLibsContracts(
+      contracts,
+      apiContractsInput === undefined ? {} : { apiContractsInput }
+    );
 
     if (result.ok) {
-      console.log('Libs contract check passed.');
+      console.log(
+        apiContractsInput === undefined
+          ? 'Libs local contract check passed.'
+          : 'Libs API contract integration check passed.'
+      );
       return 0;
     }
 
@@ -36,40 +49,35 @@ export async function runLibsContractCheckCli(
   }
 }
 
-function readOptions(argv: readonly string[]): {
-  readonly root: string;
-  readonly apiContractsRoot: string;
-} {
-  const root = readStringOption(argv, '--root') ?? process.cwd();
-
+function readOptions(argv: readonly string[]): CliOptions {
   return {
-    root,
-    apiContractsRoot:
-      readStringOption(argv, '--api-contracts-root') ??
-      join(root, '..', 'zdp-api-contracts')
+    root: readOptionalPathOption(argv, '--root') ?? process.cwd(),
+    apiContractsRoot: readOptionalPathOption(argv, '--api-contracts-root')
   };
 }
 
-function readStringOption(
+function readOptionalPathOption(
   argv: readonly string[],
   optionName: string
 ): string | null {
-  for (let index = 0; index < argv.length; index += 1) {
-    if (argv[index] !== optionName) {
-      continue;
-    }
-
-    const value = argv[index + 1];
-    return value === undefined || value.startsWith('--') ? null : value;
+  const optionIndex = argv.indexOf(optionName);
+  if (optionIndex === -1) {
+    return null;
   }
 
-  return null;
+  const value = argv[optionIndex + 1];
+  if (value === undefined || value.startsWith('--')) {
+    throw new Error(`${optionName} requires a path.`);
+  }
+
+  return value;
 }
 
 function printHelp(): void {
   console.log(`Usage:
-  bun scripts/check-libs-contracts.ts [--root <path>] [--api-contracts-root <path>]
+  bun scripts/check-libs-contracts.ts [--root <path>]
+  bun scripts/check-libs-contracts.ts [--root <path>] --api-contracts-root <path>
 
-Checks package boundary, API source handoff, schema, env, event, error, and i18n contract YAML.
-Also reads zdp-api-contracts route, error, webhook, SDK generation input, and API catalog contracts to catch handoff drift.`);
+Without --api-contracts-root, checks only contracts committed to zdp-libs-ts.
+With --api-contracts-root, also checks route, error, webhook, SDK generation, API catalog, and calculator contract drift against zdp-api-contracts.`);
 }
