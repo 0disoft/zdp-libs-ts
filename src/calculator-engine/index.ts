@@ -1309,7 +1309,10 @@ export function calculateFuelCost(
   if (!economy.ok) {
     return economy;
   }
-  if (economyUnit !== 'liters_per_100km' && economy.value.coefficient <= 0n) {
+  if (
+    economy.value.coefficient < 0n ||
+    (economyUnit !== 'liters_per_100km' && economy.value.coefficient === 0n)
+  ) {
     return failure('domain_error', 'economy');
   }
   const fuelPrice = parseNamedUnitDecimal(input.fuelPrice, 'fuel_price');
