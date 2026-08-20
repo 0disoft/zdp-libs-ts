@@ -38,6 +38,9 @@ jobs:
       - name: Check standalone repository
         run: bun run check
 
+      - name: Smoke packed package
+        run: bun run smoke:package
+
   api-contract-integration:
     name: API contracts integration
     needs: check

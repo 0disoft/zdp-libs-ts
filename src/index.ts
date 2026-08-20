@@ -135,3 +135,20 @@ export {
   calculateUnattendedLaborSavings,
   calculateWorkHours
 } from './calculator-engine/index.js';
+
+export type {
+  CalculatorCatalogEntry,
+  CalculatorId
+} from './calculator-engine/catalog.generated.js';
+export {
+  CALCULATORS,
+  CALCULATOR_IDS,
+  CALCULATOR_REQUIRED_ENGINE_VERSION
+} from './calculator-engine/catalog.generated.js';
+
+export type {
+  CalculatorInputById,
+  CalculatorOptionsById,
+  CalculatorOutputById
+} from './calculator-engine/registry.generated.js';
+export { calculateById } from './calculator-engine/registry.generated.js';

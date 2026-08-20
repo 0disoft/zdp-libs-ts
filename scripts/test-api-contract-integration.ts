@@ -13,6 +13,7 @@ const processHandle = Bun.spawn(
     'bun',
     'test',
     'tests/calculator-engine',
+    'tests/calculator-catalog.test.ts',
     'tests/libs-contracts.test.ts'
   ],
   {

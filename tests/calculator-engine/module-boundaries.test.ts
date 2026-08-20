@@ -1,7 +1,7 @@
 import { expect, it } from 'bun:test';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { CALCULATOR_IDS } from './calculator-ids';
+import { CALCULATOR_IDS } from '../../src/calculator-engine/catalog.generated';
 
 it('keeps the public entrypoint as a barrel', () => {
   const source = readFileSync(

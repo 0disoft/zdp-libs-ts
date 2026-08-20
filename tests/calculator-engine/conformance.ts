@@ -6,9 +6,10 @@ import type {
   CalculatorErrorCode,
   CalculatorResult
 } from '../../src/calculator-engine/types';
-
-import { isCalculatorId } from './calculator-ids';
-import type { CalculatorId } from './calculator-ids';
+import {
+  CALCULATOR_IDS,
+  type CalculatorId
+} from '../../src/calculator-engine/catalog.generated';
 
 export interface ConformanceCase {
   readonly id: string;
@@ -219,4 +220,8 @@ function isCalculatorErrorCode(value: string): value is CalculatorErrorCode {
     'rounding_policy_required',
     'invalid_date_range'
   ].includes(value);
+}
+
+function isCalculatorId(value: string): value is CalculatorId {
+  return (CALCULATOR_IDS as readonly string[]).includes(value);
 }

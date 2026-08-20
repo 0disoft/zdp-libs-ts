@@ -4,23 +4,7 @@
 
 ## 구현된 계산기
 
-- `calculatePercentageChange`
-- `calculateMarginMarkup`
-- `calculateBreakEvenPoint`
-- `calculateDataTransferTime`
-- `calculateDateDifference`
-- `calculateCompoundInterest`
-- `calculateStudycafeSeatOccupancy`
-- `calculateStudycafeBreakEven`
-- `calculateKioskRoi`
-- `calculateUnattendedLaborSavings`
-- `calculateLockerRevenue`
-- `calculateStudyRoomScheduleRevenue`
-- `calculateSecurityCostBreakEven`
-- `calculateDiscount`
-- `calculateAge`
-- `calculateWorkHours`
-- `calculateFuelCost`
+reviewed 계산기 ID, 구현 함수, 계약 버전, 호환 엔진과 오류 코드는 [`../generated/calculator-catalog.md`](../generated/calculator-catalog.md)에 자동 생성한다. `scripts/generate-calculator-catalog.ts`가 같은 원천에서 `CALCULATORS`, `CalculatorId`, ID별 입력·출력·옵션 맵과 `calculateById` dispatcher도 생성한다. 계산기 추가나 계약 변경 시 이 문서에 목록을 다시 적지 않고 `bun run calculator-catalog:generate`를 실행한다.
 
 입력 숫자는 로케일 구분자가 없는 canonical ASCII decimal string이다. 내부 계산은 `BigInt` 정수 비율로 수행하고 결과 문자열을 만들 때만 호출자가 지정한 0-100 소수 자리에서 half-away-from-zero 반올림한다. 엔진은 `number` 부동소수점이나 화면용 `toLocaleString`을 계산 경계에 사용하지 않는다.
 
