@@ -6,6 +6,10 @@ const workflowPath = fileURLToPath(
   new URL('../.github/workflows/release.yml', import.meta.url)
 );
 const workflow = await readFile(workflowPath, 'utf8');
+const ciWorkflow = await readFile(
+  fileURLToPath(new URL('../.github/workflows/ci.yml', import.meta.url)),
+  'utf8'
+);
 
 function jobSource(jobName: string): string {
   const marker = `  ${jobName}:\n`;
@@ -58,5 +62,22 @@ describe('npm release workflow privilege boundary', () => {
     expect(publish).toContain(
       'npm publish "release-artifact/${TARBALL_NAME}" --access public --provenance --ignore-scripts'
     );
+  });
+});
+
+describe('CI workflow structure', () => {
+  test('declares each top-level job exactly once', () => {
+    const jobsStart = ciWorkflow.indexOf('\njobs:\n');
+    expect(jobsStart).toBeGreaterThanOrEqual(0);
+    const jobsSource = ciWorkflow.slice(jobsStart + '\njobs:\n'.length);
+    const jobNames = [...jobsSource.matchAll(/^  ([a-z][a-z-]*):\n/gm)].map(
+      (match) => match[1]
+    );
+    expect(jobNames).toEqual([
+      'check',
+      'package',
+      'api-contract-integration'
+    ]);
+    expect(new Set(jobNames).size).toBe(jobNames.length);
   });
 });
