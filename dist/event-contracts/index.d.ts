@@ -10,5 +10,5 @@ export interface EventContractMetadata {
     readonly replaySafe: boolean;
     readonly trace: EventTraceContext;
 }
-export declare function defineEventContractMetadata(metadata: EventContractMetadata): EventContractMetadata;
+export declare function defineEventContractMetadata<const Metadata extends EventContractMetadata>(metadata: Metadata): Metadata;
 //# sourceMappingURL=index.d.ts.map

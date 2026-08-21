@@ -17,6 +17,8 @@ export interface SchemaMetadata {
   readonly sdkGenerationTargets: readonly SchemaGenerationTarget[];
 }
 
-export function defineSchemaMetadata(metadata: SchemaMetadata): SchemaMetadata {
+export function defineSchemaMetadata<const Metadata extends SchemaMetadata>(
+  metadata: Metadata
+): Metadata {
   return metadata;
 }

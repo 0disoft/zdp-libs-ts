@@ -17,8 +17,8 @@ export interface ZdpErrorContract {
   readonly traceId: string;
 }
 
-export function defineZdpErrorContract(
-  contract: ZdpErrorContract
-): ZdpErrorContract {
+export function defineZdpErrorContract<
+  const Contract extends ZdpErrorContract
+>(contract: Contract): Contract {
   return contract;
 }

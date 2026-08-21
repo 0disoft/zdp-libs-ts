@@ -8,5 +8,5 @@ export interface SchemaMetadata {
     readonly openapiRef: string;
     readonly sdkGenerationTargets: readonly SchemaGenerationTarget[];
 }
-export declare function defineSchemaMetadata(metadata: SchemaMetadata): SchemaMetadata;
+export declare function defineSchemaMetadata<const Metadata extends SchemaMetadata>(metadata: Metadata): Metadata;
 //# sourceMappingURL=index.d.ts.map

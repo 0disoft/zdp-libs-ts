@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/i18n-contract/index.ts"],"names":[],"mappings":"AAgBA,MAAM,UAAU,yBAAyB,CACvC,QAA6B;IAE7B,OAAO,QAAQ,CAAC;AAClB,CAAC"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/i18n-contract/index.ts"],"names":[],"mappings":"AAgBA,MAAM,UAAU,yBAAyB,CAEvC,QAAkB;IAClB,OAAO,QAAQ,CAAC;AAClB,CAAC"}
