@@ -1,5 +1,16 @@
 # CHANGELOG.md
 
+## 0.17.1
+
+### Changed
+
+- schema, env, event, error, i18n, glossary definition helper가 입력 리터럴과 readonly tuple, 중첩 확장 필드 타입을 그대로 보존하도록 const generic identity signature로 좁혔다.
+- 실제 배포 declaration을 import하는 컴파일 타임 회귀 검사를 추가해 source와 package output의 타입 계약 드리프트를 차단했다.
+
+### Migration
+
+기존 호출 코드는 변경할 필요가 없다. 넓은 계약 인터페이스가 필요한 소비자는 기존처럼 명시적으로 해당 인터페이스에 할당할 수 있다.
+
 ## 0.17.0
 
 ### Added

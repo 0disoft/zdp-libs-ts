@@ -79,5 +79,5 @@ export interface GlossaryManifest {
     readonly generatedAt: string;
     readonly terms: readonly GlossaryManifestEntry[];
 }
-export declare function defineGlossaryTermContract(contract: GlossaryTermContract): GlossaryTermContract;
+export declare function defineGlossaryTermContract<const Contract extends GlossaryTermContract>(contract: Contract): Contract;
 //# sourceMappingURL=index.d.ts.map

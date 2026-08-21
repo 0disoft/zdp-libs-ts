@@ -11,5 +11,5 @@ export interface I18nMessageContract {
     readonly owner: string;
     readonly fallbackPolicy: string;
 }
-export declare function defineI18nMessageContract(contract: I18nMessageContract): I18nMessageContract;
+export declare function defineI18nMessageContract<const Contract extends I18nMessageContract>(contract: Contract): Contract;
 //# sourceMappingURL=index.d.ts.map

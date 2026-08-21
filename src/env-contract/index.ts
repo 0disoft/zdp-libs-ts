@@ -7,8 +7,8 @@ export interface EnvContractMetadata {
   readonly description: string;
 }
 
-export function defineEnvContractMetadata(
-  metadata: EnvContractMetadata
-): EnvContractMetadata {
+export function defineEnvContractMetadata<
+  const Metadata extends EnvContractMetadata
+>(metadata: Metadata): Metadata {
   return metadata;
 }

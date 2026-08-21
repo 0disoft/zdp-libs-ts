@@ -6,5 +6,5 @@ export interface EnvContractMetadata {
     readonly required: boolean;
     readonly description: string;
 }
-export declare function defineEnvContractMetadata(metadata: EnvContractMetadata): EnvContractMetadata;
+export declare function defineEnvContractMetadata<const Metadata extends EnvContractMetadata>(metadata: Metadata): Metadata;
 //# sourceMappingURL=index.d.ts.map

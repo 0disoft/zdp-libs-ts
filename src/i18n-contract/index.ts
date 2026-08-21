@@ -14,8 +14,8 @@ export interface I18nMessageContract {
   readonly fallbackPolicy: string;
 }
 
-export function defineI18nMessageContract(
-  contract: I18nMessageContract
-): I18nMessageContract {
+export function defineI18nMessageContract<
+  const Contract extends I18nMessageContract
+>(contract: Contract): Contract {
   return contract;
 }

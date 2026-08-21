@@ -7,5 +7,5 @@ export interface ZdpErrorContract {
     readonly requestId: string;
     readonly traceId: string;
 }
-export declare function defineZdpErrorContract(contract: ZdpErrorContract): ZdpErrorContract;
+export declare function defineZdpErrorContract<const Contract extends ZdpErrorContract>(contract: Contract): Contract;
 //# sourceMappingURL=index.d.ts.map

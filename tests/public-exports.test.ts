@@ -73,7 +73,7 @@ describe('public contract package exports', () => {
   });
 
   it('exposes env, event, error, and i18n contract markers', () => {
-    const messageKey: I18nMessageKey = 'example.conflict';
+    const messageKey = 'example.conflict' satisfies I18nMessageKey;
     // @ts-expect-error i18n message keys must include a domain prefix.
     const invalidMessageKey: I18nMessageKey = 'conflict';
     const env = defineEnvContractMetadata({

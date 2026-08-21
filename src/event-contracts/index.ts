@@ -12,8 +12,8 @@ export interface EventContractMetadata {
   readonly trace: EventTraceContext;
 }
 
-export function defineEventContractMetadata(
-  metadata: EventContractMetadata
-): EventContractMetadata {
+export function defineEventContractMetadata<
+  const Metadata extends EventContractMetadata
+>(metadata: Metadata): Metadata {
   return metadata;
 }

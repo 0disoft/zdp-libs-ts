@@ -98,8 +98,8 @@ export interface GlossaryManifest {
   readonly terms: readonly GlossaryManifestEntry[];
 }
 
-export function defineGlossaryTermContract(
-  contract: GlossaryTermContract
-): GlossaryTermContract {
+export function defineGlossaryTermContract<
+  const Contract extends GlossaryTermContract
+>(contract: Contract): Contract {
   return contract;
 }
