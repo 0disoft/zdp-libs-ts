@@ -6,11 +6,25 @@
 
 - Node 22·24에서 실제 npm tarball을 설치해 root와 모든 public subpath를 실행하는 package 소비자 검증을 CI 필수 게이트로 추가했다.
 - tarball 경로 허용 목록, 압축·해제 크기, 파일 수와 단일 파일 크기 예산을 검사하는 `package:check`를 추가했다.
-- `main` 이력의 `v<package.json version>` tag만 npm trusted publishing으로 배포하고, `gitHead`, integrity, registry signature와 게시된 소비자를 검증하는 release workflow를 추가했다.
+- `main` 이력의 `v<package.json version>` tag만 npm trusted publishing으로 배포하고, 검증된 tarball integrity, registry signature와 게시된 소비자를 확인하는 release workflow를 추가했다.
 
 ### Changed
 
 - package file whitelist와 TypeScript build entry를 공개 runtime, declaration, 계산 엔진이 요구하는 `internal/record`로 제한하고 source-only `libs-contracts` 산출물을 tarball과 `dist/`에서 제거했다.
+- Package root `zdp-libs-ts`에서 계산기 타입, 상수, 함수를 제거하고 공통 계약 metadata 전용 entrypoint로 좁혔다.
+- 계산기 API는 `zdp-libs-ts/calculator-engine`에서만 제공하며 source export, generated `dist/`, 타입 검사, tarball smoke가 이 경계를 강제한다.
+- npm OIDC 권한은 checkout, dependency install, build를 수행하지 않는 최소 publish job에만 부여하고, 별도 검증 job이 만든 exact tarball을 digest로 연결한다.
+
+### Migration
+
+기존 root import를 calculator-engine subpath import로 바꾼다.
+
+```ts
+import {
+  CALCULATOR_CONTRACT_VERSION,
+  calculatePercentageChange
+} from 'zdp-libs-ts/calculator-engine';
+```
 
 ## 0.16.0
 

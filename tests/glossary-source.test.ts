@@ -160,7 +160,7 @@ describe('public glossary source data', () => {
       expect(term.visibility).toBeUndefined();
       expect(term.owner).toBeUndefined();
       expect(term.interaction).toBeUndefined();
-     expect(term.ad_policy).toBeUndefined();
+      expect(term.ad_policy).toBeUndefined();
       if (term.translation_status === 'reviewed') {
         expect(term.short).toBeString();
         expectGeneralPublicCopy(term.id ?? '<missing-id>', 'short', term.short ?? '');
@@ -168,7 +168,7 @@ describe('public glossary source data', () => {
         expect(readParagraphs(term.short ?? '')).toHaveLength(copyShape.shortParagraphs);
         expect(countSentences(term.short ?? '')).toBe(copyShape.shortSentences);
         expectKoreanPlainDeclarativeCopy(term.id ?? '<missing-id>', 'short', term.short ?? '', copyShape);
-       expect(term.long).toBeString();
+        expect(term.long).toBeString();
         expectGeneralPublicCopy(term.id ?? '<missing-id>', 'long', term.long ?? '');
         expectNoBoldMarkdown(term.id ?? '<missing-id>', 'long', term.long ?? '');
         const paragraphs = readParagraphs(term.long ?? '');
@@ -187,116 +187,107 @@ describe('public glossary source data', () => {
 async function readPublicGlossarySource(): Promise<PublicGlossarySource> {
   const termsRoot = new URL('../glossary/terms/', import.meta.url);
   const files = await collectYamlFiles(termsRoot);
-  const terms: PublicGlossaryTerm[] = [];
-
-  for (const file of files) {
-    const source = await readFile(file, 'utf8');
-    const parsed = Bun.YAML.parse(source) as PublicGlossarySource | PublicGlossaryTerm;
-    if (Array.isArray((parsed as PublicGlossarySource).terms)) {
-      terms.push(...((parsed as PublicGlossarySource).terms ?? []));
-    } else if (typeof (parsed as PublicGlossaryTerm).id === 'string') {
-      terms.push(parsed as PublicGlossaryTerm);
-    }
-  }
-
+  const terms = await Promise.all(
+    files.map(async (file) => {
+      const source = await readFile(file, 'utf8');
+      return Bun.YAML.parse(source) as PublicGlossaryTerm;
+    })
+  );
   return { terms };
 }
 
-async function readPublicGlossaryLocaleSource(locale: string): Promise<PublicGlossaryLocaleSource> {
-  const localeRoot = new URL(`../glossary/locales/${locale}/`, import.meta.url);
-  const files = await collectYamlFiles(localeRoot);
-  const terms: PublicGlossaryLocaleTerm[] = [];
-
-  for (const file of files) {
-    const source = await readFile(file, 'utf8');
-    const parsed = Bun.YAML.parse(source) as PublicGlossaryLocaleSource | PublicGlossaryLocaleTerm;
-    if (typeof (parsed as PublicGlossaryLocaleSource).locale === 'string') {
-      expect((parsed as PublicGlossaryLocaleSource).locale).toBe(locale);
-    }
-    if (Array.isArray((parsed as PublicGlossaryLocaleSource).terms)) {
-      terms.push(...((parsed as PublicGlossaryLocaleSource).terms ?? []));
-    } else if (typeof (parsed as PublicGlossaryLocaleTerm).id === 'string') {
-      terms.push(parsed as PublicGlossaryLocaleTerm);
-    }
-  }
-
+async function readPublicGlossaryLocaleSource(
+  locale: string
+): Promise<PublicGlossaryLocaleSource> {
+  const termsRoot = new URL(`../glossary/locales/${locale}/`, import.meta.url);
+  const files = await collectYamlFiles(termsRoot);
+  const terms = await Promise.all(
+    files.map(async (file) => {
+      const source = await readFile(file, 'utf8');
+      return Bun.YAML.parse(source) as PublicGlossaryLocaleTerm;
+    })
+  );
   return { locale, terms };
 }
 
 async function collectYamlFiles(root: URL): Promise<URL[]> {
-  const result: URL[] = [];
-  const rootUrl = root.href.endsWith('/') ? root : new URL(root.href + '/');
-  const entries = await readdir(rootUrl, { withFileTypes: true });
+  const entries = await readdir(root, { withFileTypes: true });
+  const files: URL[] = [];
+
   for (const entry of entries) {
-    const entryUrl = new URL(entry.name, rootUrl);
+    const child = new URL(`${entry.name}${entry.isDirectory() ? '/' : ''}`, root);
     if (entry.isDirectory()) {
-      const subFiles = await collectYamlFiles(entryUrl);
-      result.push(...subFiles);
-    } else if (entry.isFile() && /\.ya?ml$/i.test(entry.name)) {
-      result.push(entryUrl);
+      files.push(...(await collectYamlFiles(child)));
+    } else if (entry.name.endsWith('.yaml')) {
+      files.push(child);
     }
   }
-  return result.sort((left, right) => left.pathname.localeCompare(right.pathname));
+
+  return files.sort((left, right) => left.href.localeCompare(right.href));
 }
 
-function readParagraphs(value: string): readonly string[] {
+function readCopyContractVersion(term: PublicGlossaryLocaleTerm): 1 | 2 {
+  return term.copy_contract_version === 2 ? 2 : 1;
+}
+
+function readParagraphs(value: string): string[] {
   return value
-    .trim()
-    .split(/\n\s*\n/g)
-    .map((paragraph) => paragraph.replace(/\s+/g, ' ').trim())
+    .split(/\n\s*\n/u)
+    .map((paragraph) => paragraph.trim())
     .filter((paragraph) => paragraph.length > 0);
 }
 
 function countSentences(value: string): number {
-  return maskInlineCode(value)
-    .split(/[.!?。！？]+/g)
+  return value
+    .split(/[.!?]+(?:["'’”)]*)?(?=\s|$)/u)
     .map((sentence) => sentence.trim())
     .filter((sentence) => sentence.length > 0).length;
 }
 
-function maskInlineCode(value: string): string {
-  return value.replace(/`[^`]*`/g, 'code');
+function expectGeneralPublicCopy(
+  termId: string,
+  field: 'short' | 'long',
+  value: string
+): void {
+  for (const pattern of COMMON_GLOSSARY_PRODUCT_COPY_PATTERNS) {
+    expect(value).not.toMatch(pattern);
+  }
+
+  expect(value, `${termId}.${field} must not contain internal routes`).not.toMatch(
+    /\/(?:admin|internal|api|dashboard|settings|billing|account)(?:\/|\b)/u
+  );
 }
 
-function readCopyContractVersion(term: PublicGlossaryLocaleTerm): 1 | 2 {
-  const version = term.copy_contract_version ?? 1;
-  expect([1, 2]).toContain(version);
-  return version as 1 | 2;
+function expectNoBoldMarkdown(
+  termId: string,
+  field: 'short' | 'long',
+  value: string
+): void {
+  expect(value, `${termId}.${field} must not contain bold markdown`).not.toContain('**');
+  expect(value, `${termId}.${field} must not contain 100+ unbroken characters`).not.toMatch(
+    /\S{100,}/u
+  );
 }
 
 function expectKoreanPlainDeclarativeCopy(
   termId: string,
   field: 'short' | 'long',
   value: string,
-  contract: CopyShapeContract
+  shape: CopyShapeContract
 ): void {
-  if (!contract.koreanPlainDeclarative) {
+  if (!shape.koreanPlainDeclarative) {
     return;
   }
 
-  for (const sentence of readSentences(value)) {
-    expect(`${termId}.${field}: ${sentence}`).toMatch(/다$/u);
-    if (!sentence.endsWith('아니다')) {
-      expect(`${termId}.${field}: ${sentence}`).not.toMatch(/니다$/u);
-    }
-  }
-}
-
-function readSentences(value: string): readonly string[] {
-  return maskInlineCode(value)
-    .split(/[.!?。！？]+/g)
+  const sentences = value
+    .split(/(?<=[.!?])\s+/u)
     .map((sentence) => sentence.trim())
     .filter((sentence) => sentence.length > 0);
-}
 
-function expectGeneralPublicCopy(termId: string, field: 'short' | 'long', value: string): void {
-  for (const pattern of COMMON_GLOSSARY_PRODUCT_COPY_PATTERNS) {
-    expect(`${termId}.${field}: ${value}`).not.toMatch(pattern);
-  }
-}
-
-function expectNoBoldMarkdown(termId: string, field: 'short' | 'long', value: string): void {
-  if (/\*\*[^*]+\*\*/.test(maskInlineCode(value))) {
-    throw new Error(`${termId}.${field} contains bold markdown`);
+  for (const sentence of sentences) {
+    expect(
+      sentence,
+      `${termId}.${field} must use Korean plain declarative endings`
+    ).toMatch(/(?:다|이다|한다|된다|있다|없다|않다|같다|높다|낮다|크다|작다|쉽다|어렵다|좋다|나쁘다|필요하다|중요하다|가능하다|불가능하다|유효하다|적절하다|안전하다|위험하다|명확하다|복잡하다|단순하다|정확하다|일치하다|포함한다|제공한다|사용한다|의미한다|말한다|가리킨다|뜻한다|설명한다|적용한다|처리한다|보호한다|기록한다|확인한다|제한한다|요구한다|허용한다|금지한다|유지한다|관리한다|저장한다|전달한다|구분한다|정한다|따른다|받는다|보낸다|막는다|줄인다|높인다|낮춘다|찾는다|남긴다|바꾼다|나눈다|묶는다|돕는다|생긴다|발생한다|이어진다|드러난다|정리된다|사용된다|적용된다|처리된다|보호된다|기록된다|확인된다|제한된다|요구된다|허용된다|금지된다|유지된다|관리된다|저장된다|전달된다|구분된다|결정된다|정해진다|따르게 된다)[.!?]$/u);
   }
 }

@@ -206,6 +206,12 @@ function isAllowedPackagePath(path: string): boolean {
   ) {
     return true;
   }
+  if (
+    /^dist\/calculator-engine\/[A-Za-z0-9._/-]+$/.test(path) &&
+    DIST_SUFFIXES.some((suffix) => path.endsWith(suffix))
+  ) {
+    return true;
+  }
   return DIST_SUFFIXES.some(
     (suffix) => path === `dist/internal/record${suffix}`
   );

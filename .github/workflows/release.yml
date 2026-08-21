@@ -12,14 +12,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  publish:
-    name: Publish to npm
+  verify:
+    name: Verify release artifact
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    environment: npm
     permissions:
       contents: read
-      id-token: write
+    outputs:
+      artifact_integrity: ${{ steps.release_meta.outputs.artifact_integrity }}
+      artifact_sha256: ${{ steps.release_meta.outputs.artifact_sha256 }}
+      package_version: ${{ steps.release_meta.outputs.package_version }}
+      tarball_name: ${{ steps.release_meta.outputs.tarball_name }}
 
     defaults:
       run:
@@ -52,7 +55,6 @@ jobs:
         with:
           node-version: "24"
           package-manager-cache: false
-          registry-url: https://registry.npmjs.org
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
@@ -60,7 +62,87 @@ jobs:
           bun-version: 1.3.14
           no-cache: true
 
-      - name: Verify trusted publishing runtime
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Verify release candidate
+        run: bun run release:verify
+
+      - name: Build immutable release artifact
+        id: release_meta
+        run: |
+          package_version="$(node -p "require('./package.json').version")"
+          expected_tag="v${package_version}"
+          if [ "$GITHUB_REF_NAME" != "$expected_tag" ]; then
+            echo "::error::Release tag ${GITHUB_REF_NAME} does not match package.json version ${package_version}."
+            exit 1
+          fi
+          if ! printf '%s' "$package_version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$'; then
+            echo "::error::Package version is not an exact supported semver: ${package_version}."
+            exit 1
+          fi
+
+          rm -rf release-artifact
+          mkdir release-artifact
+          npm pack --ignore-scripts --pack-destination release-artifact >/dev/null
+          mapfile -t tarballs < <(find release-artifact -maxdepth 1 -type f -name '*.tgz' -printf '%f\n')
+          if [ "${#tarballs[@]}" -ne 1 ]; then
+            echo "::error::Expected exactly one release tarball, found ${#tarballs[@]}."
+            exit 1
+          fi
+
+          tarball_name="${tarballs[0]}"
+          expected_tarball="zdp-libs-ts-${package_version}.tgz"
+          if [ "$tarball_name" != "$expected_tarball" ]; then
+            echo "::error::Unexpected tarball name ${tarball_name}; expected ${expected_tarball}."
+            exit 1
+          fi
+          tarball="release-artifact/${tarball_name}"
+          artifact_sha256="$(sha256sum "$tarball" | cut -d ' ' -f 1)"
+          artifact_integrity="sha512-$(openssl dgst -sha512 -binary "$tarball" | openssl base64 -A)"
+          printf '%s  %s\n' "$artifact_sha256" "$tarball_name" > release-artifact/package.sha256
+
+          echo "artifact_integrity=${artifact_integrity}" >> "$GITHUB_OUTPUT"
+          echo "artifact_sha256=${artifact_sha256}" >> "$GITHUB_OUTPUT"
+          echo "package_version=${package_version}" >> "$GITHUB_OUTPUT"
+          echo "tarball_name=${tarball_name}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload verified release artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: npm-release-candidate
+          path: projects/zdp-platforms/contracts/zdp-libs-ts/release-artifact/
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    name: Publish verified artifact to npm
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: npm
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+          registry-url: https://registry.npmjs.org
+
+      - name: Download verified release artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: npm-release-candidate
+          path: release-artifact
+
+      - name: Verify trusted publishing runtime and artifact
+        env:
+          ARTIFACT_SHA256: ${{ needs.verify.outputs.artifact_sha256 }}
+          PACKAGE_VERSION: ${{ needs.verify.outputs.package_version }}
+          TARBALL_NAME: ${{ needs.verify.outputs.tarball_name }}
         run: |
           npm_version="$(npm --version)"
           node -e '
@@ -69,77 +151,105 @@ jobs:
               throw new Error(`npm ${process.argv[1]} does not support trusted publishing; npm 11.5.1 or later is required.`);
             }
           ' "$npm_version"
-
-      - name: Verify release tag
-        run: |
-          package_version="$(node -p "require('./package.json').version")"
-          expected_tag="v${package_version}"
-          if [ "$GITHUB_REF_NAME" != "$expected_tag" ]; then
-            echo "::error::Release tag ${GITHUB_REF_NAME} does not match package.json version ${package_version}."
+          if ! printf '%s' "$ARTIFACT_SHA256" | grep -Eq '^[0-9a-f]{64}$'; then
+            echo "::error::Release artifact SHA-256 output is invalid."
+            exit 1
+          fi
+          if [ "$TARBALL_NAME" != "zdp-libs-ts-${PACKAGE_VERSION}.tgz" ]; then
+            echo "::error::Release artifact metadata is inconsistent."
+            exit 1
+          fi
+          actual_sha256="$(sha256sum "release-artifact/${TARBALL_NAME}" | cut -d ' ' -f 1)"
+          if [ "$actual_sha256" != "$ARTIFACT_SHA256" ]; then
+            echo "::error::Downloaded release artifact digest does not match the verified build."
             exit 1
           fi
 
       - name: Check npm registry state
         id: npm_state
+        env:
+          ARTIFACT_INTEGRITY: ${{ needs.verify.outputs.artifact_integrity }}
+          PACKAGE_VERSION: ${{ needs.verify.outputs.package_version }}
         run: |
-          package_name="$(node -p "require('./package.json').name")"
-          package_version="$(node -p "require('./package.json').version")"
-          if npm view "${package_name}@${package_version}" version >/dev/null 2>&1; then
+          published_integrity="$(npm view "zdp-libs-ts@${PACKAGE_VERSION}" dist.integrity 2>/dev/null || true)"
+          if [ -n "$published_integrity" ]; then
+            if [ "$published_integrity" != "$ARTIFACT_INTEGRITY" ]; then
+              echo "::error::Published package integrity does not match the verified release artifact."
+              exit 1
+            fi
             echo "already_published=true" >> "$GITHUB_OUTPUT"
-            echo "${package_name}@${package_version} is already published."
+            echo "zdp-libs-ts@${PACKAGE_VERSION} is already published with matching integrity."
           else
             echo "already_published=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Verify existing npm source anchor
-        if: steps.npm_state.outputs.already_published == 'true'
+      - name: Publish package
+        if: steps.npm_state.outputs.already_published != 'true'
+        env:
+          TARBALL_NAME: ${{ needs.verify.outputs.tarball_name }}
+        run: npm publish "release-artifact/${TARBALL_NAME}" --access public --provenance --ignore-scripts
+
+      - name: Verify npm registry result
+        env:
+          ARTIFACT_INTEGRITY: ${{ needs.verify.outputs.artifact_integrity }}
+          PACKAGE_VERSION: ${{ needs.verify.outputs.package_version }}
         run: |
-          package_name="$(node -p "require('./package.json').name")"
-          package_version="$(node -p "require('./package.json').version")"
-          published_git_head="$(npm view "${package_name}@${package_version}" gitHead 2>/dev/null || true)"
-          if [ "$published_git_head" != "$GITHUB_SHA" ]; then
-            echo "::error::Published npm gitHead ${published_git_head:-unavailable} does not match release tag SHA ${GITHUB_SHA}."
-            exit 1
-          fi
+          max_attempts=12
+          attempt=1
+          while [ "$attempt" -le "$max_attempts" ]; do
+            published_version="$(npm view "zdp-libs-ts@${PACKAGE_VERSION}" version 2>/dev/null || true)"
+            published_integrity="$(npm view "zdp-libs-ts@${PACKAGE_VERSION}" dist.integrity 2>/dev/null || true)"
+            if [ "$published_version" = "$PACKAGE_VERSION" ] && [ "$published_integrity" = "$ARTIFACT_INTEGRITY" ]; then
+              npm view "zdp-libs-ts@${PACKAGE_VERSION}" dist.tarball
+              exit 0
+            fi
+            if [ -n "$published_integrity" ] && [ "$published_integrity" != "$ARTIFACT_INTEGRITY" ]; then
+              echo "::error::Published package integrity does not match the verified release artifact."
+              exit 1
+            fi
+            echo "npm metadata is not ready for zdp-libs-ts@${PACKAGE_VERSION}; retrying (${attempt}/${max_attempts})."
+            sleep 5
+            attempt=$((attempt + 1))
+          done
+          echo "::error::npm did not expose the verified zdp-libs-ts@${PACKAGE_VERSION} artifact."
+          exit 1
+
+  verify-published:
+    name: Verify published consumer and signatures
+    needs: [verify, publish]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: projects/zdp-platforms/contracts/zdp-libs-ts
+
+    steps:
+      - name: Checkout libs
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          persist-credentials: false
+          path: projects/zdp-platforms/contracts/zdp-libs-ts
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+          registry-url: https://registry.npmjs.org
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.3.14
+          no-cache: true
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Verify release candidate
-        run: bun run release:verify
-
-      - name: Publish package
-        if: steps.npm_state.outputs.already_published != 'true'
-        run: npm publish --access public --provenance
-
-      - name: Verify npm registry result
-        run: |
-          package_name="$(node -p "require('./package.json').name")"
-          package_version="$(node -p "require('./package.json').version")"
-          max_attempts=12
-          attempt=1
-
-          while [ "$attempt" -le "$max_attempts" ]; do
-            published_version="$(npm view "${package_name}@${package_version}" version 2>/dev/null || true)"
-            published_git_head="$(npm view "${package_name}@${package_version}" gitHead 2>/dev/null || true)"
-            published_integrity="$(npm view "${package_name}@${package_version}" dist.integrity 2>/dev/null || true)"
-            if [ "$published_version" = "$package_version" ] && [ "$published_git_head" = "$GITHUB_SHA" ] && [ -n "$published_integrity" ]; then
-              npm view "${package_name}@${package_version}" dist.tarball
-              exit 0
-            fi
-
-            if [ "$published_version" = "$package_version" ] && [ -n "$published_git_head" ] && [ "$published_git_head" != "$GITHUB_SHA" ]; then
-              echo "::error::Published npm gitHead ${published_git_head} does not match release tag SHA ${GITHUB_SHA}."
-              exit 1
-            fi
-
-            echo "npm metadata is not ready for ${package_name}@${package_version}; retrying (${attempt}/${max_attempts})."
-            sleep 5
-            attempt=$((attempt + 1))
-          done
-
-          echo "::error::npm did not expose ${package_name}@${package_version} after ${max_attempts} attempts."
-          exit 1
-
       - name: Verify published consumer and provenance
-        run: bun run smoke:published
+        env:
+          PACKAGE_VERSION: ${{ needs.verify.outputs.package_version }}
+        run: bun scripts/smoke-published-package.ts --package-spec "zdp-libs-ts@${PACKAGE_VERSION}"

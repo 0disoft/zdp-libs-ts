@@ -2,7 +2,7 @@
  * mf:anchor zdp.libs-ts.public-export-surface
  * purpose: Locate the public package barrel that exposes only shared contract metadata helpers.
  * search: schema, env contract, event contracts, error, i18n contract, glossary contract
- * invariant: Public exports stay metadata-oriented and do not become product model, provider SDK, or policy helper ownership.
+ * invariant: Public exports stay metadata-oriented and do not become product model, provider SDK, policy helper, or calculator engine ownership.
  * risk: data_consistency, dependency
  */
 export type {
@@ -50,88 +50,3 @@ export type {
   GlossaryVisibility
 } from './glossary-contract/index.js';
 export { defineGlossaryTermContract } from './glossary-contract/index.js';
-
-export type {
-  CalculatorErrorCode,
-  CalculatorExecutionOptions,
-  ExactIntegerExecutionOptions,
-  CalculatorResult,
-  AgeInput,
-  AgeOutput,
-  BreakEvenPointInput,
-  BreakEvenPointOutput,
-  DataRateUnit,
-  DataSizeUnit,
-  DataTransferTimeInput,
-  DataTransferTimeOutput,
-  DateBoundaryMode,
-  DateDifferenceInput,
-  DateDifferenceOutput,
-  DiscountInput,
-  DiscountMode,
-  DiscountOutput,
-  CompoundingFrequency,
-  CompoundInterestInput,
-  CompoundInterestOutput,
-  FuelCostInput,
-  FuelCostOutput,
-  FuelEconomyUnit,
-  KioskRoiInput,
-  KioskRoiOutput,
-  LockerRevenueInput,
-  LockerRevenueOutput,
-  MarginMarkupInput,
-  MarginMarkupOutput,
-  OvernightMode,
-  PercentageChangeInput,
-  PercentageChangeOutput,
-  SecurityCostBreakEvenInput,
-  SecurityCostBreakEvenOutput,
-  StudycafeBreakEvenInput,
-  StudycafeBreakEvenOutput,
-  StudycafeSeatOccupancyInput,
-  StudycafeSeatOccupancyOutput,
-  StudyRoomScheduleRevenueInput,
-  StudyRoomScheduleRevenueOutput,
-  TripMode,
-  UnattendedLaborSavingsInput,
-  UnattendedLaborSavingsOutput,
-  UnitDecimalInput,
-  UnitDecimalOutput,
-  WorkHoursInput,
-  WorkHoursOutput
-} from './calculator-engine/index.js';
-export {
-  CALCULATOR_CONTRACT_VERSION,
-  CALCULATOR_ENGINE_VERSION,
-  CALCULATOR_MAX_DECIMAL_PLACES,
-  CALCULATOR_MAX_INPUT_DIGITS,
-  CALCULATOR_ROUNDING_MODE,
-  COMPOUNDING_FREQUENCIES,
-  COMPOUND_INTEREST_MAX_POWER_DIGITS,
-  COMPOUND_INTEREST_MAX_YEARS,
-  DATE_BOUNDARY_MODES,
-  DATA_RATE_UNITS,
-  DATA_SIZE_UNITS,
-  DISCOUNT_MODES,
-  FUEL_ECONOMY_UNITS,
-  OVERNIGHT_MODES,
-  TRIP_MODES,
-  calculateAge,
-  calculateBreakEvenPoint,
-  calculateDataTransferTime,
-  calculateDateDifference,
-  calculateDiscount,
-  calculateCompoundInterest,
-  calculateFuelCost,
-  calculateKioskRoi,
-  calculateLockerRevenue,
-  calculateMarginMarkup,
-  calculatePercentageChange,
-  calculateSecurityCostBreakEven,
-  calculateStudycafeBreakEven,
-  calculateStudycafeSeatOccupancy,
-  calculateStudyRoomScheduleRevenue,
-  calculateUnattendedLaborSavings,
-  calculateWorkHours
-} from './calculator-engine/index.js';

@@ -1,0 +1,1 @@
+{"version":3,"file":"result.js","sourceRoot":"","sources":["../../../src/calculator-engine/core/result.ts"],"names":[],"mappings":"AAUA,MAAM,UAAU,OAAO,CACrB,IAAyB,EACzB,KAAc;IAEd,OAAO,KAAK,KAAK,SAAS;QACxB,CAAC,CAAC,EAAE,EAAE,EAAE,KAAK,EAAE,KAAK,EAAE,EAAE,IAAI,EAAE,EAAE;QAChC,CAAC,CAAC,EAAE,EAAE,EAAE,KAAK,EAAE,KAAK,EAAE,EAAE,IAAI,EAAE,KAAK,EAAE,EAAE,CAAC;AAC5C,CAAC"}

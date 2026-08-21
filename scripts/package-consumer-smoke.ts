@@ -95,6 +95,21 @@ const result = calculator.calculatePercentageChange(
   }
 );
 
+const forbiddenRootExports = [
+  'CALCULATOR_CONTRACT_VERSION',
+  'CALCULATOR_ENGINE_VERSION',
+  'CALCULATOR_IDS',
+  'calculateById',
+  'calculatePercentageChange'
+];
+for (const exportName of forbiddenRootExports) {
+  if (Object.hasOwn(root, exportName)) {
+    throw new Error(
+      \`Calculator export leaked through package root: \${exportName}.\`
+    );
+  }
+}
+
 if (
   root.defineSchemaMetadata !== schema.defineSchemaMetadata ||
   root.defineEnvContractMetadata !== envContract.defineEnvContractMetadata ||
@@ -102,7 +117,6 @@ if (
   root.defineZdpErrorContract !== errorContract.defineZdpErrorContract ||
   root.defineI18nMessageContract !== i18nContract.defineI18nMessageContract ||
   root.defineGlossaryTermContract !== glossaryContract.defineGlossaryTermContract ||
-  root.calculatePercentageChange !== calculator.calculatePercentageChange ||
   schemaMetadata.schemaId !== 'smoke.schema' ||
   envMetadata.name !== 'SMOKE_VALUE' ||
   eventMetadata.eventId !== 'smoke.completed' ||
