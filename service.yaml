@@ -6,7 +6,7 @@
 contract:
   schema_version: 2
   contract_version: 1
-  last_reviewed_at: 2026-07-07
+  last_reviewed_at: 2026-08-19
   review_owner: null
   review_interval_days: 60
   approved_by: []
@@ -63,6 +63,9 @@ cost:
     - api-source-handoff-checks
     - api-source-input-drift-checks
     - package-export-surface-checks
+    - package-tarball-policy-checks
+    - package-consumer-smoke-runs
+    - npm-release-verifications
     - glossary-contract-validation-runs
     - glossary-click-sheet-contract-checks
   per_action_budget: []
@@ -70,6 +73,7 @@ cost:
   gross_margin_floor_percent: null
   automatic_actions:
     - block publish when contract validation fails
+    - block publish when tarball policy or consumer smoke fails
 
 monetization:
   model: none
@@ -140,6 +144,7 @@ access:
     - package-api-change
     - api-source-handoff-change
     - package-export-surface-change
+    - package-artifact-policy-change
     - publish
     - compatibility-policy-change
   rebac_model_ref: null
@@ -157,7 +162,9 @@ audit:
     - glossary_contract.changed
     - package_export_surface.changed
     - package_api.changed
+    - package_artifact.checked
     - package_publish.reviewed
+    - package_publish.completed
   sink: zdp-platform-observability
   retention_days: 365
   immutable: false
@@ -180,6 +187,11 @@ observability:
   operational_metrics:
     - package-contract-validation-success
     - package-contract-validation-failure
+    - package-artifact-validation-success
+    - package-artifact-validation-failure
+    - package-consumer-smoke-success
+    - package-consumer-smoke-failure
+    - package-release-verification
     - compatibility-review
   otel:
     service_name: libs-ts
@@ -209,6 +221,7 @@ dependencies:
   internal_apis: []
   fallback_paths:
     - keep last reviewed package contract when source contract is invalid
+    - keep last verified npm version when release verification fails
 
 providers: []
 
@@ -236,7 +249,7 @@ ai:
 
 api:
   exposure: none
-  versioning: semver once packages are published
+  versioning: semver
   auth_scheme: null
   rate_limit_policy: null
   openapi_required: false
@@ -257,9 +270,10 @@ events:
 release:
   environments:
     - local
+    - npm
   rollback_required: true
   migration_policy: package API changes require migration notes before publish
-  change_approval: manual approval required for publish
+  change_approval: manual approval required for publish through the npm environment
   freeze_windows: []
   canary_policy: null
   feature_flag_required: false
@@ -270,6 +284,7 @@ automation:
     provider: github-actions
     workflow_names:
       - CI
+      - Publish npm package
     required_status_checks: []
     missing_reason: null
     private_dependency_token_required: false
@@ -277,15 +292,15 @@ automation:
   dependency_updates:
     renovate_enabled: false
     dependabot_enabled: false
-    conflict_policy: manual dependency review until package CI is enabled
+    conflict_policy: manual dependency review with package CI verification
   ruleset:
     required: false
     required_status_checks: []
     admin_bypass_policy: manual owner review required before package publish or branch protection
   release_helper:
-    enabled: false
+    enabled: true
     version_source_of_truth: package.json
-    changelog_policy: manual changelog until package release automation is adopted
+    changelog_policy: package version and CHANGELOG entry must match the release tag
   auto_merge:
     enabled: false
     required_checks: []
@@ -329,6 +344,7 @@ human_review_required:
   - package publish
   - breaking package api changes
   - package boundary changes
+  - package artifact policy changes
 
 exit:
   success_criteria:
@@ -338,10 +354,13 @@ exit:
     - shared TypeScript packages validate route/error/webhook/SDK input drift against zdp-api-contracts
     - common TypeScript packages do not own product rules
     - package boundary, API source handoff, schema, env, event, error, i18n, and glossary click sheet contracts are machine-validated
+    - packed artifacts contain only reviewed paths and execute on supported Node LTS releases
+    - tagged npm releases preserve source commit, integrity, provenance, and consumer verification evidence
   kill_criteria:
     - product-specific models leak into common packages
     - provider SDK wrappers become common contract packages
     - glossary backend, advertising runtime, or private glossary data leak into common packages
+    - source-only checker or test artifacts leak into the npm tarball
   sunset_plan: null
   owner: 0disoft
   review_at: null
@@ -350,10 +369,12 @@ exit:
   dependency_removal_checklist: []
 
 notes:
-  - This MVP owns package boundaries only; it does not publish packages.
-  - The local checker reads committed contract YAML only; it does not publish or build package artifacts.
+  - The package is built and smoke-tested from the exact npm tarball before publish.
+  - The local checker reads committed contract YAML and sibling zdp-api-contracts; it does not own API source truth.
   - API contract source handoff keeps shared TypeScript packages tied to zdp-api-contracts before package exports exist.
   - API source input drift checks prevent request_id, trace_id, idempotency, webhook metadata, and SDK generation targets from splitting between libs and API contracts.
   - Public export skeleton fixes import entry names before runtime validators exist.
+  - The npm release workflow accepts only main-contained version tags and uses trusted publishing OIDC with the npm environment approval gate.
+  - The tarball path and size policy excludes source-only checker output even when repository builds produce additional files.
   - Glossary contract owns term metadata, manifest type, and click/right-sheet/bottom-sheet interaction boundaries only; ZDP product glossary data remains in product repos or private data packages.
   - Glossary contract exposes stable term_id ownership so labels, aliases, translations, analytics, and sheet events do not use display text as identity.
